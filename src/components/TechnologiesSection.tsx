@@ -3,24 +3,28 @@
 import AnimateOnScroll from "./AnimateOnScroll";
 
 const row1 = [
-  { name: "MQ", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rabbitmq/rabbitmq-original.svg", color: "#8B5CF6" },
-  { name: "LangChain", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", color: "#1A8C5B" },
-  { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", color: "#3776AB" },
-  { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", color: "#61DAFB" },
-  { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg", color: "#336791" },
-  { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg", color: "#2496ED" },
+  { name: "RabbitMQ", icon: "/assets/images-logo/RabbitMQ.png" },
+  { name: "LangChain", icon: "/assets/images-logo/LangChain.png" },
+  { name: "Python", icon: "/assets/images-logo/Python.png" },
+  { name: "React", icon: "/assets/images-logo/React.png" },
+  { name: "PostgreSQL", icon: "/assets/images-logo/PostgreSQL.png" },
+  { name: "Docker", icon: "/assets/images-logo/Docker.png" },
+  { name: "Kubernetes", icon: "/assets/images-logo/Kubernetes.png" },
+  { name: "AWS", icon: "/assets/images-logo/AWS.png" },
 ];
 
 const row2 = [
-  { name: "GraphQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg", color: "#E535AB" },
-  { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg", color: "#ED8B00" },
-  { name: "Go", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg", color: "#00ADD8" },
-  { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", color: "#F7DF1E" },
-  { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg", color: "#3178C6" },
-  { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", color: "#539E43" },
+  { name: "GraphQL", icon: "/assets/images-logo/GraphQL.png" },
+  { name: "Java", icon: "/assets/images-logo/Java.png" },
+  { name: "Go", icon: "/assets/images-logo/Go.png" },
+  { name: "JavaScript", icon: "/assets/images-logo/JavaScript.png" },
+  { name: "TypeScript", icon: "/assets/images-logo/TypeScript.png" },
+  { name: "Node.js", icon: "/assets/images-logo/Node.js.png" },
+  { name: "Redis", icon: "/assets/images-logo/Redis.png" },
+  { name: "MongoDB", icon: "/assets/images-logo/MongoDB.png" },
 ];
 
-function TechPill({ tech }: { tech: { name: string; icon: string; color: string } }) {
+function TechPill({ tech }: { tech: { name: string; icon: string } }) {
   return (
     <div className="tech-pill">
       <div className="tech-pill-icon">

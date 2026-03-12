@@ -50,29 +50,31 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              {/* Dot pattern decoration */}
+              {/* Orange radial glow — bottom left */}
+              <div style={{
+                position: "absolute" as const,
+                bottom: 0,
+                left: 5,
+                width: "50%",
+                height: "25%",
+                borderRadius: "0 0 16px 16px",
+                background: "radial-gradient(at 18% 110%, rgba(241, 127, 13, 0.35) 0%, rgba(241, 127, 13, 0.12) 50%, transparent 75%)",
+                pointerEvents: "none",
+              }} />
+              {/* Dot grid pattern */}
               <div style={{
                 position: "absolute" as const,
                 bottom: 0,
                 left: 0,
                 right: 0,
-                height: 130,
-                display: "grid",
-                gridTemplateColumns: "repeat(10, 1fr)",
-                gridTemplateRows: "repeat(6, 1fr)",
-                gap: 8,
-                padding: "0 18px 18px",
-                opacity: 0.5,
-              }}>
-                {Array.from({ length: 60 }).map((_, i) => (
-                  <div key={i} style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: "50%",
-                    background: `rgba(241, 127, 13, ${0.15 + (i / 60) * 0.7})`,
-                  }} />
-                ))}
-              </div>
+                height: "40%",
+                width: "65%",
+                pointerEvents: "none",
+                backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.35) 1px, transparent 1px)",
+                backgroundSize: "20px 20px",
+                backgroundPosition: "10px 10px",
+                borderRadius: "0 0 16px 16px",
+              }} />
             </div>
 
             {/* Right form */}

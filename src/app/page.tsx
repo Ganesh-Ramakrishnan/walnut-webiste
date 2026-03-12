@@ -18,7 +18,7 @@ export default function Home() {
         <Hero />
         <BrainStats />
         <StepsSection />
-        {/* <AchievementsSection /> */}
+        <AchievementsSection />
         <TechnologiesSection />
         <FeaturesSection />
         <UseCasesSection />

@@ -12,6 +12,7 @@ interface AnimateOnScrollProps {
   delay?: number;
   duration?: number;
   className?: string;
+  style?: React.CSSProperties;
   staggerChildren?: number;
 }
 
@@ -21,6 +22,7 @@ export default function AnimateOnScroll({
   delay = 0,
   duration = 0.8,
   className = "",
+  style,
   staggerChildren = 0.15,
 }: AnimateOnScrollProps) {
   const ref = useRef<HTMLDivElement>(null);
@@ -79,7 +81,7 @@ export default function AnimateOnScroll({
   }, [animation, delay, duration, staggerChildren]);
 
   return (
-    <div ref={ref} className={className}>
+    <div ref={ref} className={className} style={style}>
       {children}
     </div>
   );
