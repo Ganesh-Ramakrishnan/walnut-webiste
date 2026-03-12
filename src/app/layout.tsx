@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: "Walnut AI - AI Operating System for Software Delivery",
   description:
     "An AI operating system for software delivery from intent to production, with zero blind spots.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -54,9 +54,9 @@ export default function ContactSection() {
               <div style={{
                 position: "absolute" as const,
                 bottom: 0,
-                left: 5,
-                width: "50%",
-                height: "25%",
+                left: 0,
+                width: "65%",
+                height: "35%",
                 borderRadius: "0 0 16px 16px",
                 background: "radial-gradient(at 18% 110%, rgba(241, 127, 13, 0.35) 0%, rgba(241, 127, 13, 0.12) 50%, transparent 75%)",
                 pointerEvents: "none",
