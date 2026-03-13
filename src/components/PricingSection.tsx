@@ -5,7 +5,7 @@ import AnimateOnScroll from "./AnimateOnScroll";
 
 const plans = [
   {
-    name: "Starter",
+    name: "Explorer",
     tagline: "For Teams Ready to Ship Faster",
     price: "$29",
     annual: "$24",
@@ -16,7 +16,7 @@ const plans = [
       "Reduce manual testing effort by 50%",
     ],
     outcomeNote:
-      "If Walnut doesn't save you at least 10 hours in your first month, we'll refund your subscription.",
+      "If WalnutAI doesn't save you at least 10 hours in your first month, we'll refund your subscription.",
     credits: "1,000 credits (+$20/mo)",
     features: [
       "Multiple Projects (upto 5)",
@@ -29,7 +29,7 @@ const plans = [
       "Create test suites and execution",
       "Shareable gap reports",
     ],
-    cta: "Upgrade to Starter",
+    cta: "Upgrade to Explorer",
     highlighted: false,
   },
   {
@@ -94,12 +94,12 @@ const plans = [
 
 export default function PricingSection() {
   const [billingCycle, setBillingCycle] = useState<Record<string, boolean>>({
-    Starter: false,
+    Explorer: false,
     Team: false,
     Enterprise: false,
   });
   const [creditsOn, setCreditsOn] = useState<Record<string, boolean>>({
-    Starter: true,
+    Explorer: true,
     Team: true,
     Enterprise: true,
   });
@@ -120,7 +120,7 @@ export default function PricingSection() {
             Plans That <span className="text-orange">Pay for Themselves</span>
           </h2>
           <p className="text-gray-400 text-sm sm:text-base">
-            Start free. Upgrade when Walnut starts saving you real release risk.
+            Start free. Upgrade when WalnutAI starts saving you real release risk.
           </p>
         </AnimateOnScroll>
 
@@ -187,9 +187,9 @@ export default function PricingSection() {
                 <p className="pricing-outcomes-note">{plan.outcomeNote}</p>
               </div>
 
-              {/* Creadits section */}
+              {/* Credits section */}
               <div className="pricing-credits-row">
-                <span className="pricing-credits-label">Creadits</span>
+                <span className="pricing-credits-label">Credits</span>
                 <button
                   className={`pricing-toggle pricing-toggle-sm ${creditsOn[plan.name] ? "pricing-toggle-on" : ""}`}
                   onClick={() => toggleCredits(plan.name)}
@@ -197,7 +197,18 @@ export default function PricingSection() {
                   <span className="pricing-toggle-knob" />
                 </button>
               </div>
-              <p className="pricing-credits-amount">{plan.credits}</p>
+              <div className="pricing-credits-amount-row">
+                <p className="pricing-credits-amount">{plan.credits}</p>
+                <span className="pricing-info-wrap">
+                  <svg className="pricing-info-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
+                    <circle cx="8" cy="8" r="7" stroke="#6b7280" strokeWidth="1.2" />
+                    <text x="8" y="11.5" textAnchor="middle" fill="#6b7280" fontSize="10" fontWeight="600" fontFamily="sans-serif">i</text>
+                  </svg>
+                  <span className="pricing-info-tooltip">
+                    Need more usage? Top up additional credits anytime without changing your subscription.
+                  </span>
+                </span>
+              </div>
 
               {/* Feature list */}
               <ul className="pricing-features">

@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import AnimateOnScroll from "./AnimateOnScroll";
-import { ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -144,22 +143,6 @@ export default function StepsSection() {
           </div>
         </AnimateOnScroll>
 
-        {/* CTA buttons */}
-        <AnimateOnScroll animation="fadeUp" className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
-          <a
-            href="#contact"
-            className="hero-btn-secondary"
-          >
-            Book a 15-min demo with our team
-            <ArrowRight size={18} />
-          </a>
-          <a
-            href="#pricing"
-            className="hero-btn-primary"
-          >
-            Start Finding Gaps Free
-          </a>
-        </AnimateOnScroll>
       </div>
     </section>
   );

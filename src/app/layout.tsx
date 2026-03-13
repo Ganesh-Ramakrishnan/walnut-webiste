@@ -9,9 +9,9 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Walnut AI - AI Operating System for Software Delivery",
+  title: "WalnutAI - AI Ecosystem for Software Delivery",
   description:
-    "An AI operating system for software delivery from intent to production, with zero blind spots.",
+    "An AI ecosystem for software delivery from intent to production. Build with zero blind spots and No Human-in-loop.",
   icons: {
     icon: "/favicon.svg",
   },

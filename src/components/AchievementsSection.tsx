@@ -12,7 +12,7 @@ const slides = [
   {
     title: "Continuous Quality\nmonitoring",
     subtitle: "Quality That Never Sleeps",
-    desc: "Walnut continuously monitors your codebase against requirements, catching drift and gaps in real time so quality issues are found before they reach production.",
+    desc: "WalnutAI continuously monitors your codebase against requirements, catching drift and gaps in real time so quality issues are found before they reach production.",
     image: "/assets/images-logo/continuous-quality-monitoring.png",
   },
   {
@@ -24,25 +24,25 @@ const slides = [
   {
     title: "Stop writing tests\nmanually",
     subtitle: "AI-Generated Tests in Seconds",
-    desc: "Walnut generates comprehensive test cases directly from your user stories. Functional, integration, and regression tests — created in under 30 seconds.",
+    desc: "WalnutAI generates comprehensive test cases directly from your user stories. Functional, integration, and regression tests — created in under 30 seconds.",
     image: "/assets/images-logo/stop-writing-tests.png",
   },
   {
     title: "Idea to Production",
     subtitle: "Ship Features End-to-End",
-    desc: "From requirement capture to code implementation to test validation — Walnut connects every stage so nothing gets lost between idea and deployment.",
+    desc: "From requirement capture to code implementation to test validation — WalnutAI connects every stage so nothing gets lost between idea and deployment.",
     image: "/assets/images-logo/idea-to-production.png",
   },
   {
     title: "Fix code issues\nbefore.....",
     subtitle: "Catch Issues Before They Ship",
-    desc: "Walnut's gap analysis identifies missing implementations, incomplete features, and misaligned code before they become costly production bugs.",
+    desc: "WalnutAI's gap analysis identifies missing implementations, incomplete features, and misaligned code before they become costly production bugs.",
     image: "/assets/images-logo/fix-code-issues.png",
   },
   {
     title: "Tech debt visibility\nyou can't ignore",
     subtitle: "Surface Hidden Technical Debt",
-    desc: "Get a clear, quantified view of your technical debt. Walnut scores your codebase across architecture, security, testing, and best practices so you can prioritize what matters.",
+    desc: "Get a clear, quantified view of your technical debt. WalnutAI scores your codebase across architecture, security, testing, and best practices so you can prioritize what matters.",
     image: "/assets/images-logo/tech-debt-visibility.png",
   },
 ];

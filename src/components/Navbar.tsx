@@ -8,8 +8,7 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Feature", href: "#features" },
   { name: "Pricing", href: "#pricing" },
-  { name: "Out Story", href: "#usecases" },
-  { name: "Discord", href: "#" },
+  { name: "Discord", href: "https://discord.gg/ZtEECh7U" },
 ];
 
 export default function Navbar() {
@@ -43,7 +42,7 @@ export default function Navbar() {
         <a href="#home" className="shrink-0 relative z-10">
           <Image
             src="/assets/walnut-logo.svg"
-            alt="Walnut"
+            alt="WalnutAI"
             width={120}
             height={40}
             className="w-[120px] h-auto"

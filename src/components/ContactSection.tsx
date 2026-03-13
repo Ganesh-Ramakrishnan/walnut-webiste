@@ -39,7 +39,7 @@ export default function ContactSection() {
             }}>
               <div>
                 <p style={{ color: "#d1d5db", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
-                  Start free. Upgrade when Walnut starts saving you real release risk.
+                  Start free. Upgrade when WalnutAI starts saving you real release risk.
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

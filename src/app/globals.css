@@ -74,14 +74,15 @@
 /* Hero section */
 .hero-title {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
-  font-size: 44px;
+  font-size: clamp(24px, 3.5vw, 44px);
   font-weight: 400;
-  line-height: 66.51px;
+  line-height: 1.5;
   color: #fff;
   text-align: center;
-  width: 888px;
-  max-width: 100%;
+  max-width: 888px;
+  width: 100%;
   margin: 0 auto 24px;
+  padding: 0 16px;
 }
 
 .hero-title .text-orange {
@@ -91,14 +92,15 @@
 
 .hero-subtitle {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
-  font-size: 15px;
+  font-size: clamp(13px, 1.2vw, 15px);
   font-weight: 400;
-  line-height: 33.255px;
+  line-height: 2;
   color: #ADADAD;
   text-align: center;
-  width: 762px;
-  max-width: 100%;
+  max-width: 762px;
+  width: 100%;
   margin: 0 auto 48px;
+  padding: 0 16px;
 }
 
 .hero-cta-wrapper {
@@ -232,13 +234,6 @@
 }
 
 @media (max-width: 640px) {
-  .hero-title {
-    font-size: 28px;
-    line-height: 42px;
-  }
-  .hero-subtitle {
-    font-size: 14px;
-  }
   .hero-cta-wrapper {
     flex-direction: column;
   }
@@ -311,25 +306,6 @@ html.lenis body {
 }
 
 /* Card hover effect */
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.15);
-}
-
-/* Animated gradient border */
-@keyframes borderGlow {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-
-.animate-border-glow::before {
-  animation: borderGlow 3s ease-in-out infinite;
-}
-
 /* Brain glow animation */
 @keyframes pulseGlow {
   0%, 100% {
@@ -386,7 +362,7 @@ html.lenis body {
 .brain-bg-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   opacity: 0.7;
 }
@@ -1419,11 +1395,47 @@ html.lenis body {
   font-weight: 600;
 }
 
+.pricing-credits-amount-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  margin-bottom: 14px !important;
+}
+
 .pricing-credits-amount {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
   color: #9ca3af;
   font-size: 11px;
-  margin-bottom: 14px;
+  margin: 0 !important;
+}
+
+.pricing-info-wrap {
+  position: relative !important;
+  display: inline-flex !important;
+  cursor: pointer !important;
+}
+
+.pricing-info-wrap .pricing-info-tooltip {
+  display: none !important;
+  position: absolute !important;
+  bottom: calc(100% + 10px) !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: #1a1a1a !important;
+  border: 1px solid #333 !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  color: #d1d5db !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  width: 240px !important;
+  pointer-events: none !important;
+  z-index: 10 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.pricing-info-wrap:hover .pricing-info-tooltip {
+  display: block !important;
 }
 
 /* Feature list */
@@ -1510,36 +1522,45 @@ html.lenis body {
 /* ===== Footer ===== */
 
 .ft-wrapper {
-  background: #111111 !important;
-  border-top: 1px solid #1e1e1e !important;
+  background: #0a0a0a !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.ft-gradient-line {
+  height: 2px !important;
+  background: linear-gradient(90deg, transparent 0%, #F17F0D 50%, transparent 100%) !important;
+  opacity: 0.6 !important;
 }
 
 .ft-container {
   max-width: 1100px !important;
   margin: 0 auto !important;
-  padding: 56px 48px 0 !important;
+  padding: 60px 48px 0 !important;
+  position: relative !important;
+  z-index: 1 !important;
 }
 
 .ft-top {
   display: flex !important;
   justify-content: space-between !important;
-  gap: 60px !important;
-  padding-bottom: 50px !important;
+  gap: 80px !important;
+  padding-bottom: 52px !important;
 }
 
 .ft-brand {
-  max-width: 240px !important;
+  max-width: 280px !important;
   flex-shrink: 0 !important;
 }
 
 .ft-logo-link {
   display: block !important;
   text-decoration: none !important;
-  margin-bottom: 18px !important;
+  margin-bottom: 16px !important;
 }
 
 .ft-logo-img {
-  height: 40px !important;
+  height: 38px !important;
   width: auto !important;
 }
 
@@ -1547,25 +1568,51 @@ html.lenis body {
   color: #6b7280 !important;
   font-size: 14px !important;
   line-height: 1.7 !important;
-  margin: 0 !important;
+  margin: 0 0 24px 0 !important;
+}
+
+.ft-socials {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.ft-social {
+  color: #6b7280 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+  border: 1px solid #1e1e1e !important;
+  background: #111111 !important;
+  transition: all 0.25s ease !important;
+}
+
+.ft-social:hover {
+  color: #F17F0D !important;
+  border-color: rgba(241, 127, 13, 0.3) !important;
+  background: rgba(241, 127, 13, 0.08) !important;
 }
 
 .ft-links {
   display: flex !important;
-  gap: 80px !important;
+  gap: 64px !important;
   flex-shrink: 0 !important;
 }
 
 .ft-link-col {
-  min-width: 110px !important;
+  min-width: 120px !important;
 }
 
 .ft-link-heading {
   color: #ffffff !important;
-  font-size: 15px !important;
-  font-weight: 700 !important;
-  margin: 0 0 18px 0 !important;
-  letter-spacing: 0.03em !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  margin: 0 0 20px 0 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
 }
 
 .ft-link-list {
@@ -1574,63 +1621,32 @@ html.lenis body {
   margin: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 14px !important;
 }
 
 .ft-link {
-  color: #9ca3af !important;
+  color: #6b7280 !important;
   font-size: 14px !important;
   text-decoration: none !important;
-  transition: color 0.2s !important;
+  transition: color 0.2s ease !important;
 }
 
 .ft-link:hover {
-  color: #ffffff !important;
+  color: #F17F0D !important;
 }
 
 .ft-bottom {
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 28px !important;
-  border-top: 1px solid #1e1e1e !important;
+  border-top: 1px solid #1a1a1a !important;
   padding: 24px 0 !important;
-  flex-wrap: wrap !important;
 }
 
 .ft-copyright {
   color: #4b5563 !important;
   font-size: 13px !important;
   margin: 0 !important;
-}
-
-.ft-legal {
-  color: #9ca3af !important;
-  font-size: 13px !important;
-  text-decoration: none !important;
-  transition: color 0.2s !important;
-}
-
-.ft-legal:hover {
-  color: #ffffff !important;
-}
-
-.ft-socials {
-  display: flex !important;
-  align-items: center !important;
-  gap: 16px !important;
-  margin-left: 10px !important;
-}
-
-.ft-social {
-  color: #9ca3af !important;
-  display: flex !important;
-  align-items: center !important;
-  transition: color 0.2s !important;
-}
-
-.ft-social:hover {
-  color: #ffffff !important;
 }
 
 /* Tablet */
@@ -1650,11 +1666,7 @@ html.lenis body {
     flex-wrap: wrap !important;
   }
   .ft-bottom {
-    gap: 16px !important;
     padding: 20px 0 !important;
-  }
-  .ft-socials {
-    margin-left: 0 !important;
   }
 }
 
@@ -1664,7 +1676,7 @@ html.lenis body {
     padding: 32px 16px 0 !important;
   }
   .ft-links {
-    gap: 24px !important;
+    gap: 28px !important;
   }
   .ft-link-col {
     min-width: 90px !important;
@@ -1676,18 +1688,12 @@ html.lenis body {
     font-size: 13px !important;
   }
   .ft-link-heading {
-    font-size: 13px !important;
-  }
-  .ft-link {
     font-size: 12px !important;
   }
-  .ft-bottom {
-    flex-direction: column !important;
-    gap: 12px !important;
-    text-align: center !important;
+  .ft-link {
+    font-size: 13px !important;
   }
-  .ft-copyright,
-  .ft-legal {
+  .ft-copyright {
     font-size: 11px !important;
   }
 }
