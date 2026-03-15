@@ -326,7 +326,7 @@ export default function TermsAndConditionsPage() {
           <p>If you should have any suggestions or questions regarding these Terms of Use, please contact the Company:</p>
           <p>
             <strong>Address:</strong> Ground Floor, BCIT, Bhartiya City, RK Hegde Nagar, Bengaluru, Karnataka 560064<br />
-            <strong>Email:</strong> <a href="mailto:contact@walnutai.com">contact@walnutai.com</a>
+            <strong>Email:</strong> <a href="mailto:support@walnutai.com">support@walnutai.com</a>
           </p>
         </div>
       </div>
