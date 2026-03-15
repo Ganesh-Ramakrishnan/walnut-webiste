@@ -25,7 +25,7 @@ export default function PrivacyPolicyPage() {
         <div className="legal-content">
           <p>
             This Privacy Policy (&quot;Privacy Policy&quot;) applies to your use of our website{" "}
-            <a href="https://www.walnutai.ai/" target="_blank" rel="noopener noreferrer">https://www.walnutai.ai/</a>{" "}
+            <a href="https://app.walnutai.ai/" target="_blank" rel="noopener noreferrer">https://app.walnutai.ai/</a>{" "}
             (&quot;Platform&quot;) and product offered through the Platform (hereinafter collectively referred to as &quot;Services&quot;) which are owned, controlled and operated by Simplify3x Software Private Limited, a company incorporated under the laws of India, and having its registered office at Ground Floor, BCIT, Bhartiya City, RK Hegde Nagar, Bengaluru, Karnataka 560064 (&quot;Company&quot; or &quot;WalnutAI&quot;).
           </p>
           <p>
