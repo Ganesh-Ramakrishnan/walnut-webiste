@@ -11,8 +11,8 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
     { label: "Documentation", href: "#" },
   ],
   LEGAL: [
-    { label: "Privacy Policy", href: "#" },
-    { label: "Terms & Conditions", href: "#" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Terms & Conditions", href: "/terms-and-conditions" },
   ],
 };
 
@@ -62,7 +62,7 @@ export default function Footer() {
                 <ul className="ft-link-list">
                   {links.map((link) => (
                     <li key={link.label}>
-                      <a href={link.href} className="ft-link" target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>{link.label}</a>
+                      <a href={link.href} className="ft-link" target={link.href.startsWith("http") || link.href.startsWith("/") ? "_blank" : undefined} rel={link.href.startsWith("http") || link.href.startsWith("/") ? "noopener noreferrer" : undefined}>{link.label}</a>
                     </li>
                   ))}
                 </ul>

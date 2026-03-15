@@ -1519,6 +1519,55 @@ html.lenis body {
   }
 }
 
+/* ===== Legal Pages ===== */
+
+.legal-content h2 {
+  color: #fff !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  margin: 36px 0 12px !important;
+}
+
+.legal-content h3 {
+  color: #fff !important;
+  font-size: 17px !important;
+  font-weight: 600 !important;
+  margin: 24px 0 10px !important;
+}
+
+.legal-content p {
+  font-size: 14px !important;
+  line-height: 1.8 !important;
+  color: #9ca3af !important;
+  margin-bottom: 14px !important;
+}
+
+.legal-content ul {
+  list-style: disc !important;
+  padding-left: 24px !important;
+  margin-bottom: 14px !important;
+}
+
+.legal-content li {
+  font-size: 14px !important;
+  line-height: 1.8 !important;
+  color: #9ca3af !important;
+  margin-bottom: 6px !important;
+}
+
+.legal-content a {
+  color: #F17F0D !important;
+  text-decoration: none !important;
+}
+
+.legal-content a:hover {
+  text-decoration: underline !important;
+}
+
+.legal-content strong {
+  color: #d1d5db !important;
+}
+
 /* ===== Footer ===== */
 
 .ft-wrapper {
