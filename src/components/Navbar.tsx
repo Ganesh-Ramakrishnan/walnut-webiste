@@ -8,7 +8,7 @@ const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Feature", href: "#features" },
   { name: "Pricing", href: "#pricing" },
-  { name: "Discord", href: "https://discord.gg/ZtEECh7U" },
+  { name: "Discord", href: "https://discord.gg/Tcw88yu6q" },
 ];
 
 export default function Navbar() {
