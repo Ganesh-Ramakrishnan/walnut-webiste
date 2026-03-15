@@ -41,11 +41,11 @@ export default function Navbar() {
         {/* Logo - left aligned */}
         <a href="#home" className="shrink-0 relative z-10">
           <Image
-            src="/assets/walnut-logo.svg"
+            src="/assets/logo/Walnut-White.png"
             alt="WalnutAI"
-            width={120}
-            height={40}
-            className="w-[120px] h-auto"
+            width={180}
+            height={60}
+            className="w-[180px] h-auto"
             priority
           />
         </a>

@@ -28,7 +28,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="ft-brand">
             <a href="#home" className="ft-logo-link">
-              <img src="/assets/walnut-logo.svg" alt="WalnutAI" className="ft-logo-img" />
+              <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" />
             </a>
             <p className="ft-brand-desc">
               Stop shipping bugs. Start shipping with confidence.
