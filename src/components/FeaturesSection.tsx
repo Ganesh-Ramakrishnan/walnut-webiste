@@ -5,8 +5,7 @@ import AnimateOnScroll from "./AnimateOnScroll";
 const card: React.CSSProperties = {};
 
 const imgWrap: React.CSSProperties = {
-  width: "80%",
-  margin: "0 auto",
+  width: "100%",
   borderRadius: 14,
   overflow: "hidden",
 };

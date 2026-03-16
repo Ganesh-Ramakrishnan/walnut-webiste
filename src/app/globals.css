@@ -90,6 +90,13 @@
   font-weight: 600;
 }
 
+.hero-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
 .hero-subtitle {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
   font-size: clamp(13px, 1.2vw, 15px);
@@ -101,6 +108,29 @@
   width: 100%;
   margin: 0 auto 48px;
   padding: 0 16px;
+}
+
+.hero-carousel-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.hero-carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.hero-carousel-dot.active {
+  background: #F17F0D;
+  width: 24px;
+  border-radius: 4px;
 }
 
 .hero-cta-wrapper {
