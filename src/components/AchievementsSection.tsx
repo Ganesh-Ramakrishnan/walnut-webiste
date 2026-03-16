@@ -77,65 +77,48 @@ export default function AchievementsSection() {
   const slide = slides[active];
 
   return (
-    <section style={{ padding: "80px 0", overflow: "hidden", position: "relative", minHeight: 650 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px" }}>
+    <section className="achv-section">
+      <div className="achv-container">
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 60 }}>
-          <h2 style={{ color: "#fff", fontSize: 48, fontWeight: 800, lineHeight: 1.2, marginBottom: 16 }}>
+        <div className="achv-header">
+          <h2 className="achv-title">
             What Teams Achieve With <span style={{ color: "#F17F0D" }}>WalnutAI</span>
           </h2>
-          <p style={{ color: "#9ca3af", fontSize: 16 }}>
+          <p className="achv-subtitle">
             Real outcomes from teams who stopped guessing and started knowing what&apos;s missing
           </p>
         </div>
 
         {/* Content: left text + right image */}
-        <div style={{ display: "flex", alignItems: "center", gap: 60, minHeight: 450 }}>
+        <div className="achv-content">
           {/* Left: dots + text */}
-          <div style={{ flex: "0 0 380px", display: "flex", gap: 24 }}>
-            {/* Dot indicators */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10, paddingTop: 8 }}>
+          <div className="achv-left">
+            {/* Dot indicators — horizontal on mobile, vertical on desktop */}
+            <div className="achv-dots">
               {slides.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => goTo(i)}
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: "50%",
-                    border: "none",
-                    cursor: "pointer",
-                    background: i === active ? "#F17F0D" : "rgba(255,255,255,0.15)",
-                    transition: "background 0.3s ease",
-                  }}
+                  className={`achv-dot ${i === active ? "active" : ""}`}
                 />
               ))}
             </div>
 
             {/* Text */}
             <div
+              className="achv-text"
               style={{
                 opacity: fade ? 1 : 0,
                 transform: fade ? "translateY(0)" : "translateY(20px)",
-                transition: "opacity 0.4s ease, transform 0.4s ease",
               }}
             >
-              <h3
-                style={{
-                  color: "#fff",
-                  fontSize: 36,
-                  fontWeight: 800,
-                  lineHeight: 1.2,
-                  marginBottom: 20,
-                  whiteSpace: "pre-line",
-                }}
-              >
+              <h3 className="achv-slide-title">
                 {slide.title}
               </h3>
-              <p style={{ color: "#fff", fontSize: 16, fontWeight: 600, marginBottom: 16 }}>
+              <p className="achv-slide-subtitle">
                 {slide.subtitle}
               </p>
-              <p style={{ color: "#9ca3af", fontSize: 14, lineHeight: 1.7, maxWidth: 340 }}>
+              <p className="achv-slide-desc">
                 {slide.desc}
               </p>
             </div>
@@ -143,22 +126,13 @@ export default function AchievementsSection() {
 
           {/* Right: image */}
           <div
+            className="achv-right"
             style={{
-              flex: 1,
               opacity: fade ? 1 : 0,
               transform: fade ? "translateX(0)" : "translateX(40px)",
-              transition: "opacity 0.5s ease, transform 0.5s ease",
             }}
           >
-            <div
-              style={{
-                borderRadius: 16,
-                overflow: "hidden",
-                border: "1px solid #222",
-                background: "#111",
-                boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
-              }}
-            >
+            <div className="achv-image-wrap">
               <img
                 src={slide.image}
                 alt={slide.title.replace(/\n/g, " ")}

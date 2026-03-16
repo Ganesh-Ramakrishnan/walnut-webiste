@@ -14,29 +14,9 @@ export default function ContactSection() {
         </AnimateOnScroll>
 
         <AnimateOnScroll animation="fadeUp">
-          <div style={{
-            background: "#111111",
-            border: "1px solid #222",
-            borderRadius: 20,
-            display: "flex",
-            overflow: "hidden",
-            minHeight: 420,
-          }}>
+          <div className="ct-card">
             {/* Left info panel */}
-            <div style={{
-              width: 280,
-              flexShrink: 0,
-              background: "linear-gradient(180deg, #1a1a1a 0%, #111 100%)",
-              border: "1px solid #333",
-              borderRadius: 16,
-              margin: 12,
-              padding: "28px 24px",
-              display: "flex",
-              flexDirection: "column" as const,
-              justifyContent: "space-between",
-              position: "relative" as const,
-              overflow: "hidden",
-            }}>
+            <div className="ct-info-panel">
               <div>
                 <p style={{ color: "#d1d5db", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
                   Start free. Upgrade when WalnutAI starts saving you real release risk.
@@ -78,7 +58,7 @@ export default function ContactSection() {
             </div>
 
             {/* Right form */}
-            <div style={{ flex: 1, padding: "32px 36px" }}>
+            <div className="ct-form-panel">
               <form onSubmit={(e) => e.preventDefault()} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
                 {/* Name */}
                 <div className="ct-field">
@@ -87,7 +67,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Email + Phone */}
-                <div style={{ display: "flex", gap: 24 }}>
+                <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Email</label>
                     <input type="email" className="ct-input" />
@@ -99,7 +79,7 @@ export default function ContactSection() {
                 </div>
 
                 {/* Organization + Role */}
-                <div style={{ display: "flex", gap: 24 }}>
+                <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Organization</label>
                     <input type="text" className="ct-input" />
