@@ -368,7 +368,94 @@ html.lenis body {
   animation: float 4s ease-in-out infinite 2s;
 }
 
-/* Features Section */
+/* Features Section — Feature Card (matching SVG card design) */
+.feature-card-full {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  height: 100% !important;
+}
+
+.feature-card-full .feature-card-img {
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.feature-card-full .feature-card-img img {
+  width: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+.feature-card-body {
+  padding: 24px 24px 28px !important;
+}
+
+.feature-card-title {
+  color: #fff !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  margin-bottom: 12px !important;
+  line-height: 1.3 !important;
+}
+
+.feature-card-desc {
+  color: #b0b0b0 !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  margin-bottom: 20px !important;
+}
+
+.feature-card-list {
+  list-style: disc !important;
+  padding-left: 20px !important;
+  margin-bottom: 24px !important;
+}
+
+.feature-card-list li {
+  color: #b0b0b0 !important;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+  margin-bottom: 8px !important;
+}
+
+.feature-card-outcome {
+  background: rgba(241, 127, 13, 0.06) !important;
+  border: 1px solid rgba(241, 127, 13, 0.18) !important;
+  border-radius: 14px !important;
+  padding: 16px 20px !important;
+  color: #d1d5db !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+}
+
+.feature-card-outcome-label {
+  color: #F17F0D !important;
+  font-weight: 700 !important;
+}
+
+/* SDLC card (left) + 2 stacked images (right) */
+.features-grid-3r {
+  display: grid !important;
+  grid-template-columns: 55% 45% !important;
+  gap: 20px !important;
+  margin-bottom: 20px !important;
+  align-items: stretch !important;
+}
+
+@media (max-width: 768px) {
+  .features-grid-3r {
+    grid-template-columns: 1fr !important;
+  }
+  .feature-card-body {
+    padding: 20px 20px 24px !important;
+  }
+  .feature-card-title {
+    font-size: 20px !important;
+  }
+}
+
 .features-wrapper {
   width: 80%;
   margin: 0 auto;

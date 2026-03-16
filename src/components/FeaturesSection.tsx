@@ -36,23 +36,49 @@ export default function FeaturesSection() {
 
         {/* All rows wrapper */}
         <div className="features-wrapper">
-          {/* Row 1 — 2 cards */}
-          <div className="features-grid-2">
+          {/* Row 0 — SDLC card (left) + 2 stacked images (right) */}
+          <div className="features-grid-3r">
+            {/* Left — SDLC card */}
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
-                <div style={imgWrap}>
-                  <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} />
+              <div className="feature-card-full">
+                <div className="feature-card-img">
+                  <img src="/assets/features/agent.png" alt="AI-Orchestrated SDLC" />
+                </div>
+                <div className="feature-card-body">
+                  <h3 className="feature-card-title">AI-Orchestrated SDLC</h3>
+                  <p className="feature-card-desc">
+                    Automate software delivery from intent to built application with no human-intervention.
+                  </p>
+                  <ul className="feature-card-list">
+                    <li>Prompt WalnutAI or upload requirement files and assign tasks to specialized AI bots</li>
+                    <li>AI bots exchange context and coordinate dependencies in real time to keep end-to-end execution aligned</li>
+                    <li>AI bots generate requirements, code, and testing end to end</li>
+                  </ul>
+                  <div className="feature-card-outcome">
+                    <span className="feature-card-outcome-label">Outcome :</span> Wake up to a completely built app with No human-in-loop
+                  </div>
                 </div>
               </div>
             </AnimateOnScroll>
 
-            <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
-                <div style={imgWrap}>
-                  <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} />
+            {/* Right — two images stacked */}
+            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <AnimateOnScroll animation="fadeUp">
+                <div style={card}>
+                  <div style={imgWrap}>
+                    <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} />
+                  </div>
                 </div>
-              </div>
-            </AnimateOnScroll>
+              </AnimateOnScroll>
+
+              <AnimateOnScroll animation="fadeUp">
+                <div style={card}>
+                  <div style={imgWrap}>
+                    <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} />
+                  </div>
+                </div>
+              </AnimateOnScroll>
+            </div>
           </div>
 
           {/* Row 2 — 2 cards */}
