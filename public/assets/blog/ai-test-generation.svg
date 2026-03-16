@@ -1,0 +1,33 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#151515"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="70%" cy="40%">
+      <stop offset="0%" style="stop-color:#F17F0D;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#F17F0D;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg3)"/>
+  <ellipse cx="840" cy="250" rx="280" ry="200" fill="url(#glow3)"/>
+  <!-- Test case items -->
+  <rect x="350" y="160" width="500" height="44" rx="8" fill="#1e1e1e"/>
+  <circle cx="382" cy="182" r="10" fill="#22c55e"/>
+  <text x="404" y="188" fill="#d1d5db" font-size="14" font-family="sans-serif">Functional Test: User login validates credentials</text>
+  <rect x="350" y="216" width="500" height="44" rx="8" fill="#1e1e1e"/>
+  <circle cx="382" cy="238" r="10" fill="#22c55e"/>
+  <text x="404" y="244" fill="#d1d5db" font-size="14" font-family="sans-serif">Integration Test: API returns correct response</text>
+  <rect x="350" y="272" width="500" height="44" rx="8" fill="#1e1e1e"/>
+  <circle cx="382" cy="294" r="10" fill="#22c55e"/>
+  <text x="404" y="300" fill="#d1d5db" font-size="14" font-family="sans-serif">Regression Test: Cart total calculation</text>
+  <rect x="350" y="328" width="500" height="44" rx="8" fill="#1e1e1e"/>
+  <circle cx="382" cy="350" r="10" fill="#F17F0D"/>
+  <text x="404" y="356" fill="#d1d5db" font-size="14" font-family="sans-serif">Edge Case: Empty input boundary check</text>
+  <!-- Timer -->
+  <circle cx="600" cy="460" r="30" fill="none" stroke="#F17F0D" stroke-width="2"/>
+  <text x="600" y="468" text-anchor="middle" fill="#F17F0D" font-size="16" font-weight="bold" font-family="sans-serif">30s</text>
+  <!-- Title -->
+  <text x="600" y="540" text-anchor="middle" fill="#ffffff" font-size="32" font-weight="bold" font-family="sans-serif">AI-Generated Test Cases</text>
+  <text x="600" y="576" text-anchor="middle" fill="#9ca3af" font-size="16" font-family="sans-serif">Comprehensive Coverage in Seconds</text>
+</svg>

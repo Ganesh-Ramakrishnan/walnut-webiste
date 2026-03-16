@@ -4,7 +4,7 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
   COMPANY: [
     { label: "Pricing", href: "#pricing" },
     { label: "Careers", href: "https://www.linkedin.com/company/wal-nut/jobs/" },
-    { label: "Blog", href: "#" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact", href: "#contact" },
   ],
   RESOURCES: [
