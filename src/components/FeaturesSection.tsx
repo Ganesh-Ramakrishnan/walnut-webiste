@@ -36,9 +36,8 @@ export default function FeaturesSection() {
 
         {/* All rows wrapper */}
         <div className="features-wrapper">
-          {/* Row 0 — SDLC card (left) + 2 stacked images (right) */}
-          <div className="features-grid-3r">
-            {/* Left — SDLC card */}
+          {/* Row 1 — SDLC card + Gap Analysis side by side */}
+          <div className="features-grid-2">
             <AnimateOnScroll animation="fadeUp">
               <div className="feature-card-full">
                 <div className="feature-card-img">
@@ -61,27 +60,35 @@ export default function FeaturesSection() {
               </div>
             </AnimateOnScroll>
 
-            {/* Right — two images stacked */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <AnimateOnScroll animation="fadeUp">
-                <div style={card}>
-                  <div style={imgWrap}>
-                    <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} />
-                  </div>
+            <AnimateOnScroll animation="fadeUp">
+              <div style={card}>
+                <div style={imgWrap}>
+                  <img src="/assets/features/gap-analysis.svg" alt="Continuous Gap Analysis" style={img} />
                 </div>
-              </AnimateOnScroll>
-
-              <AnimateOnScroll animation="fadeUp">
-                <div style={card}>
-                  <div style={imgWrap}>
-                    <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} />
-                  </div>
-                </div>
-              </AnimateOnScroll>
-            </div>
+              </div>
+            </AnimateOnScroll>
           </div>
 
-          {/* Row 2 — 2 cards */}
+          {/* Row 2 — Documents + IDE side by side */}
+          <div className="features-grid-2">
+            <AnimateOnScroll animation="fadeUp">
+              <div style={card}>
+                <div style={imgWrap}>
+                  <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} />
+                </div>
+              </div>
+            </AnimateOnScroll>
+
+            <AnimateOnScroll animation="fadeUp">
+              <div style={card}>
+                <div style={imgWrap}>
+                  <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} />
+                </div>
+              </div>
+            </AnimateOnScroll>
+          </div>
+
+          {/* Row 3 — AI Modes + AI Testcase side by side */}
           <div className="features-grid-2">
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
@@ -100,32 +107,20 @@ export default function FeaturesSection() {
             </AnimateOnScroll>
           </div>
 
-          {/* Row 3 — 2 small stacked left + 1 big right */}
-          <div className="features-grid-3">
-            {/* Left — two small cards stacked */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <AnimateOnScroll animation="fadeUp">
-                <div style={card}>
-                  <div style={imgWrap}>
-                    <img src="/assets/features/test-execution.svg" alt="Test Execution & Management" style={img} />
-                  </div>
+          {/* Row 4 — Test Execution + Unified Analytics side by side */}
+          <div className="features-grid-2">
+            <AnimateOnScroll animation="fadeUp">
+              <div style={card}>
+                <div style={imgWrap}>
+                  <img src="/assets/features/test-execution.svg" alt="Test Execution & Management" style={img} />
                 </div>
-              </AnimateOnScroll>
+              </div>
+            </AnimateOnScroll>
 
-              <AnimateOnScroll animation="fadeUp">
-                <div style={card}>
-                  <div style={imgWrap}>
-                    <img src="/assets/features/unified-analytics.svg" alt="Unified Analytics & Insights" style={img} />
-                  </div>
-                </div>
-              </AnimateOnScroll>
-            </div>
-
-            {/* Right — one big card */}
-            <AnimateOnScroll animation="fadeUp" style={{ height: "100%" }}>
-              <div style={{ ...card, height: "100%" }}>
-                <div style={{ ...imgWrap }}>
-                  <img src="/assets/features/gap-analysis.svg" alt="Continuous Gap Analysis" style={img} />
+            <AnimateOnScroll animation="fadeUp">
+              <div style={card}>
+                <div style={imgWrap}>
+                  <img src="/assets/features/unified-analytics.svg" alt="Unified Analytics & Insights" style={img} />
                 </div>
               </div>
             </AnimateOnScroll>
