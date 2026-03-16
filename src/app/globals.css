@@ -1737,6 +1737,12 @@ html.lenis body {
   }
 }
 
+@media (max-width: 768px) {
+  .pricing-grid {
+    max-width: 100% !important;
+  }
+}
+
 @media (max-width: 480px) {
   .pricing-card {
     padding: 20px 16px;

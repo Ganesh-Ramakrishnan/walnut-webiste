@@ -45,7 +45,7 @@ export default function Navbar() {
             alt="WalnutAI"
             width={180}
             height={60}
-            className="w-[180px] h-auto"
+            className="w-[130px] sm:w-[180px] h-auto"
             priority
           />
         </a>
