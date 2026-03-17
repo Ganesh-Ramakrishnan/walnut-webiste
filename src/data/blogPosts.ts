@@ -191,7 +191,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-03-10",
     author: "WalnutAI Team",
     image: "/assets/blog/ai-orchestrated-sdlc.svg",
-    category: "Strategy",
+    category: "AI",
     tags: ["Prompt Engineering", "Enterprise AI", "Architectural Intelligence"],
   },
   {
@@ -221,7 +221,7 @@ export const blogPosts: BlogPost[] = [
     date: "2026-03-05",
     author: "WalnutAI Team",
     image: "/assets/blog/gap-analysis.svg",
-    category: "Engineering",
+    category: "Development",
     tags: ["Quality", "Testing", "Gap Analysis"],
   },
   {

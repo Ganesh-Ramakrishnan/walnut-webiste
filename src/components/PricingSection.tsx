@@ -7,9 +7,9 @@ const plans = [
   {
     name: "Explorer",
     tagline: "For Teams Ready to Ship Faster",
-    price: "$29",
-    annual: "$24",
-    discount: "-18%",
+    price: "$18",
+    annual: "$194.4",
+    discount: "-10%",
     outcomes: [
       "Save 15+ hours/sprint on test case creation",
       "Catch 40+ gaps per project between requirements and code",
@@ -35,9 +35,9 @@ const plans = [
   {
     name: "Team",
     tagline: "For Teams Who Can't Afford Production Bugs",
-    price: "$69",
-    annual: "$58",
-    discount: "-16%",
+    price: "$65",
+    annual: "$702",
+    discount: "-10%",
     outcomes: [
       "Cut production defects by 80%",
       "Achieve 95%+ requirements coverage across all repos",
@@ -146,7 +146,7 @@ export default function PricingSection() {
                     <span className="pricing-price">
                       {billingCycle[plan.name] ? plan.annual : plan.price}
                     </span>
-                    <span className="pricing-period">/ user / month</span>
+                    <span className="pricing-period">/ user / {billingCycle[plan.name] ? "year" : "month"}</span>
                   </>
                 ) : (
                   <span className="pricing-price pricing-price-custom">
