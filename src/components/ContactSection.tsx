@@ -1,8 +1,43 @@
 "use client";
 
+import { useState } from "react";
 import AnimateOnScroll from "./AnimateOnScroll";
 
 export default function ContactSection() {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", organization: "", role: "", message: "" });
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "92d7c0f4-a52d-4e00-a56f-9df46901799c",
+          subject: `Contact from ${form.name} - ${form.organization || "N/A"}`,
+          from_name: form.name,
+          replyto: form.email,
+          cc: "contact@walnutai.ai",
+          ...form,
+        }),
+      });
+      if (res.ok) {
+        setStatus("success");
+        setForm({ name: "", email: "", phone: "", organization: "", role: "", message: "" });
+      } else {
+        setStatus("error");
+      }
+    } catch {
+      setStatus("error");
+    }
+  };
+
   return (
     <section id="contact" className="relative py-16 sm:py-24 overflow-hidden">
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
@@ -59,22 +94,22 @@ export default function ContactSection() {
 
             {/* Right form */}
             <div className="ct-form-panel">
-              <form onSubmit={(e) => e.preventDefault()} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
                 {/* Name */}
                 <div className="ct-field">
                   <label className="ct-label">Name</label>
-                  <input type="text" className="ct-input" />
+                  <input type="text" name="name" value={form.name} onChange={handleChange} className="ct-input" required />
                 </div>
 
                 {/* Email + Phone */}
                 <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Email</label>
-                    <input type="email" className="ct-input" />
+                    <input type="email" name="email" value={form.email} onChange={handleChange} className="ct-input" required />
                   </div>
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Phone No</label>
-                    <input type="tel" className="ct-input" />
+                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} className="ct-input" />
                   </div>
                 </div>
 
@@ -82,24 +117,26 @@ export default function ContactSection() {
                 <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Organization</label>
-                    <input type="text" className="ct-input" />
+                    <input type="text" name="organization" value={form.organization} onChange={handleChange} className="ct-input" />
                   </div>
                   <div className="ct-field" style={{ flex: 1 }}>
                     <label className="ct-label">Role</label>
-                    <input type="text" className="ct-input" />
+                    <input type="text" name="role" value={form.role} onChange={handleChange} className="ct-input" />
                   </div>
                 </div>
 
                 {/* Message */}
                 <div className="ct-field">
                   <label className="ct-label">Message</label>
-                  <input type="text" className="ct-input" />
+                  <input type="text" name="message" value={form.message} onChange={handleChange} className="ct-input" required />
                 </div>
 
                 {/* Submit */}
-                <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "auto" }}>
-                  <button type="submit" className="ct-submit">
-                    Submit
+                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 16, marginTop: "auto" }}>
+                  {status === "success" && <span style={{ color: "#22c55e", fontSize: 14 }}>Message sent successfully!</span>}
+                  {status === "error" && <span style={{ color: "#ef4444", fontSize: 14 }}>Something went wrong. Please try again.</span>}
+                  <button type="submit" className="ct-submit" disabled={status === "sending"}>
+                    {status === "sending" ? "Sending..." : "Submit"}
                   </button>
                 </div>
               </form>

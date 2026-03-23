@@ -99,19 +99,36 @@ export default function Hero() {
     goToSlide(index);
   };
 
-  // Render title as individual character spans
+  // Render title as individual character spans, grouped by word to prevent mid-word breaks
   const renderTitle = (segments: TitleSegment[]) => {
-    return segments.map((segment, si) =>
-      [...segment.text].map((char, ci) => (
-        <span
-          key={`${si}-${ci}`}
-          className={`hero-char${segment.orange ? " text-orange" : ""}`}
-          style={{ display: "inline-block", whiteSpace: char === " " ? "pre" : undefined }}
-        >
-          {char}
-        </span>
-      ))
-    );
+    let wordIndex = 0;
+    return segments.map((segment, si) => {
+      const words = segment.text.split(" ");
+      return words.map((word, wi) => {
+        const currentWordIndex = wordIndex++;
+        return (
+          <span key={`w-${si}-${wi}`} style={{ whiteSpace: "nowrap" }}>
+            {[...word].map((char, ci) => (
+              <span
+                key={`${currentWordIndex}-${ci}`}
+                className={`hero-char${segment.orange ? " text-orange" : ""}`}
+                style={{ display: "inline-block" }}
+              >
+                {char}
+              </span>
+            ))}
+            {wi < words.length - 1 && (
+              <span
+                className={`hero-char${segment.orange ? " text-orange" : ""}`}
+                style={{ display: "inline-block", whiteSpace: "pre" }}
+              >
+                {" "}
+              </span>
+            )}
+          </span>
+        );
+      });
+    });
   };
 
   return (

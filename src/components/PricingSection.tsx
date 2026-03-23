@@ -190,12 +190,14 @@ export default function PricingSection() {
               {/* Credits section */}
               <div className="pricing-credits-row">
                 <span className="pricing-credits-label">Credits</span>
-                <button
-                  className={`pricing-toggle pricing-toggle-sm ${creditsOn[plan.name] ? "pricing-toggle-on" : ""}`}
-                  onClick={() => toggleCredits(plan.name)}
-                >
-                  <span className="pricing-toggle-knob" />
-                </button>
+                {plan.name !== "Enterprise" && (
+                  <button
+                    className={`pricing-toggle pricing-toggle-sm ${creditsOn[plan.name] ? "pricing-toggle-on" : ""}`}
+                    onClick={() => toggleCredits(plan.name)}
+                  >
+                    <span className="pricing-toggle-knob" />
+                  </button>
+                )}
               </div>
               <div className="pricing-credits-amount-row">
                 <p className="pricing-credits-amount">{plan.credits}</p>
