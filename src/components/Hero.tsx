@@ -156,9 +156,9 @@ export default function Hero() {
 
         <div className="hero-subtitle-fixed">
           <p ref={subtitleRef} className="hero-subtitle">
-            A Neural Workspace for Teams Who Build the Future. WalnutAI analyzes your
-            documents, codebase, and test coverage to show you exactly what&apos;s missing—
-            before your users find out.
+            WalnutAI intelligently orchestrates the entire lifecycle—transforming
+            requirements into development, driving comprehensive testing, and proactively
+            identifying gaps for continuous improvement.
           </p>
         </div>
       </div>

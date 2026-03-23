@@ -75,7 +75,7 @@ const plans = [
       "Custom integration with your proprietary tools",
     ],
     outcomeNote:
-      "Your dedicated success team works with you to define and achieve specific quality metrics within 90 days.",
+      "Our dedicated support team works with you to define and achieve specific quality metrics within 90 days.",
     credits: "Custom annual credit bundle or unlimited usage",
     features: [
       "Predictable billing with no surprise overages",
