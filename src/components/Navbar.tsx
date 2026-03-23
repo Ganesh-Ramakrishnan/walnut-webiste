@@ -5,9 +5,10 @@ import { Menu, X } from "lucide-react";
 import Image from "next/image";
 
 const navLinks = [
-  { name: "Home", href: "#home" },
-  { name: "Feature", href: "#features" },
-  { name: "Pricing", href: "#pricing" },
+  { name: "Home", href: "/#home" },
+  { name: "Feature", href: "/#features" },
+  { name: "Pricing", href: "/#pricing" },
+  { name: "Blog", href: "/blog" },
   { name: "Discord", href: "https://discord.gg/Tcw88yu6q" },
 ];
 
@@ -39,7 +40,7 @@ export default function Navbar() {
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between">
         {/* Logo - left aligned */}
-        <a href="#home" className="shrink-0 relative z-10">
+        <a href="/" className="shrink-0 relative z-10">
           <Image
             src="/assets/logo/Walnut-White.png"
             alt="WalnutAI"
@@ -58,7 +59,7 @@ export default function Navbar() {
                 {link.name}
               </a>
             ))}
-            <a href="#contact" className="nav-cta">
+            <a href="/#contact" className="nav-cta">
               Contact Us
             </a>
           </div>
@@ -91,7 +92,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href="#contact"
+            href="/#contact"
             onClick={() => setMobileOpen(false)}
             className="block mt-4 px-5 py-2.5 text-sm font-medium text-white gradient-orange rounded-full text-center"
           >

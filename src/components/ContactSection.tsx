@@ -26,7 +26,7 @@ export default function ContactSection() {
                     <rect x="2" y="4" width="20" height="16" rx="2" />
                     <path d="M22 4L12 13 2 4" />
                   </svg>
-                  <span style={{ color: "#d1d5db", fontSize: 14 }}>support@walnutai.ai</span>
+                  <span style={{ color: "#d1d5db", fontSize: 14 }}>contact@walnutai.ai</span>
                 </div>
               </div>
 

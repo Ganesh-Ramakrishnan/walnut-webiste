@@ -3,7 +3,8 @@
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
-import BlogHeader from "@/components/BlogHeader";
+import Navbar from "@/components/Navbar";
+import ChatInputImage from "@/components/ChatInputImage";
 import Footer from "@/components/Footer";
 import { getPostBySlug, getAllPosts } from "@/data/blogPosts";
 
@@ -20,8 +21,8 @@ export default function BlogPostPage() {
 
   if (!post) {
     return (
-      <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db" }}>
-        <BlogHeader />
+      <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
+        <Navbar />
         <div style={{ maxWidth: 750, margin: "0 auto", padding: "80px 24px", textAlign: "center" }}>
           <h1 style={{ color: "#fff", fontSize: 32, fontWeight: 700, marginBottom: 16 }}>
             Post Not Found
@@ -48,12 +49,16 @@ export default function BlogPostPage() {
     .slice(0, 3);
 
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db" }}>
-      <BlogHeader />
+    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
+      <Navbar />
 
       {/* Hero image */}
       <div className="blog-post-hero">
-        <img src={post.image} alt={post.title} className="blog-post-hero-img" />
+        {slug === "the-illusion-of-prompt-level-control" ? (
+          <ChatInputImage />
+        ) : (
+          <img src={post.image} alt={post.title} className="blog-post-hero-img" />
+        )}
       </div>
 
       {/* Article content */}

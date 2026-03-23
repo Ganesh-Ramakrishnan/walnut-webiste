@@ -231,7 +231,7 @@ export default function PrivacyPolicyPage() {
           <h3>How to Exercise Your Rights</h3>
           <ul>
             <li>Update your profile information through Account Settings</li>
-            <li>Contact us at <a href="mailto:support@walnutai.ai">support@walnutai.ai</a> for all other requests</li>
+            <li>Contact us at <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a> for all other requests</li>
             <li>If your organization manages your account, contact your administrator first</li>
           </ul>
 
@@ -249,7 +249,7 @@ export default function PrivacyPolicyPage() {
           <p>If you have questions or concerns about this Privacy Policy or our data practices, please contact us:</p>
           <p>
             <strong>Address:</strong> Ground Floor, BCIT, Bhartiya City, RK Hegde Nagar, Bengaluru, Karnataka 560064<br />
-            <strong>Email:</strong> <a href="mailto:support@walnutai.ai">support@walnutai.ai</a>
+            <strong>Email:</strong> <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a>
           </p>
         </div>
       </div>

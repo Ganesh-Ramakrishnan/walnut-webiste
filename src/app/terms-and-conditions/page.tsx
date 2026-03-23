@@ -235,7 +235,7 @@ export default function TermsAndConditionsPage() {
           </p>
           <p>
             As part of your usage of the Product, you may have access to certain Open-Source Software. The Company has rights to permit your use of such software as envisaged under these Terms of Use. You can derive access to the licenses governing such Open Source Software by sending an email to{" "}
-            <a href="mailto:support@walnutai.ai">support@walnutai.ai</a>.
+            <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a>.
           </p>
 
           <h2>Indemnity</h2>
@@ -326,7 +326,7 @@ export default function TermsAndConditionsPage() {
           <p>If you should have any suggestions or questions regarding these Terms of Use, please contact the Company:</p>
           <p>
             <strong>Address:</strong> Ground Floor, BCIT, Bhartiya City, RK Hegde Nagar, Bengaluru, Karnataka 560064<br />
-            <strong>Email:</strong> <a href="mailto:support@walnutai.ai">support@walnutai.ai</a>
+            <strong>Email:</strong> <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a>
           </p>
         </div>
       </div>

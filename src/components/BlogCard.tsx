@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import type { BlogPost } from "@/data/blogPosts";
+import type { ReactNode } from "react";
 
-export default function BlogCard({ post }: { post: BlogPost }) {
+export default function BlogCard({ post, customImage }: { post: BlogPost; customImage?: ReactNode }) {
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -13,7 +14,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
   return (
     <Link href={`/blog/${post.slug}`} className="blog-card">
       <div className="blog-card-img">
-        <img src={post.image} alt={post.title} />
+        {customImage || <img src={post.image} alt={post.title} />}
       </div>
       <div className="blog-card-body">
         <div className="blog-card-meta">
