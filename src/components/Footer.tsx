@@ -31,7 +31,7 @@ export default function Footer() {
               <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" />
             </a>
             <p className="ft-brand-desc">
-              Stop shipping bugs. Start shipping with confidence.
+              From intent to release. Built fast. Miss Nothing.
             </p>
 
             {/* Social icons under brand */}
