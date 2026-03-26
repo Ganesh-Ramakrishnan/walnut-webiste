@@ -18,17 +18,54 @@ export const metadata: Metadata = {
     template: "%s | WalnutAI",
   },
   description:
-    "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
+    "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
   keywords: [
+    // Core product
+    "WalnutAI",
     "AI software delivery",
+    "AI ecosystem",
+    "AI orchestration",
+    "SDLC automation",
+    "software development lifecycle",
+    "AI-powered development",
+    "end-to-end software delivery",
+    "intent to production",
+    // Testing & QA
     "AI testing",
     "test automation",
-    "software quality",
+    "automated testing",
+    "AI test case generation",
+    "continuous testing",
+    "software quality assurance",
+    "shift-left testing",
+    "regression testing",
+    "end-to-end testing",
+    // Code & Requirements
     "AI code generation",
-    "WalnutAI",
-    "SDLC automation",
+    "requirements engineering",
     "gap analysis",
-    "AI ecosystem",
+    "requirement traceability",
+    "automated code generation",
+    "code review automation",
+    // DevOps & CI/CD
+    "CI/CD automation",
+    "DevOps automation",
+    "continuous integration",
+    "continuous deployment",
+    "deployment pipeline",
+    // Integrations
+    "Jira integration",
+    "GitHub integration",
+    "Docker",
+    "Kubernetes",
+    "AWS integration",
+    // Problem/solution
+    "reduce production bugs",
+    "test coverage gaps",
+    "release risk reduction",
+    "technical debt",
+    "automated compliance",
+    "software quality",
   ],
   authors: [{ name: "WalnutAI", url: siteUrl }],
   creator: "WalnutAI",
@@ -43,7 +80,7 @@ export const metadata: Metadata = {
     siteName: "WalnutAI",
     title: "WalnutAI - AI Ecosystem for Software Delivery",
     description:
-      "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
+      "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
     images: [
       {
         url: "/assets/logo/Walnut-White.png",
@@ -57,7 +94,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "WalnutAI - AI Ecosystem for Software Delivery",
     description:
-      "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
+      "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
     images: ["/assets/logo/Walnut-White.png"],
   },
   robots: {
@@ -95,7 +132,7 @@ export default function RootLayout({
                 url: siteUrl,
                 logo: `${siteUrl}/assets/logo/Walnut-White.png`,
                 description:
-                  "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
+                  "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
                 sameAs: [
                   "https://www.linkedin.com/company/wal-nut/",
                   "https://www.instagram.com/meet_walnutai/",

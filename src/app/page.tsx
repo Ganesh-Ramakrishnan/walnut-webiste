@@ -7,6 +7,7 @@ import TechnologiesSection from "@/components/TechnologiesSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import UseCasesSection from "@/components/UseCasesSection";
 import PricingSection from "@/components/PricingSection";
+// import FAQSection from "@/components/FAQSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -14,7 +15,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <main>
+      <main id="main-content">
         <Hero />
         <BrainStats />
         <StepsSection />
@@ -23,6 +24,7 @@ export default function Home() {
         <FeaturesSection />
         <UseCasesSection />
         <PricingSection />
+        {/* <FAQSection /> */}
         <ContactSection />
       </main>
       <Footer />

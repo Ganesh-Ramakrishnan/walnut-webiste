@@ -28,7 +28,7 @@ function TechPill({ tech }: { tech: { name: string; icon: string } }) {
   return (
     <div className="tech-pill">
       <div className="tech-pill-icon">
-        <img src={tech.icon} alt={tech.name} className="tech-pill-img" loading="lazy" width={24} height={24} />
+        <img src={tech.icon} alt={`${tech.name} logo`} className="tech-pill-img" loading="lazy" width={24} height={24} />
       </div>
       <span className="tech-pill-name">{tech.name}</span>
     </div>
@@ -63,7 +63,7 @@ export default function TechnologiesSection() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll animation="fadeUp" className="text-center mb-10 sm:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Built with <span className="text-orange">Modern Technologies</span>
+            Built with{" "}<span className="text-orange">Modern Technologies</span>
           </h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
             Real outcomes from teams who stopped guessing and started knowing what&apos;s missing

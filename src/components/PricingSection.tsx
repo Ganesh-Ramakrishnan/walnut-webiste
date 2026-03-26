@@ -117,7 +117,7 @@ export default function PricingSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll animation="fadeUp" className="text-center mb-10 sm:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Plans That <span className="text-orange">Pay for Themselves</span>
+            Plans That{" "}<span className="text-orange">Pay for Themselves</span>
           </h2>
           <p className="text-gray-400 text-sm sm:text-base">
             Start free. Upgrade when WalnutAI starts saving you real release risk.

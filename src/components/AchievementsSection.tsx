@@ -82,7 +82,7 @@ export default function AchievementsSection() {
         {/* Header */}
         <div className="achv-header">
           <h2 className="achv-title">
-            What Teams Achieve With <span style={{ color: "#F17F0D" }}>WalnutAI</span>
+            What Teams Achieve With{" "}<span style={{ color: "#F17F0D" }}>WalnutAI</span>
           </h2>
           <p className="achv-subtitle">
             Real outcomes from teams who stopped guessing and started knowing what&apos;s missing

@@ -105,7 +105,7 @@ export default function StepsSection() {
         <AnimateOnScroll animation="fadeUp" className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Find Out What{" "}
-            <span className="text-orange">You&apos;re Missing</span> In 5 Minutes
+            <span className="text-orange">You&apos;re Missing</span>{" "}In 5 Minutes
           </h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
             Upload one requirements document. Connect one repo. See the gaps.

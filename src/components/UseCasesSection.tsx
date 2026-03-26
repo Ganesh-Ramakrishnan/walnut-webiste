@@ -154,7 +154,7 @@ export default function UseCasesSection() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <AnimateOnScroll animation="fadeUp" className="text-center mb-10 sm:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
-            Use Case & <span className="text-orange">Scenarios</span>
+            Use Case &{" "}<span className="text-orange">Scenarios</span>
           </h2>
           <p className="text-gray-400 text-sm sm:text-base">
             WalnutAI adapts to your specific development needs

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const navLinks = [
   { name: "Home", href: "/#home" },
-  { name: "Feature", href: "/#features" },
+  { name: "Features", href: "/#features" },
   { name: "Pricing", href: "/#pricing" },
   { name: "Blog", href: "/blog" },
   { name: "Discord", href: "https://discord.gg/Tcw88yu6q" },
@@ -38,9 +38,15 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[60] focus:bg-orange focus:text-white focus:px-4 focus:py-2 focus:rounded"
+      >
+        Skip to main content
+      </a>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between">
         {/* Logo - left aligned */}
-        <a href="/" className="shrink-0 relative z-10">
+        <a href="/" className="shrink-0 relative z-10" aria-label="WalnutAI Home">
           <Image
             src="/assets/logo/Walnut-White.png"
             alt="WalnutAI"

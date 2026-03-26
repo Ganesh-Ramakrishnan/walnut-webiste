@@ -192,7 +192,7 @@ export const blogPosts: BlogPost[] = [
     author: "WalnutAI Team",
     image: "/assets/blog/ai-orchestrated-sdlc.svg",
     category: "AI",
-    tags: ["Prompt Engineering", "Enterprise AI", "Architectural Intelligence"],
+    tags: ["Prompt Engineering", "Enterprise AI", "Architectural Intelligence", "AI SDLC", "Software Delivery Automation", "AI Orchestration"],
   },
   {
     slug: "why-gap-analysis-matters",
@@ -222,7 +222,7 @@ export const blogPosts: BlogPost[] = [
     author: "WalnutAI Team",
     image: "/assets/blog/gap-analysis.svg",
     category: "Development",
-    tags: ["Quality", "Testing", "Gap Analysis"],
+    tags: ["Quality", "Testing", "Gap Analysis", "Code Coverage", "Requirement Traceability", "Continuous Quality Monitoring"],
   },
   {
     slug: "ai-generated-test-cases-at-scale",
@@ -254,7 +254,7 @@ export const blogPosts: BlogPost[] = [
     author: "WalnutAI Team",
     image: "/assets/blog/ai-test-generation.svg",
     category: "Testing",
-    tags: ["Testing", "AI", "Automation", "Quality"],
+    tags: ["Testing", "AI", "Automation", "Quality", "AI Test Generation", "Test Coverage", "Jest", "Playwright", "Cypress", "Regression Testing"],
   },
 ];
 
