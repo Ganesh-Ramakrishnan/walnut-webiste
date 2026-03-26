@@ -100,6 +100,7 @@ export default function AchievementsSection() {
                   key={i}
                   onClick={() => goTo(i)}
                   className={`achv-dot ${i === active ? "active" : ""}`}
+                  aria-label={`Go to slide ${i + 1}`}
                 />
               ))}
             </div>
@@ -137,6 +138,9 @@ export default function AchievementsSection() {
                 src={slide.image}
                 alt={slide.title.replace(/\n/g, " ")}
                 style={{ width: "100%", display: "block" }}
+                loading="lazy"
+                width={600}
+                height={400}
               />
             </div>
           </div>

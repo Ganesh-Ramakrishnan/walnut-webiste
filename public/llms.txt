@@ -1,0 +1,47 @@
+# WalnutAI
+
+> An AI ecosystem for software delivery from intent to production.
+
+WalnutAI is a SaaS platform that intelligently orchestrates the entire software delivery lifecycle — transforming requirements into development, driving comprehensive testing, and proactively identifying gaps for continuous improvement.
+
+## Core Capabilities
+
+- **AI-Orchestrated SDLC**: Assign tasks to AI bots that generate requirements, code, and tests end-to-end with no human-in-the-loop.
+- **Continuous Gap Analysis**: Instant insights on missing test coverage and requirement gaps.
+- **AI-Generated Test Cases**: Comprehensive test case generation from user stories in seconds.
+- **From Documents to Structured Requirements**: Automated validation ensures no requirement goes uncaptured.
+- **AI-Powered IDE Development**: Integrated development environment with AI assistance.
+- **Test Execution & Management**: End-to-end traceability ensures every requirement is verified.
+- **Unified Analytics & Insights**: Real-time dashboards track pipeline health and deployment metrics.
+
+## Key Metrics
+
+- 1 prompt from idea to production
+- 5 min for first gap analysis
+- 15+ hours saved per sprint
+- 96% average requirement coverage
+- 80% reduction in release risk
+
+## Use Cases
+
+- Fresh Application Development
+- Modernization & Tech Upgrades
+- Requirements Engineering
+- Quality Assurance & Testing
+- CI/CD & DevOps Integration
+
+## Pricing
+
+- **Starter**: Free — for individuals and small experiments
+- **Pro**: $49/month — for growing teams shipping regularly
+- **Enterprise**: Custom pricing — for organizations with advanced needs
+
+## Links
+
+- Website: https://www.walnutai.ai
+- Documentation: https://docs.walnutai.ai
+- Blog: https://www.walnutai.ai/blog
+- LinkedIn: https://www.linkedin.com/company/wal-nut/
+- Instagram: https://www.instagram.com/meet_walnutai/
+- Discord: https://discord.gg/Tcw88yu6q
+- Contact: contact@walnutai.ai

@@ -205,6 +205,7 @@ export default function UseCasesSection() {
             key={i}
             onClick={() => setActiveIndex(i)}
             className={`usecase-dot ${i === activeIndex ? "usecase-dot-active" : ""}`}
+            aria-label={`Go to use case ${i + 1}`}
           />
         ))}
       </div>

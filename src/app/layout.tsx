@@ -6,6 +6,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const siteUrl = "https://www.walnutai.ai";
@@ -86,25 +87,53 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "WalnutAI",
-              url: siteUrl,
-              logo: `${siteUrl}/assets/logo/Walnut-White.png`,
-              description:
-                "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
-              sameAs: [
-                "https://www.linkedin.com/company/wal-nut/",
-                "https://www.instagram.com/meet_walnutai/",
-                "https://discord.gg/Tcw88yu6q",
-              ],
-              contactPoint: {
-                "@type": "ContactPoint",
-                email: "contact@walnutai.ai",
-                contactType: "customer support",
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                name: "WalnutAI",
+                url: siteUrl,
+                logo: `${siteUrl}/assets/logo/Walnut-White.png`,
+                description:
+                  "From intent to release. An AI ecosystem for software delivery — build fast with zero blind spots and no human-in-the-loop.",
+                sameAs: [
+                  "https://www.linkedin.com/company/wal-nut/",
+                  "https://www.instagram.com/meet_walnutai/",
+                  "https://discord.gg/Tcw88yu6q",
+                ],
+                contactPoint: {
+                  "@type": "ContactPoint",
+                  email: "contact@walnutai.ai",
+                  contactType: "customer support",
+                },
               },
-            }),
+              {
+                "@context": "https://schema.org",
+                "@type": "WebSite",
+                name: "WalnutAI",
+                url: siteUrl,
+                publisher: {
+                  "@type": "Organization",
+                  name: "WalnutAI",
+                },
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                name: "WalnutAI",
+                applicationCategory: "DeveloperApplication",
+                operatingSystem: "Web",
+                url: siteUrl,
+                description:
+                  "AI ecosystem for software delivery from intent to production. Automate requirements, code generation, testing, and gap analysis.",
+                offers: {
+                  "@type": "Offer",
+                  price: "0",
+                  priceCurrency: "USD",
+                  description: "Free tier available",
+                },
+              },
+            ]),
           }}
         />
       </head>

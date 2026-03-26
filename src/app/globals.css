@@ -148,22 +148,34 @@
 
 .hero-carousel-dots {
   display: flex;
-  gap: 8px;
+  gap: 0;
   justify-content: center;
 }
 
 .hero-carousel-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-carousel-dot::after {
+  content: "";
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  border: none;
   background: rgba(255, 255, 255, 0.25);
-  cursor: pointer;
-  padding: 0;
   transition: all 0.3s ease;
 }
 
-.hero-carousel-dot.active {
+.hero-carousel-dot.active::after {
   background: #F17F0D;
   width: 24px;
   border-radius: 4px;
@@ -675,17 +687,29 @@ html.lenis body {
 }
 
 .achv-dot {
-  width: 10px !important;
-  height: 10px !important;
+  width: 30px !important;
+  height: 30px !important;
   border-radius: 50% !important;
   border: none !important;
   cursor: pointer !important;
-  background: rgba(255, 255, 255, 0.15) !important;
-  transition: background 0.3s ease !important;
+  background: transparent !important;
   padding: 0 !important;
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.achv-dot.active {
+.achv-dot::after {
+  content: "" !important;
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  transition: background 0.3s ease !important;
+}
+
+.achv-dot.active::after {
   background: #F17F0D !important;
 }
 
@@ -872,7 +896,7 @@ html.lenis body {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
   font-size: 13px;
   font-weight: 400;
-  color: #6b7280;
+  color: #9ca3af;
   line-height: 1.5;
   max-width: 200px;
 }
@@ -1586,17 +1610,29 @@ html.lenis body {
 }
 
 .usecase-dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usecase-dot::after {
+  content: "";
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #333333;
-  border: none;
-  padding: 0;
-  cursor: pointer;
   transition: all 0.3s;
 }
 
-.usecase-dot-active {
+.usecase-dot-active::after {
   width: 24px;
   border-radius: 4px;
   background: #F17F0D;
@@ -2073,7 +2109,7 @@ html.lenis body {
 }
 
 .ft-brand-desc {
-  color: #6b7280 !important;
+  color: #9ca3af !important;
   font-size: 14px !important;
   line-height: 1.7 !important;
   margin: 0 0 24px 0 !important;
@@ -2086,12 +2122,12 @@ html.lenis body {
 }
 
 .ft-social {
-  color: #6b7280 !important;
+  color: #9ca3af !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 36px !important;
-  height: 36px !important;
+  width: 44px !important;
+  height: 44px !important;
   border-radius: 8px !important;
   border: 1px solid #1e1e1e !important;
   background: #111111 !important;
@@ -2133,7 +2169,7 @@ html.lenis body {
 }
 
 .ft-link {
-  color: #6b7280 !important;
+  color: #9ca3af !important;
   font-size: 14px !important;
   text-decoration: none !important;
   transition: color 0.2s ease !important;
@@ -2152,7 +2188,7 @@ html.lenis body {
 }
 
 .ft-copyright {
-  color: #4b5563 !important;
+  color: #6b7280 !important;
   font-size: 13px !important;
   margin: 0 !important;
 }

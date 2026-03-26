@@ -164,6 +164,7 @@ export default function PricingSection() {
                   <button
                     className={`pricing-toggle ${billingCycle[plan.name] ? "pricing-toggle-on" : ""}`}
                     onClick={() => toggleBilling(plan.name)}
+                    aria-label={`Switch to ${billingCycle[plan.name] ? "monthly" : "annual"} billing`}
                   >
                     <span className="pricing-toggle-knob" />
                   </button>

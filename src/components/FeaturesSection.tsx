@@ -41,7 +41,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div className="feature-card-full">
                 <div className="feature-card-img">
-                  <img src="/assets/features/agent.png" alt="AI-Orchestrated SDLC" />
+                  <img src="/assets/features/agent.png" alt="AI-Orchestrated SDLC" loading="lazy" width={530} height={300} />
                 </div>
                 <div className="feature-card-body">
                   <h3 className="feature-card-title">AI-Orchestrated SDLC</h3>
@@ -63,7 +63,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/gap-analysis.svg" alt="Continuous Gap Analysis" style={img} />
+                  <img src="/assets/features/gap-analysis.svg" alt="Continuous Gap Analysis" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -74,7 +74,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} />
+                  <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -82,7 +82,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} />
+                  <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -93,7 +93,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/ai-modes.svg" alt="Three AI Interaction Modes" style={img} />
+                  <img src="/assets/features/ai-modes.svg" alt="Three AI Interaction Modes" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -101,7 +101,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/ai-testcase.svg" alt="AI-Generated Test Cases at Scale" style={img} />
+                  <img src="/assets/features/ai-testcase.svg" alt="AI-Generated Test Cases at Scale" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -112,7 +112,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/test-execution.svg" alt="Test Execution & Management" style={img} />
+                  <img src="/assets/features/test-execution.svg" alt="Test Execution & Management" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>
@@ -120,7 +120,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div style={card}>
                 <div style={imgWrap}>
-                  <img src="/assets/features/unified-analytics.svg" alt="Unified Analytics & Insights" style={img} />
+                  <img src="/assets/features/unified-analytics.svg" alt="Unified Analytics & Insights" style={img} loading="lazy" width={530} height={400} />
                 </div>
               </div>
             </AnimateOnScroll>

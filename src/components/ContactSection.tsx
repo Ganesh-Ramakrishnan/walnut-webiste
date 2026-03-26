@@ -97,38 +97,38 @@ export default function ContactSection() {
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
                 {/* Name */}
                 <div className="ct-field">
-                  <label className="ct-label">Name</label>
-                  <input type="text" name="name" value={form.name} onChange={handleChange} className="ct-input" required />
+                  <label htmlFor="contact-name" className="ct-label">Name</label>
+                  <input id="contact-name" type="text" name="name" value={form.name} onChange={handleChange} className="ct-input" required />
                 </div>
 
                 {/* Email + Phone */}
                 <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
-                    <label className="ct-label">Email</label>
-                    <input type="email" name="email" value={form.email} onChange={handleChange} className="ct-input" required />
+                    <label htmlFor="contact-email" className="ct-label">Email</label>
+                    <input id="contact-email" type="email" name="email" value={form.email} onChange={handleChange} className="ct-input" required />
                   </div>
                   <div className="ct-field" style={{ flex: 1 }}>
-                    <label className="ct-label">Phone No</label>
-                    <input type="tel" name="phone" value={form.phone} onChange={handleChange} className="ct-input" />
+                    <label htmlFor="contact-phone" className="ct-label">Phone No</label>
+                    <input id="contact-phone" type="tel" name="phone" value={form.phone} onChange={handleChange} className="ct-input" />
                   </div>
                 </div>
 
                 {/* Organization + Role */}
                 <div className="ct-field-row">
                   <div className="ct-field" style={{ flex: 1 }}>
-                    <label className="ct-label">Organization</label>
-                    <input type="text" name="organization" value={form.organization} onChange={handleChange} className="ct-input" />
+                    <label htmlFor="contact-organization" className="ct-label">Organization</label>
+                    <input id="contact-organization" type="text" name="organization" value={form.organization} onChange={handleChange} className="ct-input" />
                   </div>
                   <div className="ct-field" style={{ flex: 1 }}>
-                    <label className="ct-label">Role</label>
-                    <input type="text" name="role" value={form.role} onChange={handleChange} className="ct-input" />
+                    <label htmlFor="contact-role" className="ct-label">Role</label>
+                    <input id="contact-role" type="text" name="role" value={form.role} onChange={handleChange} className="ct-input" />
                   </div>
                 </div>
 
                 {/* Message */}
                 <div className="ct-field">
-                  <label className="ct-label">Message</label>
-                  <input type="text" name="message" value={form.message} onChange={handleChange} className="ct-input" required />
+                  <label htmlFor="contact-message" className="ct-label">Message</label>
+                  <input id="contact-message" type="text" name="message" value={form.message} onChange={handleChange} className="ct-input" required />
                 </div>
 
                 {/* Submit */}

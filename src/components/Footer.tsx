@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   COMPANY: [
     { label: "Pricing", href: "/#pricing" },
@@ -28,7 +30,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="ft-brand">
             <a href="/#home" className="ft-logo-link">
-              <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" />
+              <Image src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" width={150} height={38} loading="lazy" />
             </a>
             <p className="ft-brand-desc">
               From intent to release. Built fast. Miss Nothing.
@@ -58,7 +60,7 @@ export default function Footer() {
           <div className="ft-links">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={category} className="ft-link-col">
-                <h4 className="ft-link-heading">{category}</h4>
+                <h3 className="ft-link-heading">{category}</h3>
                 <ul className="ft-link-list">
                   {links.map((link) => (
                     <li key={link.label}>

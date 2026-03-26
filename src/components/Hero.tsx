@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import gsap from "gsap";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -133,12 +134,16 @@ export default function Hero() {
 
   return (
     <section id="home" className="relative h-screen overflow-hidden flex items-center justify-center">
-      <img src="/assets/eclipse-left.svg" alt="" className="hero-eclipse hero-eclipse-left" />
-      <img src="/assets/eclipse-right.svg" alt="" className="hero-eclipse hero-eclipse-right" />
+      <Image src="/assets/eclipse-left.svg" alt="" role="presentation" className="hero-eclipse hero-eclipse-left" width={600} height={600} priority />
+      <Image src="/assets/eclipse-right.svg" alt="" role="presentation" className="hero-eclipse hero-eclipse-right" width={600} height={600} priority />
 
       <div className="hero-content-wrapper">
         <div className="hero-carousel">
-          <h1 ref={titleRef} className="hero-title">
+          <h1
+            ref={titleRef}
+            className="hero-title"
+            aria-label={carouselTitles[currentIndex].map(s => s.text).join("")}
+          >
             {renderTitle(carouselTitles[currentIndex])}
           </h1>
 

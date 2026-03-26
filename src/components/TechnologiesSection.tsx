@@ -28,7 +28,7 @@ function TechPill({ tech }: { tech: { name: string; icon: string } }) {
   return (
     <div className="tech-pill">
       <div className="tech-pill-icon">
-        <img src={tech.icon} alt={tech.name} className="tech-pill-img" />
+        <img src={tech.icon} alt={tech.name} className="tech-pill-img" loading="lazy" width={24} height={24} />
       </div>
       <span className="tech-pill-name">{tech.name}</span>
     </div>

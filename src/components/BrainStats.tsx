@@ -93,7 +93,11 @@ export default function BrainStats() {
         <img
           src="/assets/brain-image.svg"
           alt=""
+          role="presentation"
           className="brain-bg-img"
+          loading="lazy"
+          width={600}
+          height={600}
         />
       </div>
 
