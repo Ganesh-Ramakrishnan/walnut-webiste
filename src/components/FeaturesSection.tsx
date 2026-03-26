@@ -2,8 +2,6 @@
 
 import AnimateOnScroll from "./AnimateOnScroll";
 
-const card: React.CSSProperties = {};
-
 const imgWrap: React.CSSProperties = {
   width: "100%",
   borderRadius: 14,
@@ -61,7 +59,7 @@ export default function FeaturesSection() {
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/gap-analysis.svg" alt="Continuous Gap Analysis" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -72,7 +70,7 @@ export default function FeaturesSection() {
           {/* Row 2 — Documents + IDE side by side */}
           <div className="features-grid-2">
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/documentation-structure.svg" alt="From Documents to Structured Requirements" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -80,7 +78,7 @@ export default function FeaturesSection() {
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/ide.svg" alt="AI-Powered IDE Development" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -91,7 +89,7 @@ export default function FeaturesSection() {
           {/* Row 3 — AI Modes + AI Testcase side by side */}
           <div className="features-grid-2">
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/ai-modes.svg" alt="Three AI Interaction Modes" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -99,7 +97,7 @@ export default function FeaturesSection() {
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/ai-testcase.svg" alt="AI-Generated Test Cases at Scale" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -110,7 +108,7 @@ export default function FeaturesSection() {
           {/* Row 4 — Test Execution + Unified Analytics side by side */}
           <div className="features-grid-2">
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/test-execution.svg" alt="Test Execution & Management" style={img} loading="lazy" width={530} height={400} />
                 </div>
@@ -118,7 +116,7 @@ export default function FeaturesSection() {
             </AnimateOnScroll>
 
             <AnimateOnScroll animation="fadeUp">
-              <div style={card}>
+              <div>
                 <div style={imgWrap}>
                   <img src="/assets/features/unified-analytics.svg" alt="Unified Analytics & Insights" style={img} loading="lazy" width={530} height={400} />
                 </div>
