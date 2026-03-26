@@ -187,31 +187,6 @@ export default function PricingSection() {
                 <p className="pricing-outcomes-note">{plan.outcomeNote}</p>
               </div>
 
-              {/* Credits section */}
-              <div className="pricing-credits-row">
-                <span className="pricing-credits-label">Credits</span>
-                {plan.name !== "Enterprise" && (
-                  <button
-                    className={`pricing-toggle pricing-toggle-sm ${creditsOn[plan.name] ? "pricing-toggle-on" : ""}`}
-                    onClick={() => toggleCredits(plan.name)}
-                  >
-                    <span className="pricing-toggle-knob" />
-                  </button>
-                )}
-              </div>
-              <div className="pricing-credits-amount-row">
-                <p className="pricing-credits-amount">{plan.credits}</p>
-                <span className="pricing-info-wrap">
-                  <svg className="pricing-info-icon" width="14" height="14" viewBox="0 0 16 16" fill="none">
-                    <circle cx="8" cy="8" r="7" stroke="#6b7280" strokeWidth="1.2" />
-                    <text x="8" y="11.5" textAnchor="middle" fill="#6b7280" fontSize="10" fontWeight="600" fontFamily="sans-serif">i</text>
-                  </svg>
-                  <span className="pricing-info-tooltip">
-                    Need more usage? Top up additional credits anytime without changing your subscription.
-                  </span>
-                </span>
-              </div>
-
               {/* Feature list */}
               <ul className="pricing-features">
                 {plan.features.map((f, i) => (

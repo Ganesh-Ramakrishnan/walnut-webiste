@@ -1543,11 +1543,11 @@ html.lenis body {
 
 .usecase-card {
   flex-shrink: 0;
-  width: 360px;
+  width: 460px;
   background: linear-gradient(106deg, #232323 48.63%, #383838 93.68%) !important;
   border: 0.822px solid #696969 !important;
   border-radius: 16.43px !important;
-  padding: 24px;
+  padding: 32px;
   scroll-snap-align: center;
   transition: border-color 0.3s, opacity 0.3s;
   opacity: 0.6;
@@ -1559,8 +1559,8 @@ html.lenis body {
 }
 
 .usecase-icon {
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   background: rgba(241, 127, 13, 0.1);
   border: 1px solid rgba(241, 127, 13, 0.2);
@@ -1573,7 +1573,7 @@ html.lenis body {
 .usecase-card-title {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
   color: #ffffff;
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 600;
   line-height: 1.3;
 }
@@ -1581,8 +1581,8 @@ html.lenis body {
 .usecase-card-text {
   font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
   color: #9ca3af;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 14px;
+  line-height: 1.7;
 }
 
 .usecase-dot {
@@ -1604,22 +1604,25 @@ html.lenis body {
 
 @media (max-width: 768px) {
   .usecase-card {
-    width: 300px;
-    padding: 18px;
+    width: 360px;
+    padding: 24px;
   }
   .usecase-card-title {
-    font-size: 14px;
+    font-size: 16px;
+  }
+  .usecase-card-text {
+    font-size: 13px;
   }
   .usecase-track {
     padding: 0 20px;
-    gap: 14px;
+    gap: 16px;
   }
 }
 
 @media (max-width: 480px) {
   .usecase-card {
-    width: 270px;
-    padding: 16px;
+    width: 300px;
+    padding: 20px;
   }
 }
 
