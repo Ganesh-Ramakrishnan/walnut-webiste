@@ -14,7 +14,7 @@ export default function BlogCard({ post, customImage }: { post: BlogPost; custom
   return (
     <Link href={`/blog/${post.slug}`} className="blog-card">
       <div className="blog-card-img">
-        {customImage || <img src={post.image} alt={post.title} />}
+        {customImage || <img src={post.image} alt={post.title} width={400} height={225} loading="lazy" />}
       </div>
       <div className="blog-card-body">
         <div className="blog-card-meta">

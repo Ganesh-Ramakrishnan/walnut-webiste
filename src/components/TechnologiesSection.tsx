@@ -3,32 +3,32 @@
 import AnimateOnScroll from "./AnimateOnScroll";
 
 const row1 = [
-  { name: "RabbitMQ", icon: "/assets/images-logo/RabbitMQ.png" },
-  { name: "LangChain", icon: "/assets/images-logo/LangChain.png" },
-  { name: "Python", icon: "/assets/images-logo/Python.png" },
-  { name: "React", icon: "/assets/images-logo/React.png" },
-  { name: "PostgreSQL", icon: "/assets/images-logo/PostgreSQL.png" },
-  { name: "Docker", icon: "/assets/images-logo/Docker.png" },
-  { name: "Kubernetes", icon: "/assets/images-logo/Kubernetes.png" },
-  { name: "AWS", icon: "/assets/images-logo/AWS.png" },
+  { name: "RabbitMQ", icon: "/assets/images-logo/RabbitMQ.png", alt: "RabbitMQ message broker logo" },
+  { name: "LangChain", icon: "/assets/images-logo/LangChain.png", alt: "LangChain AI framework logo" },
+  { name: "Python", icon: "/assets/images-logo/Python.png", alt: "Python programming language logo" },
+  { name: "React", icon: "/assets/images-logo/React.png", alt: "React JavaScript framework logo" },
+  { name: "PostgreSQL", icon: "/assets/images-logo/PostgreSQL.png", alt: "PostgreSQL relational database logo" },
+  { name: "Docker", icon: "/assets/images-logo/Docker.png", alt: "Docker containerization platform logo" },
+  { name: "Kubernetes", icon: "/assets/images-logo/Kubernetes.png", alt: "Kubernetes container orchestration logo" },
+  { name: "AWS", icon: "/assets/images-logo/AWS.png", alt: "AWS cloud computing platform logo" },
 ];
 
 const row2 = [
-  { name: "GraphQL", icon: "/assets/images-logo/GraphQL.png" },
-  { name: "Java", icon: "/assets/images-logo/Java.png" },
-  { name: "Go", icon: "/assets/images-logo/Go.png" },
-  { name: "JavaScript", icon: "/assets/images-logo/JavaScript.png" },
-  { name: "TypeScript", icon: "/assets/images-logo/TypeScript.png" },
-  { name: "Node.js", icon: "/assets/images-logo/Node.js.png" },
-  { name: "Redis", icon: "/assets/images-logo/Redis.png" },
-  { name: "MongoDB", icon: "/assets/images-logo/MongoDB.png" },
+  { name: "GraphQL", icon: "/assets/images-logo/GraphQL.png", alt: "GraphQL API query language logo" },
+  { name: "Java", icon: "/assets/images-logo/Java.png", alt: "Java programming language logo" },
+  { name: "Go", icon: "/assets/images-logo/Go.png", alt: "Go programming language logo" },
+  { name: "JavaScript", icon: "/assets/images-logo/JavaScript.png", alt: "JavaScript programming language logo" },
+  { name: "TypeScript", icon: "/assets/images-logo/TypeScript.png", alt: "TypeScript programming language logo" },
+  { name: "Node.js", icon: "/assets/images-logo/Node.js.png", alt: "Node.js runtime environment logo" },
+  { name: "Redis", icon: "/assets/images-logo/Redis.png", alt: "Redis in-memory data store logo" },
+  { name: "MongoDB", icon: "/assets/images-logo/MongoDB.png", alt: "MongoDB NoSQL database logo" },
 ];
 
-function TechPill({ tech }: { tech: { name: string; icon: string } }) {
+function TechPill({ tech }: { tech: { name: string; icon: string; alt: string } }) {
   return (
     <div className="tech-pill">
       <div className="tech-pill-icon">
-        <img src={tech.icon} alt={`${tech.name} logo`} className="tech-pill-img" loading="lazy" width={24} height={24} />
+        <img src={tech.icon} alt={tech.alt} className="tech-pill-img" loading="lazy" width={24} height={24} />
       </div>
       <span className="tech-pill-name">{tech.name}</span>
     </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 
@@ -121,6 +122,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-M3E3R8NDZK"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-M3E3R8NDZK');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -152,22 +165,6 @@ export default function RootLayout({
                 publisher: {
                   "@type": "Organization",
                   name: "WalnutAI",
-                },
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "SoftwareApplication",
-                name: "WalnutAI",
-                applicationCategory: "DeveloperApplication",
-                operatingSystem: "Web",
-                url: siteUrl,
-                description:
-                  "AI ecosystem for software delivery from intent to production. Automate requirements, code generation, testing, and gap analysis.",
-                offers: {
-                  "@type": "Offer",
-                  price: "0",
-                  priceCurrency: "USD",
-                  description: "Free tier available",
                 },
               },
             ]),

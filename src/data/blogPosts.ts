@@ -13,9 +13,9 @@ export interface BlogPost {
 export const blogPosts: BlogPost[] = [
   {
     slug: "the-illusion-of-prompt-level-control",
-    title: "The Illusion of Prompt-Level Control: Prompt Engineering Shapes the Output. Walnut Shapes the System and Delivery.",
+    title: "The Illusion of Prompt-Level Control",
     excerpt:
-      "Prompt engineering improves how humans communicate with AI. But what happens after the prompt? In production environments, output is not the finish line — execution is.",
+      "Prompt engineering improves how humans communicate with AI. But what happens after the prompt? In production, output is not the finish line — execution is.",
     content: `
       <p>Over the last 18 months, three types of institutions have tried to define prompt engineering:</p>
       <ul>

@@ -1,6 +1,7 @@
 "use client";
 
 import AnimateOnScroll from "./AnimateOnScroll";
+import Image from "next/image";
 
 const imgWrap: React.CSSProperties = {
   width: "100%",
@@ -39,7 +40,7 @@ export default function FeaturesSection() {
             <AnimateOnScroll animation="fadeUp">
               <div className="feature-card-full">
                 <div className="feature-card-img">
-                  <img src="/assets/features/agent.png" alt="AI-Orchestrated SDLC" loading="lazy" width={530} height={300} />
+                  <Image src="/assets/features/agent.webp" alt="AI-Orchestrated SDLC — automate software delivery from intent to production" loading="lazy" width={530} height={300} placeholder="blur" blurDataURL="data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAADwAQCdASoKAAcAAUAmJZQCsAEP1aFDOAAA/th/+iFi+kodtvsqrnR8YNrIU00ezJAC47dkJUp2rSqehMIAAA==" style={{ width: "100%", height: "auto" }} />
                 </div>
                 <div className="feature-card-body">
                   <h3 className="feature-card-title">AI-Orchestrated SDLC</h3>

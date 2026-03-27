@@ -27,7 +27,7 @@ export default function BlogPostContent({ post, relatedPosts }: BlogPostContentP
         {post.slug === "the-illusion-of-prompt-level-control" ? (
           <ChatInputImage />
         ) : (
-          <img src={post.image} alt={post.title} className="blog-post-hero-img" />
+          <img src={post.image} alt={post.title} className="blog-post-hero-img" width={1200} height={630} />
         )}
       </div>
 
@@ -64,7 +64,7 @@ export default function BlogPostContent({ post, relatedPosts }: BlogPostContentP
             <div className="blog-related-grid">
               {relatedPosts.map((rp) => (
                 <Link key={rp.slug} href={`/blog/${rp.slug}`} className="blog-related-card">
-                  <img src={rp.image} alt={rp.title} className="blog-related-img" />
+                  <img src={rp.image} alt={rp.title} className="blog-related-img" width={400} height={225} loading="lazy" />
                   <h3 className="blog-related-card-title">{rp.title}</h3>
                   <p className="blog-related-card-excerpt">{rp.excerpt}</p>
                 </Link>

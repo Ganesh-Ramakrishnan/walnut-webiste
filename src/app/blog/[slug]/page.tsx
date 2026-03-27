@@ -74,31 +74,57 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BlogPosting",
-            headline: post.title,
-            description: post.excerpt,
-            image: post.image.startsWith("http") ? post.image : `${siteUrl}${post.image}`,
-            datePublished: post.date,
-            author: {
-              "@type": "Person",
-              name: post.author,
-            },
-            publisher: {
-              "@type": "Organization",
-              name: "WalnutAI",
-              logo: {
-                "@type": "ImageObject",
-                url: `${siteUrl}/assets/logo/Walnut-White.png`,
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: post.title,
+              description: post.excerpt,
+              image: post.image.startsWith("http") ? post.image : `${siteUrl}${post.image}`,
+              datePublished: post.date,
+              author: {
+                "@type": "Person",
+                name: post.author,
               },
+              publisher: {
+                "@type": "Organization",
+                name: "WalnutAI",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${siteUrl}/assets/logo/Walnut-White.png`,
+                },
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `${siteUrl}/blog/${post.slug}`,
+              },
+              keywords: post.tags.join(", "),
             },
-            mainEntityOfPage: {
-              "@type": "WebPage",
-              "@id": `${siteUrl}/blog/${post.slug}`,
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: siteUrl,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Blog",
+                  item: `${siteUrl}/blog`,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 3,
+                  name: post.title,
+                  item: `${siteUrl}/blog/${post.slug}`,
+                },
+              ],
             },
-            keywords: post.tags.join(", "),
-          }),
+          ]),
         }}
       />
       <BlogPostContent post={post} relatedPosts={relatedPosts} />
