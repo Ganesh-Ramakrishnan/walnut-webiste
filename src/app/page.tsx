@@ -4,10 +4,7 @@ import BrainStats from "@/components/BrainStats";
 import StepsSection from "@/components/StepsSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import TechnologiesSection from "@/components/TechnologiesSection";
-import FeaturesSection from "@/components/FeaturesSection";
-import UseCasesSection from "@/components/UseCasesSection";
-import PricingSection from "@/components/PricingSection";
-import ContactSection from "@/components/ContactSection";
+import FeaturesHighlight from "@/components/FeaturesHighlight";
 import Footer from "@/components/Footer";
 
 const siteUrl = "https://www.walnutai.ai";
@@ -43,10 +40,7 @@ export default function Home() {
         <StepsSection />
         <AchievementsSection />
         <TechnologiesSection />
-        <FeaturesSection />
-        <UseCasesSection />
-        <PricingSection />
-        <ContactSection />
+        <FeaturesHighlight />
       </main>
       <Footer />
     </>

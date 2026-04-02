@@ -1,0 +1,608 @@
+"use client";
+
+import { useState } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+/* ------------------------------------------------------------------ */
+/*  Data                                                               */
+/* ------------------------------------------------------------------ */
+
+const plans = [
+  {
+    name: "Explorer",
+    tagline: "For Teams Ready to Ship Faster",
+    price: "$18",
+    annual: "$194.4",
+    discount: "-10%",
+    cta: "Upgrade to Explorer",
+    highlighted: false,
+    outcomes: [
+      "Save 15+ hours/sprint",
+      "Catch 40+ gaps per project",
+      "Reduce manual testing by 50%",
+    ],
+    outcomeNote:
+      "If WalnutAI doesn\u2019t save you at least 10 hours in your first month, we\u2019ll refund your subscription.",
+    features: [
+      "Multiple Projects (upto 5)",
+      "Invite upto 5 users",
+      "Jira/Azure integration",
+      "Upload code repo",
+      "Figma integration",
+      "Generate automation test cases",
+      "Create test suites and execution",
+      "Shareable gap reports",
+    ],
+  },
+  {
+    name: "Team",
+    tagline: "For Teams Who Can\u2019t Afford Production Bugs",
+    price: "$65",
+    annual: "$702",
+    discount: "-10%",
+    cta: "Start Team Trial",
+    highlighted: true,
+    outcomes: [
+      "Cut production defects by 80%",
+      "95%+ requirements coverage",
+      "Ship 2x faster",
+    ],
+    outcomeNote:
+      "Teams on this plan ship an average of 2.3x more features per quarter while reducing bugs by 73%.",
+    features: [
+      "Unlimited projects",
+      "Invite upto 10 users",
+      "Role based access",
+      "Connect via gitlab/github/bitbucket",
+      "Import playwright scripts",
+      "Import from Qtest/Testrail",
+      "Mobile test execution",
+      "Continuous gap analysis",
+      "Community support",
+      "Custom domains",
+    ],
+  },
+  {
+    name: "Enterprise",
+    tagline: "For Organizations Where Failure Isn\u2019t an Option",
+    price: "Custom pricing",
+    annual: "",
+    discount: "",
+    cta: "Talk to Us",
+    highlighted: false,
+    outcomes: [
+      "Zero-downtime deployments",
+      "Complete audit compliance",
+      "10x scale efficiency",
+    ],
+    outcomeNote:
+      "Our dedicated support team works with you to define and achieve specific quality metrics within 90 days.",
+    features: [
+      "Predictable billing",
+      "Unlimited projects",
+      "Unlimited users",
+      "SSO/SAML",
+      "Cloud & parallel executions",
+      "On-premise/private cloud",
+      "Audit logs",
+      "Dedicated support & SLA",
+    ],
+  },
+];
+
+/* comparison-table rows: [feature, explorer, team, enterprise] */
+const comparisonRows: [string, string, string, string][] = [
+  ["Projects", "Up to 5", "Unlimited", "Unlimited"],
+  ["Users", "Up to 5", "Up to 10", "Unlimited"],
+  ["Jira / Azure integration", "\u2713", "\u2713", "\u2713"],
+  ["Code repo upload", "\u2713", "\u2713", "\u2713"],
+  ["Figma integration", "\u2713", "\u2713", "\u2713"],
+  ["Automation test cases", "\u2713", "\u2713", "\u2713"],
+  ["Test suites & execution", "\u2713", "\u2713", "\u2713"],
+  ["Shareable gap reports", "\u2713", "\u2713", "\u2713"],
+  ["Role based access", "\u2014", "\u2713", "\u2713"],
+  ["GitLab / GitHub / Bitbucket", "\u2014", "\u2713", "\u2713"],
+  ["Import Playwright scripts", "\u2014", "\u2713", "\u2713"],
+  ["Import from Qtest / Testrail", "\u2014", "\u2713", "\u2713"],
+  ["Mobile test execution", "\u2014", "\u2713", "\u2713"],
+  ["Continuous gap analysis", "\u2014", "\u2713", "\u2713"],
+  ["Community support", "\u2014", "\u2713", "\u2713"],
+  ["Custom domains", "\u2014", "\u2713", "\u2713"],
+  ["SSO / SAML", "\u2014", "\u2014", "\u2713"],
+  ["Cloud & parallel executions", "\u2014", "\u2014", "\u2713"],
+  ["On-premise / private cloud", "\u2014", "\u2014", "\u2713"],
+  ["Audit logs", "\u2014", "\u2014", "\u2713"],
+  ["Dedicated support & SLA", "\u2014", "\u2014", "\u2713"],
+];
+
+const faqs = [
+  {
+    q: "Is there a free trial?",
+    a: "Yes. Every plan starts with a 14-day free trial\u2014no credit card required. You get full access to all features in your chosen tier so you can evaluate the value before committing.",
+  },
+  {
+    q: "What happens when my trial ends?",
+    a: "You\u2019ll be prompted to choose a paid plan. If you don\u2019t upgrade, your account moves to a read-only state\u2014your data stays safe, and you can reactivate any time.",
+  },
+  {
+    q: "Can I switch plans later?",
+    a: "Absolutely. Upgrade or downgrade at any time from your account settings. When you upgrade, the new features are available immediately; when you downgrade, the change takes effect at the next billing cycle.",
+  },
+  {
+    q: "How does annual billing work?",
+    a: "Annual billing gives you a 10% discount compared to monthly pricing. You\u2019re billed once per year, and the price is locked for the entire 12-month period.",
+  },
+  {
+    q: "What payment methods do you accept?",
+    a: "We accept all major credit cards (Visa, Mastercard, Amex), as well as ACH and wire transfers for Enterprise plans. All payments are processed securely via Stripe.",
+  },
+  {
+    q: "Do you offer refunds?",
+    a: "If WalnutAI doesn\u2019t save you at least 10 hours in your first month on the Explorer plan, we\u2019ll refund your subscription\u2014no questions asked. For Team and Enterprise, contact us and we\u2019ll work with you.",
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/*  FAQ JSON-LD                                                        */
+/* ------------------------------------------------------------------ */
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((f) => ({
+    "@type": "Question",
+    name: f.q,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: f.a,
+    },
+  })),
+};
+
+/* ------------------------------------------------------------------ */
+/*  Checkmark SVG                                                      */
+/* ------------------------------------------------------------------ */
+
+function Check() {
+  return (
+    <svg className="pricing-check" viewBox="0 0 20 20" fill="none">
+      <circle cx="10" cy="10" r="9" stroke="#F17F0D" strokeWidth="1" />
+      <path
+        d="M6 10l3 3 5-5"
+        stroke="#F17F0D"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
+export default function PricingPage() {
+  const [annual, setAnnual] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
+  return (
+    <>
+      {/* FAQPage JSON-LD */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+
+      <Navbar />
+
+      <main id="main-content" style={{ paddingTop: 80, background: "#0a0a0a", color: "#ffffff" }}>
+        {/* ============================================================ */}
+        {/*  HERO                                                        */}
+        {/* ============================================================ */}
+        <section style={{ textAlign: "center", padding: "64px 16px 32px" }}>
+          <h1
+            style={{
+              fontSize: "clamp(2rem, 5vw, 3.25rem)",
+              fontWeight: 800,
+              lineHeight: 1.15,
+              marginBottom: 16,
+            }}
+          >
+            Plans That{" "}
+            <span style={{ color: "#F17F0D" }}>Pay for Themselves</span>
+          </h1>
+          <p style={{ color: "#9ca3af", maxWidth: 560, margin: "0 auto", fontSize: "1.05rem" }}>
+            Start free. Upgrade when WalnutAI starts saving you real release
+            risk. Every plan includes a 14-day trial.
+          </p>
+        </section>
+
+        {/* ============================================================ */}
+        {/*  GLOBAL BILLING TOGGLE                                       */}
+        {/* ============================================================ */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 10,
+            marginBottom: 40,
+          }}
+        >
+          <span
+            className="pricing-toggle-label"
+            style={{ color: !annual ? "#ffffff" : "#6b7280" }}
+          >
+            Monthly
+          </span>
+          <button
+            className={`pricing-toggle ${annual ? "pricing-toggle-on" : ""}`}
+            onClick={() => setAnnual((v) => !v)}
+            aria-label={`Switch to ${annual ? "monthly" : "annual"} billing`}
+          >
+            <span className="pricing-toggle-knob" />
+          </button>
+          <span
+            className="pricing-toggle-label"
+            style={{ color: annual ? "#ffffff" : "#6b7280" }}
+          >
+            Annual
+          </span>
+          <span className="pricing-discount">-10%</span>
+        </div>
+
+        {/* ============================================================ */}
+        {/*  PRICING CARDS                                               */}
+        {/* ============================================================ */}
+        <section style={{ maxWidth: 1140, margin: "0 auto", padding: "0 16px 64px" }}>
+          <div className="pricing-grid">
+            {plans.map((plan) => {
+              const isCustom = plan.price === "Custom pricing";
+              return (
+                <div
+                  key={plan.name}
+                  className={`pricing-card${plan.highlighted ? " pricing-card-highlighted" : ""}`}
+                >
+                  {plan.highlighted && (
+                    <div className="pricing-badge">Most teams choose this</div>
+                  )}
+
+                  <h3 className="pricing-plan-name">{plan.name}</h3>
+                  <p className="pricing-tagline">{plan.tagline}</p>
+
+                  {/* Price */}
+                  <div className="pricing-price-row">
+                    {!isCustom ? (
+                      <>
+                        <span className="pricing-price">
+                          {annual ? plan.annual : plan.price}
+                        </span>
+                        <span className="pricing-period">
+                          / user / {annual ? "year" : "month"}
+                        </span>
+                      </>
+                    ) : (
+                      <span className="pricing-price pricing-price-custom">
+                        Custom pricing
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Per-card toggle (mirrors global but kept per card for clarity) */}
+                  {!isCustom && (
+                    <div className="pricing-toggle-row">
+                      <span
+                        className="pricing-toggle-label"
+                        style={{ color: !annual ? "#ffffff" : "#6b7280" }}
+                      >
+                        Monthly
+                      </span>
+                      <button
+                        className={`pricing-toggle ${annual ? "pricing-toggle-on" : ""}`}
+                        onClick={() => setAnnual((v) => !v)}
+                        aria-label={`Switch to ${annual ? "monthly" : "annual"} billing`}
+                      >
+                        <span className="pricing-toggle-knob" />
+                      </button>
+                      <span
+                        className="pricing-toggle-label"
+                        style={{ color: annual ? "#ffffff" : "#6b7280" }}
+                      >
+                        Annual
+                      </span>
+                      {plan.discount && (
+                        <span className="pricing-discount">{plan.discount}</span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Key Outcomes */}
+                  <div className="pricing-outcomes">
+                    <span className="pricing-outcomes-title">
+                      Key Outcomes You&apos;ll Achieve:
+                    </span>
+                    <ul className="pricing-outcomes-list">
+                      {plan.outcomes.map((o) => (
+                        <li key={o}>{o}</li>
+                      ))}
+                    </ul>
+                    <p className="pricing-outcomes-note">{plan.outcomeNote}</p>
+                  </div>
+
+                  {/* Features */}
+                  <ul className="pricing-features">
+                    {plan.features.map((f, i) => (
+                      <li key={i}>
+                        <Check />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* CTA */}
+                  <a
+                    href="/contact"
+                    className={`pricing-cta${plan.highlighted ? " pricing-cta-highlighted" : ""}`}
+                  >
+                    {plan.cta}
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/*  FEATURE COMPARISON TABLE                                    */}
+        {/* ============================================================ */}
+        <section
+          style={{
+            maxWidth: 960,
+            margin: "0 auto",
+            padding: "0 16px 80px",
+          }}
+        >
+          <h2
+            style={{
+              textAlign: "center",
+              fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+              fontWeight: 700,
+              marginBottom: 40,
+            }}
+          >
+            Feature <span style={{ color: "#F17F0D" }}>Comparison</span>
+          </h2>
+
+          <div style={{ overflowX: "auto" }}>
+            <table
+              style={{
+                width: "100%",
+                borderCollapse: "collapse",
+                minWidth: 640,
+              }}
+            >
+              <thead>
+                <tr
+                  style={{
+                    borderBottom: "1px solid #1e1e1e",
+                  }}
+                >
+                  <th
+                    style={{
+                      textAlign: "left",
+                      padding: "12px 16px",
+                      color: "#9ca3af",
+                      fontWeight: 600,
+                      fontSize: 13,
+                    }}
+                  >
+                    Feature
+                  </th>
+                  {["Explorer", "Team", "Enterprise"].map((h) => (
+                    <th
+                      key={h}
+                      style={{
+                        textAlign: "center",
+                        padding: "12px 16px",
+                        color: h === "Team" ? "#F17F0D" : "#ffffff",
+                        fontWeight: 700,
+                        fontSize: 14,
+                      }}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {comparisonRows.map(([feature, explorer, team, enterprise], idx) => (
+                  <tr
+                    key={feature}
+                    style={{
+                      borderBottom: "1px solid #141414",
+                      background: idx % 2 === 0 ? "transparent" : "#0d0d0d",
+                    }}
+                  >
+                    <td
+                      style={{
+                        padding: "10px 16px",
+                        color: "#d1d5db",
+                        fontSize: 13,
+                      }}
+                    >
+                      {feature}
+                    </td>
+                    {[explorer, team, enterprise].map((val, ci) => (
+                      <td
+                        key={ci}
+                        style={{
+                          textAlign: "center",
+                          padding: "10px 16px",
+                          color:
+                            val === "\u2713"
+                              ? "#F17F0D"
+                              : val === "\u2014"
+                              ? "#333"
+                              : "#d1d5db",
+                          fontSize: 13,
+                          fontWeight: val === "\u2713" ? 700 : 400,
+                        }}
+                      >
+                        {val}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/*  FAQ                                                         */}
+        {/* ============================================================ */}
+        <section
+          style={{
+            maxWidth: 760,
+            margin: "0 auto",
+            padding: "0 16px 80px",
+          }}
+        >
+          <h2
+            style={{
+              textAlign: "center",
+              fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+              fontWeight: 700,
+              marginBottom: 40,
+            }}
+          >
+            Frequently Asked{" "}
+            <span style={{ color: "#F17F0D" }}>Questions</span>
+          </h2>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            {faqs.map((faq, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    background: "#0d0d0d",
+                    border: "1px solid #1e1e1e",
+                    borderRadius: 12,
+                    overflow: "hidden",
+                  }}
+                >
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "16px 20px",
+                      background: "transparent",
+                      border: "none",
+                      color: "#ffffff",
+                      fontSize: 15,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      textAlign: "left",
+                    }}
+                  >
+                    {faq.q}
+                    <span
+                      style={{
+                        color: "#F17F0D",
+                        fontSize: 22,
+                        lineHeight: 1,
+                        transition: "transform 0.2s",
+                        transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                        flexShrink: 0,
+                        marginLeft: 12,
+                      }}
+                    >
+                      +
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div
+                      style={{
+                        padding: "0 20px 16px",
+                        color: "#9ca3af",
+                        fontSize: 14,
+                        lineHeight: 1.7,
+                      }}
+                    >
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/*  BOTTOM CTA                                                  */}
+        {/* ============================================================ */}
+        <section
+          style={{
+            textAlign: "center",
+            padding: "64px 16px 80px",
+            background:
+              "radial-gradient(ellipse at center, rgba(241,127,13,0.08) 0%, transparent 70%)",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "clamp(1.5rem, 3.5vw, 2.5rem)",
+              fontWeight: 800,
+              marginBottom: 16,
+            }}
+          >
+            Ready to Ship{" "}
+            <span style={{ color: "#F17F0D" }}>With Confidence?</span>
+          </h2>
+          <p
+            style={{
+              color: "#9ca3af",
+              maxWidth: 520,
+              margin: "0 auto 32px",
+              fontSize: "1.05rem",
+            }}
+          >
+            Start your 14-day free trial today. No credit card required.
+          </p>
+          <a
+            href="/contact"
+            style={{
+              display: "inline-block",
+              background: "#F17F0D",
+              color: "#ffffff",
+              fontWeight: 700,
+              fontSize: 16,
+              padding: "14px 40px",
+              borderRadius: 10,
+              textDecoration: "none",
+              transition: "background 0.2s",
+            }}
+            onMouseEnter={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.background = "#e06f00")
+            }
+            onMouseLeave={(e) =>
+              ((e.currentTarget as HTMLAnchorElement).style.background = "#F17F0D")
+            }
+          >
+            Get Started Free
+          </a>
+        </section>
+      </main>
+
+      <Footer />
+    </>
+  );
+}

@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const navLinks = [
-  { name: "Home", href: "/#home" },
-  { name: "Features", href: "/#features" },
-  { name: "Pricing", href: "/#pricing" },
+  { name: "Home", href: "/" },
+  { name: "Features", href: "/features" },
+  { name: "Pricing", href: "/pricing" },
   { name: "Blog", href: "/blog" },
-  { name: "Discord", href: "https://discord.gg/Tcw88yu6q" },
+  { name: "About", href: "/about" },
 ];
 
 export default function Navbar() {
@@ -45,8 +46,8 @@ export default function Navbar() {
         Skip to main content
       </a>
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between">
-        {/* Logo - left aligned */}
-        <a href="/" className="shrink-0 relative z-10" aria-label="WalnutAI Home">
+        {/* Logo */}
+        <Link href="/" className="shrink-0 relative z-10" aria-label="WalnutAI Home">
           <Image
             src="/assets/logo/Walnut-White.png"
             alt="WalnutAI"
@@ -55,19 +56,19 @@ export default function Navbar() {
             className="w-[130px] sm:w-[180px] h-auto"
             priority
           />
-        </a>
+        </Link>
 
-        {/* Desktop Nav - absolutely centered on page */}
+        {/* Desktop Nav */}
         <div className="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <div className="nav-pill">
             {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="nav-link">
+              <Link key={link.name} href={link.href} className="nav-link">
                 {link.name}
-              </a>
+              </Link>
             ))}
-            <a href="/#contact" className="nav-cta">
+            <Link href="/contact" className="nav-cta">
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -80,7 +81,6 @@ export default function Navbar() {
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        {/* Empty spacer for desktop to maintain layout */}
         <div className="hidden md:block w-[120px]" />
       </div>
 
@@ -88,22 +88,22 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/5 px-4 sm:px-6 py-4">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
               href={link.href}
               onClick={() => setMobileOpen(false)}
               className="block py-3 text-sm text-gray-300 hover:text-white transition-colors border-b border-white/5 last:border-0"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
-          <a
-            href="/#contact"
+          <Link
+            href="/contact"
             onClick={() => setMobileOpen(false)}
             className="block mt-4 px-5 py-2.5 text-sm font-medium text-white gradient-orange rounded-full text-center"
           >
             Contact Us
-          </a>
+          </Link>
         </div>
       )}
     </nav>

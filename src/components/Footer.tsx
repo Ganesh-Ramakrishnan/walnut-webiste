@@ -1,13 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 
 const footerLinks: Record<string, { label: string; href: string }[]> = {
+  PRODUCT: [
+    { label: "Features", href: "/features" },
+    { label: "Pricing", href: "/pricing" },
+    { label: "Integrations", href: "/integrations" },
+    { label: "Compare", href: "/compare" },
+    { label: "Changelog", href: "/changelog" },
+  ],
   COMPANY: [
-    { label: "Pricing", href: "/#pricing" },
-    { label: "Careers", href: "https://www.linkedin.com/company/wal-nut/jobs/" },
+    { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/#contact" },
+    { label: "Careers", href: "https://www.linkedin.com/company/wal-nut/jobs/" },
+    { label: "Contact", href: "/contact" },
   ],
   RESOURCES: [
     { label: "Documentation", href: "https://docs.walnutai.ai/" },
@@ -30,9 +38,9 @@ export default function Footer() {
         <div className="ft-top">
           {/* Brand */}
           <div className="ft-brand">
-            <a href="/#home" className="ft-logo-link">
+            <Link href="/" className="ft-logo-link">
               <Image src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" width={150} height={38} loading="lazy" />
-            </a>
+            </Link>
             <p className="ft-brand-desc">
               From intent to release. Built fast. Miss Nothing.
             </p>
@@ -65,7 +73,11 @@ export default function Footer() {
                 <ul className="ft-link-list">
                   {links.map((link) => (
                     <li key={link.label}>
-                      <a href={link.href} className="ft-link" target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}>{link.label}</a>
+                      {link.href.startsWith("http") ? (
+                        <a href={link.href} className="ft-link" target="_blank" rel="noopener noreferrer">{link.label}</a>
+                      ) : (
+                        <Link href={link.href} className="ft-link">{link.label}</Link>
+                      )}
                     </li>
                   ))}
                 </ul>
