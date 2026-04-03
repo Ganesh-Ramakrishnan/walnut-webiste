@@ -2,142 +2,88 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { BarChart3 } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    "Software Delivery Intelligence Dashboard — Coverage, Test Health & Release Risk | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+    "Real-time view of requirement coverage, test health, gap trends, and release risk across every project and repository.",
   openGraph: {
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Software Delivery Intelligence Dashboard — Coverage, Test Health & Release Risk | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
-    url: "https://www.walnutai.ai/features/requirements-engineering",
+      "Real-time view of requirement coverage, test health, gap trends, and release risk across every project and repository.",
+    url: "https://www.walnutai.ai/features/analytics-dashboard",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Software Delivery Intelligence Dashboard — Coverage, Test Health & Release Risk | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "Real-time view of requirement coverage, test health, gap trends, and release risk across every project and repository.",
   },
   alternates: {
-    canonical: "https://www.walnutai.ai/features/requirements-engineering",
+    canonical: "https://www.walnutai.ai/features/analytics-dashboard",
   },
 };
 
 const howItWorks = [
   {
-    step: "Upload your document",
-    text: "Drag and drop a PRD, PDF, audio/video files or any supported format into WalnutAI.",
+    step: "Connect your projects",
+    text: "Link repositories, Jira boards, and test suites to aggregate data automatically.",
   },
   {
-    step: "AI parses and extracts",
-    text: "Requirement agent identifies functional/non-functional requirements, user goals, constraints, dependencies.",
+    step: "AI calculates composite metrics",
+    text: "Coverage %, pass rate, gap count, and defect density feed into a single release readiness score.",
   },
   {
-    step: "Review structured output",
-    text: "Requirements as user stories with acceptance criteria, priority scores, dependency links.",
+    step: "Dashboard updates in real time",
+    text: "Every test run, gap change, or requirement update is reflected instantly.",
   },
   {
-    step: "Push to Jira or begin development",
-    text: "Sync to Jira as epics/stories, or trigger AI development pipeline.",
+    step: "Make confident release decisions",
+    text: "Drill into any metric to understand risk before signing off on a release.",
   },
 ];
 
 const capabilities = [
-  "PDF documents",
-  "Word documents (.docx)",
-  "Excel and CSV files",
-  "Plain text and Markdown",
-  "Jira epics",
-  "Figma design files",
+  "Requirement coverage %",
+  "Active gap count ranked by severity",
+  "Test case pass rate",
+  "Release risk score (AI-calculated composite)",
+  "Defect density by feature",
+  "Sprint velocity vs quality trend",
+  "Code-to-test ratio",
+  "Rolling 30/90-day trend analysis",
+];
+
+const whoUses = [
+  "Engineering managers — sprint reviews on quality trends",
+  "QA leads — pre-release sign-off with coverage data",
+  "Product managers — feature-level requirement coverage",
+  "CTOs — portfolio quality health across teams",
 ];
 
 const faqs = [
   {
-    q: "Can it generate acceptance criteria from a PRD?",
-    a: "Yes. Given-When-Then format. Flags requirements where criteria can't be reliably inferred.",
+    q: "What is a release readiness score?",
+    a: "Composite metric from coverage %, pass rate, gap count, defect count. 0-100 scale, configurable thresholds. Updates in real time.",
   },
   {
-    q: "How does it handle ambiguous requirements?",
-    a: "Flags with confidence score and specific explanation of what's unclear.",
+    q: "Multi-project support?",
+    a: "Yes. Team/Enterprise have portfolio dashboard aggregating all projects. Individual drilldowns available.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "SDLC Automation", id: "ai-sdlc-automation" },
   { title: "Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "Test Execution", id: "test-execution-management" },
 ];
 
-export default function RequirementsEngineeringPage() {
+export default function AnalyticsDashboardPage() {
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: "Requirements Engineering",
-                item: "https://www.walnutai.ai/features/requirements-engineering",
-              },
-            ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to Convert PRDs into Structured Requirements with WalnutAI",
-            description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
-          }),
-        }}
-      />
       <Navbar />
       <main
         className="min-h-screen bg-neutral-950 text-white"
@@ -158,7 +104,7 @@ export default function RequirementsEngineeringPage() {
                 features
               </Link>
               {" / "}
-              <span className="text-white">requirements-engineering</span>
+              <span className="text-white">analytics-dashboard</span>
               {"/"}
             </p>
           </div>
@@ -167,19 +113,22 @@ export default function RequirementsEngineeringPage() {
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">📄</span>
+            <BarChart3 className="h-9 w-9 text-orange-500" />
+            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+              Delivery Intelligence
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI Requirements Engineering
+            Software Delivery Intelligence
             <br />
             <span className="text-orange-500">
-              Convert PRDs into Structured, Testable Requirements
+              Real-Time Coverage, Test Health &amp; Release Risk
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Upload any requirements document and WalnutAI extracts, structures,
-            and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices.
+            WalnutAI aggregates gap analysis, test execution, and requirements
+            traceability into a single dashboard — giving engineering leaders
+            visibility to make confident release decisions.
           </h2>
         </section>
 
@@ -191,11 +140,11 @@ export default function RequirementsEngineeringPage() {
                 Definition
               </h3>
               <p className="text-neutral-300 leading-relaxed text-lg">
-                AI requirements engineering is the application of AI to parse
-                unstructured business documents and convert them into structured
-                software requirements including user stories, acceptance
-                criteria, priority rankings, and dependency maps. WalnutAI
-                reduces this from 2-3 days to under 30 minutes.
+                A software delivery intelligence dashboard aggregates metrics
+                from requirements management, test execution, and coverage
+                analysis. WalnutAI&apos;s dashboard connects gap data, test
+                rates, coverage percentages, and sprint trends into a composite
+                release readiness score.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -205,16 +154,15 @@ export default function RequirementsEngineeringPage() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Requirements engineering from 2-3 days to under 30 minutes
+                  Single source of truth for release readiness
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  AI flags missing criteria and conflicting requirements before
-                  development
+                  AI-calculated composite risk score (0-100)
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  100% traceability from document to user story to test case
+                  Portfolio-level visibility across all projects
                 </li>
               </ul>
             </div>
@@ -242,9 +190,9 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
-        {/* Capabilities — Supported Formats */}
+        {/* Dashboard Metrics */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Supported Input Formats</h2>
+          <h2 className="text-3xl font-bold mb-8">Dashboard Metrics</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {capabilities.map((cap, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -267,10 +215,25 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
+        {/* Who Uses This */}
+        <section className="mx-auto max-w-6xl px-6 pb-20">
+          <h2 className="text-3xl font-bold mb-8">Who Uses This</h2>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {whoUses.map((item, i) => (
+              <div
+                key={i}
+                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6 text-neutral-300"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Comparison */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <h2 className="text-3xl font-bold mb-8">
-            Manual Requirements Engineering vs WalnutAI
+            Traditional Dashboards vs WalnutAI
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -278,8 +241,8 @@ export default function RequirementsEngineeringPage() {
                 Traditional
               </h3>
               <p className="text-neutral-400 leading-relaxed">
-                BAs spend 2-3 days manually parsing PRDs, writing user stories,
-                and mapping dependencies in spreadsheets.
+                Separate tools for test results, coverage, and project status —
+                requiring manual aggregation and spreadsheet reporting.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
@@ -287,8 +250,9 @@ export default function RequirementsEngineeringPage() {
                 WalnutAI
               </h3>
               <p className="text-neutral-300 leading-relaxed">
-                Upload a document, get structured user stories with acceptance
-                criteria and dependency maps in under 30 minutes.
+                Unified dashboard that connects gap analysis, test execution, and
+                requirements traceability into a single AI-calculated release
+                readiness score — updated in real time.
               </p>
             </div>
           </div>
@@ -337,11 +301,11 @@ export default function RequirementsEngineeringPage() {
         <section className="mx-auto max-w-6xl px-6 pb-24">
           <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Turn any document into development-ready requirements
+              Ready to see your release readiness in real time?
             </h2>
             <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-              Upload your PRD and get structured user stories, acceptance
-              criteria, and traceability in minutes.
+              See how WalnutAI gives engineering leaders a single dashboard for
+              coverage, test health, and release risk.
             </p>
             <Link
               href="/contact"

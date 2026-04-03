@@ -1,24 +1,39 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  Bot,
+  Search,
+  FileText,
+  Code2,
+  TestTube2,
+  Activity,
+  BarChart3,
+  Zap,
+  ShieldCheck,
+  ArrowRight,
+} from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Features - AI-Powered Software Delivery Tools",
+  title:
+    "WalnutAI Features — AI Test Case Generation, Gap Analysis & SDLC Automation",
   description:
-    "Explore WalnutAI features: AI-orchestrated SDLC, gap analysis, requirements engineering, AI IDE, test generation, execution, CI/CD, and analytics.",
+    "Explore WalnutAI's 8 AI-powered features: automated test case generation, continuous gap analysis, requirements engineering, end-to-end traceability, and more. Built for QA and engineering teams.",
   openGraph: {
-    title: "Features - AI-Powered Software Delivery Tools",
+    title:
+      "WalnutAI Features — AI Test Case Generation, Gap Analysis & SDLC Automation",
     description:
-      "Explore WalnutAI features: AI-orchestrated SDLC, gap analysis, requirements engineering, AI IDE, test generation, execution, CI/CD, and analytics.",
+      "Explore WalnutAI's 8 AI-powered features: automated test case generation, continuous gap analysis, requirements engineering, end-to-end traceability, and more. Built for QA and engineering teams.",
     url: "https://www.walnutai.ai/features",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Features - AI-Powered Software Delivery Tools",
+    title:
+      "WalnutAI Features — AI Test Case Generation, Gap Analysis & SDLC Automation",
     description:
-      "Explore WalnutAI features: AI-orchestrated SDLC, gap analysis, requirements engineering, AI IDE, test generation, execution, CI/CD, and analytics.",
+      "Explore WalnutAI's 8 AI-powered features: automated test case generation, continuous gap analysis, requirements engineering, end-to-end traceability, and more. Built for QA and engineering teams.",
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features",
@@ -27,252 +42,213 @@ export const metadata: Metadata = {
 
 const features = [
   {
-    title: "AI-Orchestrated SDLC",
-    description: "Automate software delivery from intent to built application with no human intervention.",
-    bullets: [
-      "Prompt WalnutAI or upload requirement files and assign tasks to specialized AI bots",
-      "AI bots exchange context and coordinate dependencies in real time",
-      "AI bots generate requirements, code, and testing end to end",
-    ],
-    outcome: "Wake up to a completely built app with No human-in-loop",
-    href: "/features/ai-orchestrated-sdlc",
-    image: "/assets/features/agent.webp",
-    isWebp: true,
+    id: "ai-sdlc-automation",
+    icon: Bot,
+    menuTitle: "SDLC Automation",
+    description:
+      "WalnutAI automates the entire software development lifecycle — AI agents convert requirements into code and test cases with zero manual coordination.",
   },
   {
-    title: "Continuous Gap Analysis",
-    description: "Real-time scanning across requirements, code, and tests to surface coverage gaps before they become production bugs.",
-    bullets: [
-      "Scans your entire codebase and requirement docs continuously",
-      "Identifies untested paths, missing requirements, and coverage gaps",
-      "Generates shareable gap reports for stakeholder alignment",
-    ],
-    outcome: "96% requirement coverage — catch gaps before they reach production",
-    href: "/features/gap-analysis",
-    image: "/assets/features/gap-analysis.svg",
-    isWebp: false,
+    id: "requirements-gap-analysis",
+    icon: Search,
+    menuTitle: "Gap Analysis",
+    description:
+      "WalnutAI's continuous gap analysis compares your requirements, code, and test suite in real time — identifying untested features and missing coverage before they reach production.",
   },
   {
-    title: "Requirements Engineering",
-    description: "Transform documents and Figma designs into structured, validated requirements with AI-driven priority setting.",
-    bullets: [
-      "Upload documents, Figma files, or paste requirements text",
-      "AI extracts, validates, and deduplicates requirements automatically",
-      "Priority scoring highlights the most critical items first",
-    ],
-    outcome: "Reduce misalignment — no requirement goes uncaptured",
-    href: "/features/requirements-engineering",
-    image: "/assets/features/documentation-structure.svg",
-    isWebp: false,
+    id: "requirements-engineering",
+    icon: FileText,
+    menuTitle: "Requirements Engineering",
+    description:
+      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps.",
   },
   {
-    title: "AI-Powered IDE",
-    description: "Three AI modes — Autopilot, Copilot, and Chat — integrated directly into your development environment.",
-    bullets: [
-      "Autopilot: fully autonomous code generation from requirements",
-      "Copilot: real-time inline suggestions as you type",
-      "Chat: conversational problem-solving and code exploration",
-    ],
-    outcome: "Context-aware development that understands your entire codebase",
-    href: "/features/ai-powered-ide",
-    image: "/assets/features/ide.svg",
-    isWebp: false,
+    id: "ai-code-generation",
+    icon: Code2,
+    menuTitle: "AI Code Generation",
+    description:
+      "WalnutAI generates production-ready code grounded in your actual requirements — not generic patterns. Every suggestion is cross-referenced against your user stories.",
   },
   {
-    title: "AI Test Generation",
-    description: "Generate comprehensive test cases from requirements in seconds. Cover edge cases humans miss at scale.",
-    bullets: [
-      "AI generates test cases from requirements and user stories",
-      "Covers edge cases, boundary conditions, and negative paths",
-      "Export to Playwright and other automation frameworks",
-    ],
-    outcome: "Seconds not hours — comprehensive test coverage at scale",
-    href: "/features/ai-test-generation",
-    image: "/assets/features/ai-testcase.svg",
-    isWebp: false,
+    id: "ai-test-case-generation",
+    icon: TestTube2,
+    menuTitle: "Test Case Generation",
+    badge: "Highest Priority",
+    description:
+      "WalnutAI generates functional, edge case, regression, and security test cases directly from Jira user stories — saving 15+ hours per sprint.",
   },
   {
-    title: "Test Execution & Management",
-    description: "Execute tests across web and mobile platforms with parallel cloud execution and real-time results.",
-    bullets: [
-      "Web and mobile testing including Android and iOS",
-      "Parallel cloud execution for faster feedback cycles",
-      "Import tests from QTest, TestRail, and Playwright scripts",
-    ],
-    outcome: "Run thousands of tests in minutes with real-time results",
-    href: "/features/test-execution",
-    image: "/assets/features/test-execution.svg",
-    isWebp: false,
+    id: "test-execution-management",
+    icon: Activity,
+    menuTitle: "Test Execution",
+    description:
+      "WalnutAI's test execution platform connects test runs directly to requirements and gap analysis — giving QA teams real-time release readiness scoring.",
   },
   {
-    title: "CI/CD Integration",
-    description: "Seamless integration with GitHub, GitLab, Jenkins, and your existing pipeline with automated quality gates.",
-    bullets: [
-      "Connect via GitHub, GitLab, or Bitbucket in minutes",
-      "Automated quality gates on every push and pull request",
-      "Block risky deploys with pre-release gap analysis",
-    ],
-    outcome: "Deploy with confidence — zero risky releases",
-    href: "/features/ci-cd-integration",
-    image: "/assets/features/gap-analysis.svg",
-    isWebp: false,
-  },
-  {
-    title: "Unified Analytics",
-    description: "Single dashboard connecting requirements, code, tests, and deployments with end-to-end traceability.",
-    bullets: [
-      "Full traceability from requirement to code to test to deployment",
-      "Real-time dashboards for quality, velocity, and coverage metrics",
-      "Compliance-ready reports with audit trail",
-    ],
-    outcome: "Complete visibility across your entire delivery pipeline",
-    href: "/features/unified-analytics",
-    image: "/assets/features/unified-analytics.svg",
-    isWebp: false,
+    id: "analytics-dashboard",
+    icon: BarChart3,
+    menuTitle: "Delivery Analytics",
+    description:
+      "WalnutAI's analytics dashboard gives engineering managers a real-time view of requirement coverage, test health, gap trends, and release risk.",
   },
 ];
+
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "WalnutAI",
+  applicationCategory: "DeveloperApplication",
+  featureList: [
+    "AI software development automation",
+    "Automated requirements gap analysis",
+    "AI requirements engineering from documents",
+    "Requirements-aware AI code generation",
+    "AI test case generation from requirements",
+    "Test execution and QA management",
+    "Software delivery analytics dashboard",
+    "End-to-end requirements traceability",
+  ],
+};
 
 export default function FeaturesPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(softwareApplicationSchema),
+        }}
+      />
       <Navbar />
-      <main id="main-content" style={{ paddingTop: 80, background: "#0a0a0a" }}>
-        {/* Hero */}
-        <section style={{ padding: "80px 24px 60px", textAlign: "center" }}>
-          <div style={{ maxWidth: 720, margin: "0 auto" }}>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-              Our{" "}<span className="text-orange">Features</span>
+      <main id="main-content" style={{ paddingTop: 80 }} className="bg-neutral-950">
+        {/* Hero Section */}
+        <section className="px-6 pt-20 pb-16 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+              AI-Powered Software Quality Features{" "}
+              <span className="text-orange-500">
+                Built for Engineering and QA Teams
+              </span>
             </h1>
-            <p style={{ color: "#fff", fontSize: 16, fontWeight: 500, marginBottom: 8 }}>
-              Build exactly what you intended — from requirements to production.
-            </p>
-            <p style={{ color: "#9ca3af", fontSize: 14, maxWidth: 600, margin: "0 auto" }}>
-              WalnutAI connects documents, design, code, testing, and AI into a single intelligent system, eliminating gaps between intent and implementation.
+            <p className="text-neutral-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+              From requirements to release — WalnutAI automates test case
+              creation, detects coverage gaps, and provides full SDLC
+              traceability so your team ships with confidence.
             </p>
           </div>
         </section>
 
-        {/* Feature Rows — alternating layout */}
-        <section style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px 80px" }}>
-          <div className="features-wrapper" style={{ width: "100%" }}>
-            {features.map((f, i) => {
-              const isReversed = i % 2 === 1;
-              return (
-                <div key={f.href} className="features-grid-2" style={{ marginBottom: 24 }}>
-                  {/* Image side */}
-                  {!isReversed && (
-                    <div style={{ borderRadius: 14, overflow: "hidden" }}>
-                      {f.isWebp ? (
-                        <Image
-                          src={f.image}
-                          alt={f.title}
-                          width={530}
-                          height={300}
-                          loading={i === 0 ? "eager" : "lazy"}
-                          style={{ width: "100%", height: "auto", display: "block" }}
-                        />
-                      ) : (
-                        <img
-                          src={f.image}
-                          alt={f.title}
-                          loading="lazy"
-                          width={530}
-                          height={300}
-                          style={{ width: "100%", display: "block", objectFit: "contain" }}
-                        />
-                      )}
-                    </div>
-                  )}
-
-                  {/* Content side */}
-                  <div className="feature-card-full">
-                    <div className="feature-card-body">
-                      <h2 className="feature-card-title">{f.title}</h2>
-                      <p className="feature-card-desc">{f.description}</p>
-                      <ul className="feature-card-list">
-                        {f.bullets.map((b) => (
-                          <li key={b}>{b}</li>
-                        ))}
-                      </ul>
-                      <div className="feature-card-outcome">
-                        <span className="feature-card-outcome-label">Outcome : </span>
-                        {f.outcome}
-                      </div>
-                      <Link
-                        href={f.href}
-                        style={{
-                          display: "inline-block",
-                          marginTop: 16,
-                          color: "#F17F0D",
-                          fontSize: 14,
-                          fontWeight: 600,
-                          textDecoration: "none",
-                        }}
-                      >
-                        Learn more &rarr;
-                      </Link>
-                    </div>
-                  </div>
-
-                  {/* Image side (reversed) */}
-                  {isReversed && (
-                    <div style={{ borderRadius: 14, overflow: "hidden" }}>
-                      <img
-                        src={f.image}
-                        alt={f.title}
-                        loading="lazy"
-                        width={530}
-                        height={300}
-                        style={{ width: "100%", display: "block", objectFit: "contain" }}
-                      />
-                    </div>
-                  )}
+        {/* Platform Definition Card (GEO) */}
+        <section className="px-6 pb-16">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 md:p-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 bg-neutral-950 border border-neutral-800 rounded-lg flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-orange-500" />
                 </div>
-              );
-            })}
+                <h2 className="text-xl font-bold text-white">
+                  Platform Definition
+                </h2>
+              </div>
+              <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
+                WalnutAI is an AI-powered software delivery and quality
+                assurance platform with eight core capabilities: AI-orchestrated
+                SDLC automation, continuous requirements gap analysis, AI test
+                case generation, requirements engineering from documents,
+                requirements-aware code generation, test execution and
+                management, and unified delivery analytics. Each feature is
+                designed to eliminate manual work between requirements,
+                development, and QA — reducing release risk while accelerating
+                delivery cycles.
+              </p>
+            </div>
           </div>
         </section>
 
-        {/* Bottom CTA */}
-        <section style={{ padding: "0 24px 100px", textAlign: "center" }}>
-          <div style={{ maxWidth: 600, margin: "0 auto" }}>
-            <h2 style={{ color: "#fff", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
-              Ready to transform your SDLC?
-            </h2>
-            <p style={{ color: "#9ca3af", fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
-              See how WalnutAI can automate your entire software delivery from intent to production.
-            </p>
-            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link
-                href="/contact"
-                className="gradient-orange"
-                style={{
-                  display: "inline-block",
-                  color: "#fff",
-                  fontWeight: 700,
-                  fontSize: 15,
-                  padding: "14px 32px",
-                  borderRadius: 50,
-                  textDecoration: "none",
-                }}
-              >
-                Get a Demo
-              </Link>
-              <Link
-                href="/pricing"
-                style={{
-                  display: "inline-block",
-                  color: "#F17F0D",
-                  fontWeight: 600,
-                  fontSize: 15,
-                  padding: "13px 28px",
-                  borderRadius: 50,
-                  border: "1px solid rgba(241, 127, 13, 0.3)",
-                  textDecoration: "none",
-                }}
-              >
-                View Pricing
-              </Link>
+        {/* Explore Our Core Features */}
+        <section className="px-6 pb-24">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-14">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+                Explore Our Core Features
+              </h2>
+              <div className="w-24 h-1 mx-auto rounded-full bg-gradient-to-r from-orange-500 to-orange-300" />
+            </div>
+
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {features.map((feature) => {
+                const Icon = feature.icon;
+                return (
+                  <Link
+                    key={feature.id}
+                    href={`/features/${feature.id}`}
+                    className="group relative bg-neutral-900 border border-neutral-800 rounded-2xl p-8 hover:border-orange-500/50 hover:bg-neutral-800/80 transition-all duration-300 flex flex-col"
+                  >
+                    {/* Badge */}
+                    {feature.badge && (
+                      <span className="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        {feature.badge}
+                      </span>
+                    )}
+
+                    {/* Icon */}
+                    <div className="w-14 h-14 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center justify-center mb-5">
+                      <Icon className="w-7 h-7 text-orange-500" />
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors mb-3">
+                      {feature.menuTitle}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-neutral-400 text-sm leading-relaxed flex-grow mb-5">
+                      {feature.description}
+                    </p>
+
+                    {/* Learn more */}
+                    <span className="inline-flex items-center gap-1.5 text-orange-500 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                      Learn more
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* Bottom CTA Section */}
+        <section className="px-6 pb-24">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-10 md:p-14">
+              <div className="w-14 h-14 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center justify-center mx-auto mb-6">
+                <Zap className="w-7 h-7 text-orange-500" />
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
+                Ready to Transform Your Software Delivery?
+              </h2>
+              <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
+                See how WalnutAI eliminates the gap between requirements,
+                development, and QA — so your team ships faster with fewer
+                defects.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-colors"
+                >
+                  Start Free Trial
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 border border-orange-500/30 hover:border-orange-500/60 text-orange-500 font-semibold text-sm px-8 py-3.5 rounded-full transition-colors"
+                >
+                  Book a Demo
+                </Link>
+              </div>
             </div>
           </div>
         </section>

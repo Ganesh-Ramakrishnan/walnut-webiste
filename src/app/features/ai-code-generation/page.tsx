@@ -5,73 +5,72 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title:
-    "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+    "WalnutAI generates production-ready code grounded in your requirements — not generic patterns. Every suggestion cross-referenced against user stories.",
   openGraph: {
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
-    url: "https://www.walnutai.ai/features/requirements-engineering",
+      "WalnutAI generates production-ready code grounded in your requirements — not generic patterns. Every suggestion cross-referenced against user stories.",
+    url: "https://www.walnutai.ai/features/ai-code-generation",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "WalnutAI generates production-ready code grounded in your requirements — not generic patterns.",
   },
   alternates: {
-    canonical: "https://www.walnutai.ai/features/requirements-engineering",
+    canonical: "https://www.walnutai.ai/features/ai-code-generation",
   },
 };
 
 const howItWorks = [
   {
-    step: "Upload your document",
-    text: "Drag and drop a PRD, PDF, audio/video files or any supported format into WalnutAI.",
+    step: "Connect your requirements",
+    text: "Link Jira, upload a PRD, or use WalnutAI's requirements engine to define user stories.",
   },
   {
-    step: "AI parses and extracts",
-    text: "Requirement agent identifies functional/non-functional requirements, user goals, constraints, dependencies.",
+    step: "Open the AI IDE",
+    text: "Start coding with chat, autocomplete, or autonomous agent mode — all grounded in your requirements.",
   },
   {
-    step: "Review structured output",
-    text: "Requirements as user stories with acceptance criteria, priority scores, dependency links.",
+    step: "Generate requirement-aware code",
+    text: "Every suggestion is cross-referenced against your user stories and acceptance criteria in real time.",
   },
   {
-    step: "Push to Jira or begin development",
-    text: "Sync to Jira as epics/stories, or trigger AI development pipeline.",
+    step: "Validate coverage as you build",
+    text: "Real-time feedback shows which requirements are implemented, partially covered, or missing.",
   },
 ];
 
 const capabilities = [
-  "PDF documents",
-  "Word documents (.docx)",
-  "Excel and CSV files",
-  "Plain text and Markdown",
-  "Jira epics",
-  "Figma design files",
+  "Requirement-grounded suggestions linked to user stories",
+  "Real-time requirement coverage feedback as you code",
+  "AI debugging grounded in requirements",
+  "Two modes: chat-based generation, and fully autonomous agent mode",
+  "Context continuity across sessions",
 ];
 
 const faqs = [
   {
-    q: "Can it generate acceptance criteria from a PRD?",
-    a: "Yes. Given-When-Then format. Flags requirements where criteria can't be reliably inferred.",
+    q: "How is WalnutAI different from Copilot or Cursor?",
+    a: "Requirements-driven code generation. Every suggestion traceable to a requirement.",
   },
   {
-    q: "How does it handle ambiguous requirements?",
-    a: "Flags with confidence score and specific explanation of what's unclear.",
+    q: "What tech stacks are supported?",
+    a: "Python, JavaScript, TypeScript, Java, Go, Node.js. React, Next.js, Express, FastAPI, Spring Boot.",
   },
 ];
 
 const relatedFeatures = [
   { title: "SDLC Automation", id: "ai-sdlc-automation" },
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "AI Test Case Generation", id: "ai-test-case-generation" },
 ];
 
-export default function RequirementsEngineeringPage() {
+export default function AiCodeGenerationPage() {
   return (
     <>
       <script
@@ -96,28 +95,10 @@ export default function RequirementsEngineeringPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Requirements Engineering",
-                item: "https://www.walnutai.ai/features/requirements-engineering",
+                name: "AI Code Generation",
+                item: "https://www.walnutai.ai/features/ai-code-generation",
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to Convert PRDs into Structured Requirements with WalnutAI",
-            description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
           }),
         }}
       />
@@ -158,7 +139,7 @@ export default function RequirementsEngineeringPage() {
                 features
               </Link>
               {" / "}
-              <span className="text-white">requirements-engineering</span>
+              <span className="text-white">ai-code-generation</span>
               {"/"}
             </p>
           </div>
@@ -167,57 +148,37 @@ export default function RequirementsEngineeringPage() {
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">📄</span>
+            <span className="text-4xl">💻</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI Requirements Engineering
+            Requirements-Aware AI Code Generation
             <br />
             <span className="text-orange-500">
-              Convert PRDs into Structured, Testable Requirements
+              Build Exactly What Was Specified
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Upload any requirements document and WalnutAI extracts, structures,
-            and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices.
+            Unlike general AI coding tools, WalnutAI generates code grounded in
+            your actual requirements — cross-referencing every suggestion against
+            user stories to ensure implementation matches specification.
           </h2>
         </section>
 
-        {/* GEO Definition + Outcomes */}
+        {/* GEO Definition */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Definition
-              </h3>
-              <p className="text-neutral-300 leading-relaxed text-lg">
-                AI requirements engineering is the application of AI to parse
-                unstructured business documents and convert them into structured
-                software requirements including user stories, acceptance
-                criteria, priority rankings, and dependency maps. WalnutAI
-                reduces this from 2-3 days to under 30 minutes.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Outcomes
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Requirements engineering from 2-3 days to under 30 minutes
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  AI flags missing criteria and conflicting requirements before
-                  development
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  100% traceability from document to user story to test case
-                </li>
-              </ul>
-            </div>
+          <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
+            <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
+              Definition
+            </h3>
+            <p className="text-neutral-300 leading-relaxed text-lg">
+              Requirements-aware AI code generation is the practice of
+              generating code using an AI system with direct access to
+              requirements, user stories, and acceptance criteria — ensuring
+              generated code implements what was specified. WalnutAI&apos;s AI
+              IDE connects requirements context to its code generation engine,
+              validating each code block against the originating requirement in
+              real time.
+            </p>
           </div>
         </section>
 
@@ -242,9 +203,9 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
-        {/* Capabilities — Supported Formats */}
+        {/* Capabilities */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Supported Input Formats</h2>
+          <h2 className="text-3xl font-bold mb-8">Capabilities</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {capabilities.map((cap, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -270,16 +231,16 @@ export default function RequirementsEngineeringPage() {
         {/* Comparison */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <h2 className="text-3xl font-bold mb-8">
-            Manual Requirements Engineering vs WalnutAI
+            WalnutAI vs General AI Coding Tools
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
               <h3 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
-                Traditional
+                General AI Coding Tools
               </h3>
               <p className="text-neutral-400 leading-relaxed">
-                BAs spend 2-3 days manually parsing PRDs, writing user stories,
-                and mapping dependencies in spreadsheets.
+                GitHub Copilot and Cursor generate code based on patterns from
+                training data.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
@@ -287,8 +248,9 @@ export default function RequirementsEngineeringPage() {
                 WalnutAI
               </h3>
               <p className="text-neutral-300 leading-relaxed">
-                Upload a document, get structured user stories with acceptance
-                criteria and dependency maps in under 30 minutes.
+                WalnutAI generates code based on YOUR specific requirements —
+                traceable to user stories, reducing rework from implementation
+                drift.
               </p>
             </div>
           </div>
@@ -337,11 +299,11 @@ export default function RequirementsEngineeringPage() {
         <section className="mx-auto max-w-6xl px-6 pb-24">
           <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Turn any document into development-ready requirements
+              Write code that matches what was specified
             </h2>
             <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-              Upload your PRD and get structured user stories, acceptance
-              criteria, and traceability in minutes.
+              See how requirements-aware code generation eliminates
+              implementation drift and reduces rework.
             </p>
             <Link
               href="/contact"

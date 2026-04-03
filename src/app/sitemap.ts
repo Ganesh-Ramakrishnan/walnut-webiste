@@ -14,9 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const featureSlugs = [
-    "ai-orchestrated-sdlc", "gap-analysis", "requirements-engineering",
-    "ai-powered-ide", "ai-test-generation", "test-execution",
-    "ci-cd-integration", "unified-analytics",
+    "ai-sdlc-automation", "requirements-gap-analysis", "requirements-engineering",
+    "ai-code-generation", "ai-test-case-generation", "test-execution-management",
+    "analytics-dashboard",
   ];
 
   const integrationSlugs = [

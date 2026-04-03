@@ -2,76 +2,101 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { TestTube2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+    "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
   openGraph: {
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
-    url: "https://www.walnutai.ai/features/requirements-engineering",
+      "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
+    url: "https://www.walnutai.ai/features/ai-test-case-generation",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
   },
   alternates: {
-    canonical: "https://www.walnutai.ai/features/requirements-engineering",
+    canonical: "https://www.walnutai.ai/features/ai-test-case-generation",
   },
 };
 
 const howItWorks = [
   {
-    step: "Upload your document",
-    text: "Drag and drop a PRD, PDF, audio/video files or any supported format into WalnutAI.",
+    step: "Connect requirements source",
+    text: "Link Jira, Azure DevOps, or upload a document.",
   },
   {
-    step: "AI parses and extracts",
-    text: "Requirement agent identifies functional/non-functional requirements, user goals, constraints, dependencies.",
+    step: "Generate test cases through Smart Recording and prompting",
+    text: "Using Smart Recording, users can describe feature functionality step-by-step without breaking flow. WalnutAI converts these into structured user stories and allows users to generate multiple test cases by prompting different scenarios, including edge cases, negative paths, and real-world usage conditions.",
   },
   {
-    step: "Review structured output",
-    text: "Requirements as user stories with acceptance criteria, priority scores, dependency links.",
+    step: "AI analyzes each requirement",
+    text: "Identifies actors, actions, outcomes, boundaries, and failure scenarios.",
   },
   {
-    step: "Push to Jira or begin development",
-    text: "Sync to Jira as epics/stories, or trigger AI development pipeline.",
+    step: "Test cases generated and mapped",
+    text: "Comprehensive set created and mapped to originating requirement.",
+  },
+  {
+    step: "Export and execute",
+    text: "Available in WalnutAI, export to Jira, or CI/CD pipeline.",
   },
 ];
 
 const capabilities = [
-  "PDF documents",
-  "Word documents (.docx)",
-  "Excel and CSV files",
-  "Plain text and Markdown",
-  "Jira epics",
-  "Figma design files",
+  "Functional test cases",
+  "Edge case test cases",
+  "Negative test cases",
+  "Regression test cases",
+  "API test cases",
+  "UI and UX test cases (Figma integration)",
+  "Security test cases",
+  "Performance test scenarios",
+];
+
+const integrations = [
+  "Input: Jira, Azure DevOps, GitHub Issues, Figma, uploaded PRDs",
+  "Export: Jira (Zephyr/Xray), Playwright scripts, CSV",
+  "Execution: WalnutAI Test Runner, CI/CD pipelines",
 ];
 
 const faqs = [
   {
-    q: "Can it generate acceptance criteria from a PRD?",
-    a: "Yes. Given-When-Then format. Flags requirements where criteria can't be reliably inferred.",
+    q: "Can it generate from Jira stories?",
+    a: "Yes. Connects directly, reads stories and acceptance criteria. Auto-generates on new stories.",
   },
   {
-    q: "How does it handle ambiguous requirements?",
-    a: "Flags with confidence score and specific explanation of what's unclear.",
+    q: "How accurate are AI-generated test cases?",
+    a: "Grounded in YOUR requirements. Teams report edge cases covered that manual writers miss. Review before execution.",
+  },
+  {
+    q: "How many test cases per user story?",
+    a: "5-15 on average: happy path, 2-3 alternative flows, boundary conditions, negative scenario, security/performance.",
+  },
+  {
+    q: "Can I import existing test cases?",
+    a: "Yes. Imported tests are mapped to requirements and integrated into gap analysis.",
+  },
+  {
+    q: "Does it support mobile apps?",
+    a: "Yes. Android/iOS on Team and Enterprise plans. Covers device-specific behaviors, touch, orientation, permissions, offline.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "SDLC Automation", id: "ai-sdlc-automation" },
   { title: "Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "Test Execution", id: "test-execution-management" },
 ];
 
-export default function RequirementsEngineeringPage() {
+export default function AiTestCaseGenerationPage() {
   return (
     <>
       <script
@@ -96,8 +121,8 @@ export default function RequirementsEngineeringPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Requirements Engineering",
-                item: "https://www.walnutai.ai/features/requirements-engineering",
+                name: "AI Test Case Generation",
+                item: "https://www.walnutai.ai/features/ai-test-case-generation",
               },
             ],
           }),
@@ -109,9 +134,9 @@ export default function RequirementsEngineeringPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HowTo",
-            name: "How to Convert PRDs into Structured Requirements with WalnutAI",
+            name: "How to Generate Test Cases from Requirements with WalnutAI",
             description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices.",
+              "WalnutAI reads your Jira stories, requirements documents, or Figma designs and generates comprehensive test cases covering every scenario — in seconds per user story.",
             step: howItWorks.map((item, i) => ({
               "@type": "HowToStep",
               position: i + 1,
@@ -158,7 +183,7 @@ export default function RequirementsEngineeringPage() {
                 features
               </Link>
               {" / "}
-              <span className="text-white">requirements-engineering</span>
+              <span className="text-white">ai-test-case-generation</span>
               {"/"}
             </p>
           </div>
@@ -167,19 +192,22 @@ export default function RequirementsEngineeringPage() {
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">📄</span>
+            <TestTube2 className="h-9 w-9 text-orange-500" />
+            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+              Highest Priority
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI Requirements Engineering
+            Automated Test Case Generation from Requirements
             <br />
             <span className="text-orange-500">
-              Convert PRDs into Structured, Testable Requirements
+              AI-Written Test Cases in Minutes, Not Hours
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Upload any requirements document and WalnutAI extracts, structures,
-            and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices.
+            WalnutAI reads your Jira stories, requirements documents, or Figma
+            designs and generates comprehensive test cases covering every
+            scenario — in seconds per user story.
           </h2>
         </section>
 
@@ -191,11 +219,13 @@ export default function RequirementsEngineeringPage() {
                 Definition
               </h3>
               <p className="text-neutral-300 leading-relaxed text-lg">
-                AI requirements engineering is the application of AI to parse
-                unstructured business documents and convert them into structured
-                software requirements including user stories, acceptance
-                criteria, priority rankings, and dependency maps. WalnutAI
-                reduces this from 2-3 days to under 30 minutes.
+                Automated test case generation is the use of AI to create
+                software test cases from requirements documents, user stories, or
+                application specifications. WalnutAI generates functional, edge
+                case, boundary value, negative, regression, API, and security
+                test cases — all mapped to the originating requirement — in
+                seconds. Teams eliminate 15+ hours per sprint of manual test
+                writing.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -205,16 +235,15 @@ export default function RequirementsEngineeringPage() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Requirements engineering from 2-3 days to under 30 minutes
+                  Save 15+ hours per sprint
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  AI flags missing criteria and conflicting requirements before
-                  development
+                  96% average requirement coverage
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  100% traceability from document to user story to test case
+                  First test cases in minutes of connecting Jira
                 </li>
               </ul>
             </div>
@@ -224,7 +253,7 @@ export default function RequirementsEngineeringPage() {
         {/* How It Works */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <h2 className="text-3xl font-bold mb-12">How It Works</h2>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
             {howItWorks.map((item, i) => (
               <div
                 key={i}
@@ -242,9 +271,9 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
-        {/* Capabilities — Supported Formats */}
+        {/* Test Types Generated */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Supported Input Formats</h2>
+          <h2 className="text-3xl font-bold mb-8">Test Types Generated</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {capabilities.map((cap, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -267,10 +296,27 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
+        {/* Integrations */}
+        <section className="mx-auto max-w-6xl px-6 pb-20">
+          <h2 className="text-3xl font-bold mb-8">
+            Integrations for Test Case Generation
+          </h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {integrations.map((item, i) => (
+              <div
+                key={i}
+                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6 text-neutral-300"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Comparison */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <h2 className="text-3xl font-bold mb-8">
-            Manual Requirements Engineering vs WalnutAI
+            Traditional vs WalnutAI
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -278,8 +324,9 @@ export default function RequirementsEngineeringPage() {
                 Traditional
               </h3>
               <p className="text-neutral-400 leading-relaxed">
-                BAs spend 2-3 days manually parsing PRDs, writing user stories,
-                and mapping dependencies in spreadsheets.
+                QA engineers manually write test cases from requirements —
+                time-consuming, inconsistent coverage, and prone to missing edge
+                cases.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
@@ -287,8 +334,9 @@ export default function RequirementsEngineeringPage() {
                 WalnutAI
               </h3>
               <p className="text-neutral-300 leading-relaxed">
-                Upload a document, get structured user stories with acceptance
-                criteria and dependency maps in under 30 minutes.
+                AI reads every requirement and generates comprehensive test cases
+                in seconds — covering functional, edge, negative, and security
+                scenarios with full traceability.
               </p>
             </div>
           </div>
@@ -337,11 +385,11 @@ export default function RequirementsEngineeringPage() {
         <section className="mx-auto max-w-6xl px-6 pb-24">
           <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Turn any document into development-ready requirements
+              Ready to generate test cases automatically?
             </h2>
             <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-              Upload your PRD and get structured user stories, acceptance
-              criteria, and traceability in minutes.
+              See how WalnutAI turns your Jira stories into comprehensive test
+              cases — in minutes, not hours.
             </p>
             <Link
               href="/contact"

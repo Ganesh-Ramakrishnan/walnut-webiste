@@ -2,76 +2,71 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Activity } from "lucide-react";
 
 export const metadata: Metadata = {
-  title:
-    "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+  title: "AI-Powered Test Execution & QA Management | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+    "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
   openGraph: {
-    title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    title: "AI-Powered Test Execution & QA Management | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
-    url: "https://www.walnutai.ai/features/requirements-engineering",
+      "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
+    url: "https://www.walnutai.ai/features/test-execution-management",
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    title: "AI-Powered Test Execution & QA Management | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
   },
   alternates: {
-    canonical: "https://www.walnutai.ai/features/requirements-engineering",
+    canonical: "https://www.walnutai.ai/features/test-execution-management",
   },
 };
 
 const howItWorks = [
   {
-    step: "Upload your document",
-    text: "Drag and drop a PRD, PDF, audio/video files or any supported format into WalnutAI.",
+    step: "Import or generate test suites",
+    text: "Bring in existing tests from TestRail, QTest, or Playwright — or let WalnutAI generate them.",
   },
   {
-    step: "AI parses and extracts",
-    text: "Requirement agent identifies functional/non-functional requirements, user goals, constraints, dependencies.",
+    step: "Execute across environments",
+    text: "Run automated and manual test suites from a single interface with parallel execution.",
   },
   {
-    step: "Review structured output",
-    text: "Requirements as user stories with acceptance criteria, priority scores, dependency links.",
+    step: "Results linked to requirements",
+    text: "Every test result is automatically connected to the requirement it validates.",
   },
   {
-    step: "Push to Jira or begin development",
-    text: "Sync to Jira as epics/stories, or trigger AI development pipeline.",
+    step: "Release readiness score updates",
+    text: "Failed tests flag requirements as at-risk and update the release readiness score in real time.",
   },
 ];
 
 const capabilities = [
-  "PDF documents",
-  "Word documents (.docx)",
-  "Excel and CSV files",
-  "Plain text and Markdown",
-  "Jira epics",
-  "Figma design files",
+  "Execute automated and manual test suites from one interface",
+  "Real-time release readiness scoring",
+  "Defect tracking linked to requirements",
+  "Test Healer — AI automatically detects and fixes broken tests caused by UI changes or locator issues",
+  "Mobile execution (Android/iOS)",
+  "Import from TestRail, QTest, Playwright",
+  "Parallel execution for faster feedback",
 ];
 
 const faqs = [
   {
-    q: "Can it generate acceptance criteria from a PRD?",
-    a: "Yes. Given-When-Then format. Flags requirements where criteria can't be reliably inferred.",
-  },
-  {
-    q: "How does it handle ambiguous requirements?",
-    a: "Flags with confidence score and specific explanation of what's unclear.",
+    q: "CI/CD integration?",
+    a: "Native with GitHub Actions, GitLab CI, Azure Pipelines, Jenkins. Quality gates block deploys below thresholds.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "SDLC Automation", id: "ai-sdlc-automation" },
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "AI Test Case Generation", id: "ai-test-case-generation" },
+  { title: "Delivery Analytics", id: "analytics-dashboard" },
 ];
 
-export default function RequirementsEngineeringPage() {
+export default function TestExecutionManagementPage() {
   return (
     <>
       <script
@@ -96,28 +91,10 @@ export default function RequirementsEngineeringPage() {
               {
                 "@type": "ListItem",
                 position: 3,
-                name: "Requirements Engineering",
-                item: "https://www.walnutai.ai/features/requirements-engineering",
+                name: "Test Execution Management",
+                item: "https://www.walnutai.ai/features/test-execution-management",
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to Convert PRDs into Structured Requirements with WalnutAI",
-            description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
           }),
         }}
       />
@@ -158,7 +135,7 @@ export default function RequirementsEngineeringPage() {
                 features
               </Link>
               {" / "}
-              <span className="text-white">requirements-engineering</span>
+              <span className="text-white">test-execution-management</span>
               {"/"}
             </p>
           </div>
@@ -167,19 +144,22 @@ export default function RequirementsEngineeringPage() {
         {/* Hero */}
         <section className="mx-auto max-w-6xl px-6 py-20">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">📄</span>
+            <Activity className="h-9 w-9 text-orange-500" />
+            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+              Test Execution
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI Requirements Engineering
+            AI-Powered Test Execution &amp; QA Management
             <br />
             <span className="text-orange-500">
-              Convert PRDs into Structured, Testable Requirements
+              Unified Test Runs, Defect Tracking &amp; Release Scoring
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Upload any requirements document and WalnutAI extracts, structures,
-            and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices.
+            Unlike standalone test management tools, WalnutAI connects every
+            test result to the requirement it validates — giving you a real-time
+            release readiness score.
           </h2>
         </section>
 
@@ -191,11 +171,20 @@ export default function RequirementsEngineeringPage() {
                 Definition
               </h3>
               <p className="text-neutral-300 leading-relaxed text-lg">
-                AI requirements engineering is the application of AI to parse
-                unstructured business documents and convert them into structured
-                software requirements including user stories, acceptance
-                criteria, priority rankings, and dependency maps. WalnutAI
-                reduces this from 2-3 days to under 30 minutes.
+                AI-powered test execution and management is running, monitoring,
+                and analyzing test cases within a platform that connects results
+                to requirements and coverage data. WalnutAI&apos;s test engine
+                is natively integrated with requirements traceability and gap
+                analysis — every test result automatically updates coverage
+                metrics and release risk scores.
+              </p>
+              <p className="text-neutral-300 leading-relaxed text-lg mt-4">
+                Additionally, WalnutAI includes a Test Healer, an AI-driven
+                capability that detects test failures, identifies the root cause
+                (such as UI changes or locator issues), and automatically updates
+                and self-heals the test case — ensuring continuous execution
+                without manual intervention and reducing test maintenance
+                overhead.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -205,16 +194,15 @@ export default function RequirementsEngineeringPage() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Requirements engineering from 2-3 days to under 30 minutes
+                  Every test result linked to its requirement
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  AI flags missing criteria and conflicting requirements before
-                  development
+                  Real-time release readiness scoring
                 </li>
                 <li className="flex items-start gap-3 text-neutral-300">
                   <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  100% traceability from document to user story to test case
+                  Quality gates that block risky deploys automatically
                 </li>
               </ul>
             </div>
@@ -242,9 +230,9 @@ export default function RequirementsEngineeringPage() {
           </div>
         </section>
 
-        {/* Capabilities — Supported Formats */}
+        {/* Capabilities */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Supported Input Formats</h2>
+          <h2 className="text-3xl font-bold mb-8">Capabilities</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             {capabilities.map((cap, i) => (
               <div key={i} className="flex items-start gap-3">
@@ -270,7 +258,7 @@ export default function RequirementsEngineeringPage() {
         {/* Comparison */}
         <section className="mx-auto max-w-6xl px-6 pb-20">
           <h2 className="text-3xl font-bold mb-8">
-            Manual Requirements Engineering vs WalnutAI
+            Requirement-Connected Test Results
           </h2>
           <div className="grid gap-6 md:grid-cols-2">
             <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
@@ -278,8 +266,7 @@ export default function RequirementsEngineeringPage() {
                 Traditional
               </h3>
               <p className="text-neutral-400 leading-relaxed">
-                BAs spend 2-3 days manually parsing PRDs, writing user stories,
-                and mapping dependencies in spreadsheets.
+                TestRail, Zephyr track results in isolation.
               </p>
             </div>
             <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
@@ -287,8 +274,11 @@ export default function RequirementsEngineeringPage() {
                 WalnutAI
               </h3>
               <p className="text-neutral-300 leading-relaxed">
-                Upload a document, get structured user stories with acceptance
-                criteria and dependency maps in under 30 minutes.
+                Every test result linked to the requirement it validates. Failed
+                test auto-flags the requirement as at-risk and updates release
+                readiness score. Test Healer automatically detects and fixes
+                broken tests caused by UI changes or locator issues — reducing
+                maintenance overhead and ensuring continuous execution.
               </p>
             </div>
           </div>
@@ -337,11 +327,11 @@ export default function RequirementsEngineeringPage() {
         <section className="mx-auto max-w-6xl px-6 pb-24">
           <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Turn any document into development-ready requirements
+              Ready to unify test execution and requirements?
             </h2>
             <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-              Upload your PRD and get structured user stories, acceptance
-              criteria, and traceability in minutes.
+              See how WalnutAI connects every test result to the requirement it
+              validates — with real-time release readiness scoring.
             </p>
             <Link
               href="/contact"
