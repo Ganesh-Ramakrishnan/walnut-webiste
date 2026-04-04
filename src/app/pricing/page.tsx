@@ -26,7 +26,7 @@ const plans = [
     outcomeNote:
       "No credit card required. Get started in minutes with full access to the WalnutAI platform.",
     features: [
-      "Unlimited projects with up to 10 users",
+      "Unlimited projects with up to unlimited users",
       "Generate stories from BRD/FRS, meeting transcripts (audio/video), and AI prompts",
       "Figma integration to generate stories and test cases",
       "Connect repositories (GitHub, GitLab, Bitbucket, Azure), upload code, and use Visual Studio extension",
