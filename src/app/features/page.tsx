@@ -132,14 +132,6 @@ export default function FeaturesPage() {
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/20 rounded-full blur-[120px] pointer-events-none" />
 
           <div className="relative z-10 max-w-3xl mx-auto">
-            {/* Pill badge */}
-            <div className="inline-flex items-center gap-2 bg-neutral-800/60 border border-neutral-700/50 rounded-full px-4 py-1.5 mb-8">
-              <Brain className="w-4 h-4 text-orange-500" />
-              <span className="text-xs font-bold tracking-widest text-neutral-300 uppercase">
-                The Platform
-              </span>
-            </div>
-
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               AI-Powered Software Quality Features
               <br />

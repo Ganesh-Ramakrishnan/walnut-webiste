@@ -397,38 +397,39 @@ export default function PricingPage() {
               );
             })}
           </div>
-        </section>
 
-        {/* ============================================================ */}
-        {/*  AUTOBOT ADD-ON                                              */}
-        {/* ============================================================ */}
-        <section style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px 64px" }}>
-          <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 20, padding: "40px 36px", position: "relative", overflow: "hidden" }}>
+          {/* AutoBot Add-on — inside pricing section */}
+          <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 20, padding: "32px 32px", marginTop: 20, position: "relative", overflow: "hidden" }}>
             <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(to right, #F17F0D, #FF9D42)" }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h3 style={{ color: "#fff", fontSize: 24, fontWeight: 800, margin: 0 }}>AutoBot</h3>
-              <span style={{ background: "rgba(241, 127, 13, 0.1)", border: "1px solid rgba(241, 127, 13, 0.3)", color: "#F17F0D", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 50 }}>ADD-ON (Custom Pricing)</span>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 32 }}>
+              <div style={{ flex: "1 1 320px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+                  <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 800, margin: 0 }}>AutoBot</h3>
+                  <span style={{ background: "rgba(241, 127, 13, 0.1)", border: "1px solid rgba(241, 127, 13, 0.3)", color: "#F17F0D", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 50 }}>ADD-ON (Custom Pricing)</span>
+                </div>
+                <p style={{ color: "#6b7280", fontSize: 12, marginBottom: 12 }}>Available across all licenses</p>
+                <p style={{ color: "#d1d5db", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                  AutoBot helps you go from an idea to a fully built application, while keeping everything in sync — requirements, development, and test cases — so nothing gets missed.
+                </p>
+              </div>
+              <div style={{ flex: "1 1 320px" }}>
+                <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 8 }}>
+                  {[
+                    "Builds a complete application from your input or idea",
+                    "Creates and keeps requirements up to date automatically",
+                    "Generates test cases alongside the application",
+                    "Keeps requirements, code, and test cases aligned at all times",
+                    "Identifies and reduces gaps across the entire flow",
+                    "Reflects any changes across all parts without manual effort",
+                  ].map((item) => (
+                    <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                      <span style={{ color: "#F17F0D", marginTop: 2, flexShrink: 0 }}>&#10003;</span>
+                      <span style={{ color: "#d1d5db", fontSize: 13, lineHeight: 1.6 }}>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-            <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 20 }}>Available across all licenses</p>
-            <p style={{ color: "#d1d5db", fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
-              AutoBot helps you go from an idea to a fully built application, while keeping everything in sync behind the scenes — requirements, development, and test cases — so nothing gets missed.
-            </p>
-            <h4 style={{ color: "#F17F0D", fontSize: 14, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>Core Capabilities</h4>
-            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
-              {[
-                "Builds a complete application from your input or idea",
-                "Creates and keeps requirements up to date automatically",
-                "Generates test cases alongside the application",
-                "Keeps requirements, code, and test cases aligned at all times",
-                "Identifies and reduces gaps across the entire flow",
-                "Reflects any changes across all parts without manual effort",
-              ].map((item) => (
-                <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                  <span style={{ color: "#F17F0D", marginTop: 2, flexShrink: 0 }}>&#10003;</span>
-                  <span style={{ color: "#d1d5db", fontSize: 14, lineHeight: 1.6 }}>{item}</span>
-                </li>
-              ))}
-            </ul>
           </div>
         </section>
 
