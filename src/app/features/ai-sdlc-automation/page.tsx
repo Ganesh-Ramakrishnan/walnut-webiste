@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 const howItWorks = [
   {
     step: "Input your requirements",
-    text: "Prompt WalnutAI in natural language, upload a PRD, or connect Jira.",
+    text: "Prompt WalnutAI in natural language, upload a PRD or requirements document, or connect your Jira project to provide the specification input.",
   },
   {
     step: "AI agents structure requirements",
@@ -47,57 +47,57 @@ const howItWorks = [
   },
   {
     step: "Development agents generate code",
-    text: "Code generation agents produce production-ready code aligned to requirements.",
+    text: "Code generation agents produce production-ready application code aligned to the structured requirements, with no manual developer intervention required.",
   },
   {
     step: "QA agents test and validate",
-    text: "Testing agents generate comprehensive test cases and execute them automatically.",
+    text: "Testing agents automatically generate comprehensive test cases and execute them against the generated code — producing a full test report before any human reviews the output.",
   },
 ];
 
 const capabilities = [
   "AI Requirement Analysis — Convert prompts, Figma designs, meeting recordings, videos, PRDs, or documents into structured, testable requirements automatically",
-  "Multi-Agent Orchestration — AI agents exchange context in real time",
-  "Autonomous Code Generation — Generate production-ready code from requirements",
-  "Integrated Test Creation — QA agents auto-produce test cases",
-  "Parallel Execution — Multiple AI agents run concurrently",
-  "Continuous Alignment Validation — Generated code checked against requirements throughout",
+  "Multi-Agent Orchestration — AI agents exchange context and manage dependencies in real time to maintain end-to-end alignment",
+  "Autonomous Code Generation — Generate production-ready application code from structured requirements without manual coding",
+  "Integrated Test Creation — QA agents automatically produce test cases for every generated feature",
+  "Parallel Execution — Multiple AI agents operate concurrently, compressing delivery timelines",
+  "Continuous Alignment Validation — The system checks that generated code matches the original requirements throughout the build process",
 ];
 
 const whoUses = [
   {
     icon: Briefcase,
-    label: "CTOs evaluating autonomous development for MVPs",
+    label: "CTOs and VPs of Engineering evaluating autonomous development for internal tooling or MVP builds",
   },
   {
     icon: Users,
-    label: "Engineering managers reducing sprint coordination overhead",
+    label: "Engineering managers looking to reduce sprint coordination overhead between product, development, and QA",
   },
   {
     icon: Rocket,
-    label: "Startup teams shipping faster without expanding headcount",
+    label: "Startup teams that need to ship functional applications faster without expanding headcount",
   },
 ];
 
 const faqs = [
   {
-    q: "Does this replace developers?",
-    a: "No. Handles well-defined tasks autonomously. Complex architecture and product strategy remain human.",
+    q: "Does AI-orchestrated SDLC replace software developers?",
+    a: "No. WalnutAI\u2019s SDLC automation handles well-defined, scoped development tasks autonomously \u2014 internal tools, CRUD applications, API integrations, and feature modules. Complex system architecture, product strategy, and creative problem-solving remain human responsibilities. The goal is to eliminate repetitive delivery work, not replace engineering judgment.",
   },
   {
-    q: "What types of apps can WalnutAI build?",
-    a: "Web apps, REST APIs, internal tools, microservices with clear requirements.",
+    q: "What types of applications can WalnutAI build autonomously?",
+    a: "WalnutAI is best suited for web applications, REST APIs, internal tools, microservices, and feature modules with clear requirements. Applications requiring complex UI/UX design decisions or proprietary business logic benefit from a human-in-the-loop approach alongside WalnutAI\u2019s automation.",
   },
   {
-    q: "How does it maintain context across stages?",
-    a: "Shared context model — each agent reads from a common requirement graph.",
+    q: "How does WalnutAI maintain context across all SDLC stages?",
+    a: "WalnutAI uses a shared context model \u2014 each AI agent (requirements, development, QA) reads from and writes to a common requirement graph. This ensures that code generation is always grounded in the original specification and test cases are always mapped to the feature they validate.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "AI Test Case Generation", id: "ai-test-case-generation" },
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
-  { title: "Requirements Engineering", id: "requirements-engineering" },
+  { title: "AI Test Case Generation from Requirements", id: "ai-test-case-generation" },
+  { title: "Automated Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "Requirements Engineering from Documents", id: "requirements-engineering" },
 ];
 
 const breadcrumbSchema = {
@@ -128,13 +128,13 @@ const breadcrumbSchema = {
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  name: "How to automate your SDLC with WalnutAI",
+  name: "How WalnutAI SDLC Automation Works",
   step: [
     {
       "@type": "HowToStep",
       position: 1,
       name: "Input your requirements",
-      text: "Prompt WalnutAI in natural language, upload a PRD, or connect Jira.",
+      text: "Prompt WalnutAI in natural language, upload a PRD or requirements document, or connect your Jira project to provide the specification input.",
     },
     {
       "@type": "HowToStep",
@@ -146,13 +146,13 @@ const howToSchema = {
       "@type": "HowToStep",
       position: 3,
       name: "Development agents generate code",
-      text: "Code generation agents produce production-ready code aligned to requirements.",
+      text: "Code generation agents produce production-ready application code aligned to the structured requirements, with no manual developer intervention required.",
     },
     {
       "@type": "HowToStep",
       position: 4,
       name: "QA agents test and validate",
-      text: "Testing agents generate comprehensive test cases and execute them automatically.",
+      text: "Testing agents automatically generate comprehensive test cases and execute them against the generated code — producing a full test report before any human reviews the output.",
     },
   ],
 };
@@ -163,26 +163,26 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
-      name: "Does this replace developers?",
+      name: "Does AI-orchestrated SDLC replace software developers?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "No. Handles well-defined tasks autonomously. Complex architecture and product strategy remain human.",
+        text: "No. WalnutAI\u2019s SDLC automation handles well-defined, scoped development tasks autonomously \u2014 internal tools, CRUD applications, API integrations, and feature modules. Complex system architecture, product strategy, and creative problem-solving remain human responsibilities. The goal is to eliminate repetitive delivery work, not replace engineering judgment.",
       },
     },
     {
       "@type": "Question",
-      name: "What types of apps can WalnutAI build?",
+      name: "What types of applications can WalnutAI build autonomously?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Web apps, REST APIs, internal tools, microservices with clear requirements.",
+        text: "WalnutAI is best suited for web applications, REST APIs, internal tools, microservices, and feature modules with clear requirements. Applications requiring complex UI/UX design decisions or proprietary business logic benefit from a human-in-the-loop approach alongside WalnutAI\u2019s automation.",
       },
     },
     {
       "@type": "Question",
-      name: "How does it maintain context across stages?",
+      name: "How does WalnutAI maintain context across all SDLC stages?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Shared context model — each agent reads from a common requirement graph.",
+        text: "WalnutAI uses a shared context model \u2014 each AI agent (requirements, development, QA) reads from and writes to a common requirement graph. This ensures that code generation is always grounded in the original specification and test cases are always mapped to the feature they validate.",
       },
     },
   ],
@@ -266,30 +266,30 @@ export default function AiSdlcAutomationPage() {
 
         {/* Outcomes — StatCard grid */}
         <section className="mx-auto max-w-6xl px-6 py-16">
-          <h3 className="text-2xl font-bold mb-8">Outcomes</h3>
+          <h3 className="text-2xl font-bold mb-8">Key Outcomes (stat-backed)</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard
               stat="80%"
-              description="Reduction in time-to-first-build"
+              description="Reduce time-to-first-build by up to 80% — go from a requirements document to a working, tested application without manual development coordination"
             />
             <StatCard
               stat="1"
-              description="Unified system for requirements, code generation, and test creation"
+              description="Eliminate tool fragmentation: requirements, code generation, and test creation happen within a single orchestrated system"
             />
             <StatCard
               stat="0"
-              description="Manual QA coordination — AI agents generate and execute test cases before human review"
+              description="Zero manual QA coordination — AI agents generate and execute test cases before human review is required"
             />
             <StatCard
               stat="Early"
-              description="Automated bug detection and resolution — identify, analyze, and fix defects using AI-driven debugging"
+              description="Automated bug detection and resolution — identify, analyze, and fix defects early using AI-driven debugging and gap analysis, reducing production issues and rework"
             />
           </div>
         </section>
 
         {/* How It Works — StepCard grid */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold mb-8">How It Works</h3>
+          <h3 className="text-2xl font-bold mb-8">How WalnutAI SDLC Automation Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
               <StepCard
@@ -304,13 +304,13 @@ export default function AiSdlcAutomationPage() {
 
         {/* Capabilities — FeatureList */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold mb-4">Capabilities</h3>
+          <h3 className="text-2xl font-bold mb-4">Key Capabilities</h3>
           <FeatureList items={capabilities} />
         </section>
 
         {/* Who Uses This */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold mb-8">Who Uses This</h3>
+          <h3 className="text-2xl font-bold mb-8">Who Uses This Feature</h3>
           <div className="grid gap-6 sm:grid-cols-3">
             {whoUses.map((item, i) => (
               <div
@@ -331,7 +331,7 @@ export default function AiSdlcAutomationPage() {
         {/* ComparisonBlock */}
         <section className="mx-auto max-w-6xl px-6">
           <ComparisonBlock
-            title="Traditional SDLC vs WalnutAI"
+            title="Comparison — WalnutAI vs Traditional Development"
             traditional="Requirements are written by business analysts, handed to developers, and then passed to QA, each handoff introducing delays, context loss, and misalignment, with requirements, development, and testing happening in silos."
             walnut="Development starts with intent: you provide prompt or input documents, and AI agents simultaneously structure requirements (epics, features, user stories), generate application code, and create test cases in parallel. By maintaining shared context across the lifecycle and eliminating manual handoffs, WalnutAI ensures everything stays aligned from the start, resulting in fully built, tested applications with synchronized requirements — reducing delivery time by up to 80% and minimizing rework."
           />

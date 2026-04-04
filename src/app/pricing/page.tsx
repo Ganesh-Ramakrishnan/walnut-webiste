@@ -10,6 +10,35 @@ import Footer from "@/components/Footer";
 
 const plans = [
   {
+    name: "Free Trial",
+    tagline: "Everything You Need to Get Started",
+    price: "$0",
+    annual: "$0",
+    discount: "",
+    cta: "Start Free Trial",
+    highlighted: false,
+    outcomes: [
+      "Build applications, websites by simply describing your idea (prompt-to-development)",
+      "See your first requirement-to-code analysis in minutes",
+      "Instantly create and run automated tests",
+      "Experience how your workflow translates into a working system",
+    ],
+    outcomeNote:
+      "No credit card required. Get started in minutes with full access to the WalnutAI platform.",
+    features: [
+      "Unlimited projects with up to 10 users",
+      "Generate stories from BRD/FRS, meeting transcripts (audio/video), and AI prompts",
+      "Figma integration to generate stories and test cases",
+      "Connect repositories (GitHub, GitLab, Bitbucket, Azure), upload code, and use Visual Studio extension",
+      "Import and generate Playwright automation scripts",
+      "Test case generation, test data management, test suites, and execution with exportable reports",
+      "Web, API, Mobile test execution (hybrid supported)",
+      "Gap analysis across stories \u2192 code \u2192 test cases with exportable reports",
+      "Import issues from Jira and Azure with Live sync",
+      "Custom methods for actions and ticket-based support",
+    ],
+  },
+  {
     name: "Explorer",
     tagline: "For Teams Ready to Ship Faster",
     price: "$18",
@@ -43,6 +72,7 @@ const plans = [
     discount: "-10%",
     cta: "Start Team Trial",
     highlighted: true,
+    includes: "Explorer features plus:",
     outcomes: [
       "Cut production defects by 80%",
       "95%+ requirements coverage",
@@ -53,7 +83,6 @@ const plans = [
     features: [
       "Unlimited projects",
       "Invite upto 10 users",
-      "Role based access",
       "Connect via gitlab/github/bitbucket",
       "Import playwright scripts",
       "Import from Qtest/Testrail",
@@ -71,6 +100,7 @@ const plans = [
     discount: "",
     cta: "Talk to Us",
     highlighted: false,
+    includes: "Team features plus:",
     outcomes: [
       "Zero-downtime deployments",
       "Complete audit compliance",
@@ -82,6 +112,7 @@ const plans = [
       "Predictable billing",
       "Unlimited projects",
       "Unlimited users",
+      "Role based access management",
       "SSO/SAML",
       "Cloud & parallel executions",
       "On-premise/private cloud",
@@ -91,35 +122,41 @@ const plans = [
   },
 ];
 
-/* comparison-table rows: [feature, explorer, team, enterprise] */
-const comparisonRows: [string, string, string, string][] = [
-  ["Projects", "Up to 5", "Unlimited", "Unlimited"],
-  ["Users", "Up to 5", "Up to 10", "Unlimited"],
-  ["Jira / Azure integration", "\u2713", "\u2713", "\u2713"],
-  ["Code repo upload", "\u2713", "\u2713", "\u2713"],
-  ["Figma integration", "\u2713", "\u2713", "\u2713"],
-  ["Automation test cases", "\u2713", "\u2713", "\u2713"],
-  ["Test suites & execution", "\u2713", "\u2713", "\u2713"],
-  ["Shareable gap reports", "\u2713", "\u2713", "\u2713"],
-  ["Role based access", "\u2014", "\u2713", "\u2713"],
-  ["GitLab / GitHub / Bitbucket", "\u2014", "\u2713", "\u2713"],
-  ["Import Playwright scripts", "\u2014", "\u2713", "\u2713"],
-  ["Import from Qtest / Testrail", "\u2014", "\u2713", "\u2713"],
-  ["Mobile test execution", "\u2014", "\u2713", "\u2713"],
-  ["Continuous gap analysis", "\u2014", "\u2713", "\u2713"],
-  ["Community support", "\u2014", "\u2713", "\u2713"],
-  ["Custom domains", "\u2014", "\u2713", "\u2713"],
-  ["SSO / SAML", "\u2014", "\u2014", "\u2713"],
-  ["Cloud & parallel executions", "\u2014", "\u2014", "\u2713"],
-  ["On-premise / private cloud", "\u2014", "\u2014", "\u2713"],
-  ["Audit logs", "\u2014", "\u2014", "\u2713"],
-  ["Dedicated support & SLA", "\u2014", "\u2014", "\u2713"],
+/* comparison-table rows: [feature, free, explorer, team, enterprise] */
+const comparisonRows: [string, string, string, string, string][] = [
+  ["Projects", "Unlimited", "Up to 5", "Unlimited", "Unlimited"],
+  ["Users", "Up to 10", "Up to 5", "Up to 10", "Unlimited"],
+  ["Story generation (BRD/FRS/Audio/Video)", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["Role based access (custom roles)", "\u2713", "\u2014", "\u2014", "\u2713"],
+  ["Custom domains", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Upload code repo", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["VS Code extension", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Import Playwright scripts", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Generate Playwright scripts", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Test Case Generation", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["Test data management", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Gap analysis (stories \u2192 code \u2192 tests)", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["Jira / Azure integration", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["Figma integration", "Coming Soon", "\u2713", "\u2713", "\u2713"],
+  ["Test suites & execution", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["Web & API execution (hybrid)", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Exportable execution reports", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Shareable gap reports", "\u2713", "\u2713", "\u2713", "\u2713"],
+  ["GitLab / GitHub / Bitbucket / Azure", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["Mobile test execution (Android/iOS)", "Coming Soon", "\u2014", "\u2713", "\u2713"],
+  ["Import from Qtest / TestRail", "Coming Soon", "\u2014", "\u2713", "\u2713"],
+  ["Ticket based support", "\u2713", "\u2014", "\u2713", "\u2713"],
+  ["SSO / SAML", "\u2014", "\u2014", "\u2014", "\u2713"],
+  ["Cloud & parallel executions", "\u2014", "\u2014", "\u2014", "\u2713"],
+  ["On-premise / private cloud", "\u2014", "\u2014", "\u2014", "\u2713"],
+  ["Audit logs", "\u2014", "\u2014", "\u2014", "\u2713"],
+  ["Dedicated support & SLA", "\u2014", "\u2014", "\u2014", "\u2713"],
 ];
 
 const faqs = [
   {
     q: "Is there a free trial?",
-    a: "Yes. Every plan starts with a 14-day free trial\u2014no credit card required. You get full access to all features in your chosen tier so you can evaluate the value before committing.",
+    a: "Yes. WalnutAI offers a Free Trial with unlimited projects, up to 10 users, and full access to all core features including test case generation, gap analysis, code repo upload, Playwright scripts, and more \u2014 no credit card required. Upgrade to Explorer, Team, or Enterprise for advanced features like SSO, on-premise deployment, and dedicated support.",
   },
   {
     q: "What happens when my trial ends?",
@@ -256,10 +293,11 @@ export default function PricingPage() {
         {/* ============================================================ */}
         {/*  PRICING CARDS                                               */}
         {/* ============================================================ */}
-        <section style={{ maxWidth: 1140, margin: "0 auto", padding: "0 16px 64px" }}>
+        <section style={{ maxWidth: 1320, margin: "0 auto", padding: "0 16px 64px" }}>
           <div className="pricing-grid">
             {plans.map((plan) => {
               const isCustom = plan.price === "Custom pricing";
+              const isFree = plan.name === "Free Trial";
               return (
                 <div
                   key={plan.name}
@@ -274,7 +312,13 @@ export default function PricingPage() {
 
                   {/* Price */}
                   <div className="pricing-price-row">
-                    {!isCustom ? (
+                    {isCustom ? (
+                      <span className="pricing-price pricing-price-custom">
+                        Custom pricing
+                      </span>
+                    ) : isFree ? (
+                      <span className="pricing-price">$0</span>
+                    ) : (
                       <>
                         <span className="pricing-price">
                           {annual ? plan.annual : plan.price}
@@ -283,15 +327,11 @@ export default function PricingPage() {
                           / user / {annual ? "year" : "month"}
                         </span>
                       </>
-                    ) : (
-                      <span className="pricing-price pricing-price-custom">
-                        Custom pricing
-                      </span>
                     )}
                   </div>
 
                   {/* Per-card toggle (mirrors global but kept per card for clarity) */}
-                  {!isCustom && (
+                  {!isCustom && !isFree && (
                     <div className="pricing-toggle-row">
                       <span
                         className="pricing-toggle-label"
@@ -332,6 +372,11 @@ export default function PricingPage() {
                   </div>
 
                   {/* Features */}
+                  {("includes" in plan && plan.includes) && (
+                    <p style={{ color: "#F17F0D", fontSize: 13, fontWeight: 700, marginBottom: 12 }}>
+                      {plan.includes as string}
+                    </p>
+                  )}
                   <ul className="pricing-features">
                     {plan.features.map((f, i) => (
                       <li key={i}>
@@ -351,6 +396,39 @@ export default function PricingPage() {
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        {/* ============================================================ */}
+        {/*  AUTOBOT ADD-ON                                              */}
+        {/* ============================================================ */}
+        <section style={{ maxWidth: 900, margin: "0 auto", padding: "0 16px 64px" }}>
+          <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 20, padding: "40px 36px", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(to right, #F17F0D, #FF9D42)" }} />
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <h3 style={{ color: "#fff", fontSize: 24, fontWeight: 800, margin: 0 }}>AutoBot</h3>
+              <span style={{ background: "rgba(241, 127, 13, 0.1)", border: "1px solid rgba(241, 127, 13, 0.3)", color: "#F17F0D", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 50 }}>ADD-ON (Custom Pricing)</span>
+            </div>
+            <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 20 }}>Available across all licenses</p>
+            <p style={{ color: "#d1d5db", fontSize: 15, lineHeight: 1.7, marginBottom: 24 }}>
+              AutoBot helps you go from an idea to a fully built application, while keeping everything in sync behind the scenes — requirements, development, and test cases — so nothing gets missed.
+            </p>
+            <h4 style={{ color: "#F17F0D", fontSize: 14, fontWeight: 700, marginBottom: 16, textTransform: "uppercase", letterSpacing: 1 }}>Core Capabilities</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                "Builds a complete application from your input or idea",
+                "Creates and keeps requirements up to date automatically",
+                "Generates test cases alongside the application",
+                "Keeps requirements, code, and test cases aligned at all times",
+                "Identifies and reduces gaps across the entire flow",
+                "Reflects any changes across all parts without manual effort",
+              ].map((item) => (
+                <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                  <span style={{ color: "#F17F0D", marginTop: 2, flexShrink: 0 }}>&#10003;</span>
+                  <span style={{ color: "#d1d5db", fontSize: 14, lineHeight: 1.6 }}>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 
@@ -400,7 +478,7 @@ export default function PricingPage() {
                   >
                     Feature
                   </th>
-                  {["Explorer", "Team", "Enterprise"].map((h) => (
+                  {["Free Trial", "Explorer", "Team", "Enterprise"].map((h) => (
                     <th
                       key={h}
                       style={{
@@ -417,7 +495,7 @@ export default function PricingPage() {
                 </tr>
               </thead>
               <tbody>
-                {comparisonRows.map(([feature, explorer, team, enterprise], idx) => (
+                {comparisonRows.map(([feature, free, explorer, team, enterprise], idx) => (
                   <tr
                     key={feature}
                     style={{
@@ -434,7 +512,7 @@ export default function PricingPage() {
                     >
                       {feature}
                     </td>
-                    {[explorer, team, enterprise].map((val, ci) => (
+                    {[free, explorer, team, enterprise].map((val, ci) => (
                       <td
                         key={ci}
                         style={{

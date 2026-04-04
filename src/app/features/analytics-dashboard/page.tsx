@@ -56,14 +56,14 @@ const howItWorks = [
 ];
 
 const capabilities = [
-  "Requirement coverage %",
-  "Active gap count ranked by severity",
-  "Test case pass rate",
-  "Release risk score (AI-calculated composite)",
-  "Defect density by feature",
-  "Sprint velocity vs quality trend",
-  "Code-to-test ratio",
-  "Rolling 30/90-day trend analysis",
+  "Requirement coverage % — percentage of requirements with at least one passing test case, updated in real time",
+  "Active gap count — number of uncovered requirements or untested code paths, ranked by severity",
+  "Test case pass rate — current sprint pass/fail ratio across all active test suites",
+  "Release risk score — composite AI-calculated score reflecting coverage gaps, failing tests, and unresolved defects",
+  "Defect density by feature — number of defects per 100 test cases, grouped by requirement area",
+  "Sprint velocity vs quality trend — feature delivery rate correlated with defect and gap trends over time",
+  "Code-to-test ratio — lines of production code per test case, tracking test suite health over time",
+  "Rolling 30/90-day trend analysis — coverage and gap trends to identify systematic quality improvements or degradation",
 ];
 
 const outcomes = [
@@ -82,26 +82,26 @@ const outcomes = [
 ];
 
 const whoUses = [
-  "Engineering managers — sprint reviews on quality trends",
-  "QA leads — pre-release sign-off with coverage data",
-  "Product managers — feature-level requirement coverage",
-  "CTOs — portfolio quality health across teams",
+  "Engineering managers — weekly sprint reviews showing whether the team is improving or degrading quality over time",
+  "QA leads — pre-release sign-off decisions based on real-time coverage and gap data",
+  "Product managers — feature-level requirement coverage confirming that shipped features are fully tested",
+  "CTOs and VPs — portfolio-level quality health across all active projects and teams",
 ];
 
 const faqs = [
   {
     q: "What is a release readiness score?",
-    a: "Composite metric from coverage %, pass rate, gap count, defect count. 0-100 scale, configurable thresholds. Updates in real time.",
+    a: "WalnutAI\u2019s release readiness score is a composite metric calculated from requirement coverage percentage, current test pass rate, active gap count by severity, and open defect count. The score is presented on a 0-100 scale, with thresholds configurable per team — for example, a team might require a score of 85 or above before approving a production deployment. The score updates in real time as tests run and gaps are resolved.",
   },
   {
-    q: "Multi-project support?",
-    a: "Yes. Team/Enterprise have portfolio dashboard aggregating all projects. Individual drilldowns available.",
+    q: "Can the dashboard show data across multiple projects and repositories?",
+    a: "Yes. The Team and Enterprise plans provide a portfolio dashboard view aggregating metrics across all connected projects and repositories. Individual project drilldowns are available for detailed analysis, while the portfolio view gives engineering leaders a single snapshot of quality health across the organization.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
-  { title: "Test Execution", id: "test-execution-management" },
+  { title: "Requirements Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "Test Execution & Management", id: "test-execution-management" },
 ];
 
 export default function AnalyticsDashboardPage() {
@@ -199,24 +199,29 @@ export default function AnalyticsDashboardPage() {
             Software Delivery Intelligence
             <br />
             <span className="text-orange-500">
-              Real-Time Coverage, Test Health &amp; Release Risk
+              Real-Time Requirements Coverage, Test Health &amp; Release Risk
+              Dashboard
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            WalnutAI aggregates gap analysis, test execution, and requirements
-            traceability into a single dashboard — giving engineering leaders
-            visibility to make confident release decisions.
+            WalnutAI aggregates data from gap analysis, test execution, and
+            requirements traceability into a single dashboard — giving
+            engineering leaders the visibility to make confident release
+            decisions without pulling reports from multiple tools.
           </h2>
         </section>
 
         {/* GEO Definition */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <GeoDefinition>
-            A software delivery intelligence dashboard aggregates metrics from
-            requirements management, test execution, and coverage analysis.
-            WalnutAI&apos;s dashboard connects gap data, test rates, coverage
-            percentages, and sprint trends into a composite release readiness
-            score.
+            A software delivery intelligence dashboard is a unified analytics
+            interface that aggregates metrics from requirements management, test
+            execution, and coverage analysis to provide engineering and QA teams
+            with a single, real-time view of delivery health. WalnutAI&apos;s
+            dashboard connects gap analysis data, test pass/fail rates,
+            requirement coverage percentages, and sprint trends into a composite
+            release readiness score — eliminating the need to manually correlate
+            data from separate tools.
           </GeoDefinition>
         </section>
 
@@ -248,14 +253,14 @@ export default function AnalyticsDashboardPage() {
         {/* Dashboard Metrics */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <h3 className="text-2xl font-bold text-white mb-4">
-            Dashboard Metrics
+            Dashboard Metrics — What You See
           </h3>
           <FeatureList items={capabilities} />
         </section>
 
         {/* Who Uses This */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">Who Uses This</h3>
+          <h3 className="text-2xl font-bold text-white mb-8">Who Uses the Dashboard</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {whoUses.map((item, i) => (
               <div

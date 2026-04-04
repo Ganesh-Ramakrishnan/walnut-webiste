@@ -38,8 +38,8 @@ export const metadata: Metadata = {
 
 const howItWorks = [
   {
-    step: "Connect requirements source",
-    text: "Link Jira, Azure DevOps, or upload a document.",
+    step: "Connect your requirements source",
+    text: "Link your Jira project, Azure DevOps backlog, or upload a requirements document. WalnutAI reads and indexes every user story and acceptance criterion.",
   },
   {
     step: "Generate test cases through Smart Recording and prompting",
@@ -47,64 +47,70 @@ const howItWorks = [
   },
   {
     step: "AI analyzes each requirement",
-    text: "Identifies actors, actions, outcomes, boundaries, and failure scenarios.",
+    text: "For each user story, WalnutAI\u2019s test generation model identifies the actors, actions, expected outcomes, boundary conditions, and failure scenarios implied by the requirement.",
   },
   {
-    step: "Test cases generated and mapped",
-    text: "Comprehensive set created and mapped to originating requirement.",
+    step: "Test cases are generated and mapped",
+    text: "A comprehensive set of test cases is created and automatically mapped back to the originating requirement — maintaining full traceability from story to test.",
   },
   {
     step: "Export and execute",
-    text: "Available in WalnutAI, export to Jira, or CI/CD pipeline.",
+    text: "Generated test cases are available in WalnutAI\u2019s test management interface, or export directly to Jira, or your CI/CD pipeline.",
   },
 ];
 
 const capabilities = [
-  "Functional test cases",
-  "Edge case test cases",
-  "Negative test cases",
-  "Regression test cases",
-  "API test cases",
-  "UI and UX test cases (Figma integration)",
-  "Security test cases",
-  "Performance test scenarios",
+  "Functional test cases — verify that each requirement behaves as specified under normal conditions",
+  "Edge case test cases — identify boundary conditions and unusual inputs that often cause failures",
+  "Negative test cases — verify correct error handling when invalid inputs or unexpected states occur",
+  "Regression test cases — ensure existing functionality is not broken by new changes",
+  "API test cases — validate request/response contracts, status codes, and data integrity",
+  "UI and UX test cases — verify interface behavior against design specifications (requires Figma integration)",
+  "Security test cases — common vulnerability scenarios including input validation and authentication edge cases",
+  "Performance test scenarios — load and response time benchmarks based on acceptance criteria",
 ];
 
 const outcomes = [
-  { stat: "15+ hrs", description: "Saved per sprint on manual test writing" },
-  { stat: "96%", description: "Average requirement coverage" },
+  { stat: "15+ hrs", description: "Save 15+ hours per sprint — eliminate manual test case writing for your entire backlog" },
+  { stat: "96%", description: "96% average requirement coverage — WalnutAI generates test cases for every requirement, including edge cases and negative scenarios that manual writers commonly miss" },
   {
     stat: "Minutes",
-    description: "First test cases generated after connecting Jira",
+    description: "First test cases generated within minutes of connecting your Jira project — no configuration or prompting required",
   },
 ];
 
 const faqs = [
   {
-    q: "Can it generate from Jira stories?",
-    a: "Yes. Connects directly, reads stories and acceptance criteria. Auto-generates on new stories.",
+    q: "Can WalnutAI generate test cases from Jira user stories?",
+    a: "Yes. WalnutAI connects directly to your Jira project and reads user stories, acceptance criteria, and epic descriptions. Test cases are generated for every story automatically — with no manual prompting required. New stories added to Jira trigger automatic test case generation, keeping your test suite synchronized with your backlog at all times.",
   },
   {
     q: "How accurate are AI-generated test cases?",
-    a: "Grounded in YOUR requirements. Teams report edge cases covered that manual writers miss. Review before execution.",
+    a: "WalnutAI-generated test cases are grounded in your specific requirements — not generic patterns — which significantly improves relevance compared to general AI tools. Teams consistently report that AI-generated test cases cover edge cases and boundary conditions that manual writers frequently miss. All generated test cases are reviewed in WalnutAI\u2019s interface before execution, allowing QA engineers to approve, edit, or reject individual cases before they run.",
   },
   {
-    q: "How many test cases per user story?",
-    a: "5-15 on average: happy path, 2-3 alternative flows, boundary conditions, negative scenario, security/performance.",
+    q: "How many test cases does WalnutAI generate per user story?",
+    a: "On average, WalnutAI generates between 5 and 15 test cases per user story — covering the happy path, 2-3 alternative flows, boundary conditions, at least one negative scenario, and any security or performance considerations implied by the acceptance criteria. Complex stories with multiple actors or integration points generate more test cases accordingly.",
   },
   {
-    q: "Can I import existing test cases?",
-    a: "Yes. Imported tests are mapped to requirements and integrated into gap analysis.",
+    q: "Can I import existing test cases into WalnutAI?",
+    a: "Yes. WalnutAI supports importing existing test cases. Imported test cases are mapped to your requirements and integrated into gap analysis — so WalnutAI can identify which existing tests cover which requirements and where additional AI-generated tests are needed.",
   },
   {
-    q: "Does it support mobile apps?",
-    a: "Yes. Android/iOS on Team and Enterprise plans. Covers device-specific behaviors, touch, orientation, permissions, offline.",
+    q: "Does WalnutAI generate test cases for mobile applications?",
+    a: "Yes. Mobile test case generation for Android and iOS applications is available on the Team and Enterprise plans. Mobile test cases cover device-specific behaviors, touch interactions, orientation changes, permission handling, and offline scenarios — in addition to standard functional and regression coverage.",
   },
 ];
 
+const integrations = [
+  "Input sources: Jira, Azure DevOps, GitHub Issues, Figma (design-to-test), uploaded PRDs and documents",
+  "Export destinations: Jira (Zephyr/Xray), Playwright scripts, CSV",
+  "Execution environments: WalnutAI Test Runner, CI/CD pipeline (GitHub Actions, GitLab CI, Azure Pipelines)",
+];
+
 const relatedFeatures = [
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
-  { title: "Test Execution", id: "test-execution-management" },
+  { title: "Requirements Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "Test Execution & Management", id: "test-execution-management" },
 ];
 
 export default function AiTestCaseGenerationPage() {
@@ -208,7 +214,7 @@ export default function AiTestCaseGenerationPage() {
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             WalnutAI reads your Jira stories, requirements documents, or Figma
             designs and generates comprehensive test cases covering every
-            scenario — in seconds per user story.
+            scenario — in seconds per user story, with zero manual QA writing.
           </h2>
         </section>
 
@@ -217,10 +223,13 @@ export default function AiTestCaseGenerationPage() {
           <GeoDefinition>
             Automated test case generation is the use of AI to create software
             test cases from requirements documents, user stories, or application
-            specifications. WalnutAI generates functional, edge case, boundary
-            value, negative, regression, API, and security test cases — all
-            mapped to the originating requirement — in seconds. Teams eliminate
-            15+ hours per sprint of manual test writing.
+            specifications — replacing the manual process of writing test cases
+            by hand. WalnutAI generates functional test cases, edge case
+            scenarios, boundary value tests, negative test cases, regression
+            tests, API tests, and security test cases — all mapped back to the
+            originating requirement — in seconds per user story. Teams using
+            WalnutAI eliminate an average of 15 hours per sprint previously spent
+            on manual test case authoring.
           </GeoDefinition>
         </section>
 
@@ -236,7 +245,7 @@ export default function AiTestCaseGenerationPage() {
 
         {/* How It Works */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">How It Works</h3>
+          <h3 className="text-2xl font-bold text-white mb-8">How WalnutAI Generates Test Cases</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {howItWorks.map((item, i) => (
               <StepCard
@@ -252,18 +261,17 @@ export default function AiTestCaseGenerationPage() {
         {/* Capabilities — Test Types Generated */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <h3 className="text-2xl font-bold text-white mb-4">
-            Test Types Generated
+            Test Types WalnutAI Generates
           </h3>
           <FeatureList items={capabilities} />
         </section>
 
-        {/* Comparison */}
+        {/* Integrations for Test Case Generation */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <ComparisonBlock
-            title="Traditional vs WalnutAI"
-            traditional="QA engineers manually write test cases from requirements — time-consuming, inconsistent coverage, and prone to missing edge cases."
-            walnut="AI reads every requirement and generates comprehensive test cases in seconds — covering functional, edge, negative, and security scenarios with full traceability."
-          />
+          <h3 className="text-2xl font-bold text-white mb-4">
+            Integrations for Test Case Generation
+          </h3>
+          <FeatureList items={integrations} />
         </section>
 
         {/* FAQ */}

@@ -14,22 +14,22 @@ import { ArrowLeft, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+    "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
   openGraph: {
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
     url: "https://www.walnutai.ai/features/requirements-engineering",
   },
   twitter: {
     card: "summary_large_image",
     title:
-      "AI Requirements Engineering — Convert PRDs into Testable User Stories | WalnutAI",
+      "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria and dependency maps — in minutes.",
+      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/requirements-engineering",
@@ -42,42 +42,42 @@ const howItWorks = [
     text: "Drag and drop a PRD, PDF, audio/video files or any supported format into WalnutAI.",
   },
   {
-    step: "AI parses and extracts",
-    text: "Requirement agent identifies functional/non-functional requirements, user goals, constraints, dependencies.",
+    step: "AI parses and extracts requirements",
+    text: "WalnutAI's requirement agent reads the document and identifies functional requirements, non-functional requirements, user goals, constraints, and dependencies.",
   },
   {
     step: "Review structured output",
-    text: "Requirements as user stories with acceptance criteria, priority scores, dependency links.",
+    text: "Extracted requirements are presented as structured user stories with acceptance criteria, priority scores, and dependency links — ready for your review and approval.",
   },
   {
     step: "Push to Jira or begin development",
-    text: "Sync to Jira as epics/stories, or trigger AI development pipeline.",
+    text: "Approved requirements sync directly to your Jira project as epics and stories, or immediately trigger WalnutAI's AI development and test generation pipeline.",
   },
 ];
 
 const capabilities = [
-  "PDF documents",
-  "Word documents (.docx)",
-  "Excel and CSV files",
-  "Plain text and Markdown",
-  "Jira epics",
-  "Figma design files",
+  "PDF documents — functional specs, business requirements, RFPs",
+  "Word documents (.docx) — requirement briefs, stakeholder documents",
+  "Excel and CSV files — tabular requirements and acceptance criteria",
+  "Plain text and Markdown — engineering notes and rough specs",
+  "Jira epics — parsed and decomposed into structured stories",
+  "Figma design files — requirements extracted from design annotations via integration",
 ];
 
 const faqs = [
   {
-    q: "Can it generate acceptance criteria from a PRD?",
-    a: "Yes. Given-When-Then format. Flags requirements where criteria can't be reliably inferred.",
+    q: "Can WalnutAI generate acceptance criteria from a PRD automatically?",
+    a: "Yes. WalnutAI reads your PRD and generates acceptance criteria for each extracted requirement using the Given-When-Then format. The AI identifies implied acceptance conditions from the document context — not just explicit statements — and flags any requirements where acceptance criteria cannot be reliably inferred, prompting a human review.",
   },
   {
-    q: "How does it handle ambiguous requirements?",
-    a: "Flags with confidence score and specific explanation of what's unclear.",
+    q: "How does WalnutAI handle ambiguous or incomplete requirements?",
+    a: "WalnutAI flags ambiguous requirements with a confidence score and a specific explanation of what is unclear — for example, missing actor definition, undefined success condition, or conflicting scope statements. These flagged items are presented for human review before being pushed to development.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "SDLC Automation", id: "ai-sdlc-automation" },
-  { title: "Gap Analysis", id: "requirements-gap-analysis" },
+  { title: "AI-Orchestrated SDLC Automation", id: "ai-sdlc-automation" },
+  { title: "Automated Gap Analysis", id: "requirements-gap-analysis" },
 ];
 
 export default function RequirementsEngineeringPage() {
@@ -118,9 +118,9 @@ export default function RequirementsEngineeringPage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "HowTo",
-            name: "How to Convert PRDs into Structured Requirements with WalnutAI",
+            name: "How It Works",
             description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices.",
+              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices automatically.",
             step: howItWorks.map((item, i) => ({
               "@type": "HowToStep",
               position: i + 1,
@@ -177,7 +177,7 @@ export default function RequirementsEngineeringPage() {
             AI Requirements Engineering
             <br />
             <span className="text-orange-500">
-              Convert PRDs into Structured, Testable Requirements
+              Convert PRDs and Business Documents into Structured, Testable Requirements
             </span>
           </h1>
 
@@ -185,18 +185,20 @@ export default function RequirementsEngineeringPage() {
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             Upload any requirements document and WalnutAI extracts, structures,
             and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices.
+            acceptance criteria, and traceability matrices automatically.
           </h2>
         </section>
 
         {/* GeoDefinition */}
         <section className="mx-auto max-w-6xl px-6 pt-16">
           <GeoDefinition>
-            AI requirements engineering is the application of AI to parse
-            unstructured business documents and convert them into structured
-            software requirements including user stories, acceptance criteria,
-            priority rankings, and dependency maps. WalnutAI reduces this from
-            2-3 days to under 30 minutes.
+            AI requirements engineering is the application of artificial
+            intelligence to parse unstructured business documents — such as PRDs,
+            functional specifications, and stakeholder briefs — and convert them
+            into structured software requirements including user stories,
+            acceptance criteria, priority rankings, and dependency maps. WalnutAI
+            automates this process, reducing a task that typically takes a
+            business analyst 2-3 days to under 30 minutes.
           </GeoDefinition>
         </section>
 
@@ -206,15 +208,15 @@ export default function RequirementsEngineeringPage() {
           <div className="grid gap-6 sm:grid-cols-3">
             <StatCard
               stat="30 min"
-              description="Requirements engineering from 2-3 days to under 30 minutes"
+              description="Reduce requirement engineering time from 2-3 days to under 30 minutes per feature area"
             />
             <StatCard
               stat="AI-Flagged"
-              description="Missing criteria and conflicting requirements detected before development"
+              description="Eliminate ambiguity: AI flags missing acceptance criteria, unclear scope, and conflicting requirements before development begins"
             />
             <StatCard
               stat="100%"
-              description="Traceability from document to user story to test case"
+              description="100% traceability from document to user story to test case — automatically maintained"
             />
           </div>
         </section>

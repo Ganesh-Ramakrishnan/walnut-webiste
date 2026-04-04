@@ -53,13 +53,13 @@ const howItWorks = [
 ];
 
 const capabilities = [
-  "Execute automated and manual test suites from one interface",
-  "Real-time release readiness scoring",
-  "Defect tracking linked to requirements",
+  "Execute automated and manual test suites from a single unified interface",
+  "Real-time release readiness scoring — a live score reflecting requirement coverage, pass rates, and active gap count",
+  "Defect tracking linked to requirements — every defect is automatically associated with the requirement it violates",
+  "Mobile test execution — Android and iOS device testing (Team and Enterprise plans)",
+  "Import from Playwright — migrate existing suites without recreating them",
+  "Parallel execution — run multiple test suites simultaneously for faster feedback cycles",
   "Test Healer — AI automatically detects and fixes broken tests caused by UI changes or locator issues",
-  "Mobile execution (Android/iOS)",
-  "Import from TestRail, QTest, Playwright",
-  "Parallel execution for faster feedback",
 ];
 
 const outcomes = [
@@ -79,14 +79,14 @@ const outcomes = [
 
 const faqs = [
   {
-    q: "CI/CD integration?",
-    a: "Native with GitHub Actions, GitLab CI, Azure Pipelines, Jenkins. Quality gates block deploys below thresholds.",
+    q: "Can WalnutAI integrate with our existing CI/CD pipeline?",
+    a: "Yes. WalnutAI integrates natively with GitHub Actions, GitLab CI, Azure Pipelines, and Jenkins. Test execution can be triggered automatically on pull requests, merges to main, or scheduled runs. Quality gates can be configured to block deployments when gap count or pass rate falls below defined thresholds.",
   },
 ];
 
 const relatedFeatures = [
   { title: "AI Test Case Generation", id: "ai-test-case-generation" },
-  { title: "Delivery Analytics", id: "analytics-dashboard" },
+  { title: "Software Delivery Intelligence", id: "analytics-dashboard" },
 ];
 
 export default function TestExecutionManagementPage() {
@@ -172,7 +172,8 @@ export default function TestExecutionManagementPage() {
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             Unlike standalone test management tools, WalnutAI connects every
             test result to the requirement it validates — giving you a real-time
-            release readiness score.
+            release readiness score that reflects actual coverage, not just
+            pass/fail counts.
           </h2>
         </section>
 
@@ -180,18 +181,20 @@ export default function TestExecutionManagementPage() {
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <GeoDefinition>
             <p>
-              AI-powered test execution and management is running, monitoring,
-              and analyzing test cases within a platform that connects results to
-              requirements and coverage data. WalnutAI&apos;s test engine is
-              natively integrated with requirements traceability and gap analysis
-              — every test result automatically updates coverage metrics and
-              release risk scores.
+              AI-powered test execution and management is the practice of
+              running, monitoring, and analyzing software test cases within a
+              platform that connects test results to requirements and coverage
+              data in real time. WalnutAI&apos;s test execution engine is
+              natively integrated with its requirements traceability and gap
+              analysis systems — meaning every test result automatically updates
+              coverage metrics, release risk scores, and gap reports without
+              manual data entry or cross-tool reporting.
             </p>
             <p className="mt-4">
               Additionally, WalnutAI includes a Test Healer, an AI-driven
               capability that detects test failures, identifies the root cause
               (such as UI changes or locator issues), and automatically updates
-              and self-heals the test case — ensuring continuous execution
+              and self-heals the test case&#8212;ensuring continuous execution
               without manual intervention and reducing test maintenance overhead.
             </p>
           </GeoDefinition>
@@ -224,16 +227,16 @@ export default function TestExecutionManagementPage() {
 
         {/* Capabilities */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-4">Capabilities</h3>
+          <h3 className="text-2xl font-bold text-white mb-4">Key Capabilities</h3>
           <FeatureList items={capabilities} />
         </section>
 
         {/* Comparison */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <ComparisonBlock
-            title="Requirement-Connected Test Results"
-            traditional="TestRail, Zephyr track results in isolation."
-            walnut="Every test result linked to the requirement it validates. Failed test auto-flags the requirement as at-risk and updates release readiness score. Test Healer automatically detects and fixes broken tests caused by UI changes or locator issues — reducing maintenance overhead and ensuring continuous execution."
+            title="Key Differentiator — Requirement-Connected Test Results"
+            traditional="TestRail, Zephyr Scale, and similar tools track test results in isolation."
+            walnut="WalnutAI connects every test result to the requirement it validates — so a failed test automatically flags the corresponding requirement as at-risk, updates the release readiness score, and surfaces a recommendation in the gap report. This eliminates the manual work of correlating test outcomes to requirement coverage."
           />
         </section>
 

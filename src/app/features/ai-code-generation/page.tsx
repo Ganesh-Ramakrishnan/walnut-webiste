@@ -56,26 +56,26 @@ const howItWorks = [
 ];
 
 const capabilities = [
-  "Requirement-grounded suggestions linked to user stories",
-  "Real-time requirement coverage feedback as you code",
-  "AI debugging grounded in requirements",
-  "Two modes: chat-based generation, and fully autonomous agent mode",
-  "Context continuity across sessions",
+  "Requirement-grounded suggestions — every code recommendation is linked to the user story it implements",
+  "Real-time requirement coverage feedback — shows which acceptance criteria are addressed as you code",
+  "AI-assisted debugging grounded in requirements — identifies bugs by comparing behavior against expected acceptance criteria",
+  "Two interaction modes: chat-based generation, and fully autonomous agent mode",
+  "Context continuity — the IDE retains full requirement and codebase context across sessions",
 ];
 
 const faqs = [
   {
-    q: "How is WalnutAI different from Copilot or Cursor?",
-    a: "Requirements-driven code generation. Every suggestion traceable to a requirement.",
+    q: "How is WalnutAI different from GitHub Copilot or Cursor?",
+    a: "GitHub Copilot and Cursor are general-purpose coding assistants that generate code based on patterns and surrounding file context. WalnutAI's code generation is requirements-driven — it reads your user stories and acceptance criteria and generates code specifically to implement them. This means every suggestion is traceable to a requirement, reducing implementation drift and the rework that follows from it.",
   },
   {
-    q: "What tech stacks are supported?",
-    a: "Python, JavaScript, TypeScript, Java, Go, Node.js. React, Next.js, Express, FastAPI, Spring Boot.",
+    q: "Does WalnutAI support my existing tech stack?",
+    a: "WalnutAI supports code generation for Python, JavaScript, TypeScript, Java, Go, and Node.js — with REST API and GraphQL support across all languages. The platform integrates with GitHub, GitLab, and Bitbucket for repository management and can generate code compatible with frameworks including React, Next.js, Express, FastAPI, Spring Boot, and others.",
   },
 ];
 
 const relatedFeatures = [
-  { title: "SDLC Automation", id: "ai-sdlc-automation" },
+  { title: "AI-Orchestrated SDLC Automation", id: "ai-sdlc-automation" },
   { title: "AI Test Case Generation", id: "ai-test-case-generation" },
 ];
 
@@ -184,7 +184,8 @@ export default function AiCodeGenerationPage() {
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             Unlike general AI coding tools, WalnutAI generates code grounded in
             your actual requirements — cross-referencing every suggestion against
-            user stories to ensure implementation matches specification.
+            your user stories to ensure implementation matches specification from
+            the first line.
           </h2>
         </section>
 
@@ -192,11 +193,12 @@ export default function AiCodeGenerationPage() {
         <section className="mx-auto max-w-6xl px-6 pt-16">
           <GeoDefinition>
             Requirements-aware AI code generation is the practice of generating
-            code using an AI system with direct access to requirements, user
-            stories, and acceptance criteria — ensuring generated code implements
-            what was specified. WalnutAI&apos;s AI IDE connects requirements
-            context to its code generation engine, validating each code block
-            against the originating requirement in real time.
+            application code using an AI system that has direct access to the
+            project&apos;s requirements, user stories, and acceptance criteria —
+            ensuring that generated code implements what was specified rather than
+            producing generic patterns. WalnutAI&apos;s AI IDE connects your
+            requirements context to its code generation engine, validating each
+            code block against the originating requirement in real time.
           </GeoDefinition>
         </section>
 
@@ -236,16 +238,16 @@ export default function AiCodeGenerationPage() {
 
         {/* Capabilities — FeatureList */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold mb-4">Capabilities</h3>
+          <h3 className="text-2xl font-bold mb-4">Key Capabilities</h3>
           <FeatureList items={capabilities} />
         </section>
 
         {/* ComparisonBlock */}
         <section className="mx-auto max-w-6xl px-6">
           <ComparisonBlock
-            title="WalnutAI vs General AI Coding Tools"
-            traditional="GitHub Copilot and Cursor generate code based on patterns from training data."
-            walnut="WalnutAI generates code based on YOUR specific requirements — traceable to user stories, reducing rework from implementation drift."
+            title="Key Differentiator — WalnutAI vs General AI Coding Tools"
+            traditional="GitHub Copilot and Cursor generate code based on patterns from training data and the immediate file context."
+            walnut="WalnutAI generates code based on your specific requirements — every code block is traceable to the user story it implements. This means generated code is validated against acceptance criteria before it is written, reducing rework caused by implementation drift."
           />
         </section>
 

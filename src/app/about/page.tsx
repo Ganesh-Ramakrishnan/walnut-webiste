@@ -40,31 +40,51 @@ const capabilities = [
     title: "Requirements Engineering",
     description:
       "Transform natural-language intent into structured, traceable requirements with AI-powered gap analysis.",
-    icon: "\u{1F4CB}",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" />
+      </svg>
+    ),
   },
   {
     title: "AI Code Generation",
     description:
       "Generate production-ready code directly from requirements, keeping every line traceable and compliant.",
-    icon: "\u{1F4BB}",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
+      </svg>
+    ),
   },
   {
     title: "Automated Testing",
     description:
       "Create, maintain, and execute comprehensive test suites automatically, covering edge cases humans miss.",
-    icon: "\u{1F9EA}",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M9 2h6l3 7H6L9 2z" /><path d="M12 9v13" /><path d="M8 22h8" /><path d="M6 13h12" />
+      </svg>
+    ),
   },
   {
     title: "Deployment Automation",
     description:
       "Streamline CI/CD pipelines from build to production with intelligent, risk-aware deployment strategies.",
-    icon: "\u{1F680}",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+      </svg>
+    ),
   },
   {
     title: "Gap Analysis & Traceability",
     description:
       "Identify coverage gaps across requirements, code, and tests with full lifecycle traceability.",
-    icon: "\u{1F50D}",
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /><path d="M8 11h6" /><path d="M11 8v6" />
+      </svg>
+    ),
   },
 ];
 
@@ -226,7 +246,7 @@ export default function AboutPage() {
                     padding: "32px 24px",
                   }}
                 >
-                  <div style={{ fontSize: 32, marginBottom: 14 }}>
+                  <div style={{ marginBottom: 14, width: 48, height: 48, background: "rgba(241, 127, 13, 0.08)", border: "1px solid rgba(241, 127, 13, 0.15)", borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     {cap.icon}
                   </div>
                   <h3

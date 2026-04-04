@@ -43,12 +43,10 @@ export function StepCard({ number, title, description }: { number: string; title
 
 export function FeatureList({ items }: { items: string[] }) {
   return (
-    <ul className="space-y-4 my-8">
+    <ul className="space-y-3 my-8">
       {items.map((item, idx) => (
-        <li key={idx} className="flex items-start gap-4 bg-[#111111]/50 p-4 rounded-xl border border-neutral-800/50">
-          <div className="mt-0.5 bg-orange-500/10 p-1 rounded-full flex-shrink-0">
-            <CheckCircle2 className="text-orange-500" size={18} />
-          </div>
+        <li key={idx} className="flex items-start gap-3">
+          <span className="text-orange-500 mt-1.5 flex-shrink-0">•</span>
           <span className="text-neutral-300 leading-relaxed">{item}</span>
         </li>
       ))}
@@ -84,13 +82,13 @@ export function FAQAccordion({ faqs }: { faqs: { q: string; a: string }[] }) {
 
 export function ComparisonBlock({ traditional, walnut, title }: { traditional: string; walnut: string; title?: string }) {
   return (
-    <div className="my-20 bg-neutral-900/40 border border-neutral-800 p-10 rounded-3xl">
-      <h3 className="text-2xl font-bold text-white mb-6">{title || "Comparison — WalnutAI vs Traditional"}</h3>
+    <div className="my-20">
+      <h3 className="text-2xl font-bold text-orange-500 mb-8">{title || "Comparison — WalnutAI vs Traditional"}</h3>
       <p className="text-neutral-400 text-lg leading-relaxed mb-6">
         <strong className="text-white">Traditional:</strong> {traditional}
       </p>
       <p className="text-neutral-400 text-lg leading-relaxed">
-        <strong className="text-white">With WalnutAI:</strong> {walnut}
+        <strong className="text-orange-500">With WalnutAI:</strong> {walnut}
       </p>
     </div>
   );

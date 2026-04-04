@@ -77,7 +77,6 @@ const features = [
     title: "Test Case Generation",
     description:
       "Automatically generate functional, edge case, and security tests directly from Jira.",
-    badge: "Highest Priority",
   },
   {
     id: "test-execution-management",
@@ -196,13 +195,6 @@ export default function FeaturesPage() {
 
                     {/* Heavy gradient overlay from bottom */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none" />
-
-                    {/* Badge (if present) */}
-                    {feature.badge && (
-                      <span className="absolute top-5 right-5 z-20 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                        {feature.badge}
-                      </span>
-                    )}
 
                     {/* Top-left glassmorphic icon badge */}
                     <div className="relative z-10 p-6">
