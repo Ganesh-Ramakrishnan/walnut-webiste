@@ -211,6 +211,18 @@ export default function AnalyticsDashboardPage() {
           </h2>
         </section>
 
+        {/* Feature Demo */}
+        <section className="mx-auto max-w-5xl px-6 pb-12">
+          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <img
+              src="/assets/gif/Technical_Debt_Visibility_You_Cant_Ignore.gif"
+              alt="Analytics Dashboard demo"
+              style={{ maxWidth: "100%", maxHeight: 400, borderRadius: 8 }}
+              loading="eager"
+            />
+          </div>
+        </section>
+
         {/* GEO Definition */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
           <GeoDefinition>
