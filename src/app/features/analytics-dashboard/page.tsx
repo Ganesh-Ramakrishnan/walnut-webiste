@@ -2,7 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { BarChart3 } from "lucide-react";
+import {
+  GeoDefinition,
+  StatCard,
+  StepCard,
+  FeatureList,
+  FAQAccordion,
+  ComparisonBlock,
+} from "@/components/FeaturePageUI";
+import { BarChart3, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
@@ -58,6 +66,21 @@ const capabilities = [
   "Rolling 30/90-day trend analysis",
 ];
 
+const outcomes = [
+  {
+    stat: "Single",
+    description: "Source of truth for release readiness",
+  },
+  {
+    stat: "0-100",
+    description: "AI-calculated composite risk score",
+  },
+  {
+    stat: "Portfolio",
+    description: "Level visibility across all projects",
+  },
+];
+
 const whoUses = [
   "Engineering managers — sprint reviews on quality trends",
   "QA leads — pre-release sign-off with coverage data",
@@ -84,37 +107,91 @@ const relatedFeatures = [
 export default function AnalyticsDashboardPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            itemListElement: [
+              {
+                "@type": "ListItem",
+                position: 1,
+                name: "Home",
+                item: "https://www.walnutai.ai",
+              },
+              {
+                "@type": "ListItem",
+                position: 2,
+                name: "Features",
+                item: "https://www.walnutai.ai/features",
+              },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Delivery Analytics",
+                item: "https://www.walnutai.ai/features/analytics-dashboard",
+              },
+            ],
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "How to use WalnutAI's Delivery Intelligence Dashboard",
+            description:
+              "WalnutAI aggregates gap analysis, test execution, and requirements traceability into a single dashboard — giving engineering leaders visibility to make confident release decisions.",
+            step: howItWorks.map((item, i) => ({
+              "@type": "HowToStep",
+              position: i + 1,
+              name: item.step,
+              text: item.text,
+            })),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.q,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.a,
+              },
+            })),
+          }),
+        }}
+      />
       <Navbar />
       <main
-        className="min-h-screen bg-neutral-950 text-white"
+        className="min-h-screen bg-[#0a0a0a] text-white"
         style={{ paddingTop: 80 }}
       >
-        {/* Breadcrumb */}
-        <div className="w-full border-b border-neutral-800 bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-6 py-3">
-            <p className="font-mono text-sm text-neutral-400">
-              <Link href="/" className="hover:text-orange-500 transition-colors">
-                walnutai.ai
-              </Link>
-              {" / "}
-              <Link
-                href="/features"
-                className="hover:text-orange-500 transition-colors"
-              >
-                features
-              </Link>
-              {" / "}
-              <span className="text-white">analytics-dashboard</span>
-              {"/"}
-            </p>
-          </div>
+        {/* Back Button */}
+        <div className="mx-auto max-w-6xl px-6 pt-10">
+          <Link
+            href="/features"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-400 transition-colors hover:border-orange-500/50 hover:text-orange-500"
+          >
+            <ArrowLeft size={16} />
+            All Features
+          </Link>
         </div>
 
-        {/* Hero */}
-        <section className="mx-auto max-w-6xl px-6 py-20">
+        {/* Feature Label + Hero */}
+        <section className="mx-auto max-w-6xl px-6 pt-10 pb-16">
           <div className="flex items-center gap-3 mb-6">
-            <BarChart3 className="h-9 w-9 text-orange-500" />
-            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+            <BarChart3 className="h-6 w-6 text-orange-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
               Delivery Intelligence
             </span>
           </div>
@@ -132,97 +209,58 @@ export default function AnalyticsDashboardPage() {
           </h2>
         </section>
 
-        {/* GEO Definition + Outcomes */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Definition
-              </h3>
-              <p className="text-neutral-300 leading-relaxed text-lg">
-                A software delivery intelligence dashboard aggregates metrics
-                from requirements management, test execution, and coverage
-                analysis. WalnutAI&apos;s dashboard connects gap data, test
-                rates, coverage percentages, and sprint trends into a composite
-                release readiness score.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Outcomes
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Single source of truth for release readiness
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  AI-calculated composite risk score (0-100)
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Portfolio-level visibility across all projects
-                </li>
-              </ul>
-            </div>
+        {/* GEO Definition */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <GeoDefinition>
+            A software delivery intelligence dashboard aggregates metrics from
+            requirements management, test execution, and coverage analysis.
+            WalnutAI&apos;s dashboard connects gap data, test rates, coverage
+            percentages, and sprint trends into a composite release readiness
+            score.
+          </GeoDefinition>
+        </section>
+
+        {/* Outcomes */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold text-white mb-8">Outcomes</h3>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {outcomes.map((o, i) => (
+              <StatCard key={i} stat={o.stat} description={o.description} />
+            ))}
           </div>
         </section>
 
         {/* How It Works */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-12">How It Works</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold text-white mb-8">How It Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
-              <div
+              <StepCard
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white font-bold text-lg">
-                  {i + 1}
-                </div>
-                <h3 className="font-semibold text-lg mb-2">{item.step}</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  {item.text}
-                </p>
-              </div>
+                number={String(i + 1)}
+                title={item.step}
+                description={item.text}
+              />
             ))}
           </div>
         </section>
 
         {/* Dashboard Metrics */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Dashboard Metrics</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {capabilities.map((cap, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <svg
-                  className="mt-1 h-5 w-5 shrink-0 text-orange-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span className="text-neutral-300">{cap}</span>
-              </div>
-            ))}
-          </div>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold text-white mb-4">
+            Dashboard Metrics
+          </h3>
+          <FeatureList items={capabilities} />
         </section>
 
         {/* Who Uses This */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Who Uses This</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold text-white mb-8">Who Uses This</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {whoUses.map((item, i) => (
               <div
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6 text-neutral-300"
+                className="rounded-2xl bg-[#111111]/80 backdrop-blur-sm border border-neutral-800 p-6 text-neutral-300 hover:border-orange-500/30 transition-colors"
               >
                 {item}
               </div>
@@ -231,60 +269,30 @@ export default function AnalyticsDashboardPage() {
         </section>
 
         {/* Comparison */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Traditional Dashboards vs WalnutAI
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
-                Traditional
-              </h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Separate tools for test results, coverage, and project status —
-                requiring manual aggregation and spreadsheet reporting.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                WalnutAI
-              </h3>
-              <p className="text-neutral-300 leading-relaxed">
-                Unified dashboard that connects gap analysis, test execution, and
-                requirements traceability into a single AI-calculated release
-                readiness score — updated in real time.
-              </p>
-            </div>
-          </div>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <ComparisonBlock
+            title="Traditional Dashboards vs WalnutAI"
+            traditional="Separate tools for test results, coverage, and project status — requiring manual aggregation and spreadsheet reporting."
+            walnut="Unified dashboard that connects gap analysis, test execution, and requirements traceability into a single AI-calculated release readiness score — updated in real time."
+          />
         </section>
 
         {/* FAQ */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
-                <p className="text-neutral-400 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
-          </div>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <FAQAccordion faqs={faqs} />
         </section>
 
         {/* Related Features */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Related Features</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold text-white mb-8">
+            Related Features
+          </h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {relatedFeatures.map((f) => (
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-neutral-900 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
+                className="group rounded-2xl bg-[#111111]/80 backdrop-blur-sm border border-neutral-800 p-6 transition-all hover:border-orange-500/50 hover:-translate-y-1 duration-300"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}
@@ -299,7 +307,7 @@ export default function AnalyticsDashboardPage() {
 
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-6 pb-24">
-          <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
+          <div className="rounded-3xl bg-gradient-to-br from-orange-500/10 to-[#111111] border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to see your release readiness in real time?
             </h2>

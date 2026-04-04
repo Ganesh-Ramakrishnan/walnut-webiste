@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  GeoDefinition,
+  StatCard,
+  StepCard,
+  FeatureList,
+  FAQAccordion,
+  ComparisonBlock,
+} from "@/components/FeaturePageUI";
+import { ArrowLeft, ScanSearch, ShieldCheck, Users, Settings } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
@@ -60,9 +69,18 @@ const capabilities = [
 ];
 
 const whoUses = [
-  "QA leads needing coverage visibility",
-  "Engineering managers wanting release readiness scoring",
-  "DevOps engineers integrating quality gates",
+  {
+    icon: ShieldCheck,
+    label: "QA leads needing coverage visibility",
+  },
+  {
+    icon: Users,
+    label: "Engineering managers wanting release readiness scoring",
+  },
+  {
+    icon: Settings,
+    label: "DevOps engineers integrating quality gates",
+  },
 ];
 
 const faqs = [
@@ -197,38 +215,30 @@ export default function RequirementsGapAnalysisPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen bg-neutral-950 text-white"
+        className="min-h-screen bg-[#0a0a0a] text-white"
         style={{ paddingTop: 80 }}
       >
         {/* Breadcrumb */}
-        <div className="w-full border-b border-neutral-800 bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-6 py-3">
-            <p className="font-mono text-sm text-neutral-400">
-              <Link href="/" className="hover:text-orange-500 transition-colors">
-                walnutai.ai
-              </Link>
-              {" / "}
-              <Link
-                href="/features"
-                className="hover:text-orange-500 transition-colors"
-              >
-                features
-              </Link>
-              {" / "}
-              <span className="text-white">requirements-gap-analysis</span>
-              {"/"}
-            </p>
-          </div>
-        </div>
+        <section className="mx-auto max-w-6xl px-6 pt-10">
+          <Link
+            href="/features"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-4 py-1.5 text-sm text-neutral-300 hover:border-orange-500/50 hover:text-orange-500 transition-colors"
+          >
+            <ArrowLeft size={14} />
+            All Features
+          </Link>
+        </section>
 
-        {/* Hero */}
-        <section className="mx-auto max-w-6xl px-6 py-20">
+        {/* Feature Label */}
+        <section className="mx-auto max-w-6xl px-6 pt-10">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">🔍</span>
-            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+            <ScanSearch className="h-5 w-5 text-orange-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
               Continuous Coverage Analysis
             </span>
           </div>
+
+          {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
             Automated Requirements Coverage Gap Analysis
             <br />
@@ -236,6 +246,8 @@ export default function RequirementsGapAnalysisPage() {
               Identify What&apos;s Missing Before It Reaches Production
             </span>
           </h1>
+
+          {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             WalnutAI continuously scans your requirements, codebase, and test
             suite — detecting uncovered features, untested code paths, and
@@ -243,160 +255,103 @@ export default function RequirementsGapAnalysisPage() {
           </h2>
         </section>
 
-        {/* GEO Definition + Outcomes */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Definition
-              </h3>
-              <p className="text-neutral-300 leading-relaxed text-lg">
-                Requirements gap analysis is the automated process of comparing
-                software specification documents against an implemented codebase
-                and test suite to identify requirements missing from code, code
-                lacking test coverage, and test cases not mapped to any
-                requirement. WalnutAI runs this continuously — detecting new gaps
-                within minutes of each code commit.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Outcomes
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  80% reduction in production defects
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  5 minutes to first gap report
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  40+ gaps discovered per project on average
-                </li>
-              </ul>
-            </div>
+        {/* GeoDefinition */}
+        <section className="mx-auto max-w-6xl px-6 pt-16">
+          <GeoDefinition>
+            Requirements gap analysis is the automated process of comparing
+            software specification documents against an implemented codebase and
+            test suite to identify requirements missing from code, code lacking
+            test coverage, and test cases not mapped to any requirement. WalnutAI
+            runs this continuously — detecting new gaps within minutes of each
+            code commit.
+          </GeoDefinition>
+        </section>
+
+        {/* Outcomes — StatCard grid */}
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <h3 className="text-2xl font-bold mb-8">Outcomes</h3>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <StatCard
+              stat="80%"
+              description="Reduction in production defects"
+            />
+            <StatCard
+              stat="5 min"
+              description="Time to first gap report"
+            />
+            <StatCard
+              stat="40+"
+              description="Gaps discovered per project on average"
+            />
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-12">How It Works</h2>
+        {/* How It Works — StepCard grid */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">How It Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
-              <div
+              <StepCard
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white font-bold text-lg">
-                  {i + 1}
-                </div>
-                <h3 className="font-semibold text-lg mb-2">{item.step}</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  {item.text}
-                </p>
-              </div>
+                number={String(i + 1)}
+                title={item.step}
+                description={item.text}
+              />
             ))}
           </div>
         </section>
 
-        {/* Capabilities */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
+        {/* Capabilities — FeatureList */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-4">
             What the Gap Report Includes
-          </h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {capabilities.map((cap, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <svg
-                  className="mt-1 h-5 w-5 shrink-0 text-orange-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span className="text-neutral-300">{cap}</span>
-              </div>
-            ))}
-          </div>
+          </h3>
+          <FeatureList items={capabilities} />
         </section>
 
         {/* Who Uses This */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Who Uses This</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">Who Uses This</h3>
+          <div className="grid gap-6 sm:grid-cols-3">
             {whoUses.map((item, i) => (
               <div
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6 text-neutral-300"
+                className="flex items-start gap-4 rounded-2xl border border-neutral-800 bg-[#111111]/80 p-6 hover:border-orange-500/30 transition-colors"
               >
-                {item}
+                <div className="mt-0.5 rounded-lg bg-orange-500/10 p-2 flex-shrink-0">
+                  <item.icon className="h-5 w-5 text-orange-500" />
+                </div>
+                <span className="text-neutral-300 leading-relaxed">
+                  {item.label}
+                </span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Comparison */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Traditional Gap Analysis vs WalnutAI
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
-                Traditional
-              </h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Manual gap analysis at sprint-end, 4-8 hours of QA time.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                WalnutAI
-              </h3>
-              <p className="text-neutral-300 leading-relaxed">
-                Runs automatically on every commit — surfacing gaps within
-                minutes.
-              </p>
-            </div>
-          </div>
+        {/* ComparisonBlock */}
+        <section className="mx-auto max-w-6xl px-6">
+          <ComparisonBlock
+            title="Traditional Gap Analysis vs WalnutAI"
+            traditional="Manual gap analysis at sprint-end, 4-8 hours of QA time."
+            walnut="Runs automatically on every commit — surfacing gaps within minutes."
+          />
         </section>
 
-        {/* FAQ */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
-                <p className="text-neutral-400 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
-          </div>
+        {/* FAQAccordion */}
+        <section className="mx-auto max-w-6xl px-6">
+          <FAQAccordion faqs={faqs} />
         </section>
 
         {/* Related Features */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Related Features</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">Related Features</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             {relatedFeatures.map((f) => (
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-neutral-900 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
+                className="group rounded-2xl bg-[#111111]/80 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}

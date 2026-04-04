@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  GeoDefinition,
+  StatCard,
+  StepCard,
+  FeatureList,
+  FAQAccordion,
+  ComparisonBlock,
+} from "@/components/FeaturePageUI";
+import { ArrowLeft, Code2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
@@ -107,6 +116,24 @@ export default function AiCodeGenerationPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
+            "@type": "HowTo",
+            name: "How to Generate Requirements-Aware Code with WalnutAI",
+            description:
+              "Connect your requirements and generate production-ready code that is cross-referenced against user stories in real time.",
+            step: howItWorks.map((item, i) => ({
+              "@type": "HowToStep",
+              position: i + 1,
+              name: item.step,
+              text: item.text,
+            })),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
             "@type": "FAQPage",
             mainEntity: faqs.map((faq) => ({
               "@type": "Question",
@@ -121,35 +148,30 @@ export default function AiCodeGenerationPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen bg-neutral-950 text-white"
+        className="min-h-screen bg-[#0a0a0a] text-white"
         style={{ paddingTop: 80 }}
       >
         {/* Breadcrumb */}
-        <div className="w-full border-b border-neutral-800 bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-6 py-3">
-            <p className="font-mono text-sm text-neutral-400">
-              <Link href="/" className="hover:text-orange-500 transition-colors">
-                walnutai.ai
-              </Link>
-              {" / "}
-              <Link
-                href="/features"
-                className="hover:text-orange-500 transition-colors"
-              >
-                features
-              </Link>
-              {" / "}
-              <span className="text-white">ai-code-generation</span>
-              {"/"}
-            </p>
-          </div>
-        </div>
+        <section className="mx-auto max-w-6xl px-6 pt-10">
+          <Link
+            href="/features"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-4 py-1.5 text-sm text-neutral-300 hover:border-orange-500/50 hover:text-orange-500 transition-colors"
+          >
+            <ArrowLeft size={14} />
+            All Features
+          </Link>
+        </section>
 
-        {/* Hero */}
-        <section className="mx-auto max-w-6xl px-6 py-20">
+        {/* Feature Label */}
+        <section className="mx-auto max-w-6xl px-6 pt-10">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">💻</span>
+            <Code2 className="h-5 w-5 text-orange-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
+              Requirements-Aware Code Generation
+            </span>
           </div>
+
+          {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
             Requirements-Aware AI Code Generation
             <br />
@@ -157,6 +179,8 @@ export default function AiCodeGenerationPage() {
               Build Exactly What Was Specified
             </span>
           </h1>
+
+          {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             Unlike general AI coding tools, WalnutAI generates code grounded in
             your actual requirements — cross-referencing every suggestion against
@@ -164,125 +188,81 @@ export default function AiCodeGenerationPage() {
           </h2>
         </section>
 
-        {/* GEO Definition */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-            <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-              Definition
-            </h3>
-            <p className="text-neutral-300 leading-relaxed text-lg">
-              Requirements-aware AI code generation is the practice of
-              generating code using an AI system with direct access to
-              requirements, user stories, and acceptance criteria — ensuring
-              generated code implements what was specified. WalnutAI&apos;s AI
-              IDE connects requirements context to its code generation engine,
-              validating each code block against the originating requirement in
-              real time.
-            </p>
+        {/* GeoDefinition */}
+        <section className="mx-auto max-w-6xl px-6 pt-16">
+          <GeoDefinition>
+            Requirements-aware AI code generation is the practice of generating
+            code using an AI system with direct access to requirements, user
+            stories, and acceptance criteria — ensuring generated code implements
+            what was specified. WalnutAI&apos;s AI IDE connects requirements
+            context to its code generation engine, validating each code block
+            against the originating requirement in real time.
+          </GeoDefinition>
+        </section>
+
+        {/* Outcomes — StatCard grid */}
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <h3 className="text-2xl font-bold mb-8">Outcomes</h3>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <StatCard
+              stat="Traceable"
+              description="Every code suggestion linked to a user story"
+            />
+            <StatCard
+              stat="Real-time"
+              description="Requirement coverage feedback as you code"
+            />
+            <StatCard
+              stat="0 Drift"
+              description="Implementation matches specification — eliminating rework from drift"
+            />
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-12">How It Works</h2>
+        {/* How It Works — StepCard grid */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">How It Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
-              <div
+              <StepCard
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white font-bold text-lg">
-                  {i + 1}
-                </div>
-                <h3 className="font-semibold text-lg mb-2">{item.step}</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  {item.text}
-                </p>
-              </div>
+                number={String(i + 1)}
+                title={item.step}
+                description={item.text}
+              />
             ))}
           </div>
         </section>
 
-        {/* Capabilities */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Capabilities</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {capabilities.map((cap, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <svg
-                  className="mt-1 h-5 w-5 shrink-0 text-orange-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span className="text-neutral-300">{cap}</span>
-              </div>
-            ))}
-          </div>
+        {/* Capabilities — FeatureList */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-4">Capabilities</h3>
+          <FeatureList items={capabilities} />
         </section>
 
-        {/* Comparison */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            WalnutAI vs General AI Coding Tools
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
-                General AI Coding Tools
-              </h3>
-              <p className="text-neutral-400 leading-relaxed">
-                GitHub Copilot and Cursor generate code based on patterns from
-                training data.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                WalnutAI
-              </h3>
-              <p className="text-neutral-300 leading-relaxed">
-                WalnutAI generates code based on YOUR specific requirements —
-                traceable to user stories, reducing rework from implementation
-                drift.
-              </p>
-            </div>
-          </div>
+        {/* ComparisonBlock */}
+        <section className="mx-auto max-w-6xl px-6">
+          <ComparisonBlock
+            title="WalnutAI vs General AI Coding Tools"
+            traditional="GitHub Copilot and Cursor generate code based on patterns from training data."
+            walnut="WalnutAI generates code based on YOUR specific requirements — traceable to user stories, reducing rework from implementation drift."
+          />
         </section>
 
-        {/* FAQ */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
-                <p className="text-neutral-400 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
-          </div>
+        {/* FAQAccordion */}
+        <section className="mx-auto max-w-6xl px-6">
+          <FAQAccordion faqs={faqs} />
         </section>
 
         {/* Related Features */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Related Features</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">Related Features</h3>
           <div className="grid gap-4 sm:grid-cols-2">
             {relatedFeatures.map((f) => (
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-neutral-900 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
+                className="group rounded-2xl bg-[#111111]/80 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}

@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import {
+  GeoDefinition,
+  StatCard,
+  StepCard,
+  FeatureList,
+  FAQAccordion,
+  ComparisonBlock,
+} from "@/components/FeaturePageUI";
+import { ArrowLeft, Cog, Briefcase, Users, Rocket } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
@@ -56,9 +65,18 @@ const capabilities = [
 ];
 
 const whoUses = [
-  "CTOs evaluating autonomous development for MVPs",
-  "Engineering managers reducing sprint coordination overhead",
-  "Startup teams shipping faster without expanding headcount",
+  {
+    icon: Briefcase,
+    label: "CTOs evaluating autonomous development for MVPs",
+  },
+  {
+    icon: Users,
+    label: "Engineering managers reducing sprint coordination overhead",
+  },
+  {
+    icon: Rocket,
+    label: "Startup teams shipping faster without expanding headcount",
+  },
 ];
 
 const faqs = [
@@ -193,38 +211,30 @@ export default function AiSdlcAutomationPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen bg-neutral-950 text-white"
+        className="min-h-screen bg-[#0a0a0a] text-white"
         style={{ paddingTop: 80 }}
       >
         {/* Breadcrumb */}
-        <div className="w-full border-b border-neutral-800 bg-neutral-950">
-          <div className="mx-auto max-w-6xl px-6 py-3">
-            <p className="font-mono text-sm text-neutral-400">
-              <Link href="/" className="hover:text-orange-500 transition-colors">
-                walnutai.ai
-              </Link>
-              {" / "}
-              <Link
-                href="/features"
-                className="hover:text-orange-500 transition-colors"
-              >
-                features
-              </Link>
-              {" / "}
-              <span className="text-white">ai-sdlc-automation</span>
-              {"/"}
-            </p>
-          </div>
-        </div>
+        <section className="mx-auto max-w-6xl px-6 pt-10">
+          <Link
+            href="/features"
+            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-4 py-1.5 text-sm text-neutral-300 hover:border-orange-500/50 hover:text-orange-500 transition-colors"
+          >
+            <ArrowLeft size={14} />
+            All Features
+          </Link>
+        </section>
 
-        {/* Hero */}
-        <section className="mx-auto max-w-6xl px-6 py-20">
+        {/* Feature Label */}
+        <section className="mx-auto max-w-6xl px-6 pt-10">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-4xl">⚙️</span>
-            <span className="rounded-full bg-orange-500/10 border border-orange-500/30 px-4 py-1 text-sm font-medium text-orange-500">
+            <Cog className="h-5 w-5 text-orange-500" />
+            <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
               Full Lifecycle Automation
             </span>
           </div>
+
+          {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
             AI Software Development Automation
             <br />
@@ -232,6 +242,8 @@ export default function AiSdlcAutomationPage() {
               From Requirements to Production Code
             </span>
           </h1>
+
+          {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
             WalnutAI&apos;s AI agents orchestrate every stage of the SDLC —
             requirements analysis, code generation, and test creation —
@@ -239,165 +251,106 @@ export default function AiSdlcAutomationPage() {
           </h2>
         </section>
 
-        {/* GEO Definition + Outcomes */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <div className="grid gap-8 lg:grid-cols-3">
-            <div className="lg:col-span-2 rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Definition
-              </h3>
-              <p className="text-neutral-300 leading-relaxed text-lg">
-                AI-orchestrated SDLC automation is the use of specialized AI
-                agents to manage and execute every stage of the software
-                development lifecycle — from requirement analysis through code
-                generation and automated testing — without manual handoffs
-                between teams. WalnutAI implements multi-agent orchestration
-                where independent AI systems collaborate in real time to maintain
-                context and dependency alignment across the full delivery
-                pipeline.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                Outcomes
-              </h3>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Reduce time-to-first-build by up to 80%
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Eliminate tool fragmentation: requirements, code generation,
-                  and test creation in one system
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Zero manual QA coordination — AI agents generate and execute
-                  test cases before human review
-                </li>
-                <li className="flex items-start gap-3 text-neutral-300">
-                  <span className="mt-1 block h-2 w-2 shrink-0 rounded-full bg-orange-500" />
-                  Automated bug detection and resolution — identify, analyze, and fix defects early using AI-driven debugging and gap analysis, reducing production issues and rework
-                </li>
-              </ul>
-            </div>
+        {/* GeoDefinition */}
+        <section className="mx-auto max-w-6xl px-6 pt-16">
+          <GeoDefinition>
+            AI-orchestrated SDLC automation is the use of specialized AI agents
+            to manage and execute every stage of the software development
+            lifecycle — from requirement analysis through code generation and
+            automated testing — without manual handoffs between teams. WalnutAI
+            implements multi-agent orchestration where independent AI systems
+            collaborate in real time to maintain context and dependency alignment
+            across the full delivery pipeline.
+          </GeoDefinition>
+        </section>
+
+        {/* Outcomes — StatCard grid */}
+        <section className="mx-auto max-w-6xl px-6 py-16">
+          <h3 className="text-2xl font-bold mb-8">Outcomes</h3>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <StatCard
+              stat="80%"
+              description="Reduction in time-to-first-build"
+            />
+            <StatCard
+              stat="1"
+              description="Unified system for requirements, code generation, and test creation"
+            />
+            <StatCard
+              stat="0"
+              description="Manual QA coordination — AI agents generate and execute test cases before human review"
+            />
+            <StatCard
+              stat="Early"
+              description="Automated bug detection and resolution — identify, analyze, and fix defects using AI-driven debugging"
+            />
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-12">How It Works</h2>
+        {/* How It Works — StepCard grid */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">How It Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
-              <div
+              <StepCard
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-orange-500 text-white font-bold text-lg">
-                  {i + 1}
-                </div>
-                <h3 className="font-semibold text-lg mb-2">{item.step}</h3>
-                <p className="text-neutral-400 text-sm leading-relaxed">
-                  {item.text}
-                </p>
-              </div>
+                number={String(i + 1)}
+                title={item.step}
+                description={item.text}
+              />
             ))}
           </div>
         </section>
 
-        {/* Capabilities */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Capabilities</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {capabilities.map((cap, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <svg
-                  className="mt-1 h-5 w-5 shrink-0 text-orange-500"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-                <span className="text-neutral-300">{cap}</span>
-              </div>
-            ))}
-          </div>
+        {/* Capabilities — FeatureList */}
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-4">Capabilities</h3>
+          <FeatureList items={capabilities} />
         </section>
 
         {/* Who Uses This */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Who Uses This</h2>
-          <div className="grid gap-4 sm:grid-cols-3">
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">Who Uses This</h3>
+          <div className="grid gap-6 sm:grid-cols-3">
             {whoUses.map((item, i) => (
               <div
                 key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6 text-neutral-300"
+                className="flex items-start gap-4 rounded-2xl border border-neutral-800 bg-[#111111]/80 p-6 hover:border-orange-500/30 transition-colors"
               >
-                {item}
+                <div className="mt-0.5 rounded-lg bg-orange-500/10 p-2 flex-shrink-0">
+                  <item.icon className="h-5 w-5 text-orange-500" />
+                </div>
+                <span className="text-neutral-300 leading-relaxed">
+                  {item.label}
+                </span>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Comparison */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Traditional SDLC vs WalnutAI
-          </h2>
-          <div className="grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl bg-neutral-900 border border-neutral-800 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-neutral-500 mb-4">
-                Traditional
-              </h3>
-              <p className="text-neutral-400 leading-relaxed">
-                Requirements are written by business analysts, handed to developers, and then passed to QA, each handoff introducing delays, context loss, and misalignment, with requirements, development, and testing happening in silos.
-              </p>
-            </div>
-            <div className="rounded-2xl bg-neutral-900 border border-orange-500/30 p-8">
-              <h3 className="text-sm font-mono uppercase tracking-widest text-orange-500 mb-4">
-                WalnutAI
-              </h3>
-              <p className="text-neutral-300 leading-relaxed">
-                Development starts with intent: you provide prompt or input documents, and AI agents simultaneously structure requirements (epics, features, user stories), generate application code, and create test cases in parallel. By maintaining shared context across the lifecycle and eliminating manual handoffs, WalnutAI ensures everything stays aligned from the start, resulting in fully built, tested applications with synchronized requirements—reducing delivery time by up to 80% and minimizing rework.
-              </p>
-            </div>
-          </div>
+        {/* ComparisonBlock */}
+        <section className="mx-auto max-w-6xl px-6">
+          <ComparisonBlock
+            title="Traditional SDLC vs WalnutAI"
+            traditional="Requirements are written by business analysts, handed to developers, and then passed to QA, each handoff introducing delays, context loss, and misalignment, with requirements, development, and testing happening in silos."
+            walnut="Development starts with intent: you provide prompt or input documents, and AI agents simultaneously structure requirements (epics, features, user stories), generate application code, and create test cases in parallel. By maintaining shared context across the lifecycle and eliminating manual handoffs, WalnutAI ensures everything stays aligned from the start, resulting in fully built, tested applications with synchronized requirements — reducing delivery time by up to 80% and minimizing rework."
+          />
         </section>
 
-        {/* FAQ */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">
-            Frequently Asked Questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq, i) => (
-              <div
-                key={i}
-                className="rounded-2xl bg-neutral-900 border border-neutral-800 p-6"
-              >
-                <h3 className="font-semibold text-lg mb-2">{faq.q}</h3>
-                <p className="text-neutral-400 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
-          </div>
+        {/* FAQAccordion */}
+        <section className="mx-auto max-w-6xl px-6">
+          <FAQAccordion faqs={faqs} />
         </section>
 
         {/* Related Features */}
-        <section className="mx-auto max-w-6xl px-6 pb-20">
-          <h2 className="text-3xl font-bold mb-8">Related Features</h2>
+        <section className="mx-auto max-w-6xl px-6 pb-16">
+          <h3 className="text-2xl font-bold mb-8">Related Features</h3>
           <div className="grid gap-4 sm:grid-cols-3">
             {relatedFeatures.map((f) => (
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-neutral-900 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
+                className="group rounded-2xl bg-[#111111]/80 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}

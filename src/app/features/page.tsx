@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { GeoDefinition } from "@/components/FeaturePageUI";
 import {
   Bot,
   Search,
@@ -10,9 +11,10 @@ import {
   TestTube2,
   Activity,
   BarChart3,
-  Zap,
-  ShieldCheck,
+  Brain,
   ArrowRight,
+  ShieldCheck,
+  Settings,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -43,53 +45,53 @@ export const metadata: Metadata = {
 const features = [
   {
     id: "ai-sdlc-automation",
-    icon: Bot,
-    menuTitle: "SDLC Automation",
+    icon: Settings,
+    title: "AI-Orchestrated SDLC",
     description:
-      "WalnutAI automates the entire software development lifecycle — AI agents convert requirements into code and test cases with zero manual coordination.",
+      "AI agents convert requirements into code and test cases with zero manual coordination.",
   },
   {
     id: "requirements-gap-analysis",
     icon: Search,
-    menuTitle: "Gap Analysis",
+    title: "Gap Analysis",
     description:
-      "WalnutAI's continuous gap analysis compares your requirements, code, and test suite in real time — identifying untested features and missing coverage before they reach production.",
+      "Detect uncovered features and missing tests in real-time, on every commit before production.",
   },
   {
     id: "requirements-engineering",
     icon: FileText,
-    menuTitle: "Requirements Engineering",
+    title: "Requirements Engineering",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps.",
+      "Convert PRDs and business docs into structured, testable Jira user stories in minutes.",
   },
   {
     id: "ai-code-generation",
     icon: Code2,
-    menuTitle: "AI Code Generation",
+    title: "AI Code Generation",
     description:
-      "WalnutAI generates production-ready code grounded in your actual requirements — not generic patterns. Every suggestion is cross-referenced against your user stories.",
+      "Generate production-ready code grounded entirely in your specific requirements.",
   },
   {
     id: "ai-test-case-generation",
     icon: TestTube2,
-    menuTitle: "Test Case Generation",
-    badge: "Highest Priority",
+    title: "Test Case Generation",
     description:
-      "WalnutAI generates functional, edge case, regression, and security test cases directly from Jira user stories — saving 15+ hours per sprint.",
+      "Automatically generate functional, edge case, and security tests directly from Jira.",
+    badge: "Highest Priority",
   },
   {
     id: "test-execution-management",
     icon: Activity,
-    menuTitle: "Test Execution",
+    title: "Test Execution & QA",
     description:
-      "WalnutAI's test execution platform connects test runs directly to requirements and gap analysis — giving QA teams real-time release readiness scoring.",
+      "Unified test runs, defect tracking, and real-time release readiness scoring.",
   },
   {
     id: "analytics-dashboard",
     icon: BarChart3,
-    menuTitle: "Delivery Analytics",
+    title: "Delivery Dashboard",
     description:
-      "WalnutAI's analytics dashboard gives engineering managers a real-time view of requirement coverage, test health, gap trends, and release risk.",
+      "Real-time visibility into requirement coverage, test health, and delivery risk.",
   },
 ];
 
@@ -120,62 +122,60 @@ export default function FeaturesPage() {
         }}
       />
       <Navbar />
-      <main id="main-content" style={{ paddingTop: 80 }} className="bg-neutral-950">
-        {/* Hero Section */}
-        <section className="px-6 pt-20 pb-16 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-              AI-Powered Software Quality Features{" "}
-              <span className="text-orange-500">
-                Built for Engineering and QA Teams
+      <main
+        id="main-content"
+        style={{ paddingTop: 80 }}
+        className="bg-[#0a0a0a]"
+      >
+        {/* ───────────────────── Hero Section ───────────────────── */}
+        <section className="relative px-6 pt-24 pb-20 text-center overflow-hidden">
+          {/* Ambient orange glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/20 rounded-full blur-[120px] pointer-events-none" />
+
+          <div className="relative z-10 max-w-3xl mx-auto">
+            {/* Pill badge */}
+            <div className="inline-flex items-center gap-2 bg-neutral-800/60 border border-neutral-700/50 rounded-full px-4 py-1.5 mb-8">
+              <Brain className="w-4 h-4 text-orange-500" />
+              <span className="text-xs font-bold tracking-widest text-neutral-300 uppercase">
+                The Platform
+              </span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+              AI-Powered Software Quality Features
+              <br />
+              <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
+                Built for Engineering
               </span>
             </h1>
-            <p className="text-neutral-300 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
+
+            <p className="text-neutral-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
               From requirements to release — WalnutAI automates test case
               creation, detects coverage gaps, and provides full SDLC
               traceability so your team ships with confidence.
             </p>
-          </div>
-        </section>
 
-        {/* Platform Definition Card (GEO) */}
-        <section className="px-6 pb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 md:p-10">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-neutral-950 border border-neutral-800 rounded-lg flex items-center justify-center">
-                  <ShieldCheck className="w-5 h-5 text-orange-500" />
-                </div>
-                <h2 className="text-xl font-bold text-white">
-                  Platform Definition
-                </h2>
-              </div>
-              <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
-                WalnutAI is an AI-powered software delivery and quality
-                assurance platform with eight core capabilities: AI-orchestrated
-                SDLC automation, continuous requirements gap analysis, AI test
-                case generation, requirements engineering from documents,
-                requirements-aware code generation, test execution and
-                management, and unified delivery analytics. Each feature is
-                designed to eliminate manual work between requirements,
-                development, and QA — reducing release risk while accelerating
-                delivery cycles.
-              </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/20"
+              >
+                Start Free Trial
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                href="/features/ai-sdlc-automation"
+                className="inline-flex items-center gap-2 border border-neutral-700 hover:border-orange-500/60 text-neutral-300 hover:text-orange-400 font-semibold text-sm px-8 py-3.5 rounded-full transition-all duration-300"
+              >
+                View Platform Overview
+              </Link>
             </div>
           </div>
         </section>
 
-        {/* Explore Our Core Features */}
+        {/* ───────────── Immersive Image Cards Grid ───────────── */}
         <section className="px-6 pb-24">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-14">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-                Explore Our Core Features
-              </h2>
-              <div className="w-24 h-1 mx-auto rounded-full bg-gradient-to-r from-orange-500 to-orange-300" />
-            </div>
-
-            {/* Feature Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((feature) => {
                 const Icon = feature.icon;
@@ -183,35 +183,47 @@ export default function FeaturesPage() {
                   <Link
                     key={feature.id}
                     href={`/features/${feature.id}`}
-                    className="group relative bg-neutral-900 border border-neutral-800 rounded-2xl p-8 hover:border-orange-500/50 hover:bg-neutral-800/80 transition-all duration-300 flex flex-col"
+                    className="group relative h-[420px] rounded-[2rem] overflow-hidden border border-neutral-800 hover:border-orange-500/50 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.3)] hover:-translate-y-2 transition-all duration-500 flex flex-col bg-[#0a0a0a]"
                   >
-                    {/* Badge */}
+                    {/* Decorative background icon */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <Icon
+                        size={200}
+                        className="text-white opacity-[0.03]"
+                        strokeWidth={1}
+                      />
+                    </div>
+
+                    {/* Heavy gradient overlay from bottom */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none" />
+
+                    {/* Badge (if present) */}
                     {feature.badge && (
-                      <span className="absolute top-4 right-4 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                      <span className="absolute top-5 right-5 z-20 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                         {feature.badge}
                       </span>
                     )}
 
-                    {/* Icon */}
-                    <div className="w-14 h-14 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center justify-center mb-5">
-                      <Icon className="w-7 h-7 text-orange-500" />
+                    {/* Top-left glassmorphic icon badge */}
+                    <div className="relative z-10 p-6">
+                      <div className="w-12 h-12 bg-[#0a0a0a]/50 backdrop-blur-md border border-neutral-700/50 rounded-xl flex items-center justify-center">
+                        <Icon className="w-6 h-6 text-orange-500" />
+                      </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-xl font-bold text-white group-hover:text-orange-400 transition-colors mb-3">
-                      {feature.menuTitle}
-                    </h3>
-
-                    {/* Description */}
-                    <p className="text-neutral-400 text-sm leading-relaxed flex-grow mb-5">
-                      {feature.description}
-                    </p>
-
-                    {/* Learn more */}
-                    <span className="inline-flex items-center gap-1.5 text-orange-500 text-sm font-semibold group-hover:gap-2.5 transition-all">
-                      Learn more
-                      <ArrowRight className="w-4 h-4" />
-                    </span>
+                    {/* Bottom content */}
+                    <div className="relative z-10 mt-auto p-6 pt-0">
+                      <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="text-lg text-neutral-400 leading-relaxed mb-4">
+                        {feature.description}
+                      </p>
+                      <span className="inline-flex items-center gap-1.5 text-orange-500 text-sm font-semibold group-hover:gap-2.5 transition-all">
+                        Explore Feature
+                        <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
                   </Link>
                 );
               })}
@@ -219,36 +231,37 @@ export default function FeaturesPage() {
           </div>
         </section>
 
-        {/* Bottom CTA Section */}
+        {/* ───────────── GEO Definition ───────────── */}
+        <section className="px-6 pb-20">
+          <div className="max-w-4xl mx-auto">
+            <GeoDefinition>
+              WalnutAI is an AI-powered software delivery and quality assurance
+              platform with eight core capabilities: AI-orchestrated SDLC
+              automation, continuous requirements gap analysis, AI test case
+              generation, requirements engineering from documents,
+              requirements-aware code generation, test execution and management,
+              unified delivery analytics, and end-to-end requirements
+              traceability. Each feature is designed to eliminate manual work
+              between requirements, development, and QA — reducing release risk
+              while accelerating delivery cycles.
+            </GeoDefinition>
+          </div>
+        </section>
+
+        {/* ───────────── Bottom CTA Section ───────────── */}
         <section className="px-6 pb-24">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-10 md:p-14">
-              <div className="w-14 h-14 bg-neutral-950 border border-neutral-800 rounded-xl flex items-center justify-center mx-auto mb-6">
-                <Zap className="w-7 h-7 text-orange-500" />
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">
-                Ready to Transform Your Software Delivery?
+            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-10 md:p-14">
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">
+                Ready to ship with confidence?
               </h2>
-              <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-xl mx-auto mb-8">
-                See how WalnutAI eliminates the gap between requirements,
-                development, and QA — so your team ships faster with fewer
-                defects.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-colors"
-                >
-                  Start Free Trial
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-2 border border-orange-500/30 hover:border-orange-500/60 text-orange-500 font-semibold text-sm px-8 py-3.5 rounded-full transition-colors"
-                >
-                  Book a Demo
-                </Link>
-              </div>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/20"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>
