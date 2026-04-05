@@ -10,9 +10,9 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
     { label: "Integrations", href: "/integrations" },
     { label: "Compare", href: "/compare" },
     { label: "Changelog", href: "/changelog" },
+    { label: "About", href: "https://simplify3x.com/about.html" },
   ],
   COMPANY: [
-    { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
     { label: "Careers", href: "https://www.linkedin.com/company/wal-nut/jobs/" },
     { label: "Contact", href: "/contact" },

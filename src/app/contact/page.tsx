@@ -38,7 +38,7 @@ const contactMethods = [
   {
     icon: (
       <svg width="28" height="28" viewBox="0 0 24 24" fill="#5865F2">
-        <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/>
+        <path d="M20.317 4.369a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03zM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419s.955-2.419 2.157-2.419c1.21 0 2.176 1.095 2.157 2.42 0 1.332-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419s.955-2.419 2.157-2.419c1.21 0 2.176 1.095 2.157 2.42 0 1.332-.946 2.418-2.157 2.418z"/>
       </svg>
     ),
     title: "Discord Community",
@@ -91,20 +91,22 @@ export default function ContactPage() {
         </section>
 
         {/* Contact Methods Grid */}
-        <section style={{ background: "#0a0a0a", padding: "0 24px 40px" }}>
-          <div style={{ maxWidth: 900, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+        <section style={{ background: "#0a0a0a", padding: "0 24px 32px" }}>
+          <div style={{ maxWidth: 720, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 }}>
             {contactMethods.map((m) => (
-              <div key={m.title} style={{ background: "#111", border: "1px solid #222", borderRadius: 14, padding: "24px 20px", textAlign: "center" }}>
-                <div style={{ marginBottom: 10, display: "flex", justifyContent: "center" }}>{m.icon}</div>
-                <h3 style={{ color: "#fff", fontSize: 15, fontWeight: 700, marginBottom: 6 }}>{m.title}</h3>
+              <div key={m.title} style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: 10, padding: "16px 14px", textAlign: "center" }}>
+                <div style={{ marginBottom: 8, display: "flex", justifyContent: "center" }}>
+                  <span style={{ display: "inline-flex", transform: "scale(0.75)" }}>{m.icon}</span>
+                </div>
+                <h3 style={{ color: "#fff", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{m.title}</h3>
                 {m.href ? (
-                  <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ color: "#F17F0D", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+                  <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ color: "#F17F0D", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
                     {m.detail} &rarr;
                   </a>
                 ) : (
-                  <p style={{ color: "#d1d5db", fontSize: 14, fontWeight: 600 }}>{m.detail}</p>
+                  <p style={{ color: "#d1d5db", fontSize: 12, fontWeight: 600, margin: 0 }}>{m.detail}</p>
                 )}
-                <p style={{ color: "#6b7280", fontSize: 12, marginTop: 6 }}>{m.sub}</p>
+                <p style={{ color: "#555", fontSize: 11, marginTop: 4 }}>{m.sub}</p>
               </div>
             ))}
           </div>

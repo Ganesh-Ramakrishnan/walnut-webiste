@@ -157,7 +157,7 @@ export default function SecurityPage() {
             <li>GDPR-compliant breach notification (72-hour requirement)</li>
           </ul>
           <p>
-            <strong>Security Contact:</strong> <a href="mailto:security@walnutai.ai">security@walnutai.ai</a> — Available 24/7 for security incidents.
+            <strong>Security Contact:</strong> <a href="mailto:assist@walnutai.ai">assist@walnutai.ai</a> — Available 24/7 for security incidents.
           </p>
 
           <h2>7. Compliance &amp; Certifications</h2>
@@ -235,19 +235,16 @@ export default function SecurityPage() {
           </ul>
 
           <h2>11. Contact &amp; Support</h2>
-          <p><strong>General Inquiries:</strong></p>
-          <p>Email: <a href="mailto:security@walnutai.ai">security@walnutai.ai</a> — Response within 24 hours</p>
-
-          <p><strong>Security Vulnerabilities:</strong></p>
-          <p>Email: <a href="mailto:security@walnutai.ai">security@walnutai.ai</a> — Response within 48 hours</p>
-
-          <p><strong>Customer Support:</strong></p>
-          <p>Email: <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a> — Documentation available 24/7</p>
+          <p>
+            Contact us on:{" "}
+            <a href="mailto:assist@walnutai.ai">assist@walnutai.ai</a> or{" "}
+            <a href="mailto:contact@walnutai.ai">contact@walnutai.ai</a>
+          </p>
 
           <h3>Reporting Security Issues</h3>
           <p>If you discover a potential security vulnerability:</p>
           <ul>
-            <li>Email <a href="mailto:security@walnutai.ai">security@walnutai.ai</a> with details</li>
+            <li>Email <a href="mailto:assist@walnutai.ai">assist@walnutai.ai</a> with details</li>
             <li>Include description, steps to reproduce, and potential impact</li>
             <li>Do not publicly disclose until we&apos;ve addressed the issue</li>
             <li>We will acknowledge within 48 hours and provide updates</li>
