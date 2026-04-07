@@ -146,7 +146,7 @@ export default function PricingSection() {
                     <span className="pricing-price">
                       {billingCycle[plan.name] ? plan.annual : plan.price}
                     </span>
-                    <span className="pricing-period">/ user / {billingCycle[plan.name] ? "month" : "month"}</span>
+                    <span className="pricing-period">/ user / month</span>
                   </>
                 ) : (
                   <span className="pricing-price pricing-price-custom">
