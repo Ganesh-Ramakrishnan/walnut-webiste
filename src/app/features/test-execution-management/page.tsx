@@ -181,7 +181,7 @@ export default function TestExecutionManagementPage() {
         <section className="mx-auto max-w-5xl px-6 pb-12">
           <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <img
-              src="/assets/gif/Continuous_Quality_Monitoring.gif"
+              src={"/assets/gif/Test Execution & QA.gif"}
               alt="Test Execution Management demo"
               style={{ maxWidth: "100%", maxHeight: 400, borderRadius: 8 }}
               loading="eager"

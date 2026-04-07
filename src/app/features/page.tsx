@@ -3,19 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { GeoDefinition } from "@/components/FeaturePageUI";
-import {
-  Bot,
-  Search,
-  FileText,
-  Code2,
-  TestTube2,
-  Activity,
-  BarChart3,
-  Brain,
-  ArrowRight,
-  ShieldCheck,
-  Settings,
-} from "lucide-react";
+import { ShieldCheck, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
@@ -45,52 +33,94 @@ export const metadata: Metadata = {
 const features = [
   {
     id: "ai-sdlc-automation",
-    icon: Settings,
     title: "AI-Orchestrated SDLC",
-    description:
-      "AI agents convert requirements into code and test cases with zero manual coordination.",
+    description: "Automate your entire software delivery lifecycle from intent to production with intelligent AI orchestration that coordinates every phase seamlessly.",
+    bullets: [
+      "Prompt WalnutAI or upload requirements — AI bots break down and assign tasks",
+      "AI bots generate requirements, code, and testing end to end",
+      "Wake up to a completely built app with zero human-in-loop",
+    ],
+    stat: "80%",
+    statLabel: "faster delivery",
+    gif: "/assets/gif/Ai- Orchestrated SDLC.gif",
   },
   {
     id: "requirements-gap-analysis",
-    icon: Search,
-    title: "Gap Analysis",
-    description:
-      "Detect uncovered features and missing tests in real-time, on every commit before production.",
+    title: "Continuous Gap Analysis",
+    description: "Real-time scanning across requirements, code, and tests to identify coverage gaps before they become production bugs.",
+    bullets: [
+      "Scans your entire codebase and requirement docs continuously",
+      "Identifies untested paths, missing requirements, and coverage gaps",
+      "Generates shareable gap reports for stakeholder alignment",
+    ],
+    stat: "40+",
+    statLabel: "gaps found per project",
+    gif: "/assets/gif/Gap analysis.gif",
   },
   {
     id: "requirements-engineering",
-    icon: FileText,
     title: "Requirements Engineering",
-    description:
-      "Convert PRDs and business docs into structured, testable Jira user stories in minutes.",
+    description: "Transform documents and Figma designs into structured, validated requirements with AI-driven priority setting.",
+    bullets: [
+      "Upload PDFs, DOCX, audio/video files, or Figma designs",
+      "AI extracts, validates, and deduplicates requirements automatically",
+      "Push structured user stories directly to Jira",
+    ],
+    stat: "30m",
+    statLabel: "instead of 2-3 days",
+    gif: "/assets/gif/Requirements Engineering.gif",
   },
   {
     id: "ai-code-generation",
-    icon: Code2,
     title: "AI Code Generation",
-    description:
-      "Generate production-ready code grounded entirely in your specific requirements.",
+    description: "Generate production-ready code grounded in your actual requirements — every suggestion traceable to the user story it implements.",
+    bullets: [
+      "Requirement-grounded suggestions linked to user stories",
+      "Real-time requirement coverage feedback as you code",
+      "Two modes: chat-based generation and autonomous agent",
+    ],
+    stat: "100%",
+    statLabel: "requirement-linked code",
+    gif: "/assets/gif/AI code generation.gif",
   },
   {
     id: "ai-test-case-generation",
-    icon: TestTube2,
-    title: "Test Case Generation",
-    description:
-      "Automatically generate functional, edge case, and security tests directly from Jira.",
+    title: "AI Test Case Generation",
+    description: "Generate functional, edge case, regression, and security test cases from your Jira stories — saving 15+ hours per sprint.",
+    bullets: [
+      "Generates test cases from requirements in seconds per user story",
+      "Covers edge cases, boundary conditions, and negative paths",
+      "Export to Playwright, Jira, or your CI/CD pipeline",
+    ],
+    stat: "15h+",
+    statLabel: "saved per sprint",
+    gif: "/assets/gif/Test Case Generation.gif",
   },
   {
     id: "test-execution-management",
-    icon: Activity,
     title: "Test Execution & QA",
-    description:
-      "Unified test runs, defect tracking, and real-time release readiness scoring.",
+    description: "Unified test runs, defect tracking, and real-time release readiness scoring — connected to requirements.",
+    bullets: [
+      "Execute automated and manual test suites from one interface",
+      "Real-time release readiness scoring linked to requirements",
+      "Test Healer auto-fixes broken tests from UI changes",
+    ],
+    stat: "96%",
+    statLabel: "requirement coverage",
+    gif: "/assets/gif/Test Execution & QA.gif",
   },
   {
     id: "analytics-dashboard",
-    icon: BarChart3,
     title: "Delivery Dashboard",
-    description:
-      "Real-time visibility into requirement coverage, test health, and delivery risk.",
+    description: "Real-time dashboard for requirement coverage, test health, gap trends, and release risk across all projects.",
+    bullets: [
+      "Requirement coverage %, test pass rate, and release risk score",
+      "Sprint velocity vs quality trend analysis",
+      "Portfolio-level visibility across all teams and projects",
+    ],
+    stat: "0-100",
+    statLabel: "release readiness score",
+    gif: "/assets/gif/Delivery Dashboard.gif",
   },
 ];
 
@@ -126,131 +156,142 @@ export default function FeaturesPage() {
         style={{ paddingTop: 80 }}
         className="bg-[#0a0a0a]"
       >
-        {/* ───────────────────── Hero Section ───────────────────── */}
-        <section className="relative px-6 pt-24 pb-20 text-center overflow-hidden">
-          {/* Ambient orange glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/20 rounded-full blur-[120px] pointer-events-none" />
-
+        {/* Hero */}
+        <section className="relative px-6 pt-24 pb-16 text-center overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="relative z-10 max-w-3xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              AI-Powered Software Quality Features
-              <br />
+              AI-Powered Software Quality Features{" "}
               <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
                 Built for Engineering
               </span>
             </h1>
-
-            <p className="text-neutral-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10">
+            <p className="text-neutral-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto">
               From requirements to release — WalnutAI automates test case
               creation, detects coverage gaps, and provides full SDLC
               traceability so your team ships with confidence.
             </p>
-
-            <div className="flex flex-wrap justify-center gap-4">
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/20"
-              >
-                Start Free Trial
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/features/ai-sdlc-automation"
-                className="inline-flex items-center gap-2 border border-neutral-700 hover:border-orange-500/60 text-neutral-300 hover:text-orange-400 font-semibold text-sm px-8 py-3.5 rounded-full transition-all duration-300"
-              >
-                View Platform Overview
-              </Link>
-            </div>
           </div>
         </section>
 
-        {/* ───────────── Immersive Image Cards Grid ───────────── */}
-        <section className="px-6 pb-24">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {features.map((feature) => {
-                const Icon = feature.icon;
-                return (
-                  <Link
-                    key={feature.id}
-                    href={`/features/${feature.id}`}
-                    className="group relative h-[420px] rounded-[2rem] overflow-hidden border border-neutral-800 hover:border-orange-500/50 hover:shadow-[0_0_40px_-10px_rgba(249,115,22,0.3)] hover:-translate-y-2 transition-all duration-500 flex flex-col bg-[#0a0a0a]"
-                  >
-                    {/* Decorative background icon */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <Icon
-                        size={200}
-                        className="text-white opacity-[0.03]"
-                        strokeWidth={1}
+        {/* Feature Rows */}
+        <section className="px-6 pb-16">
+          <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+            {features.map((f, i) => {
+              const reversed = i % 2 === 1;
+              return (
+                <div
+                  key={f.id}
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 40,
+                    alignItems: "center",
+                    padding: "48px 0",
+                    borderBottom: i < features.length - 1 ? "1px solid #141414" : "none",
+                    direction: reversed ? "rtl" : "ltr",
+                  }}
+                  className="feat-hub-row"
+                >
+                  {/* Left: Details */}
+                  <div style={{ direction: "ltr" }}>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 16 }}>
+                      <span style={{ fontSize: 36, fontWeight: 900, color: "#F17F0D", lineHeight: 1 }}>{f.stat}</span>
+                      <span style={{ fontSize: 12, color: "#555", textTransform: "uppercase", letterSpacing: 1 }}>{f.statLabel}</span>
+                    </div>
+                    <h2 style={{ color: "#fff", fontSize: 28, fontWeight: 800, marginBottom: 12, lineHeight: 1.2 }}>
+                      {f.title}
+                    </h2>
+                    <p style={{ color: "#888", fontSize: 15, lineHeight: 1.75, marginBottom: 20 }}>
+                      {f.description}
+                    </p>
+                    <ul style={{ listStyle: "none", padding: 0, margin: "0 0 24px", display: "flex", flexDirection: "column", gap: 8 }}>
+                      {f.bullets.map((b) => (
+                        <li key={b} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                          <span style={{ color: "#F17F0D", marginTop: 4, flexShrink: 0 }}>&#10003;</span>
+                          <span style={{ color: "#aaa", fontSize: 14, lineHeight: 1.6 }}>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Link
+                      href={`/features/${f.id}`}
+                      style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#F17F0D", fontSize: 14, fontWeight: 600, textDecoration: "none" }}
+                    >
+                      Read more
+                      <ArrowRight size={16} />
+                    </Link>
+                  </div>
+
+                  {/* Right: GIF */}
+                  <div style={{ direction: "ltr" }}>
+                    <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 20, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <img
+                        src={f.gif}
+                        alt={`${f.title} demo`}
+                        loading={i < 2 ? "eager" : "lazy"}
+                        style={{ maxWidth: "100%", maxHeight: 320, borderRadius: 8 }}
                       />
                     </div>
-
-                    {/* Heavy gradient overlay from bottom */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none" />
-
-                    {/* Top-left glassmorphic icon badge */}
-                    <div className="relative z-10 p-6">
-                      <div className="w-12 h-12 bg-[#0a0a0a]/50 backdrop-blur-md border border-neutral-700/50 rounded-xl flex items-center justify-center">
-                        <Icon className="w-6 h-6 text-orange-500" />
-                      </div>
-                    </div>
-
-                    {/* Bottom content */}
-                    <div className="relative z-10 mt-auto p-6 pt-0">
-                      <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition-colors mb-3">
-                        {feature.title}
-                      </h3>
-                      <p className="text-lg text-neutral-400 leading-relaxed mb-4">
-                        {feature.description}
-                      </p>
-                      <span className="inline-flex items-center gap-1.5 text-orange-500 text-sm font-semibold group-hover:gap-2.5 transition-all">
-                        Explore Feature
-                        <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
-        {/* ───────────── GEO Definition ───────────── */}
-        <section className="px-6 pb-20">
+        {/* GEO Definition */}
+        <section className="px-6 pb-16">
           <div className="max-w-4xl mx-auto">
             <GeoDefinition>
-              WalnutAI is an AI-powered software delivery and quality assurance
-              platform with eight core capabilities: AI-orchestrated SDLC
-              automation, continuous requirements gap analysis, AI test case
-              generation, requirements engineering from documents,
-              requirements-aware code generation, test execution and management,
-              unified delivery analytics, and end-to-end requirements
-              traceability. Each feature is designed to eliminate manual work
-              between requirements, development, and QA — reducing release risk
-              while accelerating delivery cycles.
+              WalnutAI is an AI-powered software delivery and quality
+              assurance platform with eight core capabilities: AI-orchestrated
+              SDLC automation, continuous requirements gap analysis, AI test
+              case generation, requirements engineering from documents,
+              requirements-aware code generation, flexible AI interaction
+              modes, test execution and management, and unified delivery
+              analytics. Each feature is designed to eliminate manual work
+              between requirements, development, and QA — reducing release
+              risk while accelerating delivery cycles.
             </GeoDefinition>
           </div>
         </section>
 
-        {/* ───────────── Bottom CTA Section ───────────── */}
+        {/* CTA */}
         <section className="px-6 pb-24">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-10 md:p-14">
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6">
-                Ready to ship with confidence?
-              </h2>
+          <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
+            <h2 style={{ color: "#fff", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
+              Ready to ship with confidence?
+            </h2>
+            <p style={{ color: "#888", fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
+              See how WalnutAI connects requirements, code, testing, and deployment into one intelligent workflow.
+            </p>
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-sm px-8 py-3.5 rounded-full transition-all duration-300 shadow-lg shadow-orange-500/20"
+                style={{ display: "inline-block", background: "#F17F0D", color: "#fff", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 50, textDecoration: "none" }}
               >
-                Get Started
-                <ArrowRight className="w-4 h-4" />
+                Start Free Trial
+              </Link>
+              <Link
+                href="/pricing"
+                style={{ display: "inline-block", color: "#F17F0D", fontWeight: 600, fontSize: 15, padding: "13px 28px", borderRadius: 50, border: "1px solid rgba(241, 127, 13, 0.3)", textDecoration: "none" }}
+              >
+                View Pricing
               </Link>
             </div>
           </div>
         </section>
       </main>
       <Footer />
+
+      <style>{`
+        @media (max-width: 768px) {
+          .feat-hub-row {
+            grid-template-columns: 1fr !important;
+            direction: ltr !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

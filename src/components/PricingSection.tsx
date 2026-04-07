@@ -8,7 +8,7 @@ const plans = [
     name: "Explorer",
     tagline: "For Teams Ready to Ship Faster",
     price: "$18",
-    annual: "$194.4",
+    annual: "$15",
     discount: "-10%",
     outcomes: [
       "Save 15+ hours/sprint on test case creation",
@@ -36,7 +36,7 @@ const plans = [
     name: "Team",
     tagline: "For Teams Who Can't Afford Production Bugs",
     price: "$65",
-    annual: "$702",
+    annual: "$60",
     discount: "-10%",
     outcomes: [
       "Cut production defects by 80%",
@@ -146,7 +146,7 @@ export default function PricingSection() {
                     <span className="pricing-price">
                       {billingCycle[plan.name] ? plan.annual : plan.price}
                     </span>
-                    <span className="pricing-period">/ user / {billingCycle[plan.name] ? "year" : "month"}</span>
+                    <span className="pricing-period">/ user / {billingCycle[plan.name] ? "month" : "month"}</span>
                   </>
                 ) : (
                   <span className="pricing-price pricing-price-custom">
