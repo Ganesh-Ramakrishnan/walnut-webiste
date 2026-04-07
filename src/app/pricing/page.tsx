@@ -42,7 +42,7 @@ const plans = [
     name: "Explorer",
     tagline: "For Teams Ready to Ship Faster",
     price: "$18",
-    annual: "$194.4",
+    annual: "$15",
     discount: "-10%",
     cta: "Upgrade to Explorer",
     highlighted: false,
@@ -68,7 +68,7 @@ const plans = [
     name: "Team",
     tagline: "For Teams Who Can\u2019t Afford Production Bugs",
     price: "$65",
-    annual: "$702",
+    annual: "$60",
     discount: "-10%",
     cta: "Start Team Trial",
     highlighted: true,
@@ -324,7 +324,7 @@ export default function PricingPage() {
                           {annual ? plan.annual : plan.price}
                         </span>
                         <span className="pricing-period">
-                          / user / {annual ? "year" : "month"}
+                          / user / month
                         </span>
                       </>
                     )}
