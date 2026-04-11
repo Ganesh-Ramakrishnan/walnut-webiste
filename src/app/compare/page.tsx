@@ -24,12 +24,24 @@ export const metadata: Metadata = {
     description:
       "Compare WalnutAI with GitHub Copilot, Cursor, Tabnine, and Qodo. Full SDLC coverage vs single-phase tools.",
     url: `${siteUrl}/compare`,
+    siteName: "WalnutAI",
+    type: "website",
+    images: [
+      {
+        url: "https://walnutai.dev/og/compare.png",
+        width: 1200,
+        height: 630,
+        alt: "Compare WalnutAI — See How We Stack Up Against Other AI Development Tools",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Compare WalnutAI - See How We Stack Up",
     description:
       "Compare WalnutAI with GitHub Copilot, Cursor, Tabnine, and Qodo. Full SDLC coverage vs single-phase tools.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/compare.png"],
   },
   alternates: {
     canonical: `${siteUrl}/compare`,

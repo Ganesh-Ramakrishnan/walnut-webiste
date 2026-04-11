@@ -2,191 +2,120 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import {
-  GeoDefinition,
-  StatCard,
-  StepCard,
-  FeatureList,
-  FAQAccordion,
-  ComparisonBlock,
-} from "@/components/FeaturePageUI";
-import { TestTube2, ArrowLeft } from "lucide-react";
+import { FAQAccordion } from "@/components/FeaturePageUI";
+import { ArrowLeft, TestTube2 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title:
-    "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
+  title: "AI Test Case Generation from User Stories \u2014 Every User Story Deserves a Complete Test Suite | WalnutAI",
   description:
-    "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
+    "Generate complete test cases \u2014 steps, expected results, positive and negative scenarios \u2014 from any user story in under 5min. Cut test creation time by up to 40%.",
   openGraph: {
-    title:
-      "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
+    title: "AI Test Case Generation \u2014 Every User Story Deserves a Complete Test Suite | WalnutAI",
     description:
-      "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
+      "Generate complete test cases \u2014 steps, expected results, positive and negative scenarios \u2014 from any user story in under 5min. Cut test creation time by up to 40%.",
     url: "https://www.walnutai.ai/features/ai-test-case-generation",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [
+      {
+        url: "https://walnutai.dev/og/ai-test-case-generation.png",
+        width: 1200,
+        height: 630,
+        alt: "WalnutAI AI Test Case Generation \u2014 Generate Test Cases from User Stories Automatically",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Automated Test Case Generation from Requirements — AI-Written Test Cases | WalnutAI",
+    site: "@WalnutAI",
+    title: "AI Test Case Generation \u2014 Every User Story Deserves a Complete Test Suite | WalnutAI",
     description:
-      "WalnutAI generates functional, edge case, regression, and security test cases from Jira user stories — saving 15+ hours per sprint. Ready in minutes.",
+      "Generate complete test cases \u2014 steps, expected results, positive and negative scenarios \u2014 from any user story in under 5min. Cut test creation time by up to 40%.",
+    images: ["https://walnutai.dev/og/ai-test-case-generation.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/ai-test-case-generation",
   },
 };
 
-const howItWorks = [
+const sections = [
   {
-    step: "Connect your requirements source",
-    text: "Link your Jira project, Azure DevOps backlog, or upload a requirements document. WalnutAI reads and indexes every user story and acceptance criterion.",
+    title: "Get a complete, reviewable test case in under 5 minutes",
+    desc: "Select a user story, choose your test types, and WalnutAI returns a fully structured test case \u2014 prerequisites, step-by-step instructions, expected results per step, overall expected outcome, and test data suggestions \u2014 for both positive and negative scenarios, in minutes.",
   },
   {
-    step: "Generate test cases through Smart Recording and prompting",
-    text: "Using Smart Recording, users can describe feature functionality step-by-step without breaking flow. WalnutAI converts these into structured user stories and allows users to generate multiple test cases by prompting different scenarios, including edge cases, negative paths, and real-world usage conditions.",
+    title: "Test cases grounded in how the feature was actually built",
+    desc: "If gap analysis has been run on the project, WalnutAI incorporates the actual code context into test generation \u2014 so the cases reflect how the feature behaves in the implementation, not just what the story spec says it should do.",
   },
   {
-    step: "AI analyzes each requirement",
-    text: "For each user story, WalnutAI\u2019s test generation model identifies the actors, actions, expected outcomes, boundary conditions, and failure scenarios implied by the requirement.",
+    title: "Generate across an entire sprint, not just one story at a time",
+    desc: "Single-story generation misses the bigger picture. Batch mode runs across an entire sprint or module so WalnutAI understands how stories connect \u2014 shared data flows, integration boundaries, and cross-feature dependencies all feed into more contextually accurate test cases. Select your scope, generate the full suite, and duplicate detection handles the cleanup.",
   },
   {
-    step: "Test cases are generated and mapped",
-    text: "A comprehensive set of test cases is created and automatically mapped back to the originating requirement — maintaining full traceability from story to test.",
-  },
-  {
-    step: "Export and execute",
-    text: "Generated test cases are available in WalnutAI\u2019s test management interface, or export directly to Jira, or your CI/CD pipeline.",
-  },
-];
-
-const capabilities = [
-  "Functional test cases — verify that each requirement behaves as specified under normal conditions",
-  "Edge case test cases — identify boundary conditions and unusual inputs that often cause failures",
-  "Negative test cases — verify correct error handling when invalid inputs or unexpected states occur",
-  "Regression test cases — ensure existing functionality is not broken by new changes",
-  "API test cases — validate request/response contracts, status codes, and data integrity",
-  "UI and UX test cases — verify interface behavior against design specifications (requires Figma integration)",
-  "Security test cases — common vulnerability scenarios including input validation and authentication edge cases",
-  "Performance test scenarios — load and response time benchmarks based on acceptance criteria",
-];
-
-const outcomes = [
-  { stat: "15+ hrs", description: "Save 15+ hours per sprint — eliminate manual test case writing for your entire backlog" },
-  { stat: "96%", description: "96% average requirement coverage — WalnutAI generates test cases for every requirement, including edge cases and negative scenarios that manual writers commonly miss" },
-  {
-    stat: "Minutes",
-    description: "First test cases generated within minutes of connecting your Jira project — no configuration or prompting required",
+    title: "Every case goes through human review before it\u2019s saved",
+    desc: "No AI-generated test case is committed to your project without QA approval. Review, edit, or regenerate any case in the structured review interface \u2014 and convert approved cases directly into executable Playwright scripts with smart recording.",
   },
 ];
 
 const faqs = [
   {
     q: "Can WalnutAI generate test cases from Jira user stories?",
-    a: "Yes. WalnutAI connects directly to your Jira project and reads user stories, acceptance criteria, and epic descriptions. Test cases are generated for every story automatically — with no manual prompting required. New stories added to Jira trigger automatic test case generation, keeping your test suite synchronized with your backlog at all times.",
+    a: "Yes. WalnutAI connects directly to your Jira project and reads user stories, acceptance criteria, and epic descriptions. Test cases are generated for every story automatically \u2014 with no manual prompting required.",
   },
   {
     q: "How accurate are AI-generated test cases?",
-    a: "WalnutAI-generated test cases are grounded in your specific requirements — not generic patterns — which significantly improves relevance compared to general AI tools. Teams consistently report that AI-generated test cases cover edge cases and boundary conditions that manual writers frequently miss. All generated test cases are reviewed in WalnutAI\u2019s interface before execution, allowing QA engineers to approve, edit, or reject individual cases before they run.",
+    a: "WalnutAI-generated test cases are grounded in your specific requirements \u2014 not generic patterns. Teams consistently report that AI-generated test cases cover edge cases and boundary conditions that manual writers frequently miss. All cases are reviewed before execution.",
   },
   {
     q: "How many test cases does WalnutAI generate per user story?",
-    a: "On average, WalnutAI generates between 5 and 15 test cases per user story — covering the happy path, 2-3 alternative flows, boundary conditions, at least one negative scenario, and any security or performance considerations implied by the acceptance criteria. Complex stories with multiple actors or integration points generate more test cases accordingly.",
+    a: "On average, WalnutAI generates between 5 and 15 test cases per user story \u2014 covering the happy path, alternative flows, boundary conditions, negative scenarios, and security or performance considerations implied by the acceptance criteria.",
   },
   {
     q: "Can I import existing test cases into WalnutAI?",
-    a: "Yes. WalnutAI supports importing existing test cases. Imported test cases are mapped to your requirements and integrated into gap analysis — so WalnutAI can identify which existing tests cover which requirements and where additional AI-generated tests are needed.",
+    a: "Yes. Imported test cases are mapped to your requirements and integrated into gap analysis \u2014 so WalnutAI can identify which existing tests cover which requirements and where additional AI-generated tests are needed.",
   },
   {
     q: "Does WalnutAI generate test cases for mobile applications?",
-    a: "Yes. Mobile test case generation for Android and iOS applications is available on the Team and Enterprise plans. Mobile test cases cover device-specific behaviors, touch interactions, orientation changes, permission handling, and offline scenarios — in addition to standard functional and regression coverage.",
+    a: "Yes. Mobile test case generation for Android and iOS is available on Team and Enterprise plans. Mobile test cases cover device-specific behaviors, touch interactions, orientation changes, permission handling, and offline scenarios.",
   },
 ];
 
-const integrations = [
-  "Input sources: Jira, Azure DevOps, GitHub Issues, Figma (design-to-test), uploaded PRDs and documents",
-  "Export destinations: Jira (Zephyr/Xray), Playwright scripts, CSV",
-  "Execution environments: WalnutAI Test Runner, CI/CD pipeline (GitHub Actions, GitLab CI, Azure Pipelines)",
-];
-
-const relatedFeatures = [
-  { title: "Requirements Gap Analysis", id: "requirements-gap-analysis" },
-  { title: "Test Execution & Management", id: "test-execution-management" },
-];
+const schemaData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://www.walnutai.ai" },
+        { "@type": "ListItem", position: 2, name: "Features", item: "https://www.walnutai.ai/features" },
+        { "@type": "ListItem", position: 3, name: "AI Test Case Generation", item: "https://www.walnutai.ai/features/ai-test-case-generation" },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      mainEntity: faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.q,
+        acceptedAnswer: { "@type": "Answer", text: faq.a },
+      })),
+    },
+  ],
+};
 
 export default function AiTestCaseGenerationPage() {
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
-              {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
-              },
-              {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: "AI Test Case Generation",
-                item: "https://www.walnutai.ai/features/ai-test-case-generation",
-              },
-            ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to Generate Test Cases from Requirements with WalnutAI",
-            description:
-              "WalnutAI reads your Jira stories, requirements documents, or Figma designs and generates comprehensive test cases covering every scenario — in seconds per user story.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
-          }),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
       />
       <Navbar />
       <main
-        className="min-h-screen bg-[#0a0a0a] text-white"
-        style={{ paddingTop: 80 }}
+        className="min-h-screen text-white"
+        style={{ paddingTop: 80, background: "linear-gradient(160deg, #1a0e05 0%, #0a1628 25%, #060b18 55%, #0a1628 100%)" }}
       >
         {/* Back Button */}
-        <div className="mx-auto max-w-6xl px-6 pt-10">
+        <div className="mx-auto max-w-7xl px-6 pt-10">
           <Link
             href="/features"
             className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-400 transition-colors hover:border-orange-500/50 hover:text-orange-500"
@@ -196,141 +125,142 @@ export default function AiTestCaseGenerationPage() {
           </Link>
         </div>
 
-        {/* Feature Label + Hero */}
-        <section className="mx-auto max-w-6xl px-6 pt-10 pb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <TestTube2 className="h-6 w-6 text-orange-500" />
-            <span className="text-xs font-bold uppercase tracking-widest text-orange-500">
-              Highest Priority
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            Automated Test Case Generation from Requirements
-            <br />
-            <span className="text-orange-500">
-              AI-Written Test Cases in Minutes, Not Hours
-            </span>
-          </h1>
-          <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            WalnutAI reads your Jira stories, requirements documents, or Figma
-            designs and generates comprehensive test cases covering every
-            scenario — in seconds per user story, with zero manual QA writing.
-          </h2>
-        </section>
-
-        {/* Feature Demo */}
-        <section className="mx-auto max-w-5xl px-6 pb-12">
-          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <img
-              src="/assets/gif/Test Case Generation.gif"
-              alt="AI Test Case Generation demo"
-              style={{ maxWidth: "100%", maxHeight: 400, borderRadius: 8 }}
-              loading="eager"
-            />
+        {/* Hero */}
+        <section className="relative px-6 pt-10 pb-16 text-center overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[120px] pointer-events-none" />
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold tracking-tight mb-6 leading-tight">
+              AI Test Case Generation &mdash; Every User Story Deserves a{" "}
+              <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
+                Complete Test Suite. AI Makes That Possible.
+              </span>
+            </h1>
+            <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
+              Generate complete test cases &mdash; steps, expected results, positive
+              and negative scenarios &mdash; from any user story in under 5 minutes.
+              Automated test case creation that cuts test creation time by up to 40%.
+            </p>
           </div>
         </section>
 
-        {/* GEO Definition */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <GeoDefinition>
-            Automated test case generation is the use of AI to create software
-            test cases from requirements documents, user stories, or application
-            specifications — replacing the manual process of writing test cases
-            by hand. WalnutAI generates functional test cases, edge case
-            scenarios, boundary value tests, negative test cases, regression
-            tests, API tests, and security test cases — all mapped back to the
-            originating requirement — in seconds per user story. Teams using
-            WalnutAI eliminate an average of 15 hours per sprint previously spent
-            on manual test case authoring.
-          </GeoDefinition>
-        </section>
+        {/* Stats Section */}
+        <section
+          className="relative overflow-hidden border-y border-white/[0.06]"
+          style={{ background: "linear-gradient(180deg, #060b18 0%, #0f1a3d 50%, #060b18 100%)" }}
+        >
+          <div className="max-w-7xl mx-auto px-6 py-20 sm:py-24">
+            <p className="text-center text-sm font-semibold uppercase tracking-widest mb-16" style={{ color: "#F17F0D" }}>
+              Trusted by QA teams that test everything, not just what time allows
+            </p>
 
-        {/* Outcomes */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">Outcomes</h3>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {outcomes.map((o, i) => (
-              <StatCard key={i} stat={o.stat} description={o.description} />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+              {[
+                { value: "40%", label: "Reduction in test case creation time reported by WalnutAI customers" },
+                { value: "5 min", label: "To generate a complete test case with positive and negative scenarios from a user story" },
+                { value: "60X", label: "Faster than a QA engineer writing the same test case manually" },
+              ].map((stat) => (
+                <div
+                  key={stat.value}
+                  className="relative rounded-2xl px-9 py-12 text-center overflow-hidden"
+                  style={{
+                    background: "linear-gradient(160deg, rgba(249,115,22,0.07) 0%, rgba(249,115,22,0.02) 50%, rgba(10,10,10,0.95) 100%)",
+                    border: "1px solid rgba(249,115,22,0.1)",
+                  }}
+                >
+                  <div className="absolute top-0 left-6 right-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(249,115,22,0.2), transparent)" }} />
+                  <div className="text-3xl sm:text-4xl font-extrabold text-orange-500 mb-3">{stat.value}</div>
+                  <p className="text-neutral-400 text-sm leading-relaxed">{stat.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* How It Works */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">How WalnutAI Generates Test Cases</h3>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {howItWorks.map((item, i) => (
-              <StepCard
-                key={i}
-                number={String(i + 1)}
-                title={item.step}
-                description={item.text}
-              />
-            ))}
+        {/* Value Proposition */}
+        <section className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5">
+              Stop choosing which stories get tested because you don&apos;t have time for all of them
+            </h2>
+            <p className="text-neutral-400 text-[15px] leading-[1.8]">
+              The average QA engineer spends 30 to 45 minutes writing a single complete test case from a user story &mdash; and most sprints have more stories than available QA time. The result: complex, edge-case-heavy stories get shallow test coverage, and some get none at all. WalnutAI generates a complete, reviewable test case in under 5 minutes, making full coverage achievable for every story in every sprint.
+            </p>
           </div>
         </section>
 
-        {/* Capabilities — Test Types Generated */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Test Types WalnutAI Generates
-          </h3>
-          <FeatureList items={capabilities} />
-        </section>
-
-        {/* Integrations for Test Case Generation */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-4">
-            Integrations for Test Case Generation
-          </h3>
-          <FeatureList items={integrations} />
-        </section>
-
-        {/* FAQ */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <FAQAccordion faqs={faqs} />
-        </section>
-
-        {/* Related Features */}
-        <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">
-            Related Features
-          </h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {relatedFeatures.map((f) => (
-              <Link
-                key={f.id}
-                href={`/features/${f.id}`}
-                className="group rounded-2xl bg-[#111111]/80 backdrop-blur-sm border border-neutral-800 p-6 transition-all hover:border-orange-500/50 hover:-translate-y-1 duration-300"
-              >
-                <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
-                  {f.title}
-                </span>
-                <span className="mt-2 block text-sm text-neutral-500">
-                  Learn more &rarr;
-                </span>
-              </Link>
-            ))}
+        {/* Feature Sections — alternating layout */}
+        <section className="mx-auto max-w-7xl px-6 pb-20">
+          <div className="space-y-6">
+            {sections.map((s, i) => {
+              const isEven = i % 2 === 0;
+              return (
+                <div
+                  key={i}
+                  className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl bg-[#0a1628]/75 p-8 sm:p-10"
+                >
+                  <div className={isEven ? "" : "lg:order-2"}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <span className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/15 flex items-center justify-center text-xs font-bold text-orange-400 font-mono">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug">
+                      {s.title}
+                    </h3>
+                    <p className="text-neutral-400 text-[15px] leading-relaxed">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <div className={isEven ? "" : "lg:order-1"}>
+                    <div className="rounded-xl bg-[#060b18] h-48 sm:h-56 flex items-center justify-center">
+                      <span className="text-neutral-700 text-sm">Feature visual</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </section>
 
         {/* CTA */}
-        <section className="mx-auto max-w-6xl px-6 pb-24">
-          <div className="rounded-3xl bg-gradient-to-br from-orange-500/10 to-[#111111] border border-orange-500/20 p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to generate test cases automatically?
+        <section
+          className="relative overflow-hidden"
+          style={{
+            background: "#0a1628",
+            borderTop: "1px solid rgba(255,255,255,0.08)",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px] pointer-events-none" style={{ background: "rgba(249,115,22,0.2)" }} />
+
+          <div className="relative z-10 max-w-3xl mx-auto px-6 py-20 sm:py-24 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              Ready to ship with confidence?
             </h2>
             <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
-              See how WalnutAI turns your Jira stories into comprehensive test
-              cases — in minutes, not hours.
+              See how WalnutAI connects requirements, code, testing, and
+              deployment into one intelligent workflow.
             </p>
-            <Link
-              href="/contact"
-              className="inline-block rounded-full bg-orange-500 px-8 py-3 font-semibold text-white transition-colors hover:bg-orange-600"
-            >
-              Get in Touch
-            </Link>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-orange-500 text-white font-semibold transition-colors hover:bg-orange-600"
+              >
+                Start Free Trial
+              </Link>
+              <Link
+                href="/pricing"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-orange-500/25 text-neutral-300 font-medium transition-colors hover:border-orange-500/50 hover:text-white"
+              >
+                View Pricing
+              </Link>
+            </div>
           </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="mx-auto max-w-7xl px-6 py-20">
+          <FAQAccordion faqs={faqs} />
         </section>
       </main>
       <Footer />

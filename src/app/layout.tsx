@@ -15,11 +15,11 @@ const siteUrl = "https://www.walnutai.ai";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "WalnutAI - AI Ecosystem for Software Delivery",
+    default: "WalnutAI - AI Software Development Platform | Requirements, Code Generation & Testing",
     template: "%s | WalnutAI",
   },
   description:
-    "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
+    "WalnutAI is an AI software development platform that automates requirements engineering, AI code generation, automated test case generation, and AI SDLC automation — from intent to production with zero blind spots. Start free today.",
   keywords: [
     // Core product
     "WalnutAI",
@@ -79,24 +79,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: siteUrl,
     siteName: "WalnutAI",
-    title: "WalnutAI - AI Ecosystem for Software Delivery",
+    title: "WalnutAI - AI Software Development Platform | Requirements, Code Generation & Testing",
     description:
-      "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
+      "WalnutAI is an AI software development platform that automates requirements engineering, AI code generation, automated test case generation, and AI SDLC automation \u2014 from intent to production with zero blind spots. Start free today.",
     images: [
       {
-        url: "/assets/logo/Walnut-White.png",
+        url: "https://walnutai.dev/og/homepage.png",
         width: 1200,
         height: 630,
-        alt: "WalnutAI",
+        alt: "WalnutAI \u2014 AI Software Development Platform for Requirements, Code Generation & Testing",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "WalnutAI - AI Ecosystem for Software Delivery",
+    site: "@WalnutAI",
+    title: "WalnutAI - AI Software Development Platform | Requirements, Code Generation & Testing",
     description:
-      "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
-    images: ["/assets/logo/Walnut-White.png"],
+      "WalnutAI is an AI software development platform that automates requirements engineering, AI code generation, automated test case generation, and AI SDLC automation \u2014 from intent to production with zero blind spots. Start free today.",
+    images: ["https://walnutai.dev/og/homepage.png"],
   },
   robots: {
     index: true,
@@ -137,37 +138,60 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "Organization",
-                name: "WalnutAI",
-                url: siteUrl,
-                logo: `${siteUrl}/assets/logo/Walnut-White.png`,
-                description:
-                  "AI ecosystem for software delivery — from intent to production with zero blind spots. Automate requirements, code generation, and testing. Start free today.",
-                sameAs: [
-                  "https://www.linkedin.com/company/wal-nut/",
-                  "https://www.instagram.com/meet_walnutai/",
-                  "https://discord.gg/Tcw88yu6q",
-                ],
-                contactPoint: {
-                  "@type": "ContactPoint",
-                  email: "contact@walnutai.ai",
-                  contactType: "customer support",
-                },
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "WebSite",
-                name: "WalnutAI",
-                url: siteUrl,
-                publisher: {
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@graph": [
+                {
                   "@type": "Organization",
                   name: "WalnutAI",
+                  url: siteUrl,
+                  logo: `${siteUrl}/logo.png`,
+                  sameAs: [
+                    "https://twitter.com/WalnutAI",
+                    "https://www.linkedin.com/company/wal-nut/",
+                    "https://github.com/walnutai",
+                  ],
+                  description:
+                    "WalnutAI is an AI platform that unifies requirements generation, autonomous code generation, and test intelligence in one continuous software delivery workflow.",
                 },
-              },
-            ]),
+                {
+                  "@type": "WebSite",
+                  url: siteUrl,
+                  name: "WalnutAI",
+                  potentialAction: {
+                    "@type": "SearchAction",
+                    target: `${siteUrl}/search?q={search_term_string}`,
+                    "query-input": "required name=search_term_string",
+                  },
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "WalnutAI",
+                  applicationCategory: "DeveloperApplication",
+                  operatingSystem: "Web, VS Code Extension",
+                  offers: {
+                    "@type": "Offer",
+                    price: "0",
+                    priceCurrency: "USD",
+                    description: "Free starter plan available",
+                  },
+                  description:
+                    "AI platform for requirements generation, autonomous code generation, and test intelligence.",
+                  featureList: [
+                    "AI Requirements Extraction",
+                    "Cloud Agent (Autonomous Code Generation)",
+                    "Auto-Fix PR from Review Comments",
+                    "VS Code AI Extension",
+                    "MCP Server Integration",
+                    "AI Gap Analysis",
+                    "AI Test Case Generation",
+                    "Requirement Traceability Matrix",
+                    "Test Execution and Reporting",
+                    "Code-to-Story (Reverse Requirements)",
+                  ],
+                },
+              ],
+            }),
           }}
         />
       </head>

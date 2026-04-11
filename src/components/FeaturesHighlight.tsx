@@ -69,18 +69,18 @@ export default function FeaturesHighlight() {
 
   return (
     <section id="features" style={{ padding: "80px 0 60px" }}>
-      <div style={{ maxWidth: 960, margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px" }} className="lg:px-8">
         <AnimateOnScroll animation="fadeUp" className="text-center" style={{ marginBottom: 48 }}>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold" style={{ marginBottom: 16 }}>
-            Our{" "}<span className="text-orange">Features</span>
+            AI Software Development{" "}<span className="text-orange">Platform Features</span>
           </h2>
           <p style={{ color: "#9ca3af", fontSize: 15, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
-            AI-powered automation across every stage of your software delivery lifecycle.
+            AI-powered requirements, code generation, and automated test case generation across your software delivery lifecycle.
           </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll animation="fadeUp">
-          <div style={{ display: "grid", gridTemplateColumns: "260px 1fr", border: "1px solid #1a1a1a", borderRadius: 20, overflow: "hidden", minHeight: 420 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", border: "1px solid #1a1a1a", borderRadius: 20, overflow: "hidden", minHeight: 420 }} className="features-highlight-grid">
             {/* Left nav */}
             <div style={{ background: "#0d0d0d", borderRight: "1px solid #1a1a1a", overflowY: "auto" }}>
               {features.map((item, i) => (
@@ -134,7 +134,7 @@ export default function FeaturesHighlight() {
 
       <style>{`
         @media (max-width: 768px) {
-          #features [style*="grid-template-columns: 260px"] {
+          .features-highlight-grid {
             grid-template-columns: 1fr !important;
           }
         }

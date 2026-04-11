@@ -12,12 +12,17 @@ export const metadata: Metadata = {
     description:
       "Connect WalnutAI with GitHub, GitLab, Jira, Docker, Kubernetes, AWS, Figma, and Playwright. Seamlessly integrate your entire toolchain.",
     url: "https://www.walnutai.ai/integrations",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/integrations.png", width: 1200, height: 630, alt: "WalnutAI Integrations — Connect Your Development Tools" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Integrations - Connect Your Development Tools",
     description:
       "Connect WalnutAI with GitHub, GitLab, Jira, Docker, Kubernetes, AWS, Figma, and Playwright.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/integrations.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/integrations",

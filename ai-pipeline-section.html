@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WalnutAI — 9-Phase AI Pipeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060b18;
+      --card-bg:   #0a1628;
+      --orange:    #f97316;
+      --orange-dk: #ea580c;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #ededed;
+      --muted:     #9ca3af;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    /* ─── Section wrapper ─── */
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+
+    /* ─── Header ─── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .badge svg { width:13px; height:13px; }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      line-height: 1.18;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .section-title span { color: var(--orange); }
+    .section-sub {
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ─── Main layout: pipeline left + outcome right ─── */
+    .pipeline-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .pipeline-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ─── Pipeline card ─── */
+    .pipeline-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .pipeline-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(249,115,22,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pipeline-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* ─── Phase rows ─── */
+    .phases {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .phase-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+    }
+
+    /* Left timeline column */
+    .timeline-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 44px;
+      flex-shrink: 0;
+    }
+    .phase-dot {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--muted);
+      flex-shrink: 0;
+      transition: all 0.3s;
+      z-index: 1;
+      position: relative;
+    }
+    .phase-row.active .phase-dot,
+    .phase-row:hover .phase-dot {
+      border-color: var(--orange);
+      background: rgba(249,115,22,0.15);
+      color: var(--orange);
+    }
+    .timeline-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      min-height: 16px;
+    }
+    .phase-row:last-child .timeline-line { display: none; }
+    .phase-row.active .timeline-line,
+    .phase-row:hover ~ .phase-row .timeline-line { /* subtle */ }
+
+    /* Phase content */
+    .phase-content {
+      flex: 1;
+      padding: 0 0 20px 16px;
+      padding-top: 4px;
+    }
+    .phase-row:last-child .phase-content { padding-bottom: 0; }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+    .phase-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      color: var(--muted);
+    }
+    .phase-row.active .phase-tag,
+    .phase-row:hover .phase-tag {
+      background: rgba(249,115,22,0.12);
+      color: var(--orange);
+    }
+
+    .phase-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #d1d5db;
+      transition: color 0.2s;
+    }
+    .phase-row:hover .phase-name { color: #fff; }
+    .phase-row.active .phase-name { color: #fff; }
+
+    .phase-desc {
+      font-size: 12.5px;
+      color: #6b7280;
+      line-height: 1.6;
+      transition: color 0.2s;
+    }
+    .phase-row:hover .phase-desc { color: var(--muted); }
+    .phase-row.active .phase-desc { color: var(--muted); }
+
+    /* Pill chips on phase */
+    .phase-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 6px;
+    }
+    .chip {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: #6b7280;
+      background: transparent;
+    }
+    .chip.orange {
+      border-color: rgba(249,115,22,0.3);
+      color: rgba(249,115,22,0.8);
+    }
+    .chip.blue {
+      border-color: rgba(96,165,250,0.3);
+      color: rgba(96,165,250,0.8);
+    }
+    .chip.green {
+      border-color: rgba(52,211,153,0.3);
+      color: rgba(52,211,153,0.8);
+    }
+    .chip.purple {
+      border-color: rgba(167,139,250,0.3);
+      color: rgba(167,139,250,0.8);
+    }
+
+    /* ─── Right column ─── */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Outcome card */
+    .outcome-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .outcome-card::after {
+      content:'';
+      position:absolute;
+      bottom:0; left:0; right:0;
+      height:3px;
+      background: linear-gradient(90deg, var(--orange), #fbbf24);
+      border-radius:0 0 18px 18px;
+    }
+    .outcome-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .outcome-title svg { width:13px; height:13px; }
+    .outcome-items { display: flex; flex-direction: column; gap: 10px; }
+    .outcome-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .outcome-check {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(249,115,22,0.15);
+      border: 1px solid rgba(249,115,22,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .outcome-check svg { width: 10px; height: 10px; color: var(--orange); }
+    .outcome-text { font-size: 12.5px; color: #9ca3af; line-height: 1.55; }
+    .outcome-text strong { color: #e5e7eb; }
+
+    /* vs. comparison card */
+    .vs-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      overflow: hidden;
+    }
+    .vs-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .vs-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .vs-col {
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+    .vs-col.bad {
+      background: rgba(239,68,68,0.06);
+      border: 1px solid rgba(239,68,68,0.12);
+      color: #f87171;
+    }
+    .vs-col.good {
+      background: rgba(249,115,22,0.06);
+      border: 1px solid rgba(249,115,22,0.2);
+      color: var(--orange);
+    }
+    .vs-col-label {
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: 0.7;
+    }
+    .vs-col p { color: #9ca3af; font-size: 11px; margin-top: 4px; }
+
+    /* Stat strip */
+    .stat-strip {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .stat-item { text-align: center; }
+    .stat-val {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label { font-size: 10px; color: var(--muted); font-weight: 600; letter-spacing: 0.6px; }
+
+    /* ─── Flow diagram below ─── */
+    .flow-wrap {
+      margin-top: 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 32px;
+    }
+    .flow-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .flow-track {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .flow-node {
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .flow-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s;
+      cursor: default;
+    }
+    .flow-icon-wrap:hover {
+      border-color: rgba(249,115,22,0.4);
+      background: rgba(249,115,22,0.08);
+    }
+    .flow-icon-wrap svg { width: 22px; height: 22px; }
+    .flow-node-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--muted);
+      text-align: center;
+      max-width: 64px;
+      line-height: 1.35;
+    }
+    .flow-arrow {
+      flex-shrink: 0;
+      width: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px; /* offset to align with icon row */
+    }
+    .flow-arrow svg {
+      width: 16px;
+      height: 16px;
+      color: rgba(249,115,22,0.4);
+    }
+
+    /* highlighted node */
+    .flow-node.hl .flow-icon-wrap {
+      border-color: rgba(249,115,22,0.5);
+      background: rgba(249,115,22,0.12);
+      box-shadow: 0 0 18px rgba(249,115,22,0.15);
+    }
+    .flow-node.hl .flow-node-label { color: var(--orange); }
+
+    /* scrollbar style */
+    .flow-track::-webkit-scrollbar { height: 4px; }
+    .flow-track::-webkit-scrollbar-track { background: transparent; }
+    .flow-track::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<section>
+  <div class="section">
+
+    <!-- Header -->
+    <div class="section-header">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        Under the Hood
+      </div>
+      <h2 class="section-title">
+        A 9-Phase AI Pipeline That<br/>
+        <span>Preserves Document Context</span>
+      </h2>
+      <p class="section-sub">
+        Rather than sending your document as a raw text dump, WalnutAI section-aware chunks it, vectorizes it, and uses RAG to pull the most relevant sections as context for each extraction call.
+      </p>
+    </div>
+
+    <!-- Main pipeline layout -->
+    <div class="pipeline-layout">
+
+      <!-- Left: pipeline phases -->
+      <div class="pipeline-card">
+        <div class="pipeline-label">Pipeline Execution — per document</div>
+
+        <div class="phases">
+
+          <!-- Phase 1 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">1</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Ingestion</span>
+              </div>
+              <div class="phase-name">Document Ingestion &amp; Parsing</div>
+              <div class="phase-desc">Raw document received — PDF, DOCX, Confluence page, or plain text. Parser extracts raw content while preserving layout metadata.</div>
+              <div class="phase-chips">
+                <span class="chip">PDF</span><span class="chip">DOCX</span><span class="chip">Confluence</span><span class="chip">Plain text</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">2</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Analysis</span>
+              </div>
+              <div class="phase-name">Structure &amp; Hierarchy Detection</div>
+              <div class="phase-desc">Headings, sub-sections, numbered lists, and tables are detected. A document outline tree is built so the AI understands the hierarchy.</div>
+              <div class="phase-chips">
+                <span class="chip orange">Heading tree</span><span class="chip orange">Section map</span><span class="chip orange">Depth levels</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="phase-row active">
+            <div class="timeline-col">
+              <div class="phase-dot">3</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Chunking</span>
+              </div>
+              <div class="phase-name">Section-Aware Semantic Chunking</div>
+              <div class="phase-desc">Splits at semantic boundaries — not arbitrary character limits. Each chunk carries its parent section header and hierarchy path as metadata, keeping context intact.</div>
+              <div class="phase-chips">
+                <span class="chip orange">Semantic split</span><span class="chip orange">Parent header</span><span class="chip orange">Hierarchy path</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 4 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">4</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Embedding</span>
+              </div>
+              <div class="phase-name">Vectorization with Context Metadata</div>
+              <div class="phase-desc">Each chunk is embedded via a high-dimensional embedding model. Section title, page number, and structural depth are stored alongside the vector.</div>
+              <div class="phase-chips">
+                <span class="chip blue">1536-dim vectors</span><span class="chip blue">Rich metadata</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 5 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">5</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Indexing</span>
+              </div>
+              <div class="phase-name">Vector Store Indexing</div>
+              <div class="phase-desc">Vectors indexed with HNSW for sub-millisecond approximate nearest-neighbor search. Supports multi-tenant isolation per project.</div>
+              <div class="phase-chips">
+                <span class="chip blue">HNSW index</span><span class="chip blue">Per-project isolation</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 6 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">6</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Retrieval</span>
+              </div>
+              <div class="phase-name">Per-Extraction RAG Query</div>
+              <div class="phase-desc">For each user story or requirement to extract, a targeted query is formulated. The vector store returns the top-k most semantically relevant chunks.</div>
+              <div class="phase-chips">
+                <span class="chip green">Semantic search</span><span class="chip green">Top-k retrieval</span><span class="chip green">Score threshold</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 7 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">7</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Assembly</span>
+              </div>
+              <div class="phase-name">Context Window Assembly</div>
+              <div class="phase-desc">Retrieved chunks re-ordered by document position and stitched with their section headers — reconstructing a coherent, structure-preserving context block for the LLM.</div>
+              <div class="phase-chips">
+                <span class="chip green">Re-ranked</span><span class="chip green">Position-sorted</span><span class="chip green">Header-stitched</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 8 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">8</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Extraction</span>
+              </div>
+              <div class="phase-name">Grounded AI Story Generation</div>
+              <div class="phase-desc">LLM receives the assembled context and generates user stories, acceptance criteria, and edge cases — grounded in the document's actual language and intent.</div>
+              <div class="phase-chips">
+                <span class="chip purple">GPT-4o</span><span class="chip purple">Structured output</span><span class="chip purple">Source citations</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 9 -->
+          <div class="phase-row">
+            <div class="timeline-col">
+              <div class="phase-dot">9</div>
+              <div class="timeline-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-header">
+                <span class="phase-tag">Output</span>
+              </div>
+              <div class="phase-name">Structured Delivery &amp; Traceability</div>
+              <div class="phase-desc">Each story is tagged with the source section it was derived from. Teams can trace every output back to the original document paragraph — full auditability.</div>
+              <div class="phase-chips">
+                <span class="chip purple">Section tags</span><span class="chip purple">Jira export</span><span class="chip purple">Audit trail</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /pipeline-card -->
+
+      <!-- Right column -->
+      <div class="right-col">
+
+        <!-- Outcome card -->
+        <div class="outcome-card">
+          <div class="outcome-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            The Result
+          </div>
+          <div class="outcome-items">
+            <div class="outcome-item">
+              <div class="outcome-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="outcome-text"><strong>Stories reflect actual structure</strong> — not a flat summary of the whole document.</div>
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="outcome-text"><strong>No hallucinated requirements</strong> — every output is grounded in retrieved source text.</div>
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="outcome-text"><strong>Full traceability</strong> — each story cites the section it came from.</div>
+            </div>
+            <div class="outcome-item">
+              <div class="outcome-check">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="outcome-text"><strong>Long documents handled</strong> — context window never exceeded via RAG chunking.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- vs. comparison -->
+        <div class="vs-card">
+          <div class="vs-title">WalnutAI vs. Raw Text Dump</div>
+          <div class="vs-row">
+            <div class="vs-col bad">
+              <div class="vs-col-label">❌ Without RAG</div>
+              <p>Entire doc crammed into one prompt. Structure lost. Stories are generic summaries.</p>
+            </div>
+            <div class="vs-col good">
+              <div class="vs-col-label">✓ WalnutAI RAG</div>
+              <p>Only the relevant sections are retrieved. Stories match the document's actual intent.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stat-strip">
+          <div class="stat-item">
+            <div class="stat-val">9</div>
+            <div class="stat-label">Pipeline Phases</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">Top-K</div>
+            <div class="stat-label">RAG Retrieval</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-val">100%</div>
+            <div class="stat-label">Traceable Output</div>
+          </div>
+        </div>
+
+      </div><!-- /right-col -->
+    </div><!-- /pipeline-layout -->
+
+    <!-- Flow diagram strip -->
+    <div class="flow-wrap">
+      <div class="flow-title">Pipeline at a Glance — end-to-end data flow</div>
+      <div class="flow-track">
+
+        <!-- Document -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          </div>
+          <div class="flow-node-label">Document Upload</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Parse -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="flow-node-label">Parse &amp; Structure</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Chunk -->
+        <div class="flow-node hl">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="flow-node-label">Section Chunking</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Vectorize -->
+        <div class="flow-node hl">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="flow-node-label">Vectorize + Index</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- RAG -->
+        <div class="flow-node hl">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="flow-node-label">RAG Retrieval</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Assemble -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <div class="flow-node-label">Context Assembly</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- LLM -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          </div>
+          <div class="flow-node-label">LLM Extraction</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Stories -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="flow-node-label">Structured Stories</div>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+
+        <!-- Output -->
+        <div class="flow-node">
+          <div class="flow-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <div class="flow-node-label">Jira / Export</div>
+        </div>
+
+      </div>
+    </div><!-- /flow-wrap -->
+
+  </div>
+</section>
+
+</body>
+</html>

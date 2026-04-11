@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WalnutAI — Fault-Tolerant Processing</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060b18;
+      --card-bg:   #0a1628;
+      --orange:    #f97316;
+      --orange-dk: #ea580c;
+      --border:    rgba(255,255,255,0.07);
+      --text:      #ededed;
+      --muted:     #9ca3af;
+      --red:       #ef4444;
+      --green:     #34d399;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 24px 100px;
+    }
+
+    /* ── Header ── */
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(249,115,22,0.12);
+      border: 1px solid rgba(249,115,22,0.3);
+      color: var(--orange);
+      font-size: 12px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; padding: 5px 14px;
+      border-radius: 999px; margin-bottom: 20px;
+    }
+    .badge svg { width: 13px; height: 13px; }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px); font-weight: 800;
+      line-height: 1.18; color: #fff; margin-bottom: 16px;
+    }
+    .section-title span { color: var(--orange); }
+    .section-sub {
+      color: var(--muted); font-size: 15px; max-width: 600px;
+      margin: 0 auto; line-height: 1.7;
+    }
+
+    /* ── Checkpoint visualiser ── */
+    .viz-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px 32px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .viz-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 55% 35% at 50% 0%, rgba(249,115,22,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .viz-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.4px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 28px;
+    }
+
+    /* Phase track */
+    .phase-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-bottom: 24px;
+    }
+    .phase-node {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      flex: 1;
+      position: relative;
+    }
+
+    /* connector line between nodes */
+    .phase-node::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      width: 100%;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .phase-node:last-child::after { display: none; }
+    .phase-node.done::after { background: rgba(52,211,153,0.3); }
+    .phase-node.checkpoint::after { background: rgba(52,211,153,0.3); }
+    .phase-node.failed::after { background: rgba(239,68,68,0.25); }
+
+    .phase-circle {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1;
+      font-size: 12px; font-weight: 800; color: var(--muted);
+      transition: all 0.3s;
+    }
+    .phase-node.done .phase-circle {
+      border-color: rgba(52,211,153,0.5);
+      background: rgba(52,211,153,0.08);
+      color: var(--green);
+    }
+    .phase-node.checkpoint .phase-circle {
+      border-color: rgba(52,211,153,0.7);
+      background: rgba(52,211,153,0.12);
+      color: var(--green);
+      box-shadow: 0 0 16px rgba(52,211,153,0.18);
+    }
+    .phase-node.failed .phase-circle {
+      border-color: rgba(239,68,68,0.6);
+      background: rgba(239,68,68,0.1);
+      color: var(--red);
+      animation: pulse-red 2s ease-in-out infinite;
+    }
+    .phase-node.pending .phase-circle {
+      opacity: 0.4;
+    }
+    .phase-node.resume .phase-circle {
+      border-color: rgba(249,115,22,0.7);
+      background: rgba(249,115,22,0.12);
+      color: var(--orange);
+      box-shadow: 0 0 16px rgba(249,115,22,0.2);
+      animation: pulse-orange 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-red {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+      50% { box-shadow: 0 0 0 6px rgba(239,68,68,0.12); }
+    }
+    @keyframes pulse-orange {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); }
+      50% { box-shadow: 0 0 0 8px rgba(249,115,22,0.12); }
+    }
+
+    .phase-name {
+      font-size: 10px; font-weight: 600; color: #4b5563;
+      text-align: center; max-width: 64px; line-height: 1.35;
+    }
+    .phase-node.done .phase-name,
+    .phase-node.checkpoint .phase-name { color: rgba(52,211,153,0.7); }
+    .phase-node.resume .phase-name { color: rgba(249,115,22,0.8); }
+    .phase-node.failed .phase-name { color: rgba(239,68,68,0.7); }
+
+    /* Checkpoint pin */
+    .checkpoint-pin {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+    }
+    .checkpoint-flag {
+      background: rgba(52,211,153,0.15);
+      border: 1px solid rgba(52,211,153,0.4);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--green);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .checkpoint-pin-line {
+      width: 1px; height: 6px;
+      background: rgba(52,211,153,0.3);
+    }
+
+    /* Resume arrow */
+    .resume-arrow-wrap {
+      display: flex; align-items: center; justify-content: center;
+      margin: 4px 0 20px;
+      gap: 12px;
+    }
+    .resume-arrow {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .resume-from {
+      font-size: 12px; color: rgba(239,68,68,0.7); font-weight: 600;
+    }
+    .arrow-line {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .arrow-dashes {
+      display: flex; gap: 3px;
+    }
+    .arrow-dash {
+      width: 12px; height: 2px;
+      background: rgba(249,115,22,0.4);
+      border-radius: 1px;
+    }
+    .arrow-head {
+      width: 0; height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 7px solid rgba(249,115,22,0.6);
+    }
+    .resume-to {
+      font-size: 12px; color: rgba(249,115,22,0.9); font-weight: 700;
+    }
+    .resume-label {
+      font-size: 10px; color: var(--muted);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 3px 10px;
+    }
+
+    /* Progress bar */
+    .progress-wrap { margin-top: 4px; }
+    .progress-label-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px;
+    }
+    .progress-text { font-size: 11px; color: var(--muted); font-weight: 600; }
+    .progress-pct { font-size: 11px; color: var(--orange); font-weight: 700; }
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--green) 0%, var(--green) 55%, var(--orange) 56%, var(--orange) 67%, rgba(255,255,255,0.08) 68%);
+      width: 67%;
+      position: relative;
+    }
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--orange);
+      box-shadow: 0 0 8px rgba(249,115,22,0.6);
+      border-radius: 999px;
+    }
+
+    /* Failure badge */
+    .failure-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 10px; font-weight: 700;
+      color: var(--red);
+      letter-spacing: 0.5px;
+    }
+    .failure-badge svg { width: 10px; height: 10px; }
+
+    /* ── Main 2-col layout ── */
+    .main-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .main-layout { grid-template-columns: 1fr; } }
+
+    /* ── Info card ── */
+    .info-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 28px;
+    }
+    .info-card-title {
+      font-size: 13px; font-weight: 700; color: #fff;
+      margin-bottom: 4px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .info-card-title svg { width: 15px; height: 15px; color: var(--orange); }
+    .info-card-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+
+    /* Checkpoint list */
+    .checkpoint-list { display: flex; flex-direction: column; gap: 0; }
+    .ckpt-row {
+      display: flex; align-items: stretch; gap: 0;
+      cursor: default;
+    }
+    .ckpt-left {
+      display: flex; flex-direction: column;
+      align-items: center; width: 36px; flex-shrink: 0;
+    }
+    .ckpt-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      border: 1.5px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 800;
+      color: var(--muted);
+      flex-shrink: 0; z-index: 1;
+      transition: all 0.25s;
+    }
+    .ckpt-row:hover .ckpt-dot {
+      border-color: rgba(249,115,22,0.5);
+      background: rgba(249,115,22,0.1);
+      color: var(--orange);
+    }
+    .ckpt-row.saved .ckpt-dot {
+      border-color: rgba(52,211,153,0.5);
+      background: rgba(52,211,153,0.1);
+      color: var(--green);
+    }
+    .ckpt-line {
+      width: 1.5px; flex: 1; min-height: 12px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+    .ckpt-row:last-child .ckpt-line { display: none; }
+    .ckpt-content { flex: 1; padding: 0 0 16px 14px; padding-top: 3px; }
+    .ckpt-row:last-child .ckpt-content { padding-bottom: 0; }
+    .ckpt-name { font-size: 13px; font-weight: 700; color: #d1d5db; margin-bottom: 2px; }
+    .ckpt-row:hover .ckpt-name { color: #fff; }
+    .ckpt-row.saved .ckpt-name { color: #fff; }
+    .ckpt-detail { font-size: 11.5px; color: #4b5563; line-height: 1.5; }
+    .ckpt-row:hover .ckpt-detail { color: var(--muted); }
+    .ckpt-row.saved .ckpt-detail { color: var(--muted); }
+    .ckpt-badges { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+    .ckpt-badge {
+      font-size: 9.5px; font-weight: 700; padding: 2px 7px;
+      border-radius: 4px; letter-spacing: 0.4px;
+    }
+    .ckpt-badge.green {
+      background: rgba(52,211,153,0.1);
+      border: 1px solid rgba(52,211,153,0.25);
+      color: var(--green);
+    }
+    .ckpt-badge.orange {
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.25);
+      color: var(--orange);
+    }
+    .ckpt-badge.gray {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Right col ── */
+    .right-col { display: flex; flex-direction: column; gap: 20px; }
+
+    /* Perf card */
+    .perf-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .perf-card::after {
+      content:'';
+      position:absolute; bottom:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, var(--orange), #fbbf24);
+      border-radius:0 0 18px 18px;
+    }
+    .perf-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .perf-label svg { width: 13px; height: 13px; }
+
+    /* Timer circle */
+    .timer-wrap {
+      display: flex; align-items: center; gap: 18px; margin-bottom: 20px;
+    }
+    .timer-ring {
+      width: 72px; height: 72px; flex-shrink: 0;
+      position: relative;
+    }
+    .timer-ring svg {
+      width: 72px; height: 72px;
+      transform: rotate(-90deg);
+    }
+    .timer-ring circle {
+      fill: none;
+      stroke-width: 5;
+    }
+    .timer-ring .bg { stroke: rgba(255,255,255,0.06); }
+    .timer-ring .fg {
+      stroke: var(--orange);
+      stroke-dasharray: 188;
+      stroke-dashoffset: 38; /* ~80% fill */
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 4px rgba(249,115,22,0.4));
+    }
+    .timer-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1px;
+    }
+    .timer-val { font-size: 16px; font-weight: 800; color: var(--orange); line-height: 1; }
+    .timer-unit { font-size: 8px; font-weight: 700; color: var(--muted); letter-spacing: 0.5px; }
+    .timer-desc { }
+    .timer-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .timer-sub { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
+
+    /* Mini stats */
+    .mini-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mini-stat {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px;
+      text-align: center;
+    }
+    .mini-val { font-size: 20px; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 4px; }
+    .mini-label { font-size: 10px; color: var(--muted); font-weight: 600; line-height: 1.3; }
+
+    /* vs card */
+    .vs-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px; padding: 22px;
+    }
+    .vs-header {
+      font-size: 11px; font-weight: 700; letter-spacing: 1.2px;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+    }
+
+    /* Failure timeline */
+    .fail-timeline { display: flex; flex-direction: column; gap: 0; }
+    .fail-row {
+      display: flex; align-items: flex-start; gap: 12px; padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .fail-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .fail-icon {
+      width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fail-icon.red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); }
+    .fail-icon.orange { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.25); }
+    .fail-icon svg { width: 14px; height: 14px; }
+    .fail-text { flex: 1; }
+    .fail-title { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+    .fail-title.red { color: var(--red); }
+    .fail-title.orange { color: var(--orange); }
+    .fail-sub { font-size: 11px; color: var(--muted); line-height: 1.45; }
+    .fail-time {
+      font-size: 10px; font-weight: 700; flex-shrink: 0;
+      padding: 2px 8px; border-radius: 4px;
+    }
+    .fail-time.red { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.15); }
+    .fail-time.orange { background: rgba(249,115,22,0.08); color: var(--orange); border: 1px solid rgba(249,115,22,0.2); }
+
+    /* ── Bottom comparison strip ── */
+    .comparison-strip {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 640px) { .comparison-strip { grid-template-columns: 1fr; } }
+
+    .cmp-card {
+      border-radius: 18px; padding: 24px;
+      border: 1px solid;
+    }
+    .cmp-card.bad {
+      background: rgba(239,68,68,0.04);
+      border-color: rgba(239,68,68,0.12);
+    }
+    .cmp-card.good {
+      background: rgba(249,115,22,0.04);
+      border-color: rgba(249,115,22,0.18);
+    }
+    .cmp-title {
+      font-size: 12px; font-weight: 800;
+      letter-spacing: 0.6px; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .cmp-title.bad { color: var(--red); }
+    .cmp-title.good { color: var(--orange); }
+    .cmp-title svg { width: 14px; height: 14px; }
+
+    /* Timeline bars */
+    .cmp-timeline { display: flex; flex-direction: column; gap: 8px; }
+    .cmp-bar-row { display: flex; flex-direction: column; gap: 3px; }
+    .cmp-bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 10px; font-weight: 600;
+    }
+    .cmp-phase-name { color: #6b7280; }
+    .cmp-phase-time { }
+    .cmp-phase-time.done { color: var(--green); }
+    .cmp-phase-time.redo { color: var(--red); }
+    .cmp-phase-time.resume { color: var(--orange); }
+    .cmp-bar-track {
+      height: 5px; border-radius: 999px;
+      background: rgba(255,255,255,0.05); overflow: hidden;
+    }
+    .cmp-bar-fill {
+      height: 100%; border-radius: 999px;
+    }
+    .cmp-bar-fill.done { background: rgba(52,211,153,0.5); }
+    .cmp-bar-fill.redo { background: rgba(239,68,68,0.5); }
+    .cmp-bar-fill.resume { background: rgba(249,115,22,0.6); }
+    .cmp-bar-fill.pending { background: rgba(255,255,255,0.1); }
+
+    .cmp-total {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cmp-total-label { font-size: 11px; font-weight: 700; color: var(--muted); }
+    .cmp-total-val { font-size: 18px; font-weight: 800; }
+    .cmp-total-val.bad { color: var(--red); }
+    .cmp-total-val.good { color: var(--orange); }
+
+    /* Saved time badge */
+    .saved-time {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: 20px;
+      background: rgba(249,115,22,0.06);
+      border: 1px solid rgba(249,115,22,0.18);
+      border-radius: 12px; padding: 14px 20px;
+    }
+    .saved-time svg { width: 16px; height: 16px; color: var(--orange); flex-shrink: 0; }
+    .saved-time-text { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .saved-time-text strong { color: #fff; }
+  </style>
+</head>
+<body>
+
+<section>
+  <div class="section">
+
+    <!-- Header -->
+    <div class="section-header">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Fault Tolerance
+      </div>
+      <h2 class="section-title">
+        Recovers From Failures<br/>
+        <span>Without Starting Over</span>
+      </h2>
+      <p class="section-sub">
+        LangGraph stateful processing saves a checkpoint after every pipeline phase. If processing fails mid-run, it resumes from the last successful step — not from page one.
+      </p>
+    </div>
+
+    <!-- Checkpoint visualiser -->
+    <div class="viz-card">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px;">
+        <div class="viz-label" style="margin-bottom:0">Live checkpoint state — 100-page BRD</div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="failure-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Failure detected at Phase 6
+          </div>
+          <div style="font-size:11px; color:var(--orange); font-weight:700; background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.25); border-radius:6px; padding:3px 10px;">
+            ↩ Resuming from Phase 5
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase nodes -->
+      <div class="phase-track">
+
+        <div class="phase-node done">
+          <div class="checkpoint-pin">
+            <div class="checkpoint-flag">CKPT</div>
+            <div class="checkpoint-pin-line"></div>
+          </div>
+          <div class="phase-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="phase-name">Ingest &amp; Parse</div>
+        </div>
+
+        <div class="phase-node done">
+          <div class="checkpoint-pin">
+            <div class="checkpoint-flag">CKPT</div>
+            <div class="checkpoint-pin-line"></div>
+          </div>
+          <div class="phase-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="phase-name">Structure Detect</div>
+        </div>
+
+        <div class="phase-node done">
+          <div class="checkpoint-pin">
+            <div class="checkpoint-flag">CKPT</div>
+            <div class="checkpoint-pin-line"></div>
+          </div>
+          <div class="phase-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="phase-name">Chunk</div>
+        </div>
+
+        <div class="phase-node done">
+          <div class="checkpoint-pin">
+            <div class="checkpoint-flag">CKPT</div>
+            <div class="checkpoint-pin-line"></div>
+          </div>
+          <div class="phase-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="phase-name">Vectorize</div>
+        </div>
+
+        <div class="phase-node checkpoint">
+          <div class="checkpoint-pin">
+            <div class="checkpoint-flag" style="background:rgba(249,115,22,0.15); border-color:rgba(249,115,22,0.45); color:var(--orange);">RESUME ↩</div>
+            <div class="checkpoint-pin-line" style="background:rgba(249,115,22,0.3);"></div>
+          </div>
+          <div class="phase-circle" style="border-color:rgba(249,115,22,0.7); background:rgba(249,115,22,0.15); color:var(--orange); box-shadow:0 0 18px rgba(249,115,22,0.2); animation: pulse-orange 2s ease-in-out infinite;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="phase-name" style="color:rgba(249,115,22,0.9);">Index</div>
+        </div>
+
+        <div class="phase-node failed">
+          <div class="phase-circle">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div class="phase-name">RAG Query</div>
+        </div>
+
+        <div class="phase-node pending">
+          <div class="phase-circle">7</div>
+          <div class="phase-name">Assemble</div>
+        </div>
+
+        <div class="phase-node pending">
+          <div class="phase-circle">8</div>
+          <div class="phase-name">Extract</div>
+        </div>
+
+        <div class="phase-node pending">
+          <div class="phase-circle">9</div>
+          <div class="phase-name">Deliver</div>
+        </div>
+
+      </div>
+
+      <!-- Progress bar -->
+      <div class="progress-wrap">
+        <div class="progress-label-row">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <span class="progress-text">Processing progress</span>
+            <div style="display:flex; align-items:center; gap:5px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+              <span style="font-size:10px;color:var(--green);font-weight:600;">5 phases saved</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:5px;">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--red);display:inline-block;"></span>
+              <span style="font-size:10px;color:var(--red);font-weight:600;">Phase 6 failed</span>
+            </div>
+          </div>
+          <span class="progress-pct">~56% saved · resuming</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill"></div>
+        </div>
+        <div style="display:flex; justify-content:flex-end; margin-top:6px;">
+          <span style="font-size:10px; color:var(--muted);">0 pages will be re-processed — resuming from checkpoint</span>
+        </div>
+      </div>
+    </div><!-- /viz-card -->
+
+    <!-- Main 2-col -->
+    <div class="main-layout">
+
+      <!-- Left: LangGraph checkpoints -->
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          LangGraph Stateful Checkpoints
+        </div>
+        <div class="info-card-sub">Every phase writes a durable checkpoint before handing off to the next. On any failure, the graph rewinds to the nearest saved node — not the beginning.</div>
+
+        <div class="checkpoint-list">
+
+          <div class="ckpt-row saved">
+            <div class="ckpt-left">
+              <div class="ckpt-dot">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content">
+              <div class="ckpt-name">After Ingest — checkpoint saved</div>
+              <div class="ckpt-detail">Raw content, page metadata, and document fingerprint persisted. Parsing never repeats.</div>
+              <div class="ckpt-badges">
+                <span class="ckpt-badge green">Saved</span>
+                <span class="ckpt-badge gray">100 pages</span>
+                <span class="ckpt-badge gray">~0.4 s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ckpt-row saved">
+            <div class="ckpt-left">
+              <div class="ckpt-dot">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content">
+              <div class="ckpt-name">After Chunking — checkpoint saved</div>
+              <div class="ckpt-detail">All semantic chunks with parent headers stored. Section-boundary logic never re-runs on retry.</div>
+              <div class="ckpt-badges">
+                <span class="ckpt-badge green">Saved</span>
+                <span class="ckpt-badge gray">347 chunks</span>
+                <span class="ckpt-badge gray">~1.1 s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ckpt-row saved">
+            <div class="ckpt-left">
+              <div class="ckpt-dot">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content">
+              <div class="ckpt-name">After Vectorization — checkpoint saved</div>
+              <div class="ckpt-detail">Embeddings and vector index flushed to durable storage. No re-embedding on retry — most expensive step preserved.</div>
+              <div class="ckpt-badges">
+                <span class="ckpt-badge green">Saved</span>
+                <span class="ckpt-badge orange">Costliest step</span>
+                <span class="ckpt-badge gray">~2.3 s</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ckpt-row saved" style="--ckpt-accent: var(--orange);">
+            <div class="ckpt-left">
+              <div class="ckpt-dot" style="border-color:rgba(249,115,22,0.6); background:rgba(249,115,22,0.12); color:var(--orange);">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content">
+              <div class="ckpt-name" style="color:var(--orange);">After Indexing — last saved checkpoint ↩</div>
+              <div class="ckpt-detail">Vector store fully indexed. <strong style="color:#e5e7eb;">This is the resume point.</strong> Pipeline will restart from RAG query — not from scratch.</div>
+              <div class="ckpt-badges">
+                <span class="ckpt-badge orange">Resume point</span>
+                <span class="ckpt-badge gray">Phase 5 / 9</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ckpt-row">
+            <div class="ckpt-left">
+              <div class="ckpt-dot" style="border-color:rgba(239,68,68,0.4); background:rgba(239,68,68,0.08); color:var(--red);">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content">
+              <div class="ckpt-name" style="color:var(--red);">RAG Query — failure (network timeout)</div>
+              <div class="ckpt-detail">LLM API timeout at Phase 6. No checkpoint written. Graph rolls back to Phase 5 checkpoint automatically.</div>
+              <div class="ckpt-badges">
+                <span class="ckpt-badge" style="background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.2);color:var(--red);">Failed</span>
+                <span class="ckpt-badge gray">Auto-rollback</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="ckpt-row">
+            <div class="ckpt-left">
+              <div class="ckpt-dot" style="opacity:0.35;">6</div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content" style="opacity:0.4;">
+              <div class="ckpt-name">Context Assembly — pending</div>
+              <div class="ckpt-detail">Waiting for RAG query to complete.</div>
+            </div>
+          </div>
+
+          <div class="ckpt-row">
+            <div class="ckpt-left">
+              <div class="ckpt-dot" style="opacity:0.35;">7</div>
+              <div class="ckpt-line"></div>
+            </div>
+            <div class="ckpt-content" style="opacity:0.4;">
+              <div class="ckpt-name">AI Extraction — pending</div>
+              <div class="ckpt-detail">Awaiting upstream phase completion.</div>
+            </div>
+          </div>
+
+          <div class="ckpt-row">
+            <div class="ckpt-left">
+              <div class="ckpt-dot" style="opacity:0.35;">8</div>
+              <div class="ckpt-line" style="display:none;"></div>
+            </div>
+            <div class="ckpt-content" style="opacity:0.4;">
+              <div class="ckpt-name">Structured Delivery — pending</div>
+              <div class="ckpt-detail">Will export to Jira once extraction completes.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right col -->
+      <div class="right-col">
+
+        <!-- Perf card -->
+        <div class="perf-card">
+          <div class="perf-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Performance
+          </div>
+          <div class="timer-wrap">
+            <div class="timer-ring">
+              <svg viewBox="0 0 72 72">
+                <circle class="bg" cx="36" cy="36" r="30"/>
+                <circle class="fg" cx="36" cy="36" r="30"/>
+              </svg>
+              <div class="timer-center">
+                <div class="timer-val">&lt;5</div>
+                <div class="timer-unit">MIN</div>
+              </div>
+            </div>
+            <div class="timer-desc">
+              <div class="timer-title">100-page BRD</div>
+              <div class="timer-sub">End-to-end processing in standard deployments — including all 9 pipeline phases.</div>
+            </div>
+          </div>
+          <div class="mini-stats">
+            <div class="mini-stat">
+              <div class="mini-val">0</div>
+              <div class="mini-label">Pages re-processed on resume</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-val">9</div>
+              <div class="mini-label">Checkpoints per document</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-val">∞</div>
+              <div class="mini-label">Retries until success</div>
+            </div>
+            <div class="mini-stat">
+              <div class="mini-val">100%</div>
+              <div class="mini-label">State preserved on fail</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Failure log card -->
+        <div class="vs-card">
+          <div class="vs-header">Failure Recovery Log</div>
+          <div class="fail-timeline">
+            <div class="fail-row">
+              <div class="fail-icon red">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="fail-text">
+                <div class="fail-title red">Network timeout — Phase 6</div>
+                <div class="fail-sub">LLM API did not respond within 30s. Graph state frozen at Phase 5 checkpoint.</div>
+              </div>
+              <div class="fail-time red">T+2:41</div>
+            </div>
+            <div class="fail-row">
+              <div class="fail-icon orange">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </div>
+              <div class="fail-text">
+                <div class="fail-title orange">Auto-retry initiated</div>
+                <div class="fail-sub">LangGraph detected failure. Reloading checkpoint from Phase 5. Skipping Phases 1–5.</div>
+              </div>
+              <div class="fail-time orange">T+2:43</div>
+            </div>
+            <div class="fail-row">
+              <div class="fail-icon" style="background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <div class="fail-text">
+                <div class="fail-title" style="color:var(--green);">Resume successful</div>
+                <div class="fail-sub">Phase 6 re-executed. Pipeline continuing from checkpoint — no data re-work needed.</div>
+              </div>
+              <div class="fail-time" style="background:rgba(52,211,153,0.08);color:var(--green);border:1px solid rgba(52,211,153,0.2);">T+2:45</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /main-layout -->
+
+    <!-- Bottom comparison -->
+    <div class="comparison-strip">
+
+      <div class="cmp-card bad">
+        <div class="cmp-title bad">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+          Without Checkpoints — Full Restart
+        </div>
+        <div class="cmp-timeline">
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 1–5 (first run)</span><span class="cmp-phase-time done">2 min 41 s</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill done" style="width:54%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phase 6 — failed</span><span class="cmp-phase-time redo">failed</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill redo" style="width:13%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 1–5 (re-run)</span><span class="cmp-phase-time redo">+2 min 41 s</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill redo" style="width:54%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 6–9 (retry)</span><span class="cmp-phase-time done">2 min 18 s</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill done" style="width:46%"></div></div>
+          </div>
+        </div>
+        <div class="cmp-total">
+          <span class="cmp-total-label">Total time</span>
+          <span class="cmp-total-val bad">~7 min 40 s</span>
+        </div>
+      </div>
+
+      <div class="cmp-card good">
+        <div class="cmp-title good">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          WalnutAI — Resume from Checkpoint
+        </div>
+        <div class="cmp-timeline">
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 1–5 (first run)</span><span class="cmp-phase-time done">2 min 41 s</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill done" style="width:54%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phase 6 — failed</span><span class="cmp-phase-time redo">failed</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill redo" style="width:13%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 1–5 skipped ✓</span><span class="cmp-phase-time resume">0 s — checkpoint</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill pending" style="width:2%"></div></div>
+          </div>
+          <div class="cmp-bar-row">
+            <div class="cmp-bar-label"><span class="cmp-phase-name">Phases 6–9 (retry)</span><span class="cmp-phase-time done">2 min 18 s</span></div>
+            <div class="cmp-bar-track"><div class="cmp-bar-fill resume" style="width:46%"></div></div>
+          </div>
+        </div>
+        <div class="cmp-total">
+          <span class="cmp-total-label">Total time</span>
+          <span class="cmp-total-val good">~4 min 59 s</span>
+        </div>
+      </div>
+
+    </div><!-- /comparison-strip -->
+
+    <!-- Saved time banner -->
+    <div class="saved-time">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <div class="saved-time-text">
+        <strong>2 min 41 s saved</strong> on this single failure — every checkpoint means you never re-do work that already succeeded. On larger documents or cascading failures, the savings compound.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

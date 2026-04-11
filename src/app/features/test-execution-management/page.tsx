@@ -13,20 +13,25 @@ import {
 import { Activity, ArrowLeft } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "AI-Powered Test Execution & QA Management | WalnutAI",
+  title: "Test Execution Management Tool — Manual Test Execution Software & QA Test Lifecycle Management | WalnutAI",
   description:
-    "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
+    "WalnutAI\u2019s test execution management tool connects test runs to requirements with real-time release readiness scoring. Manual test execution software with test case execution tracking and QA test lifecycle management.",
   openGraph: {
-    title: "AI-Powered Test Execution & QA Management | WalnutAI",
+    title: "Test Execution Management Tool — Manual Test Execution Software & QA Test Lifecycle Management | WalnutAI",
     description:
-      "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
+      "WalnutAI\u2019s test execution management tool connects test runs to requirements with real-time release readiness scoring. Manual test execution software with test case execution tracking.",
     url: "https://www.walnutai.ai/features/test-execution-management",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/test-execution-management.png", width: 1200, height: 630, alt: "WalnutAI Test Execution Management Tool — QA Test Lifecycle Management" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI-Powered Test Execution & QA Management | WalnutAI",
+    site: "@WalnutAI",
+    title: "Test Execution Management Tool — Manual Test Execution Software & QA Test Lifecycle Management | WalnutAI",
     description:
-      "WalnutAI's test execution connects test runs to requirements and gap analysis — real-time release readiness scoring, defect tracking, and CI/CD integration.",
+      "WalnutAI\u2019s test execution management tool connects test runs to requirements with real-time release readiness scoring. Manual test execution software with test case execution tracking.",
+    images: ["https://walnutai.dev/og/test-execution-management.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/test-execution-management",
@@ -97,44 +102,42 @@ export default function TestExecutionManagementPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
+            "@graph": [
               {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://www.walnutai.ai",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Features",
+                    item: "https://www.walnutai.ai/features",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: "Test Execution Management",
+                    item: "https://www.walnutai.ai/features/test-execution-management",
+                  },
+                ],
               },
               {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
-              },
-              {
-                "@type": "ListItem",
-                position: 3,
-                name: "Test Execution Management",
-                item: "https://www.walnutai.ai/features/test-execution-management",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
           }),
         }}
       />
@@ -163,10 +166,10 @@ export default function TestExecutionManagementPage() {
             </span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI-Powered Test Execution &amp; QA Management
+            Test Execution Management Tool
             <br />
             <span className="text-orange-500">
-              Unified Test Runs, Defect Tracking &amp; Release Scoring
+              Manual Test Execution Software &amp; QA Test Lifecycle Management
             </span>
           </h1>
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">

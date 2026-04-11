@@ -14,22 +14,27 @@ import { ArrowLeft, ScanSearch, ShieldCheck, Users, Settings } from "lucide-reac
 
 export const metadata: Metadata = {
   title:
-    "Automated Requirements Gap Analysis Tool — Catch Missing Tests Before Production | WalnutAI",
+    "AI Requirements Gap Analysis — Requirements vs Code Analysis & Shift-Left Testing Tool | WalnutAI",
   description:
-    "WalnutAI's continuous gap analysis compares your requirements, code, and test suite in real time — identifying untested features and missing coverage before they reach production. First report in 5 minutes.",
+    "WalnutAI\u2019s AI requirements gap analysis compares requirements vs code in real time \u2014 a shift-left testing tool that identifies code coverage requirements gaps and untested features before production. First report in 5 minutes.",
   openGraph: {
     title:
-      "Automated Requirements Gap Analysis Tool — Catch Missing Tests Before Production | WalnutAI",
+      "AI Requirements Gap Analysis — Requirements vs Code Analysis & Shift-Left Testing Tool | WalnutAI",
     description:
-      "WalnutAI's continuous gap analysis compares your requirements, code, and test suite in real time — identifying untested features and missing coverage before they reach production. First report in 5 minutes.",
+      "WalnutAI\u2019s AI requirements gap analysis compares requirements vs code in real time \u2014 a shift-left testing tool that identifies code coverage requirements gaps before production.",
     url: "https://www.walnutai.ai/features/requirements-gap-analysis",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/requirements-gap-analysis.png", width: 1200, height: 630, alt: "WalnutAI AI Requirements Gap Analysis — Requirements vs Code Analysis" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@WalnutAI",
     title:
-      "Automated Requirements Gap Analysis Tool — Catch Missing Tests Before Production | WalnutAI",
+      "AI Requirements Gap Analysis — Requirements vs Code Analysis & Shift-Left Testing Tool | WalnutAI",
     description:
-      "WalnutAI's continuous gap analysis compares your requirements, code, and test suite in real time — identifying untested features and missing coverage before they reach production. First report in 5 minutes.",
+      "WalnutAI\u2019s AI requirements gap analysis compares requirements vs code in real time \u2014 a shift-left testing tool that identifies code coverage requirements gaps before production.",
+    images: ["https://walnutai.dev/og/requirements-gap-analysis.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/requirements-gap-analysis",
@@ -104,90 +109,90 @@ const relatedFeatures = [
   { title: "Release Analytics Dashboard", id: "analytics-dashboard" },
 ];
 
-const breadcrumbSchema = {
+const schemaData = {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
+  "@graph": [
     {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://www.walnutai.ai",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.walnutai.ai",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Features",
+          item: "https://www.walnutai.ai/features",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "Gap Analysis",
+          item: "https://www.walnutai.ai/features/requirements-gap-analysis",
+        },
+      ],
     },
     {
-      "@type": "ListItem",
-      position: 2,
-      name: "Features",
-      item: "https://www.walnutai.ai/features",
+      "@type": "HowTo",
+      name: "How WalnutAI Gap Analysis Works",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "Connect your requirements source",
+          text: "Link your Jira project, Azure DevOps backlog, or upload a requirements document. WalnutAI structures and indexes every requirement.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "Link your code repository",
+          text: "Connect your GitHub, GitLab, or Bitbucket repository with read-only access. WalnutAI maps each requirement to its corresponding code implementation.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "Map requirements to test coverage",
+          text: "WalnutAI cross-references your existing test suite against requirements and code — identifying which requirements have no associated tests and which code paths are untested.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 4,
+          name: "Receive your gap report",
+          text: "A gap analysis report is delivered showing coverage percentage, uncovered requirements ranked by risk severity, missing edge cases, and AI-generated test case suggestions to fill each identified gap.",
+        },
+      ],
     },
     {
-      "@type": "ListItem",
-      position: 3,
-      name: "Gap Analysis",
-      item: "https://www.walnutai.ai/features/requirements-gap-analysis",
-    },
-  ],
-};
-
-const howToSchema = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How WalnutAI Gap Analysis Works",
-  step: [
-    {
-      "@type": "HowToStep",
-      position: 1,
-      name: "Connect your requirements source",
-      text: "Link your Jira project, Azure DevOps backlog, or upload a requirements document. WalnutAI structures and indexes every requirement.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 2,
-      name: "Link your code repository",
-      text: "Connect your GitHub, GitLab, or Bitbucket repository with read-only access. WalnutAI maps each requirement to its corresponding code implementation.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 3,
-      name: "Map requirements to test coverage",
-      text: "WalnutAI cross-references your existing test suite against requirements and code — identifying which requirements have no associated tests and which code paths are untested.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 4,
-      name: "Receive your gap report",
-      text: "A gap analysis report is delivered showing coverage percentage, uncovered requirements ranked by risk severity, missing edge cases, and AI-generated test case suggestions to fill each identified gap.",
-    },
-  ],
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "How often does WalnutAI run gap analysis?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Gap Analysis in WalnutAI acts as an end-to-end intelligence layer that continuously bridges the gap between requirements and code. It automatically runs on every code commit to your connected repository and is also triggered whenever requirements are added, updated, or removed in tools like Jira. In addition, users can initiate on-demand analysis directly from the dashboard. WalnutAI verifies that every requirement is implemented; every code change is reflected in requirements, and that the codebase meets quality standards across architecture, security, documentation, and testing. By identifying gaps at each stage of the SDLC, it ensures complete traceability, prevents leakages, and significantly reduces delivery risk and rework.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What does a gap analysis report show?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "A WalnutAI gap analysis report shows overall requirement coverage percentage, a prioritized list of uncovered requirements, untested code paths by feature. It also highlights architectural gaps such as scalability bottlenecks and tightly coupled components, security gaps including access control issues and validation weaknesses, and code documentation gaps where clarity and maintainability are lacking. The report provides AI-generated recommendations and fixes for each identified gap, and can be shared as PDFs or accessed via the dashboard.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can gap analysis run across multiple repositories?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. The Team and Enterprise plans support continuous gap analysis across unlimited repositories — mapping requirements to code and tests spread across multiple microservices, front-end and back-end repos, or monorepo structures.",
-      },
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "How often does WalnutAI run gap analysis?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Gap Analysis in WalnutAI acts as an end-to-end intelligence layer that continuously bridges the gap between requirements and code. It automatically runs on every code commit to your connected repository and is also triggered whenever requirements are added, updated, or removed in tools like Jira. In addition, users can initiate on-demand analysis directly from the dashboard. WalnutAI verifies that every requirement is implemented; every code change is reflected in requirements, and that the codebase meets quality standards across architecture, security, documentation, and testing. By identifying gaps at each stage of the SDLC, it ensures complete traceability, prevents leakages, and significantly reduces delivery risk and rework.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What does a gap analysis report show?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "A WalnutAI gap analysis report shows overall requirement coverage percentage, a prioritized list of uncovered requirements, untested code paths by feature. It also highlights architectural gaps such as scalability bottlenecks and tightly coupled components, security gaps including access control issues and validation weaknesses, and code documentation gaps where clarity and maintainability are lacking. The report provides AI-generated recommendations and fixes for each identified gap, and can be shared as PDFs or accessed via the dashboard.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "Can gap analysis run across multiple repositories?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Yes. The Team and Enterprise plans support continuous gap analysis across unlimited repositories — mapping requirements to code and tests spread across multiple microservices, front-end and back-end repos, or monorepo structures.",
+          },
+        },
+      ],
     },
   ],
 };
@@ -198,19 +203,7 @@ export default function RequirementsGapAnalysisPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(howToSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
+          __html: JSON.stringify(schemaData),
         }}
       />
       <Navbar />
@@ -240,18 +233,19 @@ export default function RequirementsGapAnalysisPage() {
 
           {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            Automated Requirements Coverage Gap Analysis
+            AI Requirements Gap Analysis
             <br />
             <span className="text-orange-500">
-              — Identify What&apos;s Missing Before It Reaches Production
+              Requirements vs Code Analysis for Shift-Left Testing
             </span>
           </h1>
 
           {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            WalnutAI continuously scans your requirements, codebase, and test
-            suite — detecting uncovered features, untested code paths, and
-            missing acceptance criteria in real time, on every commit.
+            WalnutAI&apos;s AI requirements gap analysis continuously performs
+            requirements vs code analysis across your codebase and test suite —
+            acting as a shift-left testing tool that detects code coverage
+            requirements gaps on every commit, before they reach production.
           </h2>
         </section>
 

@@ -21,12 +21,17 @@ export const metadata: Metadata = {
     description:
       "Stay up to date with WalnutAI product updates, new features, and release notes.",
     url: `${siteUrl}/changelog`,
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/changelog.png", width: 1200, height: 630, alt: "WalnutAI Changelog — Product Updates & Release Notes" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Changelog - Product Updates & Release Notes",
     description:
       "Stay up to date with WalnutAI product updates, new features, and release notes.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/changelog.png"],
   },
   alternates: {
     canonical: `${siteUrl}/changelog`,

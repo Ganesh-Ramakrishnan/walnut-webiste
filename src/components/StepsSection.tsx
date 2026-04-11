@@ -101,7 +101,7 @@ export default function StepsSection() {
 
   return (
     <section className="relative py-16 sm:py-24 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <AnimateOnScroll animation="fadeUp" className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Find Out What{" "}

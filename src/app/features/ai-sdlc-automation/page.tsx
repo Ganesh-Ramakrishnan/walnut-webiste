@@ -14,22 +14,27 @@ import { ArrowLeft, Cog, Briefcase, Users, Rocket } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "AI-Orchestrated SDLC Automation — From Requirements to Production | WalnutAI",
+    "AI SDLC Automation — AI Software Development Platform from Requirements to Production | WalnutAI",
   description:
-    "WalnutAI automates the entire software development lifecycle — AI agents convert requirements into code and test cases with zero manual coordination. Ship production-ready applications from a single prompt.",
+    "WalnutAI\u2019s AI SDLC automation platform converts requirements into code and test cases with zero manual coordination. An AI software development platform that ships production-ready applications from a single prompt.",
   openGraph: {
     title:
-      "AI-Orchestrated SDLC Automation — From Requirements to Production | WalnutAI",
+      "AI SDLC Automation — AI Software Development Platform from Requirements to Production | WalnutAI",
     description:
-      "WalnutAI automates the entire software development lifecycle — AI agents convert requirements into code and test cases with zero manual coordination. Ship production-ready applications from a single prompt.",
+      "WalnutAI\u2019s AI SDLC automation platform converts requirements into code and test cases with zero manual coordination. An AI software development platform that ships production-ready applications from a single prompt.",
     url: "https://www.walnutai.ai/features/ai-sdlc-automation",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/ai-sdlc-automation.png", width: 1200, height: 630, alt: "WalnutAI AI SDLC Automation — From Requirements to Production" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@WalnutAI",
     title:
       "AI-Orchestrated SDLC Automation — From Requirements to Production | WalnutAI",
     description:
       "WalnutAI automates the entire software development lifecycle — AI agents convert requirements into code and test cases with zero manual coordination.",
+    images: ["https://walnutai.dev/og/ai-sdlc-automation.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/ai-sdlc-automation",
@@ -100,90 +105,90 @@ const relatedFeatures = [
   { title: "Requirements Engineering from Documents", id: "requirements-engineering" },
 ];
 
-const breadcrumbSchema = {
+const schemaData = {
   "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
+  "@graph": [
     {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: "https://www.walnutai.ai",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Home",
+          item: "https://www.walnutai.ai",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Features",
+          item: "https://www.walnutai.ai/features",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "AI SDLC Automation",
+          item: "https://www.walnutai.ai/features/ai-sdlc-automation",
+        },
+      ],
     },
     {
-      "@type": "ListItem",
-      position: 2,
-      name: "Features",
-      item: "https://www.walnutai.ai/features",
+      "@type": "HowTo",
+      name: "How WalnutAI SDLC Automation Works",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "Input your requirements",
+          text: "Prompt WalnutAI in natural language, upload a PRD or requirements document, or connect your Jira project to provide the specification input.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "AI agents structure requirements",
+          text: "Specialized requirement agents parse your input and generate structured epics, features, user stories, acceptance criteria, and dependency maps — automatically.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "Development agents generate code",
+          text: "Code generation agents produce production-ready application code aligned to the structured requirements, with no manual developer intervention required.",
+        },
+        {
+          "@type": "HowToStep",
+          position: 4,
+          name: "QA agents test and validate",
+          text: "Testing agents automatically generate comprehensive test cases and execute them against the generated code — producing a full test report before any human reviews the output.",
+        },
+      ],
     },
     {
-      "@type": "ListItem",
-      position: 3,
-      name: "AI SDLC Automation",
-      item: "https://www.walnutai.ai/features/ai-sdlc-automation",
-    },
-  ],
-};
-
-const howToSchema = {
-  "@context": "https://schema.org",
-  "@type": "HowTo",
-  name: "How WalnutAI SDLC Automation Works",
-  step: [
-    {
-      "@type": "HowToStep",
-      position: 1,
-      name: "Input your requirements",
-      text: "Prompt WalnutAI in natural language, upload a PRD or requirements document, or connect your Jira project to provide the specification input.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 2,
-      name: "AI agents structure requirements",
-      text: "Specialized requirement agents parse your input and generate structured epics, features, user stories, acceptance criteria, and dependency maps — automatically.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 3,
-      name: "Development agents generate code",
-      text: "Code generation agents produce production-ready application code aligned to the structured requirements, with no manual developer intervention required.",
-    },
-    {
-      "@type": "HowToStep",
-      position: 4,
-      name: "QA agents test and validate",
-      text: "Testing agents automatically generate comprehensive test cases and execute them against the generated code — producing a full test report before any human reviews the output.",
-    },
-  ],
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Does AI-orchestrated SDLC replace software developers?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "No. WalnutAI\u2019s SDLC automation handles well-defined, scoped development tasks autonomously \u2014 internal tools, CRUD applications, API integrations, and feature modules. Complex system architecture, product strategy, and creative problem-solving remain human responsibilities. The goal is to eliminate repetitive delivery work, not replace engineering judgment.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "What types of applications can WalnutAI build autonomously?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WalnutAI is best suited for web applications, REST APIs, internal tools, microservices, and feature modules with clear requirements. Applications requiring complex UI/UX design decisions or proprietary business logic benefit from a human-in-the-loop approach alongside WalnutAI\u2019s automation.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "How does WalnutAI maintain context across all SDLC stages?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "WalnutAI uses a shared context model \u2014 each AI agent (requirements, development, QA) reads from and writes to a common requirement graph. This ensures that code generation is always grounded in the original specification and test cases are always mapped to the feature they validate.",
-      },
+      "@type": "FAQPage",
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "Does AI-orchestrated SDLC replace software developers?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "No. WalnutAI\u2019s SDLC automation handles well-defined, scoped development tasks autonomously \u2014 internal tools, CRUD applications, API integrations, and feature modules. Complex system architecture, product strategy, and creative problem-solving remain human responsibilities. The goal is to eliminate repetitive delivery work, not replace engineering judgment.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "What types of applications can WalnutAI build autonomously?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "WalnutAI is best suited for web applications, REST APIs, internal tools, microservices, and feature modules with clear requirements. Applications requiring complex UI/UX design decisions or proprietary business logic benefit from a human-in-the-loop approach alongside WalnutAI\u2019s automation.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "How does WalnutAI maintain context across all SDLC stages?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "WalnutAI uses a shared context model \u2014 each AI agent (requirements, development, QA) reads from and writes to a common requirement graph. This ensures that code generation is always grounded in the original specification and test cases are always mapped to the feature they validate.",
+          },
+        },
+      ],
     },
   ],
 };
@@ -194,19 +199,7 @@ export default function AiSdlcAutomationPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(breadcrumbSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(howToSchema),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(faqSchema),
+          __html: JSON.stringify(schemaData),
         }}
       />
       <Navbar />

@@ -24,12 +24,24 @@ export const metadata: Metadata = {
     description:
       "Compare WalnutAI and Cursor. Full SDLC automation vs AI-enhanced IDE.",
     url: `${siteUrl}/compare/${slug}`,
+    siteName: "WalnutAI",
+    type: "website",
+    images: [
+      {
+        url: "https://walnutai.dev/og/walnutai-vs-cursor.png",
+        width: 1200,
+        height: 630,
+        alt: "WalnutAI vs Cursor — Full SDLC Automation vs AI IDE Comparison",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "WalnutAI vs Cursor - Full SDLC vs AI IDE",
     description:
       "Compare WalnutAI and Cursor. Full SDLC automation vs AI-enhanced IDE.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/walnutai-vs-cursor.png"],
   },
   alternates: {
     canonical: `${siteUrl}/compare/${slug}`,

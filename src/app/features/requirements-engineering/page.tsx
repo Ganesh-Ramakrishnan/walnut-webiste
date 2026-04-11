@@ -14,22 +14,27 @@ import { ArrowLeft, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
+    "AI Requirements Extraction Software — Document to User Story AI & Automatic Requirements Generation | WalnutAI",
   description:
-    "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
+    "WalnutAI\u2019s AI requirements extraction software converts PRDs, PDFs, and spreadsheets into structured user stories using document to user story AI. Automatic requirements generation with BRD to user stories AI \u2014 in minutes, not days.",
   openGraph: {
     title:
-      "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
+      "AI Requirements Extraction Software — Document to User Story AI & Automatic Requirements Generation | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
+      "WalnutAI\u2019s AI requirements extraction software converts PRDs, PDFs, and spreadsheets into structured user stories using document to user story AI. Automatic requirements generation with BRD to user stories AI.",
     url: "https://www.walnutai.ai/features/requirements-engineering",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/requirements-engineering.png", width: 1200, height: 630, alt: "WalnutAI AI Requirements Extraction Software — Document to User Story AI" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@WalnutAI",
     title:
-      "AI Requirements Engineering — Convert PRDs and Documents into Testable User Stories | WalnutAI",
+      "AI Requirements Extraction Software — Document to User Story AI & Automatic Requirements Generation | WalnutAI",
     description:
-      "WalnutAI converts PRDs, PDFs, Confluence pages, and spreadsheets into structured user stories with acceptance criteria, traceability IDs, and dependency maps — in minutes, not days.",
+      "WalnutAI\u2019s AI requirements extraction software converts PRDs, PDFs, and spreadsheets into structured user stories using document to user story AI. Automatic requirements generation with BRD to user stories AI.",
+    images: ["https://walnutai.dev/og/requirements-engineering.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/requirements-engineering",
@@ -88,62 +93,54 @@ export default function RequirementsEngineeringPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
+            "@graph": [
               {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://www.walnutai.ai",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Features",
+                    item: "https://www.walnutai.ai/features",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: "Requirements Engineering",
+                    item: "https://www.walnutai.ai/features/requirements-engineering",
+                  },
+                ],
               },
               {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
+                "@type": "HowTo",
+                name: "How It Works",
+                description:
+                  "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices automatically.",
+                step: howItWorks.map((item, i) => ({
+                  "@type": "HowToStep",
+                  position: i + 1,
+                  name: item.step,
+                  text: item.text,
+                })),
               },
               {
-                "@type": "ListItem",
-                position: 3,
-                name: "Requirements Engineering",
-                item: "https://www.walnutai.ai/features/requirements-engineering",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How It Works",
-            description:
-              "Upload any requirements document and WalnutAI extracts, structures, and maps every requirement — outputting Jira-ready user stories, acceptance criteria, and traceability matrices automatically.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
           }),
         }}
       />
@@ -174,18 +171,20 @@ export default function RequirementsEngineeringPage() {
 
           {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            AI Requirements Engineering
+            AI Requirements Extraction Software
             <br />
             <span className="text-orange-500">
-              Convert PRDs and Business Documents into Structured, Testable Requirements
+              Document to User Story AI for Automatic Requirements Generation
             </span>
           </h1>
 
           {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Upload any requirements document and WalnutAI extracts, structures,
-            and maps every requirement — outputting Jira-ready user stories,
-            acceptance criteria, and traceability matrices automatically.
+            WalnutAI&apos;s AI requirements extraction software turns any BRD, PRD, or
+            business document into structured user stories automatically. Our document
+            to user story AI outputs Jira-ready stories with acceptance criteria
+            and traceability matrices — enabling automatic requirements generation
+            in minutes.
           </h2>
         </section>
 

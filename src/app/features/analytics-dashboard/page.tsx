@@ -23,13 +23,18 @@ export const metadata: Metadata = {
     description:
       "Real-time view of requirement coverage, test health, gap trends, and release risk across every project and repository.",
     url: "https://www.walnutai.ai/features/analytics-dashboard",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/analytics-dashboard.png", width: 1200, height: 630, alt: "WalnutAI Software Delivery Intelligence Dashboard — Coverage, Test Health & Release Risk" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@WalnutAI",
     title:
       "Software Delivery Intelligence Dashboard — Coverage, Test Health & Release Risk | WalnutAI",
     description:
       "Real-time view of requirement coverage, test health, gap trends, and release risk across every project and repository.",
+    images: ["https://walnutai.dev/og/analytics-dashboard.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/analytics-dashboard",
@@ -112,62 +117,54 @@ export default function AnalyticsDashboardPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
+            "@graph": [
               {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://www.walnutai.ai",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Features",
+                    item: "https://www.walnutai.ai/features",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: "Delivery Analytics",
+                    item: "https://www.walnutai.ai/features/analytics-dashboard",
+                  },
+                ],
               },
               {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
+                "@type": "HowTo",
+                name: "How to use WalnutAI's Delivery Intelligence Dashboard",
+                description:
+                  "WalnutAI aggregates gap analysis, test execution, and requirements traceability into a single dashboard — giving engineering leaders visibility to make confident release decisions.",
+                step: howItWorks.map((item, i) => ({
+                  "@type": "HowToStep",
+                  position: i + 1,
+                  name: item.step,
+                  text: item.text,
+                })),
               },
               {
-                "@type": "ListItem",
-                position: 3,
-                name: "Delivery Analytics",
-                item: "https://www.walnutai.ai/features/analytics-dashboard",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to use WalnutAI's Delivery Intelligence Dashboard",
-            description:
-              "WalnutAI aggregates gap analysis, test execution, and requirements traceability into a single dashboard — giving engineering leaders visibility to make confident release decisions.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
           }),
         }}
       />

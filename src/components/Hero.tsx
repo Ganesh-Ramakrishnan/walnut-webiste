@@ -11,14 +11,14 @@ interface TitleSegment {
 
 const carouselTitles: TitleSegment[][] = [
   [
-    { text: "An " },
-    { text: "AI ecosystem", orange: true },
-    { text: " for software delivery from intent to production." },
+    { text: "The " },
+    { text: "AI software development platform", orange: true },
+    { text: " that takes you from intent to production." },
   ],
   [
     { text: "An " },
-    { text: "AI ecosystem", orange: true },
-    { text: " for software delivery. Assign tasks to AI bots and wake up to code, tests, and apps already built." },
+    { text: "AI software development platform", orange: true },
+    { text: " for automated test case generation, AI code generation, and AI SDLC automation." },
   ],
 ];
 
@@ -161,9 +161,9 @@ export default function Hero() {
 
         <div className="hero-subtitle-fixed">
           <p ref={subtitleRef} className="hero-subtitle">
-            WalnutAI intelligently orchestrates the entire lifecycle—transforming
-            requirements into development, driving comprehensive testing, and proactively
-            identifying gaps for continuous improvement.
+            WalnutAI is an AI software development platform that intelligently orchestrates
+            requirements, AI code generation, and automated test case generation — transforming
+            your AI requirements tool into a complete AI SDLC automation engine.
           </p>
         </div>
       </div>

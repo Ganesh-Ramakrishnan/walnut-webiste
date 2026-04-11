@@ -23,12 +23,17 @@ export const metadata: Metadata = {
     description:
       "Learn about WalnutAI, the AI ecosystem for software delivery from intent to production.",
     url: `${siteUrl}/about`,
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/about.png", width: 1200, height: 630, alt: "About WalnutAI — AI Ecosystem for Software Delivery" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "About WalnutAI - AI Ecosystem for Software Delivery",
     description:
       "Learn about WalnutAI, the AI ecosystem for software delivery from intent to production.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/about.png"],
   },
   alternates: {
     canonical: `${siteUrl}/about`,

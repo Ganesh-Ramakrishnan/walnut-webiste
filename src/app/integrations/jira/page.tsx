@@ -12,12 +12,17 @@ export const metadata: Metadata = {
     description:
       "Sync user stories, link requirements to test cases, and maintain end-to-end traceability with WalnutAI and Jira.",
     url: "https://www.walnutai.ai/integrations/jira",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/integrations-jira.png", width: 1200, height: 630, alt: "WalnutAI Jira Integration — Stories, Requirements Sync & Traceability" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Jira Integration - Stories, Requirements Sync & Traceability",
     description:
       "Sync user stories and maintain end-to-end traceability with WalnutAI and Jira.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/integrations-jira.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/integrations/jira",

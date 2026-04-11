@@ -14,22 +14,27 @@ import { ArrowLeft, Code2 } from "lucide-react";
 
 export const metadata: Metadata = {
   title:
-    "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
+    "AI Code Generation Agent — Autonomous Code Generation & AI Pull Request Automation | WalnutAI",
   description:
-    "WalnutAI generates production-ready code grounded in your requirements — not generic patterns. Every suggestion cross-referenced against user stories.",
+    "WalnutAI\u2019s AI code generation agent autonomously implements features, commits to branches, and raises pull requests. AI pull request automation and AI software engineer agent built for production-ready code grounded in your requirements.",
   openGraph: {
     title:
-      "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
+      "AI Code Generation Agent — Autonomous Code Generation & AI Pull Request Automation | WalnutAI",
     description:
-      "WalnutAI generates production-ready code grounded in your requirements — not generic patterns. Every suggestion cross-referenced against user stories.",
+      "WalnutAI\u2019s AI code generation agent autonomously implements features, commits to branches, and raises pull requests. AI pull request automation and AI software engineer agent built for production-ready code grounded in your requirements.",
     url: "https://www.walnutai.ai/features/ai-code-generation",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/ai-code-generation.png", width: 1200, height: 630, alt: "WalnutAI AI Code Generation Agent — Autonomous Code Generation & Pull Request Automation" }],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@WalnutAI",
     title:
-      "Requirements-Aware AI Code Generation — Build Code That Matches Specs | WalnutAI",
+      "AI Code Generation Agent — Autonomous Code Generation & AI Pull Request Automation | WalnutAI",
     description:
-      "WalnutAI generates production-ready code grounded in your requirements — not generic patterns.",
+      "WalnutAI\u2019s AI code generation agent autonomously implements features, commits to branches, and raises pull requests grounded in your requirements.",
+    images: ["https://walnutai.dev/og/ai-code-generation.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/features/ai-code-generation",
@@ -87,62 +92,54 @@ export default function AiCodeGenerationPage() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            itemListElement: [
+            "@graph": [
               {
-                "@type": "ListItem",
-                position: 1,
-                name: "Home",
-                item: "https://www.walnutai.ai",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  {
+                    "@type": "ListItem",
+                    position: 1,
+                    name: "Home",
+                    item: "https://www.walnutai.ai",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 2,
+                    name: "Features",
+                    item: "https://www.walnutai.ai/features",
+                  },
+                  {
+                    "@type": "ListItem",
+                    position: 3,
+                    name: "AI Code Generation",
+                    item: "https://www.walnutai.ai/features/ai-code-generation",
+                  },
+                ],
               },
               {
-                "@type": "ListItem",
-                position: 2,
-                name: "Features",
-                item: "https://www.walnutai.ai/features",
+                "@type": "HowTo",
+                name: "How to Generate Requirements-Aware Code with WalnutAI",
+                description:
+                  "Connect your requirements and generate production-ready code that is cross-referenced against user stories in real time.",
+                step: howItWorks.map((item, i) => ({
+                  "@type": "HowToStep",
+                  position: i + 1,
+                  name: item.step,
+                  text: item.text,
+                })),
               },
               {
-                "@type": "ListItem",
-                position: 3,
-                name: "AI Code Generation",
-                item: "https://www.walnutai.ai/features/ai-code-generation",
+                "@type": "FAQPage",
+                mainEntity: faqs.map((faq) => ({
+                  "@type": "Question",
+                  name: faq.q,
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: faq.a,
+                  },
+                })),
               },
             ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "HowTo",
-            name: "How to Generate Requirements-Aware Code with WalnutAI",
-            description:
-              "Connect your requirements and generate production-ready code that is cross-referenced against user stories in real time.",
-            step: howItWorks.map((item, i) => ({
-              "@type": "HowToStep",
-              position: i + 1,
-              name: item.step,
-              text: item.text,
-            })),
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.q,
-              acceptedAnswer: {
-                "@type": "Answer",
-                text: faq.a,
-              },
-            })),
           }),
         }}
       />
@@ -173,19 +170,19 @@ export default function AiCodeGenerationPage() {
 
           {/* h1 */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            Requirements-Aware AI Code Generation
+            AI Code Generation Agent
             <br />
             <span className="text-orange-500">
-              Build Exactly What Was Specified
+              Autonomous Code Generation That Ships
             </span>
           </h1>
 
           {/* h2 subtitle */}
           <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
-            Unlike general AI coding tools, WalnutAI generates code grounded in
-            your actual requirements — cross-referencing every suggestion against
-            your user stories to ensure implementation matches specification from
-            the first line.
+            WalnutAI&apos;s AI code generation agent reads your requirements, implements
+            features autonomously, and delivers AI pull request automation — acting
+            as an AI software engineer agent that ensures every line of code matches
+            your user stories.
           </h2>
         </section>
 

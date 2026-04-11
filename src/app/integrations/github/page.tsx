@@ -12,12 +12,17 @@ export const metadata: Metadata = {
     description:
       "Automate quality gates on pull requests, sync repositories, and enforce standards on every commit with WalnutAI and GitHub.",
     url: "https://www.walnutai.ai/integrations/github",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/integrations-github.png", width: 1200, height: 630, alt: "WalnutAI GitHub Integration — Repository, PR & Quality Gate Automation" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "GitHub Integration - Repository, PR & Quality Gate Automation",
     description:
       "Automate quality gates on pull requests and enforce standards on every commit with WalnutAI.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/integrations-github.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/integrations/github",

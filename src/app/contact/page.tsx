@@ -12,12 +12,17 @@ export const metadata: Metadata = {
     description:
       "Contact WalnutAI for demos, pricing, partnerships, or support.",
     url: "https://www.walnutai.ai/contact",
+    siteName: "WalnutAI",
+    type: "website",
+    images: [{ url: "https://walnutai.dev/og/contact.png", width: 1200, height: 630, alt: "Contact WalnutAI — Get in Touch for Demos, Pricing & Support" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contact Us - Get in Touch with WalnutAI",
     description:
       "Contact WalnutAI for demos, pricing, partnerships, or support.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/contact.png"],
   },
   alternates: {
     canonical: "https://www.walnutai.ai/contact",

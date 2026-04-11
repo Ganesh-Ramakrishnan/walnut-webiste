@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WalnutAI — Checkpoint Visualizer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060b18;
+      --card-bg: #0a1628;
+      --orange:  #f97316;
+      --border:  rgba(255,255,255,0.07);
+      --muted:   #9ca3af;
+      --red:     #ef4444;
+      --green:   #34d399;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh;
+      padding: 48px 24px;
+    }
+
+    /* ── Card ── */
+    .viz-card {
+      width: 100%; max-width: 1060px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 32px 32px 28px;
+      overflow: visible;
+    }
+    .viz-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 22px;
+      background: radial-gradient(ellipse 60% 30% at 50% 0%, rgba(249,115,22,0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .viz-label {
+      font-size: 10.5px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--muted);
+    }
+    .top-badges { display: flex; align-items: center; gap: 8px; }
+    .tbadge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 11px; font-weight: 700;
+      padding: 5px 12px; border-radius: 7px;
+    }
+    .tbadge.red   { background: rgba(239,68,68,0.09); border: 1px solid rgba(239,68,68,0.25); color: var(--red); }
+    .tbadge.orange{ background: rgba(249,115,22,0.1);  border: 1px solid rgba(249,115,22,0.35); color: var(--orange); }
+    .tbadge svg   { width: 11px; height: 11px; }
+
+    /* ── Phase track wrapper: relative so spotlights can be absolute ── */
+    .track-wrap {
+      position: relative;
+    }
+
+    /* Spotlight columns — absolutely positioned behind nodes */
+    .spotlight {
+      position: absolute;
+      top: 0; bottom: 0;
+      border-radius: 14px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .spot-orange {
+      background: rgba(249,115,22,0.07);
+      border: 1px solid rgba(249,115,22,0.2);
+      box-shadow: 0 0 32px rgba(249,115,22,0.08) inset;
+    }
+    .spot-red {
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.18);
+      box-shadow: 0 0 32px rgba(239,68,68,0.07) inset;
+    }
+
+    /* ── Phase track ── */
+    .phase-track {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Node */
+    .phase-node {
+      flex: 1;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      padding: 12px 4px 14px;
+    }
+
+    /* Connector line */
+    .phase-node::after {
+      content: '';
+      position: absolute;
+      top: 46px; left: 50%;
+      width: 100%; height: 2px;
+      z-index: 0;
+    }
+    .phase-node:last-child::after { display: none; }
+    .phase-node.dim::after        { background: rgba(52,211,153,0.15); }
+    .phase-node.hl-orange::after  { background: rgba(249,115,22,0.25); }
+    .phase-node.hl-red::after     { background: rgba(239,68,68,0.18); }
+    .phase-node.pending::after    { background: rgba(255,255,255,0.04); }
+
+    /* ── CKPT / status tag ── */
+    .status-tag {
+      font-size: 9px; font-weight: 800;
+      letter-spacing: 0.7px; text-transform: uppercase;
+      padding: 2px 7px; border-radius: 4px;
+      white-space: nowrap;
+      margin-bottom: 10px;
+      height: 18px; /* fixed height so all nodes align */
+      display: flex; align-items: center;
+    }
+    .tag-green  { background: rgba(52,211,153,0.09); border: 1px solid rgba(52,211,153,0.22); color: rgba(52,211,153,0.45); }
+    .tag-orange { background: rgba(249,115,22,0.15); border: 1px solid rgba(249,115,22,0.45); color: var(--orange); font-size: 10px; }
+    .tag-red    { background: rgba(239,68,68,0.12);  border: 1px solid rgba(239,68,68,0.38);  color: var(--red);    font-size: 10px; }
+    .tag-ghost  { opacity: 0; } /* invisible placeholder to keep alignment */
+
+    /* ── Circle ── */
+    .phase-circle {
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+      flex-shrink: 0;
+      position: relative; z-index: 2;
+      transition: all 0.3s;
+    }
+    /* sizes */
+    .circle-sm { width: 40px; height: 40px; }
+    .circle-lg { width: 52px; height: 52px; }
+
+    /* states */
+    .c-dim {
+      border: 1.5px solid rgba(52,211,153,0.18);
+      background: rgba(52,211,153,0.04);
+      color: rgba(52,211,153,0.38);
+    }
+    .c-orange {
+      border: 2px solid var(--orange);
+      background: rgba(249,115,22,0.14);
+      color: var(--orange);
+      box-shadow: 0 0 0 5px rgba(249,115,22,0.09), 0 0 24px rgba(249,115,22,0.25);
+      animation: ring-orange 2.6s ease-in-out infinite;
+    }
+    .c-red {
+      border: 2px solid var(--red);
+      background: rgba(239,68,68,0.12);
+      color: var(--red);
+      box-shadow: 0 0 0 5px rgba(239,68,68,0.08), 0 0 20px rgba(239,68,68,0.22);
+      animation: ring-red 2s ease-in-out infinite;
+    }
+    .c-pending {
+      border: 1.5px solid rgba(255,255,255,0.06);
+      background: transparent;
+      color: rgba(255,255,255,0.18);
+      opacity: 0.4;
+    }
+
+    @keyframes ring-orange {
+      0%,100% { box-shadow: 0 0 0 5px rgba(249,115,22,0.09), 0 0 24px rgba(249,115,22,0.25); }
+      50%      { box-shadow: 0 0 0 9px rgba(249,115,22,0.14), 0 0 36px rgba(249,115,22,0.38); }
+    }
+    @keyframes ring-red {
+      0%,100% { box-shadow: 0 0 0 5px rgba(239,68,68,0.08), 0 0 20px rgba(239,68,68,0.22); }
+      50%      { box-shadow: 0 0 0 9px rgba(239,68,68,0.13), 0 0 30px rgba(239,68,68,0.32); }
+    }
+
+    /* ── Phase label ── */
+    .phase-name {
+      font-size: 10.5px; font-weight: 600;
+      text-align: center; max-width: 70px;
+      line-height: 1.3; margin-top: 9px;
+    }
+    .n-dim     { color: rgba(52,211,153,0.32); }
+    .n-orange  { color: var(--orange); font-weight: 700; font-size: 11px; }
+    .n-red     { color: var(--red);    font-weight: 700; font-size: 11px; }
+    .n-pending { color: rgba(255,255,255,0.17); }
+
+    /* ── Tooltip callouts ── */
+    .tooltip {
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      width: 156px;
+      border-radius: 10px;
+      padding: 10px 12px;
+      pointer-events: none;
+      z-index: 20;
+      white-space: normal;
+    }
+    /* top tooltip (Phase 5 — above node) */
+    .tooltip-top {
+      bottom: calc(100% + 12px);
+    }
+    .tooltip-top::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+    /* bottom tooltip (Phase 6 — below node) */
+    .tooltip-bottom {
+      top: calc(100% + 12px);
+    }
+    .tooltip-bottom::before {
+      content: '';
+      position: absolute;
+      bottom: 100%; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+    }
+
+    /* orange variant */
+    .tooltip-orange {
+      background: linear-gradient(135deg, rgba(249,115,22,0.18), rgba(249,115,22,0.07));
+      border: 1px solid rgba(249,115,22,0.45);
+    }
+    .tooltip-orange.tooltip-top::after  { border-top: 7px solid rgba(249,115,22,0.45); }
+
+    /* red variant */
+    .tooltip-red {
+      background: linear-gradient(135deg, rgba(239,68,68,0.16), rgba(239,68,68,0.06));
+      border: 1px solid rgba(239,68,68,0.42);
+    }
+    .tooltip-red.tooltip-bottom::before { border-bottom: 7px solid rgba(239,68,68,0.42); }
+
+    .tt-title {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 0.6px; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .tt-title.orange { color: var(--orange); }
+    .tt-title.red    { color: var(--red); }
+    .tt-body { font-size: 10px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+    /* ── Progress bar ── */
+    .progress-section { margin-top: 24px; }
+    .progress-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; flex-wrap: wrap; gap: 8px;
+    }
+    .progress-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    .progress-text { font-size: 11px; font-weight: 700; color: var(--muted); }
+    .dot-row { display: flex; align-items: center; gap: 5px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .dot-lbl { font-size: 10px; font-weight: 600; }
+    .progress-pct { font-size: 11.5px; font-weight: 800; color: var(--orange); }
+
+    .progress-bar {
+      width: 100%; height: 7px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px; overflow: hidden;
+    }
+    .pfill {
+      height: 100%; width: 67%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--green) 0%, var(--green) 80%, var(--orange) 82%, var(--orange) 100%);
+      position: relative;
+    }
+    .pfill::after {
+      content: '';
+      position: absolute; right: -1px; top: 0; bottom: 0; width: 3px;
+      background: var(--orange);
+      box-shadow: 0 0 8px rgba(249,115,22,0.7);
+      border-radius: 999px;
+    }
+    .progress-note {
+      margin-top: 6px; text-align: right;
+      font-size: 10.5px; color: rgba(255,255,255,0.22);
+    }
+  </style>
+</head>
+<body>
+
+<div class="viz-card">
+
+  <!-- Top bar -->
+  <div class="top-bar">
+    <div class="viz-label">Live Checkpoint State — 100-Page BRD</div>
+    <div class="top-badges">
+      <div class="tbadge red">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Failure detected at Phase 6
+      </div>
+      <div class="tbadge orange">↩&nbsp; Resuming from Phase 5</div>
+    </div>
+  </div>
+
+  <!-- Track: spotlights + nodes -->
+  <div class="track-wrap" id="trackWrap" style="margin-top: 80px; margin-bottom: 80px;">
+
+    <!-- Spotlights injected by JS after render -->
+
+    <div class="phase-track" id="phaseTrack">
+
+      <!-- Phase 1 -->
+      <div class="phase-node dim" id="n1">
+        <div class="status-tag tag-green">CKPT</div>
+        <div class="phase-circle circle-sm c-dim">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="phase-name n-dim">Ingest &amp; Parse</div>
+      </div>
+
+      <!-- Phase 2 -->
+      <div class="phase-node dim" id="n2">
+        <div class="status-tag tag-green">CKPT</div>
+        <div class="phase-circle circle-sm c-dim">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="phase-name n-dim">Structure Detect</div>
+      </div>
+
+      <!-- Phase 3 -->
+      <div class="phase-node dim" id="n3">
+        <div class="status-tag tag-green">CKPT</div>
+        <div class="phase-circle circle-sm c-dim">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="phase-name n-dim">Chunk</div>
+      </div>
+
+      <!-- Phase 4 -->
+      <div class="phase-node dim" id="n4">
+        <div class="status-tag tag-green">CKPT</div>
+        <div class="phase-circle circle-sm c-dim">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="phase-name n-dim">Vectorize</div>
+      </div>
+
+      <!-- Phase 5 — RESUME (key) -->
+      <div class="phase-node hl-orange" id="n5">
+        <!-- Tooltip ABOVE -->
+        <div class="tooltip tooltip-top tooltip-orange">
+          <div class="tt-title orange">↩ Resume Point</div>
+          <div class="tt-body">Last saved checkpoint. Processing restarts here — phases 1–4 are skipped entirely.</div>
+        </div>
+        <div class="status-tag tag-orange">RESUME ↩</div>
+        <div class="phase-circle circle-lg c-orange">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="phase-name n-orange">Index</div>
+      </div>
+
+      <!-- Phase 6 — FAILED (key) -->
+      <div class="phase-node hl-red" id="n6">
+        <!-- Tooltip BELOW -->
+        <div class="tooltip tooltip-bottom tooltip-red">
+          <div class="tt-title red">⚡ Failure Here</div>
+          <div class="tt-body">Network timeout. No checkpoint written. Graph auto-rolls back to Phase 5.</div>
+        </div>
+        <div class="status-tag tag-red">⚡ FAILED</div>
+        <div class="phase-circle circle-lg c-red">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="phase-name n-red">RAG Query</div>
+      </div>
+
+      <!-- Phase 7 -->
+      <div class="phase-node pending" id="n7">
+        <div class="status-tag tag-ghost">·</div>
+        <div class="phase-circle circle-sm c-pending">7</div>
+        <div class="phase-name n-pending">Assemble</div>
+      </div>
+
+      <!-- Phase 8 -->
+      <div class="phase-node pending" id="n8">
+        <div class="status-tag tag-ghost">·</div>
+        <div class="phase-circle circle-sm c-pending">8</div>
+        <div class="phase-name n-pending">Extract</div>
+      </div>
+
+      <!-- Phase 9 -->
+      <div class="phase-node pending" id="n9">
+        <div class="status-tag tag-ghost">·</div>
+        <div class="phase-circle circle-sm c-pending">9</div>
+        <div class="phase-name n-pending">Deliver</div>
+      </div>
+
+    </div><!-- /phase-track -->
+  </div><!-- /track-wrap -->
+
+  <!-- Progress -->
+  <div class="progress-section">
+    <div class="progress-meta">
+      <div class="progress-left">
+        <span class="progress-text">Processing progress</span>
+        <div class="dot-row">
+          <div class="dot" style="background:var(--green)"></div>
+          <span class="dot-lbl" style="color:var(--green)">5 phases saved</span>
+        </div>
+        <div class="dot-row">
+          <div class="dot" style="background:var(--red)"></div>
+          <span class="dot-lbl" style="color:var(--red)">Phase 6 failed</span>
+        </div>
+      </div>
+      <span class="progress-pct">~56% saved · resuming</span>
+    </div>
+    <div class="progress-bar"><div class="pfill"></div></div>
+    <div class="progress-note">0 pages will be re-processed — resuming from checkpoint</div>
+  </div>
+
+</div>
+
+<script>
+  // Position spotlight columns precisely under nodes 5 and 6
+  function placeSpotlights() {
+    const wrap  = document.getElementById('trackWrap');
+    const n5    = document.getElementById('n5');
+    const n6    = document.getElementById('n6');
+    if (!wrap || !n5 || !n6) return;
+
+    const wrapRect = wrap.getBoundingClientRect();
+
+    function makeSpot(node, cls) {
+      const r = node.getBoundingClientRect();
+      const pad = 6;
+      const s = document.createElement('div');
+      s.className = 'spotlight ' + cls;
+      s.style.left   = (r.left - wrapRect.left - pad) + 'px';
+      s.style.width  = (r.width + pad * 2) + 'px';
+      s.style.top    = '0';
+      s.style.bottom = '0';
+      wrap.appendChild(s);
+    }
+
+    // Remove old spots
+    wrap.querySelectorAll('.spotlight').forEach(s => s.remove());
+    makeSpot(n5, 'spot-orange');
+    makeSpot(n6, 'spot-red');
+  }
+
+  window.addEventListener('load', placeSpotlights);
+  window.addEventListener('resize', placeSpotlights);
+</script>
+
+</body>
+</html>

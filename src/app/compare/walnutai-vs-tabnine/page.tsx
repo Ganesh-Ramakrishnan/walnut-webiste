@@ -24,12 +24,24 @@ export const metadata: Metadata = {
     description:
       "Compare WalnutAI and Tabnine. Full SDLC automation vs AI code completions.",
     url: `${siteUrl}/compare/${slug}`,
+    siteName: "WalnutAI",
+    type: "website",
+    images: [
+      {
+        url: "https://walnutai.dev/og/walnutai-vs-tabnine.png",
+        width: 1200,
+        height: 630,
+        alt: "WalnutAI vs Tabnine — Full SDLC Automation vs AI Code Assistant",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "WalnutAI vs Tabnine - Full SDLC vs Code Assistant",
     description:
       "Compare WalnutAI and Tabnine. Full SDLC automation vs AI code completions.",
+    site: "@WalnutAI",
+    images: ["https://walnutai.dev/og/walnutai-vs-tabnine.png"],
   },
   alternates: {
     canonical: `${siteUrl}/compare/${slug}`,
