@@ -1,8 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import ChatInputImage from "@/components/ChatInputImage";
 import Footer from "@/components/Footer";
 import type { BlogPost } from "@/data/blogPosts";
 
@@ -11,7 +11,58 @@ interface BlogPostContentProps {
   relatedPosts: BlogPost[];
 }
 
+const DEFAULT_IMAGES = [
+  "/assets/blog/default-1.svg",
+  "/assets/blog/default-2.svg",
+  "/assets/blog/default-3.svg",
+];
+
+function FAQSection({ faqs }: { faqs: { question: string; answer: string }[] }) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <div className="blog-faq">
+      <h2 className="blog-faq-title">Frequently Asked Questions</h2>
+      <div className="blog-faq-list">
+        {faqs.map((faq, i) => {
+          const isOpen = openIndex === i;
+          return (
+            <div key={i} className={`blog-faq-item ${isOpen ? "blog-faq-item--open" : ""}`}>
+              <button
+                className="blog-faq-q"
+                onClick={() => setOpenIndex(isOpen ? null : i)}
+                aria-expanded={isOpen}
+              >
+                <span>{faq.question}</span>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="blog-faq-chevron"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </button>
+              {isOpen && (
+                <div className="blog-faq-a">
+                  {faq.answer}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function BlogPostContent({ post, relatedPosts }: BlogPostContentProps) {
+  const displayImage = post.image || DEFAULT_IMAGES[Math.abs(post.slug.charCodeAt(0)) % DEFAULT_IMAGES.length];
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -24,11 +75,7 @@ export default function BlogPostContent({ post, relatedPosts }: BlogPostContentP
 
       {/* Hero image */}
       <div className="blog-post-hero">
-        {post.slug === "the-illusion-of-prompt-level-control" ? (
-          <ChatInputImage />
-        ) : (
-          <img src={post.image} alt={post.title} className="blog-post-hero-img" width={1200} height={630} />
-        )}
+        <img src={displayImage} alt={post.title} className="blog-post-hero-img" width={1200} height={630} />
       </div>
 
       {/* Article content */}
@@ -57,6 +104,11 @@ export default function BlogPostContent({ post, relatedPosts }: BlogPostContentP
           className="blog-content"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
+
+        {/* FAQ Section */}
+        {post.faqs && post.faqs.length > 0 && (
+          <FAQSection faqs={post.faqs} />
+        )}
 
         {relatedPosts.length > 0 && (
           <div className="blog-related">

@@ -4,7 +4,14 @@ import Link from "next/link";
 import type { BlogPost } from "@/data/blogPosts";
 import type { ReactNode } from "react";
 
+const DEFAULT_IMAGES = [
+  "/assets/blog/default-1.svg",
+  "/assets/blog/default-2.svg",
+  "/assets/blog/default-3.svg",
+];
+
 export default function BlogCard({ post, customImage }: { post: BlogPost; customImage?: ReactNode }) {
+  const displayImage = post.image || DEFAULT_IMAGES[Math.abs(post.slug.charCodeAt(0)) % DEFAULT_IMAGES.length];
   const formattedDate = new Date(post.date).toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
@@ -14,7 +21,7 @@ export default function BlogCard({ post, customImage }: { post: BlogPost; custom
   return (
     <Link href={`/blog/${post.slug}`} className="blog-card">
       <div className="blog-card-img">
-        {customImage || <img src={post.image} alt={post.title} width={400} height={225} loading="lazy" />}
+        {customImage || <img src={displayImage} alt={post.title} width={400} height={225} loading="lazy" />}
       </div>
       <div className="blog-card-body">
         <div className="blog-card-meta">

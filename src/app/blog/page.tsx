@@ -1,17 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import BlogCard from "@/components/BlogCard";
-import ChatInputImage from "@/components/ChatInputImage";
 import Footer from "@/components/Footer";
-import { getAllPosts, getAllCategories } from "@/data/blogPosts";
+import type { BlogPost } from "@/data/blogPosts";
 
 export default function BlogListingPage() {
-  const allPosts = getAllPosts();
-  const categories = getAllCategories();
+  const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/blogs")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setAllPosts(data);
+          setCategories([...new Set(data.map((p: BlogPost) => p.category))]);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
 
   const filteredPosts = allPosts.filter((post) => {
     const matchesCategory = activeCategory ? post.category === activeCategory : true;
@@ -74,17 +87,22 @@ export default function BlogListingPage() {
         </div>
 
         {/* Blog grid */}
-        <div className="blog-grid">
-          {filteredPosts.map((post, index) => (
-            <BlogCard
-              key={post.slug}
-              post={post}
-              customImage={index === 0 && !activeCategory ? <ChatInputImage /> : undefined}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
+            Loading posts...
+          </p>
+        ) : (
+          <div className="blog-grid">
+            {filteredPosts.map((post, index) => (
+              <BlogCard
+                key={post.slug}
+                post={post}
+              />
+            ))}
+          </div>
+        )}
 
-        {filteredPosts.length === 0 && (
+        {!loading && filteredPosts.length === 0 && (
           <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
             No posts found. Try a different search or category.
           </p>

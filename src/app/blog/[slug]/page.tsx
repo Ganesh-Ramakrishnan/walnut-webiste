@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/data/blogPosts";
+import { getPostBySlugFromDB, getAllPostsFromDB, getAllSlugsFromDB } from "@/lib/blogData";
 import BlogPostContent from "@/components/BlogPostContent";
 
 const siteUrl = "https://www.walnutai.ai";
@@ -10,13 +10,15 @@ interface BlogPostPageProps {
 }
 
 export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
+  const slugs = await getAllSlugsFromDB();
+  return slugs.map((slug) => ({ slug }));
 }
+
+export const dynamicParams = true;
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlugFromDB(slug);
 
   if (!post) {
     return { title: "Post Not Found" };
@@ -59,13 +61,14 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlugFromDB(slug);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = getAllPosts()
+  const allPosts = await getAllPostsFromDB();
+  const relatedPosts = allPosts
     .filter((p) => p.category === post.category && p.slug !== post.slug)
     .slice(0, 3);
 

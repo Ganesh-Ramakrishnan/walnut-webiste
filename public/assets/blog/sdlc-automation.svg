@@ -1,0 +1,35 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg-sa" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0a"/>
+      <stop offset="100%" style="stop-color:#151515"/>
+    </linearGradient>
+    <radialGradient id="glow-sa" cx="50%" cy="45%">
+      <stop offset="0%" style="stop-color:#F17F0D;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#F17F0D;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg-sa)"/>
+  <ellipse cx="600" cy="280" rx="350" ry="200" fill="url(#glow-sa)"/>
+  <!-- Circular flow -->
+  <circle cx="600" cy="270" r="140" fill="none" stroke="#262626" stroke-width="2"/>
+  <!-- Nodes on circle -->
+  <circle cx="600" cy="130" r="35" fill="#1e1e1e" stroke="#F17F0D" stroke-width="2"/>
+  <text x="600" y="126" text-anchor="middle" fill="#F17F0D" font-size="11" font-weight="700" font-family="sans-serif">PLAN</text>
+  <text x="600" y="140" text-anchor="middle" fill="#6b7280" font-size="9" font-family="sans-serif">Stories</text>
+  <circle cx="740" cy="270" r="35" fill="#1e1e1e" stroke="#3b82f6" stroke-width="2"/>
+  <text x="740" y="266" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="700" font-family="sans-serif">CODE</text>
+  <text x="740" y="280" text-anchor="middle" fill="#6b7280" font-size="9" font-family="sans-serif">Build</text>
+  <circle cx="600" cy="410" r="35" fill="#1e1e1e" stroke="#22c55e" stroke-width="2"/>
+  <text x="600" y="406" text-anchor="middle" fill="#22c55e" font-size="11" font-weight="700" font-family="sans-serif">TEST</text>
+  <text x="600" y="420" text-anchor="middle" fill="#6b7280" font-size="9" font-family="sans-serif">Validate</text>
+  <circle cx="460" cy="270" r="35" fill="#1e1e1e" stroke="#8b5cf6" stroke-width="2"/>
+  <text x="460" y="266" text-anchor="middle" fill="#8b5cf6" font-size="11" font-weight="700" font-family="sans-serif">SHIP</text>
+  <text x="460" y="280" text-anchor="middle" fill="#6b7280" font-size="9" font-family="sans-serif">Deploy</text>
+  <!-- Center -->
+  <circle cx="600" cy="270" r="45" fill="#F17F0D" opacity="0.1"/>
+  <text x="600" y="266" text-anchor="middle" fill="#F17F0D" font-size="13" font-weight="800" font-family="sans-serif">AI</text>
+  <text x="600" y="282" text-anchor="middle" fill="#F17F0D" font-size="9" font-family="sans-serif">Engine</text>
+  <text x="600" y="520" text-anchor="middle" fill="#ffffff" font-size="32" font-weight="bold" font-family="sans-serif">SDLC Automation</text>
+  <text x="600" y="556" text-anchor="middle" fill="#9ca3af" font-size="16" font-family="sans-serif">The Complete AI-Driven Lifecycle</text>
+</svg>

@@ -9,7 +9,7 @@ const footerLinks: Record<string, { label: string; href: string }[]> = {
     { label: "Pricing", href: "/pricing" },
     { label: "Integrations", href: "/integrations" },
     { label: "Compare", href: "/compare" },
-    // { label: "Changelog", href: "/changelog" },
+    { label: "Changelog", href: "/changelog" },
     { label: "About", href: "https://simplify3x.com/about.html" },
   ],
   COMPANY: [

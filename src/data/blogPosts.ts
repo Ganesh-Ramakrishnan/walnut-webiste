@@ -1,3 +1,8 @@
+export interface FAQ {
+  question: string;
+  answer: string;
+}
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -8,6 +13,7 @@ export interface BlogPost {
   image: string;
   category: string;
   tags: string[];
+  faqs?: FAQ[];
 }
 
 export const blogPosts: BlogPost[] = [
@@ -255,6 +261,294 @@ export const blogPosts: BlogPost[] = [
     image: "/assets/blog/ai-test-generation.svg",
     category: "Testing",
     tags: ["Testing", "AI", "Automation", "Quality", "AI Test Generation", "Test Coverage", "Jest", "Playwright", "Cypress", "Regression Testing"],
+  },
+  {
+    slug: "shift-left-testing-strategy",
+    title: "Shift-Left Testing: Why Catching Bugs Early Saves Millions",
+    excerpt:
+      "A bug found in production costs 100x more to fix than one found during requirements. Learn how shift-left testing with AI transforms your quality strategy.",
+    content: `
+      <p>The economics of software defects are brutal. According to IBM's Systems Sciences Institute, a bug found during the requirements phase costs <strong>$1 to fix</strong>. The same bug found in production? <strong>$100 to $1,000</strong>.</p>
+
+      <h2>What Is Shift-Left Testing?</h2>
+      <p>Shift-left testing means moving quality assurance activities earlier in the software development lifecycle. Instead of testing being a gate at the end of the pipeline, it becomes a continuous activity that starts at the moment requirements are written.</p>
+
+      <h2>The Traditional Problem</h2>
+      <p>In traditional workflows, the testing cycle looks like this:</p>
+      <ul>
+        <li>Requirements are written and handed off to development</li>
+        <li>Development builds features over several sprints</li>
+        <li>QA receives the build and begins testing</li>
+        <li>Bugs are found, sent back to development</li>
+        <li>The cycle repeats until quality is "good enough" to ship</li>
+      </ul>
+      <p>By the time defects are found, significant development investment has already been made. Rework is expensive, timelines slip, and teams are demoralized.</p>
+
+      <h2>How AI Enables True Shift-Left</h2>
+      <p>WalnutAI fundamentally changes this dynamic by generating test cases <strong>the moment requirements are created</strong>. This means:</p>
+      <ul>
+        <li><strong>Requirement validation</strong> — Gaps and ambiguities are flagged before any code is written</li>
+        <li><strong>Test-first development</strong> — Developers have test cases before they start coding</li>
+        <li><strong>Continuous coverage tracking</strong> — Every code change is mapped against requirements in real time</li>
+        <li><strong>Automated regression</strong> — New changes are validated against the entire test suite instantly</li>
+      </ul>
+
+      <h2>Real-World Impact</h2>
+      <p>Teams using shift-left testing with WalnutAI report:</p>
+      <ul>
+        <li>73% reduction in production defects</li>
+        <li>40% faster time-to-market</li>
+        <li>60% less time spent on manual testing</li>
+        <li>2.3x more features shipped per quarter</li>
+      </ul>
+
+      <blockquote><p>The best time to find a bug is before it exists. Shift-left testing with AI makes this possible by turning requirements into test cases before a single line of code is written.</p></blockquote>
+    `,
+    date: "2026-02-20",
+    author: "WalnutAI Team",
+    image: "/assets/blog/shift-left-testing.svg",
+    category: "Testing",
+    tags: ["Shift-Left", "Testing", "Quality", "DevOps", "Cost Reduction"],
+  },
+  {
+    slug: "requirements-traceability-complete-guide",
+    title: "Requirements Traceability: The Missing Link in Software Quality",
+    excerpt:
+      "Most teams lose track of requirements between documentation and deployment. Learn how end-to-end traceability prevents gaps and ensures nothing slips through the cracks.",
+    content: `
+      <p>You've written 200 user stories. Your team has committed thousands of lines of code. You have hundreds of test cases. But can you answer this: <strong>Does every requirement have a corresponding implementation and test?</strong></p>
+
+      <h2>The Traceability Gap</h2>
+      <p>Requirements traceability is the ability to trace every business requirement through to its implementation in code and validation through test cases. Without it, you're flying blind.</p>
+      <p>Common symptoms of poor traceability:</p>
+      <ul>
+        <li>Features that were specified but never implemented</li>
+        <li>Code that exists but doesn't map to any business requirement</li>
+        <li>Test cases that validate scenarios no one asked for</li>
+        <li>Compliance audits that take weeks instead of minutes</li>
+      </ul>
+
+      <h2>Bidirectional Traceability</h2>
+      <p>WalnutAI maintains bidirectional traceability across your entire SDLC:</p>
+      <p><strong>Forward trace:</strong> Requirement → User Story → Code → Test Case</p>
+      <p><strong>Backward trace:</strong> Test Case → Code → User Story → Requirement</p>
+      <p>This means you can answer questions in both directions:</p>
+      <ul>
+        <li>"What code implements this requirement?" (forward)</li>
+        <li>"Why does this code exist?" (backward)</li>
+        <li>"What tests validate this feature?" (forward)</li>
+        <li>"What requirement does this test cover?" (backward)</li>
+      </ul>
+
+      <h2>Impact Analysis</h2>
+      <p>When a requirement changes, traceability gives you instant impact analysis. You can see exactly which code files, which test cases, and which other requirements are affected. No guesswork, no missed dependencies.</p>
+
+      <h2>Compliance Made Simple</h2>
+      <p>For regulated industries — healthcare, finance, government — traceability isn't optional. It's mandated. WalnutAI generates traceability matrices automatically, turning weeks of audit preparation into minutes.</p>
+
+      <blockquote><p>Traceability isn't just about tracking artifacts. It's about ensuring that every dollar spent on development delivers the value that was intended.</p></blockquote>
+    `,
+    date: "2026-02-14",
+    author: "WalnutAI Team",
+    image: "/assets/blog/requirements-traceability.svg",
+    category: "Development",
+    tags: ["Requirements", "Traceability", "Compliance", "Quality", "SDLC"],
+  },
+  {
+    slug: "ai-code-review-beyond-linting",
+    title: "AI Code Review: Going Beyond Linting to Architectural Intelligence",
+    excerpt:
+      "Traditional code review tools catch syntax issues. AI-powered review catches architectural drift, missing business logic, and requirement gaps that humans miss.",
+    content: `
+      <p>Your linter passes. Your type checker is happy. Your code compiles without errors. But is your code <strong>correct</strong>? Does it implement what the business actually asked for?</p>
+
+      <h2>The Limits of Traditional Code Review</h2>
+      <p>Traditional code review — whether human or automated — focuses on:</p>
+      <ul>
+        <li>Syntax and formatting compliance</li>
+        <li>Type safety and compiler errors</li>
+        <li>Known anti-patterns and code smells</li>
+        <li>Security vulnerabilities from known databases</li>
+      </ul>
+      <p>These are important. But they miss the most expensive category of bugs: <strong>logic errors that stem from misunderstood requirements.</strong></p>
+
+      <h2>Architectural Intelligence in Code Review</h2>
+      <p>WalnutAI's code analysis goes beyond surface-level checks:</p>
+      <ul>
+        <li><strong>Requirement alignment</strong> — Does this code actually implement what the story describes?</li>
+        <li><strong>Missing logic branches</strong> — Are there edge cases in the requirements that aren't handled?</li>
+        <li><strong>Architectural drift</strong> — Does this change introduce inconsistencies with the existing system design?</li>
+        <li><strong>Orphan code detection</strong> — Is there code that doesn't map to any known requirement?</li>
+        <li><strong>Test coverage gaps</strong> — Which parts of this change have no corresponding test?</li>
+      </ul>
+
+      <h2>From Reactive to Proactive</h2>
+      <p>Traditional code review is reactive — it finds problems after they're written. AI-powered architectural review is proactive. It identifies gaps in real-time, as code is being developed, before it reaches a pull request.</p>
+
+      <h2>Integration with Your Workflow</h2>
+      <p>WalnutAI integrates with GitHub, GitLab, and Bitbucket to provide AI-powered review comments directly on pull requests. No context switching, no separate tools to learn.</p>
+
+      <blockquote><p>A linter tells you your code is syntactically correct. Architectural intelligence tells you your code is <em>meaningfully</em> correct.</p></blockquote>
+    `,
+    date: "2026-02-07",
+    author: "WalnutAI Team",
+    image: "/assets/blog/ai-code-review.svg",
+    category: "AI",
+    tags: ["Code Review", "AI", "Architecture", "Quality", "DevOps"],
+  },
+  {
+    slug: "managing-technical-debt-with-ai",
+    title: "How AI Helps Teams Tackle Technical Debt Before It Becomes a Crisis",
+    excerpt:
+      "Technical debt grows silently until it cripples your velocity. Learn how AI-driven gap analysis and continuous monitoring keep your codebase healthy.",
+    content: `
+      <p>Every engineering team knows the feeling: you're sprinting to deliver features, cutting corners you promise to fix later. Later never comes. <strong>Technical debt compounds like financial debt</strong> — and the interest payments come due at the worst possible time.</p>
+
+      <h2>The Hidden Cost of Technical Debt</h2>
+      <p>McKinsey estimates that technical debt accounts for <strong>20-40% of the total value of technology estates</strong>. That's not a rounding error — it's a massive drag on innovation and velocity.</p>
+      <p>The symptoms are familiar:</p>
+      <ul>
+        <li>Simple features take weeks instead of days</li>
+        <li>Every change breaks something unexpected</li>
+        <li>New team members take months to become productive</li>
+        <li>Release cycles keep getting longer</li>
+        <li>The team spends more time fixing than building</li>
+      </ul>
+
+      <h2>Why Traditional Approaches Fail</h2>
+      <p>Most teams try to manage technical debt through dedicated "tech debt sprints" or "hardening sprints." The problem? You can't fix what you can't see. Without visibility into where debt exists and how it's growing, you're guessing at priorities.</p>
+
+      <h2>AI-Driven Debt Detection</h2>
+      <p>WalnutAI's gap analysis engine continuously monitors your codebase for indicators of technical debt:</p>
+      <ul>
+        <li><strong>Orphan code</strong> — Code that doesn't map to any requirement and may be dead weight</li>
+        <li><strong>Untested logic</strong> — Business-critical code paths without test coverage</li>
+        <li><strong>Architectural inconsistencies</strong> — Patterns that deviate from the established architecture</li>
+        <li><strong>Requirement drift</strong> — Features that have evolved away from their original specification</li>
+        <li><strong>Dependency risks</strong> — Outdated or vulnerable dependencies that increase maintenance burden</li>
+      </ul>
+
+      <h2>Prioritized Remediation</h2>
+      <p>Not all technical debt is equal. WalnutAI helps you prioritize remediation based on business impact — focusing on the debt that's actually costing you velocity, not just the debt that's easiest to fix.</p>
+
+      <blockquote><p>Technical debt isn't a failure of discipline. It's a failure of visibility. When you can see debt accumulating in real-time, you can address it before it becomes a crisis.</p></blockquote>
+    `,
+    date: "2026-01-30",
+    author: "WalnutAI Team",
+    image: "/assets/blog/technical-debt.svg",
+    category: "Development",
+    tags: ["Technical Debt", "Code Quality", "AI", "Refactoring", "Engineering"],
+  },
+  {
+    slug: "ci-cd-pipeline-quality-gates",
+    title: "Building Intelligent Quality Gates into Your CI/CD Pipeline",
+    excerpt:
+      "Your CI/CD pipeline runs tests. But does it catch requirement gaps? Learn how to add AI-powered quality gates that prevent incomplete features from reaching production.",
+    content: `
+      <p>Your CI/CD pipeline is fast. Tests pass in minutes. Deployments happen multiple times a day. But speed without quality is just shipping bugs faster.</p>
+
+      <h2>The Problem with Traditional Quality Gates</h2>
+      <p>Most CI/CD pipelines include these quality checks:</p>
+      <ul>
+        <li>Unit tests pass</li>
+        <li>Integration tests pass</li>
+        <li>Code coverage meets threshold</li>
+        <li>Linting rules satisfied</li>
+        <li>Security scan clean</li>
+      </ul>
+      <p>These are necessary but not sufficient. They tell you the code <em>works</em>, but not whether it <em>does the right thing</em>.</p>
+
+      <h2>Intelligent Quality Gates</h2>
+      <p>WalnutAI adds a new layer of quality gates to your pipeline:</p>
+      <ul>
+        <li><strong>Requirement coverage gate</strong> — Block deployment if requirements aren't fully implemented</li>
+        <li><strong>Gap analysis gate</strong> — Flag when new code introduces gaps between requirements and tests</li>
+        <li><strong>Architectural compliance gate</strong> — Detect when changes violate architectural patterns</li>
+        <li><strong>Traceability gate</strong> — Ensure every code change maps to an approved requirement</li>
+      </ul>
+
+      <h2>How It Works</h2>
+      <p>WalnutAI integrates into your existing CI/CD pipeline as an additional step:</p>
+      <ol>
+        <li>Developer pushes code</li>
+        <li>Standard tests run (unit, integration, e2e)</li>
+        <li>WalnutAI analyzes the change against requirements and existing coverage</li>
+        <li>If gaps are detected, the pipeline pauses and reports what's missing</li>
+        <li>Once gaps are addressed, the pipeline continues to deployment</li>
+      </ol>
+
+      <h2>Shift-Left, Not Slow-Down</h2>
+      <p>Intelligent quality gates don't slow your pipeline — they prevent the rework that actually slows you down. Catching a missing requirement in CI takes minutes. Finding it in production takes weeks.</p>
+
+      <blockquote><p>The fastest pipeline is the one that never deploys broken features. Intelligent quality gates make this possible without sacrificing velocity.</p></blockquote>
+    `,
+    date: "2026-01-22",
+    author: "WalnutAI Team",
+    image: "/assets/blog/ci-cd-pipeline.svg",
+    category: "DevOps",
+    tags: ["CI/CD", "Quality Gates", "DevOps", "Pipeline", "Automation"],
+  },
+  {
+    slug: "complete-guide-sdlc-automation",
+    title: "The Complete Guide to AI-Driven SDLC Automation in 2026",
+    excerpt:
+      "From requirements to deployment, AI is transforming every stage of the software delivery lifecycle. Here's what's changed and how to leverage it.",
+    content: `
+      <p>The software development lifecycle hasn't fundamentally changed in decades. Requirements → Design → Build → Test → Deploy → Monitor. What's changed is that <strong>AI can now participate meaningfully at every stage.</strong></p>
+
+      <h2>Stage 1: Requirements Engineering</h2>
+      <p>AI transforms requirements from static documents into living, analyzable artifacts:</p>
+      <ul>
+        <li>Convert BRDs, FRS documents, and meeting transcripts into structured user stories</li>
+        <li>Detect ambiguities, conflicts, and gaps automatically</li>
+        <li>Generate acceptance criteria from business requirements</li>
+        <li>Maintain traceability from business intent to technical specification</li>
+      </ul>
+
+      <h2>Stage 2: Design & Architecture</h2>
+      <p>AI assists in architectural decisions by analyzing requirements against existing system topology:</p>
+      <ul>
+        <li>Suggest component structures based on requirement patterns</li>
+        <li>Detect potential architectural conflicts early</li>
+        <li>Generate API specifications from user stories</li>
+      </ul>
+
+      <h2>Stage 3: Development</h2>
+      <p>AI-powered development goes beyond code completion:</p>
+      <ul>
+        <li>Generate feature implementations aligned with requirements</li>
+        <li>Continuous code review against architectural standards</li>
+        <li>Real-time gap detection as code is written</li>
+        <li>Automated documentation generation</li>
+      </ul>
+
+      <h2>Stage 4: Testing</h2>
+      <p>AI-generated testing is perhaps the most mature area:</p>
+      <ul>
+        <li>Test cases generated from requirements in seconds</li>
+        <li>Multi-framework support (Playwright, Cypress, Jest)</li>
+        <li>Continuous regression testing</li>
+        <li>Visual regression detection</li>
+      </ul>
+
+      <h2>Stage 5: Deployment & Monitoring</h2>
+      <p>AI quality gates in CI/CD pipelines ensure only fully validated code reaches production:</p>
+      <ul>
+        <li>Automated pre-deployment gap analysis</li>
+        <li>Requirement coverage validation</li>
+        <li>Risk scoring for each deployment</li>
+      </ul>
+
+      <h2>The Unified Platform Advantage</h2>
+      <p>The real power comes from connecting all these stages in a single platform. When requirements, code, and tests live in a connected system, changes in one area automatically surface impacts in all others.</p>
+
+      <blockquote><p>The future of software delivery isn't faster individual stages — it's intelligent orchestration across all stages. AI doesn't replace your team. It gives them superpowers.</p></blockquote>
+    `,
+    date: "2026-01-15",
+    author: "WalnutAI Team",
+    image: "/assets/blog/sdlc-automation.svg",
+    category: "AI",
+    tags: ["SDLC", "Automation", "AI", "Software Delivery", "DevOps", "Requirements", "Testing"],
   },
 ];
 

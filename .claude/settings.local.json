@@ -4,6 +4,9 @@
       "Bash(npm install:*)",
       "Bash(npx next:*)",
       "Bash(npx tsc:*)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\ganesh.r\\Desktop\\walnut-website\\src\\app\\dashboard\\blogs\\[id]"
     ]
   }
 }
