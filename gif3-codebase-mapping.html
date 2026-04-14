@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GIF 3 — Codebase Mapping</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--card2:#0d1e36;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+
+.screen{width:700px;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 60% 30% at 50% 0%,rgba(249,115,22,0.05) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);position:relative;z-index:1}
+.tb-left{display:flex;align-items:center;gap:7px}
+.tb-dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.scan-badge{display:flex;align-items:center;gap:5px;background:rgba(249,115,22,0.09);border:1px solid rgba(249,115,22,0.25);border-radius:5px;padding:3px 10px;font-size:9.5px;font-weight:700;color:var(--orange)}
+.spin{animation:spin 1.5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* body split */
+.body{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border);position:relative;z-index:1}
+
+/* LEFT: file tree */
+.tree-col{border-right:1px solid var(--border);padding:14px 0}
+.col-hdr{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:0 14px 8px;display:flex;align-items:center;gap:5px}
+.col-hdr svg{width:10px;height:10px}
+
+.frow{display:flex;align-items:center;gap:6px;padding:5px 14px;cursor:default;transition:background .2s;border-left:2px solid transparent}
+.frow:hover{background:rgba(255,255,255,0.02)}
+.frow.scanning{background:rgba(249,115,22,0.07);border-left-color:var(--orange)}
+.frow.scanned{border-left-color:rgba(52,211,153,0.5)}
+.frow-icon svg{width:11px;height:11px;transition:color .3s}
+.frow-name{flex:1;font-size:11.5px;font-weight:500;color:#6b7280;transition:color .3s;font-family:'JetBrains Mono',monospace}
+.frow.scanning .frow-name{color:#fff}
+.frow.scanned .frow-name{color:rgba(52,211,153,0.7)}
+.frow-tag{font-size:8.5px;font-weight:700;padding:1px 6px;border-radius:3px;white-space:nowrap;transition:all .3s}
+.tag-read{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--green)}
+.tag-scanning{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);color:var(--orange)}
+.tag-pending{background:rgba(255,255,255,0.04);border:1px solid var(--border);color:var(--muted)}
+
+/* indent levels */
+.ind1{padding-left:26px}
+.ind2{padding-left:40px}
+
+/* RIGHT: module map */
+.map-col{padding:14px;display:flex;flex-direction:column}
+.col-hdr2{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:5px}
+.col-hdr2 svg{width:10px;height:10px}
+
+.map-area{flex:1;position:relative;min-height:220px}
+
+/* nodes */
+.mnode{position:absolute;border-radius:9px;padding:7px 11px;font-size:10px;font-weight:700;border:1px solid;opacity:0;transform:scale(.85);transition:opacity .4s,transform .4s}
+.mnode.show{opacity:1;transform:scale(1)}
+.mn-orange{background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.35);color:var(--orange)}
+.mn-blue  {background:rgba(96,165,250,0.1);border-color:rgba(96,165,250,0.35);color:var(--blue)}
+.mn-green {background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);color:var(--green)}
+.mn-purple{background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.3);color:var(--purple)}
+.mn-yellow{background:rgba(251,191,36,0.1);border-color:rgba(251,191,36,0.3);color:var(--yellow)}
+
+/* SVG connector lines */
+.map-svg{position:absolute;inset:0;pointer-events:none}
+.edge{stroke-dasharray:4 3;stroke-dashoffset:0;animation:dash 2s linear infinite;stroke-width:1.2;fill:none;opacity:0;transition:opacity .4s}
+.edge.show{opacity:1}
+@keyframes dash{to{stroke-dashoffset:-14}}
+.e-orange{stroke:rgba(249,115,22,0.35)}
+.e-blue{stroke:rgba(96,165,250,0.3)}
+.e-green{stroke:rgba(52,211,153,0.3)}
+
+/* insights */
+.insight{background:rgba(255,255,255,0.02);border:1px solid var(--border);border-radius:7px;padding:6px 9px;font-size:9.5px;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:6px;opacity:0;transition:opacity .4s}
+.insight.show{opacity:1}
+.insight-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* progress bar */
+.prog-wrap{padding:12px 18px;border-bottom:1px solid var(--border);position:relative;z-index:1}
+.prog-top{display:flex;justify-content:space-between;margin-bottom:5px}
+.prog-lbl{font-size:10px;font-weight:700;color:var(--orange);display:flex;align-items:center;gap:5px}
+.prog-lbl svg{width:10px;height:10px}
+.prog-pct{font-size:10px;font-weight:800;color:var(--orange)}
+.prog-bar{height:4px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden}
+.prog-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,var(--orange),var(--yellow));transition:width .15s linear}
+
+/* bottom stats */
+.bot-stats{display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:1}
+.bst{padding:10px 14px;border-right:1px solid var(--border)}
+.bst:last-child{border-right:none}
+.bst-v{font-size:16px;font-weight:800;line-height:1}
+.bst-l{font-size:8.5px;font-weight:600;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-dot" style="background:#ef4444;opacity:.7"></div>
+      <div class="tb-dot" style="background:#fbbf24;opacity:.7"></div>
+      <div class="tb-dot" style="background:#34d399;opacity:.7"></div>
+      <span class="tb-title">Cloud Agent — Repository Mapping</span>
+    </div>
+    <div class="scan-badge">
+      <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+      Scanning repo…
+    </div>
+  </div>
+
+  <!-- progress -->
+  <div class="prog-wrap">
+    <div class="prog-top">
+      <div class="prog-lbl">
+        <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        <span id="progLabel">Reading folder structure…</span>
+      </div>
+      <div class="prog-pct" id="progPct">0%</div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+  </div>
+
+  <div class="body">
+    <!-- file tree -->
+    <div class="tree-col">
+      <div class="col-hdr">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        Repository
+      </div>
+      <!-- auth -->
+      <div class="frow" id="fAuth">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="frow-name">auth/</span>
+        <span class="frow-tag tag-pending" id="tagAuth">—</span>
+      </div>
+      <div class="frow ind1" id="fAuth1">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">authService.ts</span>
+        <span class="frow-tag tag-pending" id="tagAuth1">—</span>
+      </div>
+      <div class="frow ind1" id="fAuth2">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">jwtHelper.ts</span>
+        <span class="frow-tag tag-pending" id="tagAuth2">—</span>
+      </div>
+      <!-- payments -->
+      <div class="frow" id="fPay">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="frow-name">payments/</span>
+        <span class="frow-tag tag-pending" id="tagPay">—</span>
+      </div>
+      <div class="frow ind1" id="fPay1">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">stripeService.ts</span>
+        <span class="frow-tag tag-pending" id="tagPay1">—</span>
+      </div>
+      <!-- models -->
+      <div class="frow" id="fMod">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="frow-name">models/</span>
+        <span class="frow-tag tag-pending" id="tagMod">—</span>
+      </div>
+      <div class="frow ind1" id="fMod1">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">User.ts</span>
+        <span class="frow-tag tag-pending" id="tagMod1">—</span>
+      </div>
+      <div class="frow ind1" id="fMod2">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">Invoice.ts</span>
+        <span class="frow-tag tag-pending" id="tagMod2">—</span>
+      </div>
+      <!-- routes -->
+      <div class="frow" id="fRt">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="frow-name">routes/</span>
+        <span class="frow-tag tag-pending" id="tagRt">—</span>
+      </div>
+      <div class="frow ind1" id="fRt1">
+        <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+        <span class="frow-name">authRoutes.ts</span>
+        <span class="frow-tag tag-pending" id="tagRt1">—</span>
+      </div>
+    </div>
+
+    <!-- module map -->
+    <div class="map-col">
+      <div class="col-hdr2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Module Dependency Map
+      </div>
+      <div class="map-area">
+        <svg class="map-svg" viewBox="0 0 310 220" id="mapSvg">
+          <line id="e1" class="edge e-orange" x1="155" y1="40" x2="60" y2="90"/>
+          <line id="e2" class="edge e-orange" x1="155" y1="40" x2="250" y2="90"/>
+          <line id="e3" class="edge e-blue"   x1="60"  y1="90" x2="60"  y2="155"/>
+          <line id="e4" class="edge e-green"  x1="250" y1="90" x2="250" y2="155"/>
+          <line id="e5" class="edge e-blue"   x1="60"  y1="155" x2="155" y2="195"/>
+          <line id="e6" class="edge e-green"  x1="250" y1="155" x2="155" y2="195"/>
+        </svg>
+        <!-- nodes positioned to match SVG coords -->
+        <div class="mnode mn-orange" id="nApp"  style="top:14px;left:50%;transform:translateX(-50%)">app/routes</div>
+        <div class="mnode mn-blue"   id="nAuth" style="top:74px;left:4px">auth/</div>
+        <div class="mnode mn-purple" id="nPay"  style="top:74px;right:4px">payments/</div>
+        <div class="mnode mn-green"  id="nMod"  style="top:136px;left:4px">models/</div>
+        <div class="mnode mn-yellow" id="nStr"  style="top:136px;right:4px">stripe/</div>
+        <div class="mnode mn-blue"   id="nDb"   style="bottom:4px;left:50%;transform:translateX(-50%)">database</div>
+      </div>
+      <!-- insights -->
+      <div class="insight" id="ins1"><div class="insight-dot" style="background:var(--orange)"></div>Express + TypeScript — matched</div>
+      <div class="insight" id="ins2"><div class="insight-dot" style="background:var(--green)"></div>Prisma ORM pattern detected</div>
+      <div class="insight" id="ins3"><div class="insight-dot" style="background:var(--blue)"></div>JWT via jsonwebtoken — will reuse</div>
+    </div>
+  </div>
+
+  <!-- stats -->
+  <div class="bot-stats">
+    <div class="bst"><div class="bst-v" style="color:var(--orange)" id="filesRead">0</div><div class="bst-l">Files read</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--blue)" id="modulesFound">0</div><div class="bst-l">Modules mapped</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--green)" id="patternsFound">0</div><div class="bst-l">Patterns detected</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--yellow)">0 lines</div><div class="bst-l">Written so far</div></div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {t:400,  fn:()=>scan('fAuth','tagAuth','scanning','Scanning auth/…','Scanning auth/…',5,1,0)},
+  {t:900,  fn:()=>scan('fAuth1','tagAuth1','scanning','Reading authService.ts',null,null,null,null)},
+  {t:1500, fn:()=>{mark('fAuth1','tagAuth1');mark('fAuth2','tagAuth2');show('nAuth');show('e1');upd(2,1,0)}},
+  {t:2000, fn:()=>{mark('fAuth','tagAuth');show('ins1')}},
+  {t:2400, fn:()=>scan('fPay','tagPay','scanning','Scanning payments/…',null,null,null,null)},
+  {t:2900, fn:()=>{mark('fPay1','tagPay1');show('nPay');show('e2');upd(3,2,1)}},
+  {t:3300, fn:()=>{mark('fPay','tagPay');show('ins2')}},
+  {t:3700, fn:()=>scan('fMod','tagMod','scanning','Scanning models/…',null,null,null,null)},
+  {t:4200, fn:()=>{mark('fMod1','tagMod1');mark('fMod2','tagMod2');show('nMod');show('e3');show('e4');upd(5,3,2)}},
+  {t:4600, fn:()=>{mark('fMod','tagMod');show('nStr')}},
+  {t:5000, fn:()=>scan('fRt','tagRt','scanning','Scanning routes/…',null,null,null,null)},
+  {t:5500, fn:()=>{mark('fRt1','tagRt1');show('nApp');show('e5');show('e6');upd(7,4,3)}},
+  {t:5900, fn:()=>{mark('fRt','tagRt');show('nDb');show('ins3');upd(9,5,3);progSet(100,'Map complete — ready to implement')}},
+];
+
+function scan(rowId, tagId, state, label, progLabel, files, mods, pats) {
+  const row = document.getElementById(rowId);
+  const tag = document.getElementById(tagId);
+  if(row) { row.className = 'frow ' + (rowId.length===4?'':'ind1 ') + state; }
+  if(tag) { tag.textContent='reading…'; tag.className='frow-tag tag-scanning'; }
+  if(progLabel) document.getElementById('progLabel').textContent = progLabel;
+}
+function mark(rowId, tagId) {
+  const row=document.getElementById(rowId);
+  const tag=document.getElementById(tagId);
+  if(row) row.classList.add('scanned');
+  if(tag) { tag.textContent='✓ read'; tag.className='frow-tag tag-read'; }
+}
+function show(id) { const el=document.getElementById(id); if(el) el.classList.add('show'); }
+function upd(f,m,p) {
+  document.getElementById('filesRead').textContent=f;
+  document.getElementById('modulesFound').textContent=m;
+  document.getElementById('patternsFound').textContent=p;
+  progSet(Math.round(f/9*100));
+}
+function progSet(pct, label) {
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progPct').textContent=pct+'%';
+  if(label) document.getElementById('progLabel').textContent=label;
+}
+
+let timers=[];
+function runAnimation() {
+  timers.forEach(clearTimeout); timers=[];
+  // reset
+  ['fAuth','fAuth1','fAuth2','fPay','fPay1','fMod','fMod1','fMod2','fRt','fRt1'].forEach(id=>{
+    const el=document.getElementById(id); if(el){el.className='frow '+(id.length>4?'ind1 ':'');}
+  });
+  ['tagAuth','tagAuth1','tagAuth2','tagPay','tagPay1','tagMod','tagMod1','tagMod2','tagRt','tagRt1'].forEach(id=>{
+    const el=document.getElementById(id); if(el){el.textContent='—';el.className='frow-tag tag-pending';}
+  });
+  ['nApp','nAuth','nPay','nMod','nStr','nDb','e1','e2','e3','e4','e5','e6','ins1','ins2','ins3'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.classList.remove('show');
+  });
+  progSet(0,'Reading folder structure…');
+  document.getElementById('filesRead').textContent='0';
+  document.getElementById('modulesFound').textContent='0';
+  document.getElementById('patternsFound').textContent='0';
+
+  steps.forEach(s=>{ timers.push(setTimeout(s.fn, s.t)); });
+}
+
+runAnimation();
+setInterval(runAnimation, 10000);
+</script>
+</body>
+</html>

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cold-Start Screener</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:     #060b18;
+      --card:   #0a1628;
+      --card2:  #0d1e36;
+      --orange: #f97316;
+      --border: rgba(255,255,255,0.07);
+      --muted:  #6b7280;
+      --green:  #34d399;
+      --red:    #ef4444;
+      --yellow: #fbbf24;
+      --blue:   #60a5fa;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    /* ── Outer card ── */
+    .screener {
+      width: 680px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+    /* top glow */
+    .screener::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 180px;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(249,115,22,0.07) 0%, transparent 100%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Header bar ── */
+    .hbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      position: relative; z-index: 1;
+    }
+    .hbar-left { display: flex; align-items: center; gap: 8px; }
+    .hbar-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .hbar-title {
+      font-size: 10px; font-weight: 700;
+      letter-spacing: 1.3px; text-transform: uppercase;
+      color: var(--muted); margin-left: 4px;
+    }
+    .hbar-badge {
+      font-size: 9.5px; font-weight: 700;
+      padding: 2px 9px; border-radius: 4px;
+    }
+
+    /* ── Two-col body ── */
+    .body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative; z-index: 1;
+    }
+
+    /* ── Left: legacy repo ── */
+    .legacy-col {
+      border-right: 1px solid var(--border);
+      padding: 16px;
+    }
+    .col-label {
+      font-size: 9px; font-weight: 800;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .col-label svg { width: 10px; height: 10px; }
+
+    /* File rows */
+    .file-list { display: flex; flex-direction: column; gap: 3px; margin-bottom: 12px; }
+    .frow {
+      display: flex; align-items: center; gap: 7px;
+      padding: 5px 8px; border-radius: 7px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border);
+    }
+    .frow-icon svg { width: 11px; height: 11px; color: #4b5563; }
+    .frow-name { flex: 1; font-size: 11px; font-weight: 500; color: #6b7280; }
+    .frow-year {
+      font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+    }
+    .yr-old { background: rgba(239,68,68,0.1);  border: 1px solid rgba(239,68,68,0.18);  color: rgba(239,68,68,0.65); }
+    .yr-mid { background: rgba(251,191,36,0.09); border: 1px solid rgba(251,191,36,0.18); color: rgba(251,191,36,0.65); }
+    .no-doc {
+      display: flex; align-items: center; gap: 3px;
+      font-size: 8.5px; font-weight: 600; color: rgba(239,68,68,0.4);
+    }
+    .no-doc svg { width: 8px; height: 8px; }
+
+    /* Zero-state block */
+    .zero-block {
+      background: rgba(239,68,68,0.05);
+      border: 1px solid rgba(239,68,68,0.12);
+      border-radius: 8px; padding: 9px 11px;
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .zero-icon {
+      width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
+      background: rgba(239,68,68,0.1);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .zero-icon svg { width: 10px; height: 10px; color: var(--red); }
+    .zero-txt { font-size: 10.5px; color: rgba(239,68,68,0.6); line-height: 1.5; }
+    .zero-txt strong { color: var(--red); }
+
+    /* ── Divider arrow ── */
+    /* rendered inline inside a middle cell via transform trick */
+
+    /* ── Right: stories output ── */
+    .stories-col { padding: 16px; }
+
+    /* Scan progress */
+    .scan-wrap { margin-bottom: 12px; }
+    .scan-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 5px;
+    }
+    .scan-lbl {
+      font-size: 9.5px; font-weight: 700; color: var(--orange);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .scan-lbl svg { width: 10px; height: 10px; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .scan-pct { font-size: 10px; font-weight: 800; color: var(--orange); }
+    .scan-bar {
+      height: 4px; width: 100%;
+      background: rgba(255,255,255,0.05);
+      border-radius: 999px; overflow: hidden;
+    }
+    .scan-fill {
+      height: 100%; width: 73%; border-radius: 999px;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+      position: relative;
+    }
+    .scan-fill::after {
+      content: ''; position: absolute;
+      right: 0; top: 0; bottom: 0; width: 2px;
+      background: var(--yellow); box-shadow: 0 0 6px rgba(251,191,36,0.8);
+    }
+    .scan-sub { font-size: 9px; color: var(--muted); margin-top: 4px; }
+    .scan-sub span { color: rgba(249,115,22,0.7); font-weight: 600; }
+
+    /* Story cards */
+    .story-list { display: flex; flex-direction: column; gap: 6px; }
+    .scard {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 9px 11px;
+      position: relative;
+      overflow: hidden;
+    }
+    .scard::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; bottom: 0; width: 2.5px;
+    }
+    .scard.s1::before { background: var(--green); }
+    .scard.s2::before { background: var(--blue); }
+    .scard.s3::before { background: var(--orange); }
+
+    .scard-top {
+      display: flex; align-items: center; gap: 6px; margin-bottom: 4px;
+    }
+    .scard-id { font-size: 8.5px; font-weight: 800; color: var(--muted); }
+    .scard-tag {
+      font-size: 8.5px; font-weight: 700; padding: 1px 6px; border-radius: 3px;
+    }
+    .tag-green  { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.22); color: var(--green); }
+    .tag-gray   { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+    .scard-title { font-size: 11px; font-weight: 700; color: #e5e7eb; line-height: 1.35; margin-bottom: 3px; }
+    .scard-meta { font-size: 9.5px; color: var(--muted); }
+    .scard-meta span { color: var(--green); font-weight: 600; }
+    .scard-ts {
+      position: absolute; right: 8px; top: 8px;
+      font-size: 8px; font-weight: 700; color: rgba(52,211,153,0.5);
+      display: flex; align-items: center; gap: 3px;
+    }
+    .scard-ts::before {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--green); opacity: 0.6; display: inline-block;
+    }
+
+    /* ── Bottom strip ── */
+    .bottom-strip {
+      display: grid; grid-template-columns: repeat(4,1fr);
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+    .bstat {
+      padding: 12px 16px;
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .bstat:last-child { border-right: none; }
+    .bstat-val { font-size: 18px; font-weight: 800; line-height: 1; }
+    .bstat-lbl { font-size: 9px; font-weight: 600; color: var(--muted); line-height: 1.3; }
+  </style>
+</head>
+<body>
+
+<div class="screener">
+
+  <!-- Header bar -->
+  <div class="hbar">
+    <div class="hbar-left">
+      <div class="hbar-dot" style="background:#ef4444; opacity:0.7;"></div>
+      <div class="hbar-dot" style="background:#fbbf24; opacity:0.7;"></div>
+      <div class="hbar-dot" style="background:#34d399; opacity:0.7;"></div>
+      <span class="hbar-title">Code-to-Story — legacy baseline</span>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;">
+      <span class="hbar-badge" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.18);color:rgba(239,68,68,0.7);">0 stories · before</span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(249,115,22,0.6)" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="hbar-badge" style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);color:rgba(52,211,153,0.8);">312 stories · after</span>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="body">
+
+    <!-- LEFT: Legacy repo -->
+    <div class="legacy-col">
+      <div class="col-label" style="color:rgba(239,68,68,0.6);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Legacy Repo — no documentation
+      </div>
+
+      <div class="file-list">
+
+        <div class="frow">
+          <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="frow-name">authService.ts</span>
+          <span class="frow-year yr-old">2018</span>
+          <span class="no-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>no docs</span>
+        </div>
+
+        <div class="frow">
+          <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="frow-name">stripeWebhook.ts</span>
+          <span class="frow-year yr-old">2019</span>
+          <span class="no-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>no docs</span>
+        </div>
+
+        <div class="frow">
+          <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="frow-name">invoiceEngine.ts</span>
+          <span class="frow-year yr-mid">2021</span>
+          <span class="no-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>no docs</span>
+        </div>
+
+        <div class="frow">
+          <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="frow-name">emailService.ts</span>
+          <span class="frow-year yr-mid">2022</span>
+          <span class="no-doc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>no docs</span>
+        </div>
+
+        <div class="frow" style="opacity:0.45;">
+          <div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+          <span class="frow-name" style="color:#374151;">+ 843 more files…</span>
+        </div>
+
+      </div>
+
+      <div class="zero-block">
+        <div class="zero-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div class="zero-txt"><strong>No stories found.</strong> 6 years of shipped features with no tickets, no specs, no documentation.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Story output -->
+    <div class="stories-col">
+      <div class="col-label" style="color:rgba(52,211,153,0.7);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Baseline generating now
+      </div>
+
+      <!-- Scan bar -->
+      <div class="scan-wrap">
+        <div class="scan-top">
+          <div class="scan-lbl">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            Scanning codebase
+          </div>
+          <div class="scan-pct">73% · 227 / 312</div>
+        </div>
+        <div class="scan-bar"><div class="scan-fill"></div></div>
+        <div class="scan-sub">Processing <span>invoiceEngine.ts</span> · ~1.1 hrs remaining</div>
+      </div>
+
+      <!-- Story stream -->
+      <div class="story-list">
+
+        <div class="scard s1">
+          <div class="scard-ts">just now</div>
+          <div class="scard-top">
+            <span class="scard-id">US-227</span>
+            <span class="scard-tag tag-green">✓ Generated</span>
+            <span class="scard-tag tag-gray">auth/</span>
+          </div>
+          <div class="scard-title">User login with rate-limited credential validation</div>
+          <div class="scard-meta"><span>5 ACs</span> · authService.ts L5–20</div>
+        </div>
+
+        <div class="scard s2">
+          <div class="scard-ts">12s ago</div>
+          <div class="scard-top">
+            <span class="scard-id">US-226</span>
+            <span class="scard-tag tag-green">✓ Generated</span>
+            <span class="scard-tag tag-gray">payments/</span>
+          </div>
+          <div class="scard-title">Stripe webhook processes payment confirmation events</div>
+          <div class="scard-meta"><span>7 ACs</span> · stripeWebhook.ts L12–58</div>
+        </div>
+
+        <div class="scard s3">
+          <div class="scard-ts">34s ago</div>
+          <div class="scard-top">
+            <span class="scard-id">US-225</span>
+            <span class="scard-tag tag-green">✓ Generated</span>
+            <span class="scard-tag tag-gray">payments/</span>
+          </div>
+          <div class="scard-title">Invoice engine applies tax rounding per regional rules</div>
+          <div class="scard-meta"><span>4 ACs</span> · invoiceEngine.ts L88–103</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom stats -->
+  <div class="bottom-strip">
+    <div class="bstat">
+      <div class="bstat-val" style="color:var(--orange)">847</div>
+      <div class="bstat-lbl">Files scanned</div>
+    </div>
+    <div class="bstat">
+      <div class="bstat-val" style="color:var(--green)">312</div>
+      <div class="bstat-lbl">Stories generated</div>
+    </div>
+    <div class="bstat">
+      <div class="bstat-val" style="color:var(--blue)">1,847</div>
+      <div class="bstat-lbl">Acceptance criteria</div>
+    </div>
+    <div class="bstat">
+      <div class="bstat-val" style="color:var(--yellow)">&lt; 4 hrs</div>
+      <div class="bstat-lbl">Zero to full baseline</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -178,7 +178,7 @@ export default function CheckpointVisual() {
         background: "#0a1628",
         border: "1px solid rgba(255,255,255,0.07)",
         padding: "22px 20px 18px",
-        minHeight: 360,
+        minHeight: 440,
       }}
     >
       {/* Top radial glow */}
@@ -193,7 +193,7 @@ export default function CheckpointVisual() {
       {/* Top bar: label + badges */}
       <div className="relative z-10 flex items-center justify-between flex-wrap gap-2 mb-4">
         <div className="text-[9.5px] font-bold uppercase tracking-[1.3px] text-neutral-400">
-          Live Checkpoint State
+          Live Checkpoint State &mdash; 100-Page BRD
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
           <span
@@ -207,7 +207,7 @@ export default function CheckpointVisual() {
             <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
-            Phase 6 failed
+            Failure detected at Phase 6
           </span>
           <span
             className="inline-flex items-center gap-1 text-[9.5px] font-bold px-2 py-1 rounded-md"
@@ -217,43 +217,13 @@ export default function CheckpointVisual() {
               color: "#f97316",
             }}
           >
-            ↩ Resuming from 5
+            ↩ Resuming from Phase 5
           </span>
         </div>
       </div>
 
       {/* Phase track */}
-      <div className="relative z-10" style={{ paddingTop: 32, paddingBottom: 32 }}>
-        {/* Spotlight columns behind orange/red nodes */}
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: 0,
-            bottom: 0,
-            left: `calc(${(4 / 9) * 100}% + 2px)`,
-            width: `calc(${(1 / 9) * 100}% - 4px)`,
-            borderRadius: 12,
-            background: "rgba(249,115,22,0.07)",
-            border: "1px solid rgba(249,115,22,0.2)",
-            boxShadow: "inset 0 0 32px rgba(249,115,22,0.08)",
-            zIndex: 0,
-          }}
-        />
-        <div
-          className="absolute pointer-events-none"
-          style={{
-            top: 0,
-            bottom: 0,
-            left: `calc(${(5 / 9) * 100}% + 2px)`,
-            width: `calc(${(1 / 9) * 100}% - 4px)`,
-            borderRadius: 12,
-            background: "rgba(239,68,68,0.07)",
-            border: "1px solid rgba(239,68,68,0.18)",
-            boxShadow: "inset 0 0 32px rgba(239,68,68,0.07)",
-            zIndex: 0,
-          }}
-        />
-
+      <div className="relative z-10" style={{ paddingTop: 78, paddingBottom: 78 }}>
         {/* Nodes row */}
         <div className="flex items-stretch relative z-10">
           {phases.map((phase, i) => (
@@ -262,6 +232,52 @@ export default function CheckpointVisual() {
               className="flex-1 flex flex-col items-center relative"
               style={{ padding: "10px 2px 12px" }}
             >
+              {/* Tooltip above Index (phase 5) — orange RESUME POINT */}
+              {phase.num === 5 && (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    bottom: "calc(100% + 8px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 158,
+                    borderRadius: 10,
+                    padding: "10px 12px",
+                    background:
+                      "linear-gradient(135deg, rgba(249,115,22,0.22), rgba(249,115,22,0.08))",
+                    border: "1px solid rgba(249,115,22,0.45)",
+                    zIndex: 20,
+                  }}
+                >
+                  <div
+                    className="text-[9px] font-extrabold uppercase tracking-[0.5px] mb-1"
+                    style={{ color: "#f97316" }}
+                  >
+                    ↩ Resume Point
+                  </div>
+                  <div
+                    className="text-[9px] leading-snug"
+                    style={{ color: "rgba(255,255,255,0.55)" }}
+                  >
+                    Last saved checkpoint. Processing restarts here &mdash; phases 1&ndash;4 are skipped entirely.
+                  </div>
+                  {/* Down-pointing arrow */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: "100%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: 0,
+                      height: 0,
+                      borderLeft: "7px solid transparent",
+                      borderRight: "7px solid transparent",
+                      borderTop: "7px solid rgba(249,115,22,0.45)",
+                    }}
+                  />
+                </div>
+              )}
+
               <div className="mb-2">
                 <StatusTag state={phase.state} />
               </div>
@@ -285,6 +301,52 @@ export default function CheckpointVisual() {
               >
                 {phase.name}
               </div>
+
+              {/* Tooltip below RAG Query (phase 6) — red FAILURE HERE */}
+              {phase.num === 6 && (
+                <div
+                  className="absolute pointer-events-none"
+                  style={{
+                    top: "calc(100% + 8px)",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 158,
+                    borderRadius: 10,
+                    padding: "10px 12px",
+                    background:
+                      "linear-gradient(135deg, rgba(239,68,68,0.2), rgba(239,68,68,0.07))",
+                    border: "1px solid rgba(239,68,68,0.42)",
+                    zIndex: 20,
+                  }}
+                >
+                  <div
+                    className="text-[9px] font-extrabold uppercase tracking-[0.5px] mb-1"
+                    style={{ color: "#ef4444" }}
+                  >
+                    ⚡ Failure Here
+                  </div>
+                  <div
+                    className="text-[9px] leading-snug"
+                    style={{ color: "rgba(255,255,255,0.55)" }}
+                  >
+                    Network timeout. No checkpoint written. Graph auto-rolls back to Phase 5.
+                  </div>
+                  {/* Up-pointing arrow */}
+                  <span
+                    style={{
+                      position: "absolute",
+                      bottom: "100%",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      width: 0,
+                      height: 0,
+                      borderLeft: "7px solid transparent",
+                      borderRight: "7px solid transparent",
+                      borderBottom: "7px solid rgba(239,68,68,0.42)",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>

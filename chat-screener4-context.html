@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Chat Screener — Context Awareness</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e18;--sidebar:#080c14;--card:#0d1220;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.05);--orange:#f97316;--green:#34d399;--blue:#60a5fa;--red:#ef4444;--yellow:#fbbf24;--purple:#a78bfa;--muted:#6b7280;--muted2:#4b5563;--text:#e5e7eb;--subtext:#9ca3af}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+.chat-window{width:480px;background:var(--sidebar);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+
+.title-bar{padding:8px 14px;background:rgba(0,0,0,.5);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.win-dots{display:flex;gap:5px}.win-dot{width:8px;height:8px;border-radius:50%}
+.win-title{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+
+.tab-bar{display:flex;align-items:center;padding:0 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--border)}
+.tab{padding:7px 12px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--text);border-bottom-color:var(--orange)}
+.tab-spacer{flex:1}
+.tab-icon{color:var(--muted);font-size:11px;padding:0 5px}
+
+.chat-area{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+
+/* context panel */
+.context-panel{background:rgba(0,0,0,.4);border:1px solid rgba(249,115,22,.18);border-radius:10px;overflow:hidden}
+.cp-header{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.35)}
+.cp-title{font-size:10px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:6px}
+.cp-count{font-size:9px;color:var(--muted)}
+
+.ctx-section{padding:7px 11px;border-bottom:1px solid var(--border)}
+.ctx-section:last-child{border-bottom:none}
+.ctx-label{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.ctx-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* selected code */
+.sel-code{background:rgba(0,0,0,.45);border:1px solid rgba(249,115,22,.2);border-radius:7px;overflow:hidden}
+.sel-code-header{display:flex;align-items:center;padding:4px 9px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3);gap:7px}
+.sel-file{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue)}
+.sel-range{font-size:8.5px;color:var(--muted);margin-left:auto}
+.sel-body{padding:5px 9px;font-family:'JetBrains Mono',monospace;font-size:9px;line-height:1.6}
+.sl{display:flex;gap:6px}.sl-n{color:var(--muted2);width:14px;text-align:right;font-size:8px}.sl-c{color:#9ca3af}
+.sl-c.hi{background:rgba(249,115,22,.1);color:#fdba74;border-radius:2px}
+.sl-selected{background:rgba(249,115,22,.07);border-left:2px solid rgba(249,115,22,.5);margin:0 -9px;padding:0 9px}
+
+/* open file row */
+.file-row{display:flex;align-items:center;gap:7px;padding:4px 0}
+.file-icon{width:16px;height:16px;border-radius:3px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.file-name{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--blue);flex:1}
+.file-tag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:700}
+.tag-open{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);color:var(--green)}
+.tag-pinned{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);color:var(--orange)}
+.tag-ws{background:rgba(96,165,250,.08);border:1px solid rgba(96,165,250,.2);color:var(--blue)}
+
+/* workspace */
+.workspace-chip{display:flex;align-items:center;gap:7px;padding:5px 8px;background:rgba(0,0,0,.3);border:1px solid rgba(96,165,250,.15);border-radius:6px}
+.ws-icon{width:14px;height:14px;flex-shrink:0}
+.ws-name{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;color:var(--blue)}
+.ws-files{font-size:8.5px;color:var(--muted);margin-left:auto}
+
+/* chat messages */
+.msg-user{display:flex;justify-content:flex-end;margin-top:4px}
+.msg-user-bubble{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);border-radius:10px 10px 2px 10px;padding:8px 12px;max-width:85%;font-size:11px;color:var(--text);line-height:1.5}
+
+.msg-ai{display:flex;gap:8px;align-items:flex-start}
+.ai-avatar{width:22px;height:22px;border-radius:6px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ai-avatar-inner{width:10px;height:10px;background:var(--orange);border-radius:2px;opacity:.9}
+.msg-ai-content{flex:1;background:var(--card);border:1px solid var(--border);border-radius:2px 10px 10px 10px;padding:10px 12px;display:flex;flex-direction:column;gap:7px}
+.ai-text{font-size:11px;color:var(--subtext);line-height:1.6}
+.ai-text strong{color:var(--text)}
+.ai-text code{font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(0,0,0,.35);border:1px solid var(--border2);border-radius:3px;padding:0 4px;color:#93c5fd}
+
+/* source chips */
+.source-chips{display:flex;gap:5px;flex-wrap:wrap}
+.src-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;font-size:8.5px;color:var(--subtext)}
+.src-chip .dot{width:4px;height:4px;border-radius:50%}
+
+.input-bar{padding:10px 12px;border-top:1px solid var(--border);background:rgba(0,0,0,.3)}
+.input-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:7px}
+.input-text{flex:1;font-size:11px;color:var(--subtext)}
+.pill{padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700}
+.pill-agent{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green);display:flex;align-items:center;gap:4px}
+.pill-pct{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+.pill-auto{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+.send-btn{width:24px;height:24px;border-radius:6px;background:var(--orange);display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<div class="chat-window">
+  <div class="title-bar">
+    <div class="win-dots"><div class="win-dot" style="background:#ef4444;opacity:.7"></div><div class="win-dot" style="background:#fbbf24;opacity:.7"></div><div class="win-dot" style="background:#34d399;opacity:.7"></div></div>
+    <span class="win-title">WalnutAI · Chat</span>
+    <div style="margin-left:auto;display:flex;gap:5px">
+      <div class="badge b-orange">4 sources active</div>
+    </div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab">Xpense Tracker ↔</div>
+    <div class="tab active">Dev</div>
+    <div class="tab">QA</div>
+    <div class="tab">Tasks ↔</div>
+    <div class="tab-spacer"></div>
+    <div class="tab-icon">↺</div><div class="tab-icon">SH</div>
+  </div>
+
+  <div class="chat-area">
+    <!-- Context panel -->
+    <div class="context-panel">
+      <div class="cp-header">
+        <span class="cp-title">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#f97316" stroke-width="1.7"><rect x="1" y="1" width="10" height="10" rx="2"/><path d="M4 6h4M4 4h2"/></svg>
+          Active context
+        </span>
+        <span class="cp-count">Passed to every query</span>
+      </div>
+
+      <!-- Selected code -->
+      <div class="ctx-section">
+        <div class="ctx-label"><div class="ctx-dot" style="background:var(--orange)"></div>Selected code</div>
+        <div class="sel-code">
+          <div class="sel-code-header">
+            <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg>
+            <span class="sel-file">loginController.ts</span>
+            <span class="sel-range">lines 38–50 · selected</span>
+          </div>
+          <div class="sel-body">
+            <div class="sl"><span class="sl-n">38</span><span class="sl-c">  const user = await User.findOne({ email });</span></div>
+            <div class="sl sl-selected"><span class="sl-n">39</span><span class="sl-c hi">  if (!user) return res.status(401).json(...);</span></div>
+            <div class="sl sl-selected"><span class="sl-n">40</span><span class="sl-c hi">  const ok = await bcrypt.compare(pwd, user.hash);</span></div>
+            <div class="sl sl-selected"><span class="sl-n">41</span><span class="sl-c hi">  if (!ok) { attempts++; return res.status(401)... }</span></div>
+            <div class="sl"><span class="sl-n">42</span><span class="sl-c">  res.json({ token: jwt.sign(payload, secret) });</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Open file + pinned -->
+      <div class="ctx-section">
+        <div class="ctx-label"><div class="ctx-dot" style="background:var(--green)"></div>Open file &amp; pinned references</div>
+        <div class="file-row">
+          <div class="file-icon" style="background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2)"><svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#34d399" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg></div>
+          <span class="file-name">loginController.ts</span>
+          <span class="file-tag tag-open">open</span>
+        </div>
+        <div class="file-row">
+          <div class="file-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2)"><svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#f97316" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg></div>
+          <span class="file-name">rateLimiter.ts</span>
+          <span class="file-tag tag-pinned">📌 pinned</span>
+        </div>
+        <div class="file-row">
+          <div class="file-icon" style="background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2)"><svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="#f97316" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg></div>
+          <span class="file-name">jwtService.ts</span>
+          <span class="file-tag tag-pinned">📌 pinned</span>
+        </div>
+      </div>
+
+      <!-- Workspace -->
+      <div class="ctx-section">
+        <div class="ctx-label"><div class="ctx-dot" style="background:var(--blue)"></div>Workspace folder</div>
+        <div class="workspace-chip">
+          <svg class="ws-icon" viewBox="0 0 14 14" fill="none" stroke="#60a5fa" stroke-width="1.5"><path d="M1 4h12v8a1 1 0 01-1 1H2a1 1 0 01-1-1V4zM1 4V3a1 1 0 011-1h4l1 2H1z"/></svg>
+          <span class="ws-name">walnut-backend/src</span>
+          <span class="ws-files">847 files indexed</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Q -->
+    <div class="msg-user">
+      <div class="msg-user-bubble">Why does the selected code not clear the attempt counter on success?</div>
+    </div>
+
+    <!-- AI answer -->
+    <div class="msg-ai">
+      <div class="ai-avatar"><div class="ai-avatar-inner"></div></div>
+      <div class="msg-ai-content">
+        <div class="ai-text">Looking at lines 39–41 in your selection — the <code>bcrypt.compare</code> success path at line 42 never calls <code>clearAttempts(ip)</code>. The function exists in your pinned <strong>rateLimiter.ts</strong>, it's just not imported or invoked here after a successful comparison.</div>
+        <div class="source-chips">
+          <div class="src-chip"><div class="dot" style="background:var(--orange)"></div>lines 39–41 selected</div>
+          <div class="src-chip"><div class="dot" style="background:var(--orange)"></div>rateLimiter.ts pinned</div>
+          <div class="src-chip"><div class="dot" style="background:var(--blue)"></div>847 files indexed</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-bar">
+    <div class="input-box">
+      <span class="input-text">Ask Walnut anything… (@ files, / commands)</span>
+      <div class="pill pill-agent">✓ Agent</div>
+      <div class="pill pill-pct">0% used</div>
+      <div class="pill pill-auto">⌗ Auto ↔</div>
+      <div class="send-btn"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><path d="M1 6h10M7 2l4 4-4 4"/></svg></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Chat Screener — Plan Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e18;--sidebar:#080c14;--card:#0d1220;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.05);--orange:#f97316;--green:#34d399;--blue:#60a5fa;--red:#ef4444;--yellow:#fbbf24;--purple:#a78bfa;--muted:#6b7280;--muted2:#4b5563;--text:#e5e7eb;--subtext:#9ca3af}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+.chat-window{width:480px;background:var(--sidebar);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+
+.title-bar{padding:8px 14px;background:rgba(0,0,0,.5);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.win-dots{display:flex;gap:5px}.win-dot{width:8px;height:8px;border-radius:50%}
+.win-title{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-purple{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--purple)}
+
+.tab-bar{display:flex;align-items:center;padding:0 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--border);overflow:hidden}
+.tab{padding:7px 12px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--text);border-bottom-color:var(--purple)}
+.tab-spacer{flex:1}
+.tab-icon{color:var(--muted);font-size:11px;padding:0 5px}
+
+.chat-area{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+
+.msg-user{display:flex;justify-content:flex-end}
+.msg-user-bubble{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);border-radius:10px 10px 2px 10px;padding:8px 12px;max-width:85%;font-size:11px;color:var(--text);line-height:1.5}
+
+.msg-ai{display:flex;gap:8px;align-items:flex-start}
+.ai-avatar{width:22px;height:22px;border-radius:6px;background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ai-avatar-inner{width:10px;height:10px;background:var(--purple);border-radius:2px;opacity:.9}
+.msg-ai-content{flex:1;background:var(--card);border:1px solid var(--border);border-radius:2px 10px 10px 10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+
+.ai-text{font-size:11px;color:var(--subtext);line-height:1.55}
+.ai-text strong{color:var(--text);font-weight:600}
+
+/* plan card */
+.plan-card{background:rgba(0,0,0,.4);border:1px solid rgba(167,139,250,.18);border-radius:9px;overflow:hidden}
+.plan-header{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.ph-title{font-size:10px;font-weight:700;color:var(--text)}
+.ph-count{font-size:9px;color:var(--muted)}
+
+.plan-steps{padding:6px 0}
+.ps-item{display:flex;align-items:flex-start;gap:8px;padding:5px 11px;border-left:2px solid transparent}
+.ps-item.new-file{border-left-color:rgba(52,211,153,.4);background:rgba(52,211,153,.03)}
+.ps-item.mod-file{border-left-color:rgba(249,115,22,.4);background:rgba(249,115,22,.03)}
+.ps-item.test-file{border-left-color:rgba(96,165,250,.35);background:rgba(96,165,250,.03)}
+.ps-num{width:16px;height:16px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;flex-shrink:0;margin-top:1px}
+.num-green{background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);color:var(--green)}
+.num-orange{background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.num-blue{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:var(--blue)}
+.ps-right{flex:1;min-width:0}
+.ps-action{font-size:10px;font-weight:700;color:var(--text);margin-bottom:2px}
+.ps-file{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue);margin-bottom:2px}
+.ps-desc{font-size:9.5px;color:var(--subtext)}
+.ps-tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:8px;font-weight:700;margin-top:3px}
+.tag-new{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.tag-mod{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.22);color:var(--orange)}
+.tag-test{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+
+/* impact summary */
+.impact{display:flex;gap:6px;padding:8px 11px;border-top:1px solid var(--border);background:rgba(0,0,0,.2)}
+.impact-item{flex:1;text-align:center}
+.ii-val{font-size:12px;font-weight:800}
+.ii-label{font-size:8px;color:var(--muted);margin-top:1px}
+
+/* approval bar */
+.approval-bar{display:flex;gap:6px;align-items:center;padding:8px 10px;background:rgba(167,139,250,.05);border:1px solid rgba(167,139,250,.2);border-radius:8px}
+.approval-icon{width:20px;height:20px;border-radius:5px;background:rgba(167,139,250,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.approval-text{font-size:10.5px;font-weight:600;color:#ddd6fe;flex:1}
+.approval-sub{font-size:9px;color:var(--muted)}
+.btn-approve{padding:5px 12px;border-radius:6px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);font-size:10px;font-weight:700;color:var(--green)}
+.btn-revise{padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid var(--border);font-size:10px;font-weight:600;color:var(--muted)}
+
+.input-bar{padding:10px 12px;border-top:1px solid var(--border);background:rgba(0,0,0,.3)}
+.input-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:7px}
+.input-text{flex:1;font-size:11px;color:var(--subtext)}
+.mode-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700}
+.pill-plan{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.25);color:var(--purple)}
+.pill-pct{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:600;padding:3px 8px;border-radius:5px}
+.pill-auto{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:600;padding:3px 8px;border-radius:5px}
+.send-btn{width:24px;height:24px;border-radius:6px;background:var(--purple);display:flex;align-items:center;justify-content:center}
+.send-btn svg{width:11px;height:11px;color:#fff}
+</style>
+</head>
+<body>
+<div class="chat-window">
+  <div class="title-bar">
+    <div class="win-dots"><div class="win-dot" style="background:#ef4444;opacity:.7"></div><div class="win-dot" style="background:#fbbf24;opacity:.7"></div><div class="win-dot" style="background:#34d399;opacity:.7"></div></div>
+    <span class="win-title">WalnutAI · Chat</span>
+    <div style="margin-left:auto"><div class="badge b-purple">⊞ Plan</div></div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab">Xpense Tracker ↔</div>
+    <div class="tab active">Dev</div>
+    <div class="tab">QA</div>
+    <div class="tab">Tasks ↔</div>
+    <div class="tab-spacer"></div>
+    <div class="tab-icon">↺</div><div class="tab-icon">SH</div>
+  </div>
+
+  <div class="chat-area">
+    <div class="msg-user">
+      <div class="msg-user-bubble">Plan adding OAuth2 login (Google + GitHub) to the existing auth system</div>
+    </div>
+
+    <div class="msg-ai">
+      <div class="ai-avatar"><div class="ai-avatar-inner"></div></div>
+      <div class="msg-ai-content">
+        <div class="ai-text">Here's the implementation plan for OAuth2 login. <strong>Review each step</strong> before the agent proceeds — nothing runs until you approve.</div>
+
+        <div class="plan-card">
+          <div class="plan-header">
+            <span class="ph-title">Implementation Plan · OAuth2 Login</span>
+            <span class="ph-count">5 steps · 4 files</span>
+          </div>
+          <div class="plan-steps">
+            <div class="ps-item new-file">
+              <div class="ps-num num-green">1</div>
+              <div class="ps-right">
+                <div class="ps-action">Create OAuth strategy module</div>
+                <div class="ps-file">src/auth/oauthStrategy.ts</div>
+                <div class="ps-desc">passport-google-oauth20 + passport-github2 strategies with callback URLs</div>
+                <div class="ps-tag tag-new">NEW FILE</div>
+              </div>
+            </div>
+            <div class="ps-item mod-file">
+              <div class="ps-num num-orange">2</div>
+              <div class="ps-right">
+                <div class="ps-action">Extend user model for OAuth fields</div>
+                <div class="ps-file">src/models/User.ts</div>
+                <div class="ps-desc">Add <code style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#93c5fd">oauthProvider</code>, <code style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#93c5fd">oauthId</code> fields; keep password optional</div>
+                <div class="ps-tag tag-mod">MODIFY</div>
+              </div>
+            </div>
+            <div class="ps-item mod-file">
+              <div class="ps-num num-orange">3</div>
+              <div class="ps-right">
+                <div class="ps-action">Add OAuth callback routes</div>
+                <div class="ps-file">src/routes/authRoutes.ts</div>
+                <div class="ps-desc">GET /auth/google, /auth/github and their /callback counterparts</div>
+                <div class="ps-tag tag-mod">MODIFY</div>
+              </div>
+            </div>
+            <div class="ps-item test-file">
+              <div class="ps-num num-blue">4</div>
+              <div class="ps-right">
+                <div class="ps-action">Write integration tests</div>
+                <div class="ps-file">src/auth/__tests__/oauth.test.ts</div>
+                <div class="ps-desc">Mock passport strategies; test callback + JWT issuance flow</div>
+                <div class="ps-tag tag-test">TEST</div>
+              </div>
+            </div>
+          </div>
+          <div class="impact">
+            <div class="impact-item"><div class="ii-val" style="color:var(--green)">2</div><div class="ii-label">New files</div></div>
+            <div class="impact-item"><div class="ii-val" style="color:var(--orange)">2</div><div class="ii-label">Modified</div></div>
+            <div class="impact-item"><div class="ii-val" style="color:var(--blue)">~140</div><div class="ii-label">Lines est.</div></div>
+            <div class="impact-item"><div class="ii-val" style="color:var(--muted)">12</div><div class="ii-label">Tests</div></div>
+          </div>
+        </div>
+
+        <div class="approval-bar">
+          <div class="approval-icon">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#a78bfa" stroke-width="1.7"><path d="M6 1v5M6 10v1M2 4L1 3M10 4l1-1M2 8l-1 1M10 8l1 1"/></svg>
+          </div>
+          <div>
+            <div class="approval-text">Awaiting your approval</div>
+            <div class="approval-sub">Nothing executes until you confirm</div>
+          </div>
+          <div class="btn-approve">✓ Approve</div>
+          <div class="btn-revise">Revise</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-bar">
+    <div class="input-box">
+      <span class="input-text">Ask Walnut anything… (@ files, / commands)</span>
+      <div class="mode-pill pill-plan">⊞ Plan</div>
+      <div class="pill-pct">0% used</div>
+      <div class="pill-auto">⌗ Auto ↔</div>
+      <div class="send-btn"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6h10M7 2l4 4-4 4"/></svg></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Chat Screener — Agent Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0a0e18;--sidebar:#080c14;--card:#0d1220;--border:rgba(255,255,255,0.07);--orange:#f97316;--green:#34d399;--blue:#60a5fa;--red:#ef4444;--yellow:#fbbf24;--purple:#a78bfa;--muted:#6b7280;--muted2:#4b5563;--text:#e5e7eb;--subtext:#9ca3af}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+.chat-window{width:480px;background:var(--sidebar);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+
+.title-bar{padding:8px 14px;background:rgba(0,0,0,.5);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.win-dots{display:flex;gap:5px}.win-dot{width:8px;height:8px;border-radius:50%}
+.win-title{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.pulse-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pd .9s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+
+.tab-bar{display:flex;align-items:center;padding:0 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--border)}
+.tab{padding:7px 12px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tab.active{color:var(--text);border-bottom-color:var(--orange)}
+.tab-spacer{flex:1}
+.tab-icon{color:var(--muted);font-size:11px;padding:0 5px}
+
+.chat-area{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+
+.msg-user{display:flex;justify-content:flex-end}
+.msg-user-bubble{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);border-radius:10px 10px 2px 10px;padding:8px 12px;max-width:85%;font-size:11px;color:var(--text);line-height:1.5}
+
+.msg-ai{display:flex;gap:8px;align-items:flex-start}
+.ai-avatar{width:22px;height:22px;border-radius:6px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ai-avatar-inner{width:10px;height:10px;background:var(--orange);border-radius:2px;opacity:.9}
+.msg-ai-content{flex:1;background:var(--card);border:1px solid var(--border);border-radius:2px 10px 10px 10px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+
+.ai-text{font-size:11px;color:var(--subtext);line-height:1.55}
+.ai-text strong{color:var(--text);font-weight:600}
+
+/* agent grid */
+.agent-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.agent-card{background:rgba(0,0,0,.4);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.agent-card.running{border-color:rgba(249,115,22,.3);box-shadow:0 0 0 1px rgba(249,115,22,.08)}
+.agent-card.done{border-color:rgba(52,211,153,.25)}
+.agent-card.queued{opacity:.6}
+.ac-header{display:flex;align-items:center;gap:6px;padding:6px 9px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.ac-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ac-name{font-size:9.5px;font-weight:700;color:var(--text);flex:1}
+.ac-status{font-size:8.5px;font-weight:700;display:flex;align-items:center;gap:3px}
+.s-running{color:var(--orange)}
+.s-done{color:var(--green)}
+.s-queued{color:var(--muted)}
+.ac-spin{width:8px;height:8px;border:1.5px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .5s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ac-body{padding:6px 9px;font-size:9.5px;color:var(--subtext);line-height:1.5;min-height:38px}
+.ac-log{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--muted);margin-top:3px}
+.ac-log span{color:var(--orange)}
+.ac-log-done{color:var(--green)}
+
+/* thread indicator */
+.threads-row{display:flex;align-items:center;gap:7px;padding:6px 10px;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:7px}
+.thread-dot{width:6px;height:6px;border-radius:50%;animation:pd .8s ease-in-out infinite}
+.td1{background:var(--orange);animation-delay:0ms}
+.td2{background:var(--blue);animation-delay:200ms}
+.td3{background:var(--purple);animation-delay:400ms}
+.thread-label{font-size:9.5px;color:var(--subtext);flex:1}
+.thread-count{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)}
+
+/* progress row */
+.progress-strip{display:flex;gap:6px}
+.prog-item{flex:1;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:6px;padding:5px 8px}
+.pi-label{font-size:8px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pi-bar{height:3px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.pi-fill{height:100%;border-radius:2px}
+
+.input-bar{padding:10px 12px;border-top:1px solid var(--border);background:rgba(0,0,0,.3)}
+.input-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:7px}
+.input-text{flex:1;font-size:11px;color:var(--subtext)}
+.pill{padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700}
+.pill-agent{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green);display:flex;align-items:center;gap:4px}
+.pill-pct{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+.pill-auto{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted)}
+.send-btn{width:24px;height:24px;border-radius:6px;background:var(--orange);display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<div class="chat-window">
+  <div class="title-bar">
+    <div class="win-dots"><div class="win-dot" style="background:#ef4444;opacity:.7"></div><div class="win-dot" style="background:#fbbf24;opacity:.7"></div><div class="win-dot" style="background:#34d399;opacity:.7"></div></div>
+    <span class="win-title">WalnutAI · Chat</span>
+    <div style="margin-left:auto"><div class="badge b-green"><div class="pulse-dot"></div>Agent · 3 running</div></div>
+  </div>
+
+  <div class="tab-bar">
+    <div class="tab">Xpense Tracker ↔</div>
+    <div class="tab active">Dev</div>
+    <div class="tab">QA</div>
+    <div class="tab">Tasks ↔</div>
+    <div class="tab-spacer"></div>
+    <div class="tab-icon">↺</div><div class="tab-icon">SH</div>
+  </div>
+
+  <div class="chat-area">
+    <div class="msg-user">
+      <div class="msg-user-bubble">Implement the password reset email flow with token expiry and rate limiting</div>
+    </div>
+
+    <div class="msg-ai">
+      <div class="ai-avatar"><div class="ai-avatar-inner"></div></div>
+      <div class="msg-ai-content">
+        <div class="ai-text">Spawning <strong>4 specialized sub-agents</strong> in parallel background threads. Explore is mapping the codebase while Plan and Bash execute concurrently — no waiting.</div>
+
+        <!-- Agent grid -->
+        <div class="agent-grid">
+          <!-- Explore -->
+          <div class="agent-card done">
+            <div class="ac-header">
+              <div class="ac-icon" style="background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25)"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="1.7"><circle cx="4.5" cy="4.5" r="3"/><path d="M7 7l2 2"/></svg></div>
+              <span class="ac-name">Explore</span>
+              <span class="ac-status s-done">✓ done</span>
+            </div>
+            <div class="ac-body">Mapped auth module, email service, User model
+              <div class="ac-log"><span class="ac-log-done">✓</span> 24 files indexed</div>
+            </div>
+          </div>
+
+          <!-- Plan -->
+          <div class="agent-card done">
+            <div class="ac-header">
+              <div class="ac-icon" style="background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.25)"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#a78bfa" stroke-width="1.7"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 4h4M3 6h2"/></svg></div>
+              <span class="ac-name">Plan</span>
+              <span class="ac-status s-done">✓ done</span>
+            </div>
+            <div class="ac-body">4-step plan approved
+              <div class="ac-log"><span class="ac-log-done">✓</span> Files &amp; changes mapped</div>
+            </div>
+          </div>
+
+          <!-- Bash -->
+          <div class="agent-card running">
+            <div class="ac-header">
+              <div class="ac-icon" style="background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.3)"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#f97316" stroke-width="1.7"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 4l2 1.5L3 7M6 7h2"/></svg></div>
+              <span class="ac-name">Bash</span>
+              <span class="ac-status s-running"><div class="ac-spin"></div>running</span>
+            </div>
+            <div class="ac-body">Writing passwordReset.ts
+              <div class="ac-log"><span>→</span> createToken() · sendEmail()</div>
+            </div>
+          </div>
+
+          <!-- General -->
+          <div class="agent-card running">
+            <div class="ac-header">
+              <div class="ac-icon" style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25)"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#fbbf24" stroke-width="1.7"><circle cx="5" cy="5" r="4"/><path d="M5 3v2.5l1.5 1"/></svg></div>
+              <span class="ac-name">General</span>
+              <span class="ac-status s-running"><div class="ac-spin" style="border-top-color:var(--yellow)"></div>running</span>
+            </div>
+            <div class="ac-body">Researching rate-limit patterns
+              <div class="ac-log"><span>→</span> Checking rateLimiter.ts</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Thread indicator -->
+        <div class="threads-row">
+          <div class="thread-dot td1"></div>
+          <div class="thread-dot td2"></div>
+          <div class="thread-dot td3"></div>
+          <span class="thread-label">3 background threads active — running in parallel</span>
+          <span class="thread-count">2/4 done</span>
+        </div>
+
+        <!-- Progress bars -->
+        <div class="progress-strip">
+          <div class="prog-item">
+            <div class="pi-label">Bash · write</div>
+            <div class="pi-bar"><div class="pi-fill" style="width:62%;background:var(--orange)"></div></div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-label">General · research</div>
+            <div class="pi-bar"><div class="pi-fill" style="width:45%;background:var(--yellow)"></div></div>
+          </div>
+          <div class="prog-item">
+            <div class="pi-label">Overall</div>
+            <div class="pi-bar"><div class="pi-fill" style="width:50%;background:linear-gradient(90deg,var(--green),var(--orange))"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="input-bar">
+    <div class="input-box">
+      <span class="input-text">Ask Walnut anything… (@ files, / commands)</span>
+      <div class="pill pill-agent"><div class="pulse-dot"></div>Agent</div>
+      <div class="pill pill-pct">0% used</div>
+      <div class="pill pill-auto">⌗ Auto ↔</div>
+      <div class="send-btn"><svg viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><path d="M1 6h10M7 2l4 4-4 4"/></svg></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

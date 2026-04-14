@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Chat Screener — Ask Mode</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e18;--sidebar:#080c14;--card:#0d1220;--card2:#111827;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.05);
+  --orange:#f97316;--green:#34d399;--blue:#60a5fa;--red:#ef4444;
+  --yellow:#fbbf24;--purple:#a78bfa;--muted:#6b7280;--muted2:#4b5563;
+  --text:#e5e7eb;--subtext:#9ca3af
+}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+.chat-window{width:480px;background:var(--sidebar);border:1px solid var(--border);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+
+/* title bar */
+.title-bar{padding:8px 14px;background:rgba(0,0,0,.5);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+.win-dots{display:flex;gap:5px}.win-dot{width:8px;height:8px;border-radius:50%}
+.win-title{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+
+/* tab bar */
+.tab-bar{display:flex;align-items:center;gap:0;padding:0 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--border);overflow:hidden}
+.tab{display:flex;align-items:center;gap:5px;padding:7px 12px;font-size:10px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;white-space:nowrap;cursor:default}
+.tab.active{color:var(--text);border-bottom-color:var(--orange)}
+.tab-mode{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:5px;font-size:9.5px;font-weight:700;margin-left:4px}
+.mode-ask{background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:var(--blue)}
+.tab-spacer{flex:1}
+.tab-icon{color:var(--muted);font-size:11px;padding:0 5px;cursor:default}
+
+/* chat area */
+.chat-area{flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+
+/* user message */
+.msg-user{display:flex;justify-content:flex-end}
+.msg-user-bubble{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);border-radius:10px 10px 2px 10px;padding:8px 12px;max-width:82%;font-size:11px;color:var(--text);line-height:1.5}
+
+/* assistant message */
+.msg-ai{display:flex;gap:8px;align-items:flex-start}
+.ai-avatar{width:22px;height:22px;border-radius:6px;background:rgba(249,115,22,.15);border:1px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ai-avatar-inner{width:10px;height:10px;background:var(--orange);border-radius:2px;opacity:.9}
+.msg-ai-content{flex:1;min-width:0;background:var(--card);border:1px solid var(--border);border-radius:2px 10px 10px 10px;padding:10px 12px;display:flex;flex-direction:column;gap:7px}
+
+/* code reference chips */
+.code-refs{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:2px}
+.code-ref{display:inline-flex;align-items:center;gap:5px;padding:3px 8px;background:rgba(0,0,0,.4);border:1px solid rgba(96,165,250,.2);border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;color:var(--blue);cursor:default}
+.code-ref svg{width:9px;height:9px;flex-shrink:0}
+.code-ref-line{font-size:8.5px;color:var(--muted);margin-left:2px}
+
+/* answer text */
+.ai-text{font-size:11px;color:var(--subtext);line-height:1.6}
+.ai-text strong{color:var(--text);font-weight:600}
+.ai-text code{font-family:'JetBrains Mono',monospace;font-size:9.5px;background:rgba(0,0,0,.35);border:1px solid var(--border2);border-radius:3px;padding:0 4px;color:#93c5fd}
+
+/* code block */
+.code-block{background:rgba(0,0,0,.45);border:1px solid var(--border);border-radius:7px;overflow:hidden}
+.cb-header{display:flex;align-items:center;padding:5px 10px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.cb-file{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--blue)}
+.cb-lines{font-size:8.5px;color:var(--muted);margin-left:auto}
+.cb-body{padding:7px 10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;line-height:1.7}
+.ln{display:flex;gap:8px}
+.ln-num{color:var(--muted2);width:16px;text-align:right;flex-shrink:0;font-size:8.5px;padding-top:1px}
+.ln-code{color:#9ca3af}
+.ln-code.hl-orange{color:#fdba74}
+.ln-code.hl-blue{color:#93c5fd}
+.ln-code.hl-green{color:#86efac}
+.ln-code.hl-purple{color:#c4b5fd}
+.ln.highlight-row{background:rgba(249,115,22,.07);border-radius:3px;margin:-1px -10px;padding:1px 10px}
+
+/* found-in strip */
+.found-strip{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.fs-label{font-size:9px;color:var(--muted)}
+.fs-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--subtext)}
+
+/* input bar */
+.input-bar{padding:10px 12px;border-top:1px solid var(--border);background:rgba(0,0,0,.3)}
+.input-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px 11px;display:flex;align-items:center;gap:8px}
+.input-text{flex:1;font-size:11px;color:var(--subtext)}
+.mode-pill{display:flex;align-items:center;gap:4px;padding:3px 8px;border-radius:5px;font-size:9px;font-weight:700}
+.pill-ask{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.25);color:var(--blue)}
+.pill-pct{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:600;padding:3px 8px;border-radius:5px}
+.pill-auto{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:600;padding:3px 8px;border-radius:5px;display:flex;align-items:center;gap:3px}
+.send-btn{width:24px;height:24px;border-radius:6px;background:var(--blue);display:flex;align-items:center;justify-content:center}
+.send-btn svg{width:11px;height:11px;color:#fff}
+</style>
+</head>
+<body>
+<div class="chat-window">
+  <!-- Title bar -->
+  <div class="title-bar">
+    <div class="win-dots"><div class="win-dot" style="background:#ef4444;opacity:.7"></div><div class="win-dot" style="background:#fbbf24;opacity:.7"></div><div class="win-dot" style="background:#34d399;opacity:.7"></div></div>
+    <span class="win-title">WalnutAI · Chat</span>
+    <div style="margin-left:auto;display:flex;gap:5px">
+      <div class="tab-mode mode-ask">Ask</div>
+    </div>
+  </div>
+
+  <!-- Tab bar -->
+  <div class="tab-bar">
+    <div class="tab">Xpense Tracker ↔</div>
+    <div class="tab active">Dev</div>
+    <div class="tab">QA</div>
+    <div class="tab">Tasks ↔</div>
+    <div class="tab-spacer"></div>
+    <div class="tab-icon">↺</div>
+    <div class="tab-icon">SH</div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-area">
+    <!-- User question -->
+    <div class="msg-user">
+      <div class="msg-user-bubble">Where is the authentication logic? How does it handle expired tokens?</div>
+    </div>
+
+    <!-- AI answer -->
+    <div class="msg-ai">
+      <div class="ai-avatar"><div class="ai-avatar-inner"></div></div>
+      <div class="msg-ai-content">
+        <div class="code-refs">
+          <div class="code-ref"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 4h4M3 6h2"/></svg>src/auth/jwtService.ts<span class="code-ref-line">:34–61</span></div>
+          <div class="code-ref"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 4h4M3 6h2"/></svg>src/middleware/auth.ts<span class="code-ref-line">:12–29</span></div>
+        </div>
+        <div class="ai-text">Authentication lives in <strong>jwtService.ts</strong>. Token verification runs via <code>jwt.verify()</code> — on <strong>TokenExpiredError</strong> it throws a <code>401</code> with <code>{ error: 'token_expired' }</code>. The middleware in <strong>auth.ts</strong> catches this and calls <code>refreshToken()</code> if a refresh cookie exists.</div>
+        <div class="code-block">
+          <div class="cb-header"><span class="cb-file">src/auth/jwtService.ts</span><span class="cb-lines">lines 42–55</span></div>
+          <div class="cb-body">
+            <div class="ln"><span class="ln-num">42</span><span class="ln-code">export function verifyToken(token: string) {</span></div>
+            <div class="ln"><span class="ln-num">43</span><span class="ln-code hl-blue">  try {</span></div>
+            <div class="ln"><span class="ln-num">44</span><span class="ln-code hl-blue">    return jwt.verify(token, process.env.JWT_SECRET!);</span></div>
+            <div class="ln"><span class="ln-num">45</span><span class="ln-code hl-blue">  } catch (err) {</span></div>
+            <div class="ln highlight-row"><span class="ln-num">46</span><span class="ln-code hl-orange">    if (err instanceof TokenExpiredError) {</span></div>
+            <div class="ln highlight-row"><span class="ln-num">47</span><span class="ln-code hl-orange">      throw new AuthError(401, 'token_expired');</span></div>
+            <div class="ln"><span class="ln-num">48</span><span class="ln-code">    }</span></div>
+            <div class="ln"><span class="ln-num">49</span><span class="ln-code hl-green">    throw new AuthError(401, 'invalid_token');</span></div>
+            <div class="ln"><span class="ln-num">50</span><span class="ln-code">  }</span></div>
+            <div class="ln"><span class="ln-num">51</span><span class="ln-code">}</span></div>
+          </div>
+        </div>
+        <div class="found-strip">
+          <span class="fs-label">Found in</span>
+          <div class="fs-chip">jwtService.ts</div>
+          <div class="fs-chip">auth.ts</div>
+          <div class="fs-chip">authRoutes.ts</div>
+          <span style="font-size:9px;color:var(--muted)">· 3 files · real code</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input bar -->
+  <div class="input-bar">
+    <div class="input-box">
+      <span class="input-text">Ask Walnut anything… (@ files, / commands)</span>
+      <div class="mode-pill pill-ask">
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="5" cy="5" r="4"/><path d="M5 3v2.5l1.5 1"/></svg>
+        Ask
+      </div>
+      <div class="pill-pct">0% used</div>
+      <div class="pill-auto">⌗ Auto ↔</div>
+      <div class="send-btn"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6h10M7 2l4 4-4 4"/></svg></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -40,8 +40,8 @@ export default function Hero() {
 
         {/* Title */}
         <h1 className="hero-anim hero-main-title">
-          From Requirement to Release<br />
-          - <span className="text-orange">Automated.</span>
+          From Requirements to Release<br />
+          - <span className="text-orange">AI Orchestrated.</span>
         </h1>
 
         {/* Subtitle */}
@@ -54,7 +54,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="hero-anim hero-cta-wrapper" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 16, marginBottom: 24, flexWrap: "wrap" }}>
-          <a href="/contact" className="hero-btn-primary">
+          <a href="https://app.walnutai.ai" target="_blank" rel="noopener noreferrer" className="hero-btn-primary">
             Start Free Trial &rarr;
           </a>
           <a href="#features" className="hero-btn-secondary">

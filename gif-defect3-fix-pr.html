@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Defect 3 — Fix &amp; PR</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+
+.screen{width:720px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 30% at 50% 0%,rgba(249,115,22,0.07),transparent 65%);pointer-events:none;z-index:0}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:2}
+.dots{display:flex;gap:5px}.dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);margin-left:6px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.b-blue{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+.pulse-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pd .9s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+
+.body{padding:14px;display:flex;gap:12px;position:relative;z-index:1}
+
+/* LEFT — diff view */
+.diff-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+
+.diff-box{background:rgba(0,0,0,.35);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.diff-topbar{display:flex;align-items:center;gap:8px;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.35)}
+.diff-file{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;color:var(--blue)}
+.diff-stats{display:flex;gap:6px;margin-left:auto}
+.diff-add{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--green)}
+.diff-del{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--red)}
+
+.diff-body{padding:4px 0;font-family:'JetBrains Mono',monospace;font-size:10px;line-height:1.6}
+.diff-line{display:flex;align-items:flex-start;padding:1px 10px;opacity:0;transition:opacity .25s}
+.diff-line.show{opacity:1}
+.dl-num{width:22px;color:var(--muted);font-size:9px;text-align:right;margin-right:8px;flex-shrink:0;padding-top:1px}
+.dl-op{width:12px;flex-shrink:0}
+.dl-code{color:#9ca3af;flex:1}
+.dl-code.add{color:#86efac}
+.dl-code.del{color:#fca5a5}
+.line-add{background:rgba(52,211,153,.07);border-left:2px solid rgba(52,211,153,.4)}
+.line-del{background:rgba(239,68,68,.07);border-left:2px solid rgba(239,68,68,.4)}
+.line-ctx{border-left:2px solid transparent}
+
+/* phase steps */
+.phase-steps{display:flex;gap:0;align-items:center;padding:0 2px}
+.ps-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
+.ps-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1.5px solid var(--border);font-size:8px;font-weight:700;color:var(--muted);transition:all .35s}
+.ps-dot.active{border-color:rgba(249,115,22,.6);background:rgba(249,115,22,.12);color:var(--orange);box-shadow:0 0 6px rgba(249,115,22,.25)}
+.ps-dot.done{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.1);color:var(--green)}
+.ps-label{font-size:8px;font-weight:600;color:var(--muted);text-align:center;max-width:60px;line-height:1.2;transition:color .35s}
+.ps-label.active{color:var(--orange)}
+.ps-label.done{color:var(--green)}
+.ps-connector{height:1.5px;position:absolute;top:10px;left:50%;width:100%;background:var(--border);transition:background .35s}
+.ps-connector.done{background:rgba(52,211,153,.3)}
+.ps-item:last-child .ps-connector{display:none}
+
+/* RIGHT — PR panel */
+.pr-col{width:210px;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+
+.branch-row{display:flex;align-items:center;gap:7px;padding:7px 10px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:8px;opacity:0;transition:opacity .4s}
+.branch-row.show{opacity:1}
+.br-icon{width:14px;height:14px;color:var(--blue);flex-shrink:0}
+.br-name{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:600;color:var(--blue)}
+.br-time{font-size:8.5px;color:var(--muted);margin-left:auto}
+
+.pr-card{background:rgba(0,0,0,.3);border:1px solid rgba(96,165,250,.2);border-radius:10px;overflow:hidden;opacity:0;transition:opacity .5s}
+.pr-card.show{opacity:1}
+.pr-head{padding:9px 11px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.pr-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:3px}
+.pr-title{font-size:11px;font-weight:700;color:#e5e7eb;line-height:1.35}
+.pr-body{padding:9px 11px;display:flex;flex-direction:column;gap:6px}
+.pr-row{display:flex;align-items:center;gap:6px}
+.pr-icon{width:10px;height:10px;flex-shrink:0}
+.pr-key{font-size:9px;color:var(--muted);width:55px;flex-shrink:0}
+.pr-val{font-size:9px;font-weight:600;color:#e5e7eb}
+.pr-val.orange{color:var(--orange)}
+.pr-val.green{color:var(--green)}
+.pr-val.blue{color:var(--blue)}
+
+.desc-box{background:rgba(0,0,0,.25);border-radius:6px;padding:7px 9px;font-size:9.5px;color:#9ca3af;line-height:1.55}
+.desc-box span{color:#e5e7eb;font-weight:600}
+
+/* test results */
+.tests-row{display:flex;flex-direction:column;gap:3px;opacity:0;transition:opacity .4s}
+.tests-row.show{opacity:1}
+.test-item{display:flex;align-items:center;gap:6px;padding:3px 7px;border-radius:5px;background:rgba(0,0,0,.25)}
+.ti-ok{width:10px;height:10px;border-radius:2px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ti-ok svg{width:6px;height:6px;color:var(--green)}
+.ti-txt{font-family:'JetBrains Mono',monospace;font-size:9px;color:#9ca3af}
+
+/* bottom */
+.bot-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:2}
+.bs-item{padding:9px 13px;border-right:1px solid var(--border)}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:7.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div class="dots"><div class="dot" style="background:#ef4444;opacity:.7"></div><div class="dot" style="background:#fbbf24;opacity:.7"></div><div class="dot" style="background:#34d399;opacity:.7"></div></div>
+      <span class="tb-title">DEF-217 · Fix &amp; Pull Request</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="badge b-orange" id="topBadge"><div class="pulse-dot"></div>Implementing fix…</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- LEFT -->
+    <div class="diff-col">
+      <!-- Phase steps -->
+      <div class="phase-steps">
+        <div class="ps-item">
+          <div class="ps-connector" id="pc1"></div>
+          <div class="ps-dot" id="pd1">1</div>
+          <div class="ps-label" id="pl1">Locate root</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-connector" id="pc2"></div>
+          <div class="ps-dot" id="pd2">2</div>
+          <div class="ps-label" id="pl2">Write fix</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-connector" id="pc3"></div>
+          <div class="ps-dot" id="pd3">3</div>
+          <div class="ps-label" id="pl3">Run tests</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-connector" id="pc4"></div>
+          <div class="ps-dot" id="pd4">4</div>
+          <div class="ps-label" id="pl4">Commit</div>
+        </div>
+        <div class="ps-item">
+          <div class="ps-dot" id="pd5">5</div>
+          <div class="ps-label" id="pl5">Open PR</div>
+        </div>
+      </div>
+
+      <!-- Diff -->
+      <div class="diff-box">
+        <div class="diff-topbar">
+          <span class="diff-file" id="diffFile">loginController.ts</span>
+          <div class="diff-stats"><span class="diff-add" id="diffAdd">+0</span><span class="diff-del">-0</span></div>
+        </div>
+        <div class="diff-body" id="diffBody">
+          <!-- lines injected by JS -->
+        </div>
+      </div>
+
+      <!-- Test results -->
+      <div class="tests-row" id="testsRow">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:2px">Tests · 16 passing</div>
+        <div class="test-item"><div class="ti-ok"><svg viewBox="0 0 6 6" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 3 2.5 4.5 5 2"/></svg></div><div class="ti-txt">✓ should reset attempt counter on success</div></div>
+        <div class="test-item"><div class="ti-ok"><svg viewBox="0 0 6 6" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 3 2.5 4.5 5 2"/></svg></div><div class="ti-txt">✓ should lock out after 5 failed attempts</div></div>
+        <div class="test-item"><div class="ti-ok"><svg viewBox="0 0 6 6" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 3 2.5 4.5 5 2"/></svg></div><div class="ti-txt">✓ should return 200 + JWT on valid creds</div></div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="pr-col">
+      <div class="branch-row" id="branchRow">
+        <svg class="br-icon" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="3.5" cy="2.5" r="1.5"/><circle cx="3.5" cy="11.5" r="1.5"/><circle cx="10.5" cy="4.5" r="1.5"/><path d="M3.5 4v6M3.5 4C3.5 6.5 10.5 6.5 10.5 4.5"/></svg>
+        <span class="br-name">fix/def-217</span>
+        <span class="br-time">just now</span>
+      </div>
+
+      <div class="pr-card" id="prCard">
+        <div class="pr-head">
+          <div class="pr-num">#85 · Draft PR</div>
+          <div class="pr-title">fix(auth): reset rate-limit counter after successful login</div>
+        </div>
+        <div class="pr-body">
+          <div class="pr-row">
+            <svg class="pr-icon" viewBox="0 0 10 10" fill="none" stroke="#f97316" stroke-width="1.5"><path d="M2 5c0-1.7 1.3-3 3-3s3 1.3 3 3"/></svg>
+            <span class="pr-key">Defect</span><span class="pr-val orange">DEF-217</span>
+          </div>
+          <div class="pr-row">
+            <svg class="pr-icon" viewBox="0 0 10 10" fill="none" stroke="#60a5fa" stroke-width="1.5"><rect x="1" y="1" width="8" height="8" rx="1.5"/></svg>
+            <span class="pr-key">Story</span><span class="pr-val blue">US-041</span>
+          </div>
+          <div class="pr-row">
+            <svg class="pr-icon" viewBox="0 0 10 10" fill="none" stroke="#34d399" stroke-width="1.5"><polyline points="1 5 3.5 7.5 9 2"/></svg>
+            <span class="pr-key">Test</span><span class="pr-val green">16 passing</span>
+          </div>
+          <div class="pr-row">
+            <svg class="pr-icon" viewBox="0 0 10 10" fill="none" stroke="#9ca3af" stroke-width="1.5"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 5h4M3 3h2"/></svg>
+            <span class="pr-key">Files</span><span class="pr-val">2 changed</span>
+          </div>
+          <div class="desc-box">Added <span>clearAttempts(ip)</span> call in the login success path at <span>loginController.ts:47</span>, imported from existing <span>rateLimiter</span> module.</div>
+        </div>
+      </div>
+
+      <!-- commit chip -->
+      <div class="branch-row" id="commitRow" style="opacity:0">
+        <svg style="width:11px;height:11px;color:var(--green);flex-shrink:0" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="6" r="2"/><path d="M6 1v3M6 8v3M1 6h3M8 6h3"/></svg>
+        <span class="br-name" style="color:var(--green)">b7d2e45</span>
+        <span class="br-time">committed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Branch</div><div class="bs-val" style="color:var(--blue);font-size:9px;font-family:'JetBrains Mono',monospace">fix/def-217</div></div>
+    <div class="bs-item"><div class="bs-label">Lines added</div><div class="bs-val" style="color:var(--green)" id="linesAdded">0</div></div>
+    <div class="bs-item"><div class="bs-label">Tests</div><div class="bs-val" style="color:var(--green)" id="testsPassing">0 pass</div></div>
+    <div class="bs-item"><div class="bs-label">Status</div><div class="bs-val" style="color:var(--orange)" id="botStatus">Fixing</div></div>
+  </div>
+</div>
+
+<script>
+const DIFF_LINES=[
+  {num:38,op:'ctx',code:'  // password verified',cls:'line-ctx'},
+  {num:39,op:'ctx',code:'  const token = jwt.sign({ userId }, secret);',cls:'line-ctx'},
+  {num:40,op:'ctx',code:'  res.json({ token });',cls:'line-ctx'},
+  {num:41,op:' ',code:'',cls:'line-ctx'},
+  {num:42,op:'-',code:'  // TODO: clear rate limit counter',cls:'line-del'},
+  {num:43,op:'+',code:'  clearAttempts(req.ip);  // reset on success',cls:'line-add'},
+  {num:44,op:'+',code:'  logger.info(`Login ok, cleared IP ${req.ip}`);',cls:'line-add'},
+  {num:45,op:'ctx',code:'};',cls:'line-ctx'},
+];
+
+function makeLines(){
+  const body=document.getElementById('diffBody');
+  body.innerHTML='';
+  DIFF_LINES.forEach(l=>{
+    const div=document.createElement('div');
+    div.className=`diff-line ${l.cls}`;
+    div.id=`dline_${l.num}`;
+    div.innerHTML=`<span class="dl-num">${l.op==='-'||l.op==='+'?'':l.num}</span><span class="dl-op" style="color:${l.op==='+'?'var(--green)':l.op==='-'?'var(--red)':'transparent'}">${l.op}</span><span class="dl-code ${l.op==='+'?'add':l.op==='-'?'del':''}">${l.code}</span>`;
+    body.appendChild(div);
+  });
+}
+
+function setPhase(active,done=[]){
+  for(let i=1;i<=5;i++){
+    const d=document.getElementById(`pd${i}`),l=document.getElementById(`pl${i}`);
+    const c=document.getElementById(`pc${i}`);
+    if(done.includes(i)){d.className='ps-dot done';l.className='ps-label done';if(c)c.className='ps-connector done';}
+    else if(i===active){d.className='ps-dot active';l.className='ps-label active';}
+    else{d.className='ps-dot';l.className='ps-label';if(c)c.className='ps-connector';}
+  }
+}
+
+function resetAll(){
+  makeLines();
+  DIFF_LINES.forEach(l=>{ const el=document.getElementById(`dline_${l.num}`); if(el)el.className=`diff-line ${l.cls}`;});
+  setPhase(1,[]);
+  document.getElementById('branchRow').className='branch-row';
+  document.getElementById('prCard').className='pr-card';
+  document.getElementById('commitRow').style.opacity='0';
+  document.getElementById('testsRow').className='tests-row';
+  document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>Implementing fix…';
+  document.getElementById('topBadge').className='badge b-orange';
+  document.getElementById('linesAdded').textContent='0';
+  document.getElementById('testsPassing').textContent='0 pass';
+  document.getElementById('botStatus').textContent='Fixing';
+  document.getElementById('botStatus').style.color='var(--orange)';
+  document.getElementById('diffAdd').textContent='+0';
+}
+
+function runCycle(){
+  resetAll();
+  let d=400;
+
+  // phase 1 done → 2 active (write fix)
+  setTimeout(()=>{ setPhase(2,[1]); },d); d+=600;
+
+  // show branch row
+  setTimeout(()=>{ document.getElementById('branchRow').className='branch-row show'; },d); d+=300;
+
+  // reveal diff lines
+  const lineIds=DIFF_LINES.map(l=>`dline_${l.num}`);
+  lineIds.forEach((id,i)=>{
+    setTimeout(()=>{
+      const el=document.getElementById(id);if(el)el.classList.add('show');
+      const addCount=DIFF_LINES.slice(0,i+1).filter(l=>l.op==='+').length;
+      document.getElementById('diffAdd').textContent=`+${addCount}`;
+      document.getElementById('linesAdded').textContent=addCount;
+    }, d+i*220);
+  });
+  d+=lineIds.length*220+300;
+
+  // phase 3 (tests)
+  setTimeout(()=>{ setPhase(3,[1,2]); document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>Running tests…'; },d); d+=800;
+  setTimeout(()=>{ document.getElementById('testsRow').className='tests-row show'; document.getElementById('testsPassing').textContent='16 pass'; },d); d+=600;
+
+  // phase 4 (commit)
+  setTimeout(()=>{ setPhase(4,[1,2,3]); },d); d+=500;
+  setTimeout(()=>{ document.getElementById('commitRow').style.opacity='1'; document.getElementById('commitRow').style.transition='opacity .4s'; },d); d+=600;
+
+  // phase 5 (PR)
+  setTimeout(()=>{ setPhase(5,[1,2,3,4]); document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>Opening PR…'; },d); d+=700;
+  setTimeout(()=>{ document.getElementById('prCard').className='pr-card show'; },d); d+=800;
+
+  // done
+  setTimeout(()=>{
+    setPhase(0,[1,2,3,4,5]);
+    document.getElementById('topBadge').innerHTML='<div class="pulse-dot" style="background:var(--green)"></div>PR #85 opened';
+    document.getElementById('topBadge').className='badge b-green';
+    document.getElementById('botStatus').textContent='PR open';
+    document.getElementById('botStatus').style.color='var(--green)';
+  },d);
+}
+
+runCycle();
+setInterval(runCycle,12000);
+</script>
+</body>
+</html>

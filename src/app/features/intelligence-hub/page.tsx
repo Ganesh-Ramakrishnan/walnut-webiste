@@ -3,9 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FAQAccordion } from "@/components/FeaturePageUI";
-import UploadFormatsVisual from "@/components/UploadFormatsVisual";
-import PipelineFlowVisual from "@/components/PipelineFlowVisual";
-import CheckpointVisual from "@/components/CheckpointVisual";
+import Image from "next/image";
 import { ArrowLeft, FileText } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -185,7 +183,7 @@ export default function IntelligenceHubPage() {
         </section>
 
         {/* Feature Sections — alternating layout */}
-        <section className="mx-auto max-w-7xl px-6 pb-20">
+        <section className="mx-auto max-w-[1480px] px-6 pb-20">
           <div className="space-y-6">
             {sections.map((s, i) => {
               const isEven = i % 2 === 0;
@@ -208,17 +206,16 @@ export default function IntelligenceHubPage() {
                     </p>
                   </div>
                   <div className={isEven ? "" : "lg:order-1"}>
-                    {i === 0 ? (
-                      <UploadFormatsVisual />
-                    ) : i === 1 ? (
-                      <PipelineFlowVisual />
-                    ) : i === 2 ? (
-                      <CheckpointVisual />
-                    ) : (
-                      <div className="rounded-xl bg-[#060b18] h-48 sm:h-56 flex items-center justify-center">
-                        <span className="text-neutral-700 text-sm">Feature visual</span>
-                      </div>
-                    )}
+                    <Image
+                      src={`/assets/feature-visuals/${
+                        ["upload-formats", "pipeline-flow", "checkpoint-recovery", "human-review"][i] || "upload-formats"
+                      }.png`}
+                      alt={s.title}
+                      width={700}
+                      height={460}
+                      className="rounded-xl w-full h-auto"
+                      loading={i < 2 ? "eager" : "lazy"}
+                    />
                   </div>
                 </div>
               );
