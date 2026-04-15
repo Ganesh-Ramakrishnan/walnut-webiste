@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Defect 2 — Finds Broken Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+
+.screen{width:720px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 30% at 50% 0%,rgba(249,115,22,0.07),transparent 65%);pointer-events:none;z-index:0}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:2}
+.dots{display:flex;gap:5px}.dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);margin-left:6px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.b-red{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.22);color:var(--red)}
+.b-blue{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+.pulse-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pd .9s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+
+.body{padding:14px;display:flex;gap:12px;position:relative;z-index:1}
+
+/* LEFT — defect context strip + file tree */
+.left-col{width:200px;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+
+.context-strip{padding:9px 11px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:9px}
+.cs-label{font-size:8px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.cs-item{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+.cs-dot{width:4px;height:4px;border-radius:50%;background:var(--orange);flex-shrink:0}
+.cs-text{font-size:9.5px;color:#9ca3af}
+.cs-text span{color:#e5e7eb;font-weight:600}
+
+.tree-box{flex:1;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.tree-header{padding:6px 10px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3);font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.tree-body{padding:6px 0}
+
+.tree-item{display:flex;align-items:center;gap:6px;padding:4px 10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#9ca3af;cursor:default;border-left:2px solid transparent;transition:all .25s;position:relative}
+.tree-item.scanning{color:#e5e7eb;border-left-color:rgba(249,115,22,.5);background:rgba(249,115,22,.06)}
+.tree-item.hit{color:#e5e7eb;border-left-color:var(--red);background:rgba(239,68,68,.06)}
+.tree-item.related{border-left-color:rgba(249,115,22,.4);background:rgba(249,115,22,.04)}
+.tree-item .ti-icon{width:12px;text-align:center;flex-shrink:0;font-size:9px}
+.tree-item .ti-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tree-item .ti-tag{font-size:7.5px;font-weight:700;padding:1px 4px;border-radius:2px;margin-left:auto;flex-shrink:0}
+.tag-hit{background:rgba(239,68,68,.15);color:var(--red);border:1px solid rgba(239,68,68,.25)}
+.tag-rel{background:rgba(249,115,22,.12);color:var(--orange);border:1px solid rgba(249,115,22,.22)}
+
+/* RIGHT — analysis pane */
+.right-col{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+
+/* call stack / path trace */
+.trace-box{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.trace-header{display:flex;align-items:center;justify-content:space-between;padding:7px 11px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.trace-title{font-size:10px;font-weight:700;color:#e5e7eb}
+.trace-body{padding:8px 10px;display:flex;flex-direction:column;gap:4px}
+.trace-step{display:flex;align-items:center;gap:7px;opacity:.15;transition:opacity .4s}
+.trace-step.show{opacity:1}
+.ts-num{font-family:'JetBrains Mono',monospace;font-size:8.5px;color:var(--muted);width:14px;text-align:right;flex-shrink:0}
+.ts-arrow{color:var(--muted);font-size:10px;flex-shrink:0}
+.ts-fn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600}
+.ts-fn.hit{color:var(--red)}
+.ts-fn.related{color:var(--orange)}
+.ts-fn.normal{color:#9ca3af}
+.ts-file{font-size:9px;color:var(--muted);margin-left:auto}
+
+/* root cause block */
+.root-cause{background:rgba(0,0,0,.35);border:1px solid rgba(239,68,68,.2);border-radius:9px;overflow:hidden;opacity:0;transition:opacity .5s}
+.root-cause.show{opacity:1}
+.rc-header{display:flex;align-items:center;gap:8px;padding:7px 11px;border-bottom:1px solid rgba(239,68,68,.15);background:rgba(239,68,68,.05)}
+.rc-icon{width:18px;height:18px;border-radius:4px;background:rgba(239,68,68,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rc-icon svg{width:10px;height:10px;color:var(--red)}
+.rc-title{font-size:10.5px;font-weight:700;color:#fca5a5}
+.rc-body{padding:9px 11px}
+.rc-code{font-family:'JetBrains Mono',monospace;font-size:10px;background:rgba(239,68,68,.06);border-left:2px solid var(--red);padding:6px 9px;border-radius:0 5px 5px 0;color:#fca5a5;margin-bottom:7px;line-height:1.5}
+.rc-highlight{background:rgba(239,68,68,.18);border-radius:2px;padding:0 2px}
+.rc-note{font-size:10px;color:#9ca3af;line-height:1.5}
+.rc-note strong{color:#e5e7eb}
+
+/* findings strip */
+.findings{display:flex;gap:6px;flex-wrap:wrap}
+.finding-chip{display:flex;align-items:center;gap:5px;padding:4px 9px;border-radius:6px;font-size:9.5px;font-weight:600;opacity:0;transition:opacity .4s,transform .4s;transform:translateY(4px)}
+.finding-chip.show{opacity:1;transform:translateY(0)}
+.fc-red{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#fca5a5}
+.fc-orange{background:rgba(249,115,22,.08);border:1px solid rgba(249,115,22,.2);color:var(--orange)}
+
+/* bottom */
+.bot-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:2}
+.bs-item{padding:9px 13px;border-right:1px solid var(--border)}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:7.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div class="dots"><div class="dot" style="background:#ef4444;opacity:.7"></div><div class="dot" style="background:#fbbf24;opacity:.7"></div><div class="dot" style="background:#34d399;opacity:.7"></div></div>
+      <span class="tb-title">DEF-217 · Root Cause Analysis</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="badge b-orange" id="topBadge"><div class="pulse-dot"></div>Scanning codebase…</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- LEFT -->
+    <div class="left-col">
+      <div class="context-strip">
+        <div class="cs-label">Defect context</div>
+        <div class="cs-item"><div class="cs-dot"></div><div class="cs-text">Test: <span>login › reset counter</span></div></div>
+        <div class="cs-item"><div class="cs-dot"></div><div class="cs-text">Story: <span>US-041</span> auth module</div></div>
+        <div class="cs-item"><div class="cs-dot"></div><div class="cs-text">Fn: <span>clearAttempts(ip)</span></div></div>
+      </div>
+
+      <div class="tree-box">
+        <div class="tree-header">Codebase · src/auth</div>
+        <div class="tree-body">
+          <div class="tree-item" id="ti1"><span class="ti-icon">📁</span><span class="ti-name">auth/</span></div>
+          <div class="tree-item" id="ti2" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">index.ts</span></div>
+          <div class="tree-item" id="ti3" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">loginController.ts</span><span class="ti-tag tag-hit" id="tag3" style="display:none">HIT</span></div>
+          <div class="tree-item" id="ti4" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">rateLimiter.ts</span><span class="ti-tag tag-rel" id="tag4" style="display:none">REL</span></div>
+          <div class="tree-item" id="ti5" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">jwtService.ts</span></div>
+          <div class="tree-item" id="ti6"><span class="ti-icon">📁</span><span class="ti-name">routes/</span></div>
+          <div class="tree-item" id="ti7" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">authRoutes.ts</span><span class="ti-tag tag-rel" id="tag7" style="display:none">REL</span></div>
+          <div class="tree-item" id="ti8"><span class="ti-icon">📁</span><span class="ti-name">__tests__/</span></div>
+          <div class="tree-item" id="ti9" style="padding-left:20px"><span class="ti-icon">📄</span><span class="ti-name">login.test.ts</span><span class="ti-tag tag-hit" id="tag9" style="display:none">HIT</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right-col">
+      <!-- Trace -->
+      <div class="trace-box">
+        <div class="trace-header">
+          <span class="trace-title">Call trace · login success path</span>
+          <span class="badge b-red" style="font-size:8.5px;padding:1px 7px">Missing call</span>
+        </div>
+        <div class="trace-body">
+          <div class="trace-step" id="ts1"><span class="ts-num">1</span><span class="ts-arrow">→</span><span class="ts-fn normal">POST /login</span><span class="ts-file">authRoutes.ts:12</span></div>
+          <div class="trace-step" id="ts2"><span class="ts-num">2</span><span class="ts-arrow">→</span><span class="ts-fn related">rateLimiter(req,res,next)</span><span class="ts-file">rateLimiter.ts:8</span></div>
+          <div class="trace-step" id="ts3"><span class="ts-num">3</span><span class="ts-arrow">→</span><span class="ts-fn related">loginController(req,res)</span><span class="ts-file">loginController.ts:21</span></div>
+          <div class="trace-step" id="ts4"><span class="ts-num">4</span><span class="ts-arrow">→</span><span class="ts-fn related">bcrypt.compare(password, hash)</span><span class="ts-file">loginController.ts:38</span></div>
+          <div class="trace-step" id="ts5"><span class="ts-num">5</span><span class="ts-arrow">→</span><span class="ts-fn hit">✗ clearAttempts(ip) — never called</span><span class="ts-file">loginController.ts:47</span></div>
+        </div>
+      </div>
+
+      <!-- Root cause -->
+      <div class="root-cause" id="rootCause">
+        <div class="rc-header">
+          <div class="rc-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 1v4M5 8v1"/><circle cx="5" cy="5" r="4"/></svg></div>
+          <span class="rc-title">Root cause located · loginController.ts:47</span>
+        </div>
+        <div class="rc-body">
+          <div class="rc-code">// success path — token issued, but counter not cleared<br>res.json({ token: jwt.sign({ userId }, secret) });<br><span class="rc-highlight">// clearAttempts(ip) &nbsp;&larr;&nbsp; missing here</span></div>
+          <div class="rc-note"><strong>rateLimiter.ts</strong> exports <strong>clearAttempts(ip)</strong> but <strong>loginController.ts</strong> never imports or calls it after a successful bcrypt comparison. Counter persists until TTL expiry.</div>
+        </div>
+      </div>
+
+      <!-- Findings -->
+      <div class="findings">
+        <div class="finding-chip fc-red" id="fc1">✗ clearAttempts(ip) not called</div>
+        <div class="finding-chip fc-orange" id="fc2">loginController.ts · line 47</div>
+        <div class="finding-chip fc-orange" id="fc3">rateLimiter.ts already exports it</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Files scanned</div><div class="bs-val" style="color:var(--blue)" id="filesScanned">0</div></div>
+    <div class="bs-item"><div class="bs-label">Root cause</div><div class="bs-val" style="font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--red)" id="rootFile">–</div></div>
+    <div class="bs-item"><div class="bs-label">Dev pointed it</div><div class="bs-val" style="color:var(--green)">No</div></div>
+    <div class="bs-item"><div class="bs-label">Status</div><div class="bs-val" style="color:var(--orange)" id="botStatus">Scanning</div></div>
+  </div>
+</div>
+
+<script>
+function resetAll(){
+  ['ti1','ti2','ti3','ti4','ti5','ti6','ti7','ti8','ti9'].forEach(id=>document.getElementById(id).className='tree-item');
+  ['tag3','tag4','tag7','tag9'].forEach(id=>{document.getElementById(id).style.display='none';});
+  ['ts1','ts2','ts3','ts4','ts5'].forEach(id=>document.getElementById(id).className='trace-step');
+  document.getElementById('rootCause').className='root-cause';
+  ['fc1','fc2','fc3'].forEach(id=>document.getElementById(id).className='finding-chip fc-'+( id==='fc1'?'red':'orange'));
+  document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>Scanning codebase…';
+  document.getElementById('topBadge').className='badge b-orange';
+  document.getElementById('filesScanned').textContent='0';
+  document.getElementById('rootFile').textContent='–';
+  document.getElementById('botStatus').textContent='Scanning';
+  document.getElementById('botStatus').style.color='var(--orange)';
+}
+
+function runCycle(){
+  resetAll();
+  let d=300;
+
+  // scan tree items
+  const scanOrder=[{id:'ti1',cls:'scanning'},{id:'ti2',cls:'scanning'},{id:'ti3',cls:'hit',tag:'tag3',n:1},{id:'ti4',cls:'related',tag:'tag4',n:2},{id:'ti5',cls:'scanning'},{id:'ti6',cls:'scanning'},{id:'ti7',cls:'related',tag:'tag7',n:3},{id:'ti8',cls:'scanning'},{id:'ti9',cls:'hit',tag:'tag9',n:4}];
+  scanOrder.forEach(s=>{
+    setTimeout(()=>{
+      document.getElementById(s.id).className='tree-item '+s.cls;
+      if(s.tag){document.getElementById(s.tag).style.display='inline';}
+      if(s.n) document.getElementById('filesScanned').textContent=s.n;
+    },d);
+    d+=350;
+  });
+
+  // reveal trace steps
+  ['ts1','ts2','ts3','ts4','ts5'].forEach((id,i)=>{
+    setTimeout(()=>{document.getElementById(id).className='trace-step show';},d + i*350);
+  });
+  d+=5*350;
+
+  // root cause
+  setTimeout(()=>{
+    document.getElementById('rootCause').className='root-cause show';
+    document.getElementById('rootFile').textContent='line 47';
+  },d+200);
+
+  // findings
+  ['fc1','fc2','fc3'].forEach((id,i)=>{
+    const base=id==='fc1'?'fc-red':'fc-orange';
+    setTimeout(()=>{document.getElementById(id).className=`finding-chip ${base} show`;},d+500+i*200);
+  });
+
+  // done
+  setTimeout(()=>{
+    document.getElementById('topBadge').innerHTML='<div class="pulse-dot" style="background:var(--red)"></div>Root cause found';
+    document.getElementById('topBadge').className='badge b-red';
+    document.getElementById('botStatus').textContent='Located';
+    document.getElementById('botStatus').style.color='var(--red)';
+  },d+1200);
+}
+
+runCycle();
+setInterval(runCycle,11000);
+</script>
+</body>
+</html>

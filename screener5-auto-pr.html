@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Feature 5 — Auto Draft PR</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--card2:#070e1c;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+
+.screen{width:700px;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 60% 30% at 50% 0%,rgba(249,115,22,0.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.25);position:relative;z-index:1}
+.tb-left{display:flex;align-items:center;gap:8px}
+.tb-dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.badge{display:flex;align-items:center;gap:5px;border-radius:5px;padding:2px 9px;font-size:9.5px;font-weight:700}
+.badge-green{background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.22);color:var(--green)}
+.badge-orange{background:rgba(249,115,22,0.09);border:1px solid rgba(249,115,22,0.22);color:var(--orange)}
+.badge-blue{background:rgba(96,165,250,0.09);border:1px solid rgba(96,165,250,0.22);color:var(--blue)}
+.badge-muted{background:rgba(107,114,128,0.1);border:1px solid rgba(107,114,128,0.2);color:var(--muted)}
+.badge-draft{background:rgba(251,191,36,0.09);border:1px solid rgba(251,191,36,0.3);color:var(--yellow)}
+
+/* main body */
+.body{padding:18px;position:relative;z-index:1}
+
+/* branch row */
+.branch-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;padding:8px 12px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px}
+.branch-icon{width:16px;height:16px;flex-shrink:0}
+.branch-name{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--blue)}
+.branch-arrow{color:var(--muted);font-size:11px;margin:0 4px}
+.branch-base{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;color:var(--muted)}
+.push-badge{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:9px;font-weight:700;color:var(--green)}
+.push-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* PR card */
+.pr-card{background:rgba(0,0,0,0.35);border:1px solid rgba(96,165,250,0.2);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.pr-card-header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border)}
+.pr-number{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--muted)}
+.pr-title{font-size:12px;font-weight:700;color:#e5e7eb;flex:1}
+.pr-body{padding:12px 14px}
+
+/* description block */
+.desc-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.desc-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px}
+.desc-bullet{width:3px;height:3px;border-radius:50%;background:var(--muted);margin-top:6px;flex-shrink:0}
+.desc-text{font-size:11px;color:#9ca3af;line-height:1.5}
+.desc-text span{color:#e5e7eb;font-weight:600}
+
+/* file changes */
+.files-section{border-top:1px solid var(--border);padding:10px 14px}
+.files-label{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.file-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.file-op{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;flex-shrink:0}
+.op-new{background:rgba(52,211,153,0.15);color:var(--green)}
+.op-mod{background:rgba(249,115,22,0.15);color:var(--orange)}
+.file-path{font-family:'JetBrains Mono',monospace;font-size:10px;color:#9ca3af}
+.file-diff{margin-left:auto;font-size:9.5px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.diff-add{color:var(--green)}
+.diff-del{color:var(--red)}
+
+/* platforms */
+.platforms-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.plat-label{font-size:9.5px;font-weight:600;color:var(--muted)}
+.plat-chips{display:flex;gap:6px;flex-wrap:wrap}
+.plat-chip{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:9.5px;font-weight:600;color:#9ca3af}
+.plat-chip.active{border-color:rgba(96,165,250,0.3);color:var(--blue);background:rgba(96,165,250,0.07)}
+.plat-dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+/* ac list */
+.ac-section{background:rgba(0,0,0,0.25);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.ac-title{font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.ac-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.ac-check{width:13px;height:13px;border-radius:3px;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ac-check svg{width:8px;height:8px;color:var(--green)}
+.ac-text{font-size:10.5px;color:#9ca3af}
+
+/* bottom strip */
+.bot-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:1}
+.bs-item{padding:10px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:1px}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-dot" style="background:#ef4444;opacity:.7"></div>
+      <div class="tb-dot" style="background:#fbbf24;opacity:.7"></div>
+      <div class="tb-dot" style="background:#34d399;opacity:.7"></div>
+      <span class="tb-title">Auto PR · Walnut Agent</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="badge badge-draft">⬡ Draft PR</span>
+      <span class="badge badge-green"><div class="push-dot"></div>Pushed</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- Branch row -->
+    <div class="branch-row">
+      <svg class="branch-icon" viewBox="0 0 16 16" fill="none" stroke="#60a5fa" stroke-width="1.5">
+        <circle cx="4" cy="3" r="1.5"/><circle cx="4" cy="13" r="1.5"/><circle cx="12" cy="5" r="1.5"/>
+        <path d="M4 4.5v7M4 4.5C4 7 12 7 12 5"/>
+      </svg>
+      <span class="branch-name">walnut-ai/login-flow-us041</span>
+      <span class="branch-arrow">→</span>
+      <span class="branch-base">main</span>
+      <div class="push-badge"><div class="push-dot"></div>auto-pushed · just now</div>
+    </div>
+
+    <!-- Platform row -->
+    <div class="platforms-row">
+      <span class="plat-label">Platform:</span>
+      <div class="plat-chips">
+        <div class="plat-chip active"><div class="plat-dot"></div>GitHub</div>
+        <div class="plat-chip"><div class="plat-dot"></div>GitLab</div>
+        <div class="plat-chip"><div class="plat-dot"></div>Bitbucket</div>
+        <div class="plat-chip"><div class="plat-dot"></div>Azure DevOps</div>
+      </div>
+    </div>
+
+    <!-- PR Card -->
+    <div class="pr-card">
+      <div class="pr-card-header">
+        <span class="pr-number">#84</span>
+        <span class="pr-title">feat(auth): implement login with rate limiting</span>
+        <span class="badge badge-draft" style="flex-shrink:0">Draft</span>
+        <span class="badge badge-orange" style="flex-shrink:0;margin-left:4px">US-041</span>
+      </div>
+      <div class="pr-body">
+        <div class="desc-label">Auto-generated description</div>
+        <div class="desc-item"><div class="desc-bullet"></div><div class="desc-text">Implements <span>POST /login</span> endpoint with bcrypt password comparison</div></div>
+        <div class="desc-item"><div class="desc-bullet"></div><div class="desc-text">Adds <span>rate limiting</span> — max 5 failed attempts before 15 min lockout</div></div>
+        <div class="desc-item"><div class="desc-bullet"></div><div class="desc-text">Reuses existing <span>in-memory Map</span> from rateLimiter middleware</div></div>
+        <div class="desc-item"><div class="desc-bullet"></div><div class="desc-text">8 new unit tests added — all 14 tests passing ✓</div></div>
+      </div>
+      <div class="files-section">
+        <div class="files-label">Files changed · 3</div>
+        <div class="file-row"><div class="file-op op-new">N</div><span class="file-path">src/auth/loginController.ts</span><span class="file-diff diff-add" style="margin-left:auto">+84</span></div>
+        <div class="file-row"><div class="file-op op-mod">M</div><span class="file-path">src/routes/authRoutes.ts</span><span class="file-diff diff-add">+12</span>&nbsp;<span class="file-diff diff-del">-2</span></div>
+        <div class="file-row"><div class="file-op op-new">N</div><span class="file-path">src/auth/__tests__/login.test.ts</span><span class="file-diff diff-add">+156</span></div>
+      </div>
+    </div>
+
+    <!-- AC list -->
+    <div class="ac-section">
+      <div class="ac-title">Acceptance Criteria · 4 of 4 addressed</div>
+      <div class="ac-row"><div class="ac-check"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 3 6 7 2"/></svg></div><div class="ac-text">User can log in with valid email + password and receive a JWT</div></div>
+      <div class="ac-row"><div class="ac-check"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 3 6 7 2"/></svg></div><div class="ac-text">Invalid credentials return 401 with generic error message</div></div>
+      <div class="ac-row"><div class="ac-check"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 3 6 7 2"/></svg></div><div class="ac-text">5 failed attempts triggers 15-minute IP-based lockout</div></div>
+      <div class="ac-row"><div class="ac-check"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="1 4 3 6 7 2"/></svg></div><div class="ac-text">Login endpoint is rate-limited to 20 req/min per IP</div></div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Commit</div><div class="bs-val" style="color:var(--blue);font-family:'JetBrains Mono',monospace;font-size:10px">a3f9c12</div></div>
+    <div class="bs-item"><div class="bs-label">Files</div><div class="bs-val" style="color:var(--orange)">3 changed</div></div>
+    <div class="bs-item"><div class="bs-label">Tests</div><div class="bs-val" style="color:var(--green)">14 passing</div></div>
+    <div class="bs-item"><div class="bs-label">Story</div><div class="bs-val" style="color:var(--muted)">US-041 · 1 of 12</div></div>
+  </div>
+</div>
+</body>
+</html>

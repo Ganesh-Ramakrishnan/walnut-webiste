@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { FAQAccordion } from "@/components/FeaturePageUI";
+import Image from "next/image";
 import { ArrowLeft, Code2 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -186,7 +187,7 @@ export default function CodeToStoryPage() {
         </section>
 
         {/* Feature Sections — alternating layout */}
-        <section className="mx-auto max-w-7xl px-6 pb-20">
+        <section className="mx-auto max-w-[1480px] px-6 pb-20">
           <div className="space-y-6">
             {sections.map((s, i) => {
               const isEven = i % 2 === 0;
@@ -209,9 +210,22 @@ export default function CodeToStoryPage() {
                     </p>
                   </div>
                   <div className={isEven ? "" : "lg:order-1"}>
-                    <div className="rounded-xl bg-[#060b18] h-48 sm:h-56 flex items-center justify-center">
-                      <span className="text-neutral-700 text-sm">Feature visual</span>
-                    </div>
+                    {i <= 3 ? (
+                      <Image
+                        src={`/assets/feature-visuals/${
+                          ["folder-hierarchy", "code-grounded", "legacy-cold-start", "merkle-reindex"][i]
+                        }.png`}
+                        alt={s.title}
+                        width={700}
+                        height={460}
+                        className="rounded-xl w-full h-auto"
+                        loading={i < 2 ? "eager" : "lazy"}
+                      />
+                    ) : (
+                      <div className="rounded-xl bg-[#060b18] h-48 sm:h-56 flex items-center justify-center">
+                        <span className="text-neutral-700 text-sm">Feature visual</span>
+                      </div>
+                    )}
                   </div>
                 </div>
               );

@@ -5,53 +5,46 @@ import { useCallback, useEffect, useState } from "react";
 
 const slides = [
   {
-    title: "Every requirement.\nEvery code. Every test\nconnected",
-    subtitle: "Full Traceability Across Your Stack",
-    desc: "Your entire requirements-to-code-to-test structure is visible. Trace any feature from story to implementation to test case — nothing falls through the cracks.",
-    image: "/assets/images-logo/every-requirement-connected.webp",
-    blur: "data:image/webp;base64,UklGRloAAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAgAAAAsAEAnQEqCgAHAAFAJiWkAALnYOVwAAD+/qc4j4AAAAA=",
+    stat: "Minutes, not days",
+    title: "From Meeting Notes to Working Software",
+    desc: "Teams that used to spend 3\u20134 days turning a product brief into development-ready stories now do it before the meeting ends. Drop a transcript, doc, or brief in \u2014 walk out with structured requirements, assigned stories, and code already in progress.",
+    image: "/assets/achieve1.png",
   },
   {
-    title: "Continuous Quality\nmonitoring",
-    subtitle: "Quality That Never Sleeps",
-    desc: "WalnutAI continuously monitors your codebase against requirements, catching drift and gaps in real time so quality issues are found before they reach production.",
-    image: "/assets/images-logo/continuous-quality-monitoring.webp",
-    blur: "data:image/webp;base64,UklGRloAAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAgAAAAMAEAnQEqCgAHAAFAJiWkAANwAP775Ny5f3xtU7KgAAA=",
+    stat: "80% fewer production defects",
+    title: "Bugs That Used to Reach Users Don\u2019t Anymore",
+    desc: "Before WalnutAI, teams found gaps in QA or worse \u2014 in production. Now they find them before the sprint ends. Teams using WalnutAI\u2019s gap analysis report up to 80% fewer defects escaping to release, because the gap between what was specified and what was built gets closed automatically.",
+    image: "/assets/achieve2.png",
   },
   {
-    title: "New team members\nproductive in days",
-    subtitle: "Onboarding Made Effortless",
-    desc: "Your entire requirements-to-code-to-test structure is visible. New engineers can trace any feature from story to implementation and start contributing faster.",
-    image: "/assets/images-logo/new-team-members.webp",
-    blur: "data:image/webp;base64,UklGRlwAAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAiAAAAMAEAnQEqCgAHAAFAJiWkAANwAP775x1qHqYK1ZnNiGAAAA==",
+    stat: "15+ hours back every sprint",
+    title: "QA Stops Writing. QA Starts Reviewing.",
+    desc: "The hours QA used to spend writing test cases from scratch are now spent on judgment \u2014 reviewing, refining, and approving AI-generated cases that are already structured, complete, and linked to their requirements. Fifteen hours a sprint back in the hands of the team.",
+    image: "/assets/achieve3.png",
   },
   {
-    title: "Stop writing tests\nmanually",
-    subtitle: "AI-Generated Tests in Seconds",
-    desc: "WalnutAI generates comprehensive test cases directly from your user stories. Functional, integration, and regression tests — created in under 30 seconds.",
-    image: "/assets/images-logo/stop-writing-tests.webp",
-    blur: "data:image/webp;base64,UklGRmwAAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAyAAAAsAEAnQEqCgAHAAFAJiWkAALnYG3VkAD+/fW6W36FsDcHK/bKLd1SSjCmnaPUUYEAAAA=",
+    stat: "100% traceability, zero maintenance",
+    title: "Audit Requests That Used to Take Days Take One Click",
+    desc: "Compliance teams no longer chase engineers for evidence before an audit. Every requirement, test case, and defect is automatically linked and permanently traceable. When the auditor asks, the report is already there.",
+    image: "/assets/achieve4.png",
   },
   {
-    title: "Idea to Production",
-    subtitle: "Ship Features End-to-End",
-    desc: "From requirement capture to code implementation to test validation — WalnutAI connects every stage so nothing gets lost between idea and deployment.",
-    image: "/assets/images-logo/idea-to-production.webp",
-    blur: "data:image/webp;base64,UklGRl4AAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAkAAAA0AEAnQEqCgAHAAFAJiWkAAMX/ShNYgAA/v4cRUkX1+RAAAAA",
+    stat: "Issues caught before they escalate",
+    title: "Engineering Leads Stop Being Surprised by Code Quality",
+    desc: "Instead of discovering architectural drift or growing complexity after an incident, engineering leads see it as it happens \u2014 scored across 7 quality dimensions, ranked by impact, per story. The problems that used to surface in post-mortems now surface in sprint planning.",
+    image: "/assets/achieve5.png",
   },
   {
-    title: "Fix code issues\nbefore.....",
-    subtitle: "Catch Issues Before They Ship",
-    desc: "WalnutAI's gap analysis identifies missing implementations, incomplete features, and misaligned code before they become costly production bugs.",
-    image: "/assets/images-logo/fix-code-issues.webp",
-    blur: "data:image/webp;base64,UklGRlYAAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAcAAAAMAEAnQEqCgAHAAFAJiWkAANwAP78IDoKJwAAAA==",
+    stat: "60% faster ramp-up",
+    title: "New Engineers Stop Asking \u201CHow Does This Work?\u201D",
+    desc: "When every feature is traceable from requirement to implementation to test, a new engineer doesn\u2019t need three weeks of shadowing to understand the codebase. They navigate it themselves on day one. Teams report 60% faster time-to-contribution for new members after adopting WalnutAI.",
+    image: "/assets/achieve6.png",
   },
   {
-    title: "Tech debt visibility\nyou can't ignore",
-    subtitle: "Surface Hidden Technical Debt",
-    desc: "Get a clear, quantified view of your technical debt. WalnutAI scores your codebase across architecture, security, testing, and best practices so you can prioritize what matters.",
-    image: "/assets/images-logo/tech-debt-visibility.webp",
-    blur: "data:image/webp;base64,UklGRl4AAABXRUJQVlA4WAoAAAAQAAAACQAABgAAQUxQSBMAAAABD9D/iAgISBKh/68bEdH/TJ4AAFZQOCAkAAAAsAEAnQEqCgAHAAFAJiWkAALnXBWhgAD+/ncWIw/uQPaPigAA",
+    stat: "Every commit, always",
+    title: "Technical Debt Stops Being a Surprise at the End of the Quarter",
+    desc: "Teams that review technical debt quarterly are always reacting. Teams using WalnutAI see debt grow in real time \u2014 per commit, per module, per story. The conversation shifts from \u201Chow did we get here\u201D to \u201Clet\u2019s fix this before it compounds.\u201D",
+    image: "/assets/achieve7.png",
   },
 ];
 
@@ -90,10 +83,23 @@ export default function AchievementsSection() {
         {/* Header */}
         <div className="achv-header">
           <h2 className="achv-title">
-            What Teams Achieve With{" "}<span style={{ color: "#F17F0D" }}>WalnutAI</span>
+            What Teams Achieve Using{" "}
+            <span style={{ color: "#F17F0D" }}>WalnutAI</span>
           </h2>
+          <h3
+            style={{
+              color: "#d1d5db",
+              fontSize: 20,
+              fontWeight: 700,
+              marginBottom: 12,
+            }}
+          >
+            Outcomes teams see in their first 90 days with WalnutAI
+          </h3>
           <p className="achv-subtitle">
-            Real outcomes from teams who stopped guessing and started knowing what&apos;s missing
+            From faster sprints to fewer production defects &mdash; here&apos;s
+            what changes when requirements, code, and testing run in one
+            connected AI loop.
           </p>
         </div>
 
@@ -101,7 +107,6 @@ export default function AchievementsSection() {
         <div className="achv-content">
           {/* Left: dots + text */}
           <div className="achv-left">
-            {/* Dot indicators — horizontal on mobile, vertical on desktop */}
             <div className="achv-dots">
               {slides.map((_, i) => (
                 <button
@@ -113,7 +118,6 @@ export default function AchievementsSection() {
               ))}
             </div>
 
-            {/* Text */}
             <div
               className="achv-text"
               style={{
@@ -121,15 +125,23 @@ export default function AchievementsSection() {
                 transform: fade ? "translateY(0)" : "translateY(20px)",
               }}
             >
-              <h3 className="achv-slide-title">
+              {/* Stat */}
+              <div
+                style={{
+                  fontSize: 26,
+                  fontWeight: 800,
+                  color: "#F17F0D",
+                  lineHeight: 1.1,
+                  marginBottom: 10,
+                }}
+              >
+                {slide.stat}
+              </div>
+
+              <h3 className="achv-slide-title" style={{ whiteSpace: "normal" }}>
                 {slide.title}
               </h3>
-              <p className="achv-slide-subtitle">
-                {slide.subtitle}
-              </p>
-              <p className="achv-slide-desc">
-                {slide.desc}
-              </p>
+              <p className="achv-slide-desc">{slide.desc}</p>
             </div>
           </div>
 
@@ -144,12 +156,10 @@ export default function AchievementsSection() {
             <div className="achv-image-wrap">
               <Image
                 src={slide.image}
-                alt={slide.title.replace(/\n/g, " ")}
+                alt={slide.title}
                 width={600}
                 height={400}
                 style={{ width: "100%", height: "auto" }}
-                placeholder="blur"
-                blurDataURL={slide.blur}
                 {...(active === 0
                   ? { priority: true, fetchPriority: "high" }
                   : { loading: "lazy" })}

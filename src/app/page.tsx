@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import BrainStats from "@/components/BrainStats";
 import StepsSection from "@/components/StepsSection";
 import AchievementsSection from "@/components/AchievementsSection";
 import TechnologiesSection from "@/components/TechnologiesSection";
@@ -13,7 +12,6 @@ export default function Home() {
       <Navbar />
       <main id="main-content">
         <Hero />
-        <BrainStats />
         <StepsSection />
         <AchievementsSection />
         <TechnologiesSection />

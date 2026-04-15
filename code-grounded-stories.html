@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WalnutAI — Code-Grounded Stories</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #060b18;
+      --card-bg:   #0a1628;
+      --card-2:    #0d1e36;
+      --orange:    #f97316;
+      --border:    rgba(255,255,255,0.07);
+      --border-md: rgba(255,255,255,0.10);
+      --text:      #ededed;
+      --muted:     #6b7280;
+      --green:     #34d399;
+      --red:       #ef4444;
+      --blue:      #60a5fa;
+      --purple:    #a78bfa;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      padding: 56px 24px 80px;
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; }
+
+    /* ── Header ── */
+    .header { text-align: center; margin-bottom: 52px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.3);
+      color: var(--orange); font-size: 11px; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 5px 14px; border-radius: 999px; margin-bottom: 20px;
+    }
+    .badge svg { width: 12px; height: 12px; }
+    .h-title {
+      font-size: clamp(28px, 3.8vw, 46px); font-weight: 800;
+      color: #fff; line-height: 1.18; margin-bottom: 14px;
+    }
+    .h-title span { color: var(--orange); }
+    .h-sub { color: var(--muted); font-size: 15px; max-width: 580px; margin: 0 auto; line-height: 1.7; }
+
+    /* ── Main split layout ── */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+
+    /* ── Panel shells ── */
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .panel-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .panel-title {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--muted);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .panel-title svg { width: 13px; height: 13px; }
+    .panel-body { padding: 18px; }
+
+    /* ── Code panel ── */
+    .file-tabs {
+      display: flex; gap: 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(0,0,0,0.2);
+    }
+    .ftab {
+      padding: 8px 16px;
+      font-size: 11px; font-weight: 600;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+      cursor: default;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .ftab.active {
+      color: var(--orange);
+      background: rgba(249,115,22,0.06);
+      border-bottom: 2px solid var(--orange);
+    }
+    .ftab svg { width: 11px; height: 11px; }
+
+    /* Code block */
+    .code-block {
+      padding: 16px 0;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      overflow-x: auto;
+    }
+    .code-line {
+      display: flex; align-items: stretch;
+      padding: 0 16px;
+      min-height: 22px;
+      position: relative;
+    }
+    .code-line:hover { background: rgba(255,255,255,0.02); }
+
+    /* RAG-retrieved highlight */
+    .code-line.rag-hit {
+      background: rgba(249,115,22,0.07);
+      border-left: 2px solid rgba(249,115,22,0.5);
+    }
+    .code-line.rag-hit-2 {
+      background: rgba(96,165,250,0.06);
+      border-left: 2px solid rgba(96,165,250,0.4);
+    }
+    .ln {
+      width: 28px; flex-shrink: 0;
+      color: rgba(255,255,255,0.15);
+      font-size: 11px; user-select: none;
+      text-align: right; padding-right: 12px;
+    }
+    .code-text { flex: 1; white-space: pre; }
+
+    /* Syntax colours */
+    .kw   { color: #c084fc; }  /* keyword */
+    .fn   { color: #60a5fa; }  /* function */
+    .str  { color: #86efac; }  /* string */
+    .cm   { color: #4b5563; font-style: italic; } /* comment */
+    .cn   { color: #fbbf24; }  /* constant */
+    .op   { color: #94a3b8; }  /* operator / punctuation */
+    .nm   { color: var(--text); } /* normal */
+
+    /* RAG tag floating on a line */
+    .rag-tag {
+      position: absolute;
+      right: 10px; top: 50%; transform: translateY(-50%);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 9px; font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 1px 7px; border-radius: 4px;
+    }
+    .rag-tag.orange { background: rgba(249,115,22,0.15); border: 1px solid rgba(249,115,22,0.35); color: var(--orange); }
+    .rag-tag.blue   { background: rgba(96,165,250,0.12);  border: 1px solid rgba(96,165,250,0.3);  color: var(--blue); }
+
+    /* Retrieved count strip */
+    .retrieved-strip {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 18px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,0.15);
+    }
+    .rs-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .rs-text { font-size: 10.5px; font-weight: 600; }
+    .rs-sep { color: var(--border); font-size: 12px; }
+
+    /* ── Story panel ── */
+    .story-card {
+      background: var(--card-2);
+      border: 1px solid var(--border-md);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .story-meta {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .story-id {
+      font-size: 10px; font-weight: 800; color: var(--muted);
+      letter-spacing: 0.5px;
+    }
+    .story-chip {
+      font-size: 9.5px; font-weight: 700; padding: 2px 8px;
+      border-radius: 4px; letter-spacing: 0.4px;
+    }
+    .chip-green  { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.25); color: var(--green); }
+    .chip-orange { background: rgba(249,115,22,0.1);  border: 1px solid rgba(249,115,22,0.25); color: var(--orange); }
+    .chip-blue   { background: rgba(96,165,250,0.1);  border: 1px solid rgba(96,165,250,0.25); color: var(--blue); }
+    .chip-gray   { background: rgba(255,255,255,0.04); border: 1px solid var(--border); color: var(--muted); }
+
+    .story-title {
+      font-size: 13.5px; font-weight: 700; color: #fff;
+      margin-bottom: 6px; line-height: 1.4;
+    }
+    .story-desc { font-size: 12px; color: #9ca3af; line-height: 1.6; margin-bottom: 12px; }
+
+    /* AC list */
+    .ac-label {
+      font-size: 9.5px; font-weight: 800;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 8px;
+    }
+    .ac-list { display: flex; flex-direction: column; gap: 7px; }
+    .ac-item {
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .ac-bullet {
+      width: 16px; height: 16px; border-radius: 50%;
+      flex-shrink: 0; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ac-bullet svg { width: 8px; height: 8px; }
+    .ac-text { font-size: 11.5px; color: #d1d5db; line-height: 1.5; flex: 1; }
+
+    /* Evidence chip — code line ref */
+    .evidence {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 9.5px; font-weight: 700;
+      padding: 1px 7px; border-radius: 4px;
+      margin-left: 4px; vertical-align: middle;
+      cursor: default; white-space: nowrap;
+    }
+    .ev-orange { background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.28); color: rgba(249,115,22,0.8); }
+    .ev-blue   { background: rgba(96,165,250,0.1);  border: 1px solid rgba(96,165,250,0.28);  color: rgba(96,165,250,0.8); }
+    .evidence svg { width: 8px; height: 8px; }
+
+    /* ── NOT GENERATED section ── */
+    .not-generated {
+      background: rgba(239,68,68,0.04);
+      border: 1px solid rgba(239,68,68,0.14);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+    .ng-header {
+      display: flex; align-items: center; gap: 7px;
+      margin-bottom: 10px;
+    }
+    .ng-icon {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.28);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .ng-icon svg { width: 10px; height: 10px; color: var(--red); }
+    .ng-title { font-size: 10px; font-weight: 800; color: var(--red); letter-spacing: 0.5px; text-transform: uppercase; }
+    .ng-sub { font-size: 10.5px; color: rgba(239,68,68,0.55); }
+    .ng-items { display: flex; flex-direction: column; gap: 7px; }
+    .ng-item {
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .ng-x {
+      width: 15px; height: 15px; border-radius: 50%;
+      background: rgba(239,68,68,0.1); flex-shrink: 0; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ng-x svg { width: 7px; height: 7px; color: var(--red); }
+    .ng-text {
+      font-size: 11.5px; line-height: 1.5;
+      color: rgba(255,255,255,0.3);
+      text-decoration: line-through;
+      text-decoration-color: rgba(239,68,68,0.35);
+    }
+    .ng-reason {
+      display: block; font-size: 10px; color: rgba(239,68,68,0.5);
+      text-decoration: none; margin-top: 1px; font-style: italic;
+    }
+
+    /* ── Source verdict banner ── */
+    .verdict-banner {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      background: rgba(52,211,153,0.05);
+      border: 1px solid rgba(52,211,153,0.18);
+      border-radius: 12px;
+      margin-bottom: 14px;
+    }
+    .vb-icon {
+      width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+      background: rgba(52,211,153,0.12);
+      border: 1px solid rgba(52,211,153,0.25);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vb-icon svg { width: 15px; height: 15px; color: var(--green); }
+    .vb-text { flex: 1; }
+    .vb-title { font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 1px; }
+    .vb-sub { font-size: 10.5px; color: rgba(52,211,153,0.55); line-height: 1.4; }
+    .vb-stat {
+      font-size: 18px; font-weight: 800; color: var(--green);
+      line-height: 1; text-align: center; flex-shrink: 0;
+    }
+    .vb-stat-label { font-size: 9px; font-weight: 600; color: rgba(52,211,153,0.5); text-align: center; }
+
+    /* ── Bottom stat strip ── */
+    .stat-strip {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 16px; margin-top: 20px;
+    }
+    @media (max-width: 640px) { .stat-strip { grid-template-columns: repeat(2,1fr); } }
+    .stat-box {
+      background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px;
+      text-align: center;
+    }
+    .stat-val { font-size: 24px; font-weight: 800; line-height: 1; margin-bottom: 5px; }
+    .stat-lbl { font-size: 10.5px; font-weight: 600; color: var(--muted); line-height: 1.3; }
+
+    /* divider */
+    .divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Code Intelligence
+    </div>
+    <h2 class="h-title">Stories Grounded Strictly in<br/><span>What the Code Implements</span></h2>
+    <p class="h-sub">WalnutAI queries the most relevant code snippets per story and generates descriptions and acceptance criteria based on what the code <em>actually</em> does — not gaps, not wishes.</p>
+  </div>
+
+  <!-- Split: Code left, Story right -->
+  <div class="split">
+
+    <!-- LEFT: Code panel -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          RAG-Retrieved Code Snippets
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <span style="font-size:9.5px;font-weight:700;color:var(--orange);background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);padding:2px 8px;border-radius:4px;">2 files · 6 snippets</span>
+        </div>
+      </div>
+
+      <!-- File tabs -->
+      <div class="file-tabs">
+        <div class="ftab active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          authService.ts
+        </div>
+        <div class="ftab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          userController.ts
+        </div>
+      </div>
+
+      <!-- Code -->
+      <div class="code-block">
+
+        <div class="code-line"><span class="ln">1</span><span class="code-text"><span class="kw">import</span> <span class="op">{</span> <span class="nm">bcrypt</span><span class="op">,</span> <span class="nm">jwt</span> <span class="op">}</span> <span class="kw">from</span> <span class="str">'./libs'</span></span></div>
+        <div class="code-line"><span class="ln">2</span><span class="code-text"><span class="kw">import</span> <span class="op">{</span> <span class="nm">UserRepo</span> <span class="op">}</span> <span class="kw">from</span> <span class="str">'./db'</span></span></div>
+        <div class="code-line"><span class="ln">3</span><span class="code-text"></span></div>
+        <div class="code-line"><span class="ln">4</span><span class="code-text"><span class="cm">// ─── login ───────────────────────────────</span></span></div>
+
+        <div class="code-line rag-hit">
+          <span class="ln">5</span>
+          <span class="code-text"><span class="kw">export async function</span> <span class="fn">login</span><span class="op">(</span><span class="nm">email</span><span class="op">:</span> <span class="kw">string</span><span class="op">,</span> <span class="nm">pwd</span><span class="op">:</span> <span class="kw">string</span><span class="op">) {</span></span>
+          <span class="rag-tag orange">AC·1 evidence</span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">6</span>
+          <span class="code-text">  <span class="kw">const</span> <span class="nm">user</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">UserRepo</span><span class="op">.</span><span class="fn">findByEmail</span><span class="op">(</span><span class="nm">email</span><span class="op">)</span></span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">7</span>
+          <span class="code-text">  <span class="kw">if</span> <span class="op">(!</span><span class="nm">user</span><span class="op">)</span> <span class="kw">throw new</span> <span class="fn">Error</span><span class="op">(</span><span class="str">'USER_NOT_FOUND'</span><span class="op">)</span></span>
+          <span class="rag-tag orange">AC·2 evidence</span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">8</span>
+          <span class="code-text">  <span class="kw">const</span> <span class="nm">match</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">bcrypt</span><span class="op">.</span><span class="fn">compare</span><span class="op">(</span><span class="nm">pwd</span><span class="op">,</span> <span class="nm">user</span><span class="op">.</span><span class="nm">passwordHash</span><span class="op">)</span></span>
+          <span class="rag-tag orange">AC·3 evidence</span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">9</span>
+          <span class="code-text">  <span class="kw">if</span> <span class="op">(!</span><span class="nm">match</span><span class="op">)</span> <span class="kw">throw new</span> <span class="fn">Error</span><span class="op">(</span><span class="str">'INVALID_CREDENTIALS'</span><span class="op">)</span></span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">10</span>
+          <span class="code-text">  <span class="kw">const</span> <span class="nm">token</span> <span class="op">=</span> <span class="fn">jwt</span><span class="op">.</span><span class="fn">sign</span><span class="op">(</span><span class="op">{</span> <span class="nm">id</span><span class="op">:</span> <span class="nm">user</span><span class="op">.</span><span class="nm">id</span> <span class="op">},</span> <span class="nm">process</span><span class="op">.</span><span class="nm">env</span><span class="op">.</span><span class="cn">JWT_SECRET</span><span class="op">,</span></span>
+          <span class="rag-tag orange">AC·4 evidence</span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">11</span>
+          <span class="code-text">    <span class="op">{</span> <span class="nm">expiresIn</span><span class="op">:</span> <span class="str">'7d'</span> <span class="op">})</span></span>
+        </div>
+        <div class="code-line rag-hit">
+          <span class="ln">12</span>
+          <span class="code-text">  <span class="kw">return</span> <span class="op">{</span> <span class="nm">token</span><span class="op">,</span> <span class="nm">userId</span><span class="op">:</span> <span class="nm">user</span><span class="op">.</span><span class="nm">id</span> <span class="op">}</span></span>
+        </div>
+        <div class="code-line"><span class="ln">13</span><span class="code-text"><span class="op">}</span></span></div>
+
+        <div class="code-line"><span class="ln">14</span><span class="code-text"></span></div>
+        <div class="code-line"><span class="ln">15</span><span class="code-text"><span class="cm">// ─── rate limiting ───────────────────────</span></span></div>
+
+        <div class="code-line rag-hit-2">
+          <span class="ln">16</span>
+          <span class="code-text"><span class="kw">const</span> <span class="nm">attempts</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Map</span><span class="op">&lt;</span><span class="kw">string</span><span class="op">,</span> <span class="kw">number</span><span class="op">&gt;()</span></span>
+          <span class="rag-tag blue">AC·5 evidence</span>
+        </div>
+        <div class="code-line rag-hit-2">
+          <span class="ln">17</span>
+          <span class="code-text"><span class="kw">export function</span> <span class="fn">checkRateLimit</span><span class="op">(</span><span class="nm">email</span><span class="op">:</span> <span class="kw">string</span><span class="op">) {</span></span>
+        </div>
+        <div class="code-line rag-hit-2">
+          <span class="ln">18</span>
+          <span class="code-text">  <span class="kw">const</span> <span class="nm">n</span> <span class="op">=</span> <span class="op">(</span><span class="nm">attempts</span><span class="op">.</span><span class="fn">get</span><span class="op">(</span><span class="nm">email</span><span class="op">) ??</span> <span class="cn">0</span><span class="op">) +</span> <span class="cn">1</span></span>
+        </div>
+        <div class="code-line rag-hit-2">
+          <span class="ln">19</span>
+          <span class="code-text">  <span class="nm">attempts</span><span class="op">.</span><span class="fn">set</span><span class="op">(</span><span class="nm">email</span><span class="op">,</span> <span class="nm">n</span><span class="op">)</span></span>
+        </div>
+        <div class="code-line rag-hit-2">
+          <span class="ln">20</span>
+          <span class="code-text">  <span class="kw">if</span> <span class="op">(</span><span class="nm">n</span> <span class="op">&gt;</span> <span class="cn">5</span><span class="op">)</span> <span class="kw">throw new</span> <span class="fn">Error</span><span class="op">(</span><span class="str">'TOO_MANY_ATTEMPTS'</span><span class="op">)</span></span>
+          <span class="rag-tag blue">AC·5 evidence</span>
+        </div>
+        <div class="code-line"><span class="ln">21</span><span class="code-text"><span class="op">}</span></span></div>
+        <div class="code-line"><span class="ln">22</span><span class="code-text"></span></div>
+        <div class="code-line"><span class="ln">23</span><span class="code-text"><span class="cm">// ─── OAuth / SSO ─ NOT IMPLEMENTED ───────</span></span></div>
+        <div class="code-line"><span class="ln">24</span><span class="code-text"><span class="cm">// TODO: Google SSO  ← no code exists yet</span></span></div>
+        <div class="code-line"><span class="ln">25</span><span class="code-text"><span class="cm">// TODO: 2FA          ← no code exists yet</span></span></div>
+
+      </div>
+
+      <!-- Retrieved strip -->
+      <div class="retrieved-strip">
+        <div class="rs-dot" style="background:var(--orange)"></div>
+        <span class="rs-text" style="color:rgba(249,115,22,0.8)">login() — 4 snippets retrieved</span>
+        <span class="rs-sep">·</span>
+        <div class="rs-dot" style="background:var(--blue)"></div>
+        <span class="rs-text" style="color:rgba(96,165,250,0.8)">checkRateLimit() — 2 snippets retrieved</span>
+      </div>
+    </div><!-- /code panel -->
+
+    <!-- RIGHT: Story output -->
+    <div style="display:flex;flex-direction:column;gap:0;">
+
+      <!-- Verdict banner -->
+      <div class="verdict-banner">
+        <div class="vb-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="vb-text">
+          <div class="vb-title">Code-verified output</div>
+          <div class="vb-sub">Every AC below is backed by a retrieved code line. Nothing was inferred or assumed.</div>
+        </div>
+        <div style="text-align:center;flex-shrink:0;">
+          <div class="vb-stat">5</div>
+          <div class="vb-stat-label">ACs generated</div>
+        </div>
+        <div style="width:1px;height:36px;background:rgba(52,211,153,0.15);flex-shrink:0;"></div>
+        <div style="text-align:center;flex-shrink:0;">
+          <div class="vb-stat" style="color:var(--red);">2</div>
+          <div class="vb-stat-label" style="color:rgba(239,68,68,0.5);">rejected</div>
+        </div>
+      </div>
+
+      <!-- Story card -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Generated Story
+          </div>
+          <div style="display:flex;gap:6px;">
+            <span class="story-chip chip-green">Code-verified</span>
+            <span class="story-chip chip-gray">US-041</span>
+          </div>
+        </div>
+        <div class="panel-body">
+
+          <!-- Story -->
+          <div class="story-card">
+            <div class="story-meta">
+              <span class="story-id">US-041</span>
+              <span class="story-chip chip-orange">Authentication</span>
+              <span class="story-chip chip-blue">authService.ts</span>
+            </div>
+            <div class="story-title">User Login with Email and Password</div>
+            <div class="story-desc">
+              As a registered user, I can authenticate using my email and password so that I receive a signed JWT token valid for 7 days and gain access to protected routes.
+            </div>
+
+            <div class="ac-label">Acceptance Criteria</div>
+            <div class="ac-list">
+
+              <div class="ac-item">
+                <div class="ac-bullet" style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="ac-text">
+                  System accepts <strong>email</strong> and <strong>password</strong> as login inputs.
+                  <span class="evidence ev-orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    L5 login()
+                  </span>
+                </div>
+              </div>
+
+              <div class="ac-item">
+                <div class="ac-bullet" style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="ac-text">
+                  Returns <code style="font-family:monospace;font-size:11px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">USER_NOT_FOUND</code> error when email does not exist in the system.
+                  <span class="evidence ev-orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    L7
+                  </span>
+                </div>
+              </div>
+
+              <div class="ac-item">
+                <div class="ac-bullet" style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="ac-text">
+                  Password is verified against a <strong>bcrypt hash</strong>; plain-text comparison is never used.
+                  <span class="evidence ev-orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    L8 bcrypt.compare
+                  </span>
+                </div>
+              </div>
+
+              <div class="ac-item">
+                <div class="ac-bullet" style="background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="ac-text">
+                  On success, a <strong>JWT token</strong> is returned with a <strong>7-day expiry</strong>.
+                  <span class="evidence ev-orange">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    L10–11 expiresIn:'7d'
+                  </span>
+                </div>
+              </div>
+
+              <div class="ac-item">
+                <div class="ac-bullet" style="background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25);">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="ac-text">
+                  Login is blocked after <strong>5 failed attempts</strong> for the same email, returning <code style="font-family:monospace;font-size:11px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">TOO_MANY_ATTEMPTS</code>.
+                  <span class="evidence ev-blue">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    L18–20 n > 5
+                  </span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- NOT GENERATED -->
+          <div class="not-generated">
+            <div class="ng-header">
+              <div class="ng-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              </div>
+              <div>
+                <div class="ng-title">Not Generated — No Code Found</div>
+                <div class="ng-sub">These criteria were requested but rejected — the implementation doesn't exist.</div>
+              </div>
+            </div>
+            <div class="ng-items">
+
+              <div class="ng-item">
+                <div class="ng-x">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+                <div>
+                  <div class="ng-text">User can log in with Google SSO (OAuth 2.0)</div>
+                  <span class="ng-reason">No OAuth handler or Google provider found in codebase — only TODO comment at L24</span>
+                </div>
+              </div>
+
+              <div class="ng-item">
+                <div class="ng-x">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </div>
+                <div>
+                  <div class="ng-text">System prompts for two-factor authentication (2FA) on login</div>
+                  <span class="ng-reason">No 2FA, OTP or TOTP implementation detected — only TODO comment at L25</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div><!-- /panel-body -->
+      </div><!-- /panel -->
+    </div><!-- /right col -->
+  </div><!-- /split -->
+
+  <!-- Stat strip -->
+  <div class="stat-strip">
+    <div class="stat-box">
+      <div class="stat-val" style="color:var(--orange)">6</div>
+      <div class="stat-lbl">Code snippets retrieved per story</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" style="color:var(--green)">100%</div>
+      <div class="stat-lbl">ACs backed by source evidence</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" style="color:var(--red)">0</div>
+      <div class="stat-lbl">Hallucinated or assumed criteria</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-val" style="color:var(--blue)">2</div>
+      <div class="stat-lbl">Wishes rejected — not in code</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

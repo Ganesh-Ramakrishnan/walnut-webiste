@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GIF 1 — Parallel Agents</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--card2:#0d1e36;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--purple:#a78bfa;--yellow:#fbbf24}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+
+.screen{width:700px;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 70% 35% at 50% 0%,rgba(249,115,22,0.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 20px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);position:relative;z-index:1}
+.tb-dots{display:flex;gap:5px}
+.tb-dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted)}
+.tb-badge{font-size:9.5px;font-weight:700;padding:2px 10px;border-radius:4px;background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.28);color:var(--orange)}
+
+/* sprint header */
+.sprint-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 0;position:relative;z-index:1}
+.sprint-title{font-size:13px;font-weight:800;color:#fff}
+.sprint-meta{font-size:10px;color:var(--muted)}
+.sprint-meta span{color:var(--orange);font-weight:700}
+
+/* agent grid */
+.agent-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:14px 20px;position:relative;z-index:1}
+
+.agent-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px;position:relative;overflow:hidden;transition:border-color .3s}
+.agent-card.active{border-color:rgba(249,115,22,0.4)}
+.agent-card.done{border-color:rgba(52,211,153,0.4)}
+
+.agent-top{display:flex;align-items:center;gap:7px;margin-bottom:10px}
+.agent-avatar{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0}
+.agent-name{font-size:10px;font-weight:700;color:#d1d5db}
+.agent-status{font-size:8.5px;font-weight:700;padding:1.5px 6px;border-radius:3px;margin-left:auto}
+.st-idle   {background:rgba(107,114,128,0.12);border:1px solid rgba(107,114,128,0.2);color:var(--muted)}
+.st-run    {background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3);color:var(--orange)}
+.st-done   {background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--green)}
+
+/* story queue inside agent */
+.story-queue{display:flex;flex-direction:column;gap:4px;min-height:60px}
+.sq-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:5px;padding:4px 7px;font-size:9.5px;color:#9ca3af;display:flex;align-items:center;gap:5px;transition:all .4s}
+.sq-item.active{background:rgba(249,115,22,0.07);border-color:rgba(249,115,22,0.25);color:#fff}
+.sq-item.done{background:rgba(52,211,153,0.07);border-color:rgba(52,211,153,0.2);color:var(--green)}
+.sq-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* progress bar inside agent card */
+.agent-progress{margin-top:8px}
+.ap-bar{height:3px;background:rgba(255,255,255,0.05);border-radius:999px;overflow:hidden;margin-top:3px}
+.ap-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--orange),var(--yellow));width:0%;transition:width .05s linear}
+.ap-label{display:flex;justify-content:space-between;font-size:8.5px;color:var(--muted)}
+.ap-pct{color:var(--orange);font-weight:700}
+
+/* pulse ring on active agents */
+.pulse-ring{position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--orange);opacity:0}
+@keyframes pulseRing{0%,100%{opacity:0;transform:scale(1)}50%{opacity:1;transform:scale(1.1)}}
+
+/* stats strip */
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:1}
+.sstat{padding:10px 16px;border-right:1px solid var(--border)}
+.sstat:last-child{border-right:none}
+.sstat-v{font-size:18px;font-weight:800;line-height:1}
+.sstat-l{font-size:8.5px;font-weight:600;color:var(--muted);margin-top:2px}
+
+/* overnight badge */
+.overnight{display:flex;align-items:center;gap:6px;padding:8px 20px;border-top:1px solid var(--border);background:rgba(249,115,22,0.04);position:relative;z-index:1}
+.overnight svg{width:11px;height:11px;color:var(--orange);flex-shrink:0}
+.overnight-txt{font-size:10px;color:var(--muted)}
+.overnight-txt strong{color:var(--orange)}
+</style>
+</head>
+<body>
+<div class="screen">
+  <!-- top bar -->
+  <div class="topbar">
+    <div class="tb-dots">
+      <div class="tb-dot" style="background:#ef4444;opacity:.7"></div>
+      <div class="tb-dot" style="background:#fbbf24;opacity:.7"></div>
+      <div class="tb-dot" style="background:#34d399;opacity:.7"></div>
+    </div>
+    <span class="tb-title">Sprint — Parallel Agent Execution</span>
+    <span class="tb-badge">4 agents running</span>
+  </div>
+
+  <!-- sprint header -->
+  <div class="sprint-hdr">
+    <div class="sprint-title">Sprint 14 — Auth &amp; Payments</div>
+    <div class="sprint-meta"><span id="doneCount">0</span> / 12 stories complete</div>
+  </div>
+
+  <!-- agents -->
+  <div class="agent-grid">
+    <!-- Agent A -->
+    <div class="agent-card" id="agentA">
+      <div class="pulse-ring" id="pulseA"></div>
+      <div class="agent-top">
+        <div class="agent-avatar" style="background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.3);color:var(--orange)">A</div>
+        <span class="agent-name">Agent-1</span>
+        <span class="agent-status st-idle" id="statusA">Idle</span>
+      </div>
+      <div class="story-queue" id="queueA">
+        <div class="sq-item" id="A1"><span class="sq-dot" style="background:var(--orange)"></span>US-041 Login flow</div>
+        <div class="sq-item" id="A2"><span class="sq-dot" style="background:var(--muted)"></span>US-042 JWT refresh</div>
+        <div class="sq-item" id="A3"><span class="sq-dot" style="background:var(--muted)"></span>US-043 Logout</div>
+      </div>
+      <div class="agent-progress">
+        <div class="ap-label"><span>Progress</span><span class="ap-pct" id="pctA">0%</span></div>
+        <div class="ap-bar"><div class="ap-fill" id="fillA"></div></div>
+      </div>
+    </div>
+
+    <!-- Agent B -->
+    <div class="agent-card" id="agentB">
+      <div class="pulse-ring" id="pulseB"></div>
+      <div class="agent-top">
+        <div class="agent-avatar" style="background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.3);color:var(--blue)">B</div>
+        <span class="agent-name">Agent-2</span>
+        <span class="agent-status st-idle" id="statusB">Idle</span>
+      </div>
+      <div class="story-queue" id="queueB">
+        <div class="sq-item" id="B1"><span class="sq-dot" style="background:var(--blue)"></span>US-051 Stripe webhook</div>
+        <div class="sq-item" id="B2"><span class="sq-dot" style="background:var(--muted)"></span>US-052 Invoice gen</div>
+        <div class="sq-item" id="B3"><span class="sq-dot" style="background:var(--muted)"></span>US-053 Refunds</div>
+      </div>
+      <div class="agent-progress">
+        <div class="ap-label"><span>Progress</span><span class="ap-pct" id="pctB">0%</span></div>
+        <div class="ap-bar"><div class="ap-fill" id="fillB" style="background:linear-gradient(90deg,var(--blue),#93c5fd)"></div></div>
+      </div>
+    </div>
+
+    <!-- Agent C -->
+    <div class="agent-card" id="agentC">
+      <div class="pulse-ring" id="pulseC"></div>
+      <div class="agent-top">
+        <div class="agent-avatar" style="background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:var(--purple)">C</div>
+        <span class="agent-name">Agent-3</span>
+        <span class="agent-status st-idle" id="statusC">Idle</span>
+      </div>
+      <div class="story-queue" id="queueC">
+        <div class="sq-item" id="C1"><span class="sq-dot" style="background:var(--purple)"></span>US-061 Email notify</div>
+        <div class="sq-item" id="C2"><span class="sq-dot" style="background:var(--muted)"></span>US-062 Push alerts</div>
+        <div class="sq-item" id="C3"><span class="sq-dot" style="background:var(--muted)"></span>US-063 SMS fallback</div>
+      </div>
+      <div class="agent-progress">
+        <div class="ap-label"><span>Progress</span><span class="ap-pct" id="pctC">0%</span></div>
+        <div class="ap-bar"><div class="ap-fill" id="fillC" style="background:linear-gradient(90deg,var(--purple),#c4b5fd)"></div></div>
+      </div>
+    </div>
+
+    <!-- Agent D -->
+    <div class="agent-card" id="agentD">
+      <div class="pulse-ring" id="pulseD"></div>
+      <div class="agent-top">
+        <div class="agent-avatar" style="background:rgba(52,211,153,0.15);border:1px solid rgba(52,211,153,0.3);color:var(--green)">D</div>
+        <span class="agent-name">Agent-4</span>
+        <span class="agent-status st-idle" id="statusD">Idle</span>
+      </div>
+      <div class="story-queue" id="queueD">
+        <div class="sq-item" id="D1"><span class="sq-dot" style="background:var(--green)"></span>US-071 User profile</div>
+        <div class="sq-item" id="D2"><span class="sq-dot" style="background:var(--muted)"></span>US-072 Avatar upload</div>
+        <div class="sq-item" id="D3"><span class="sq-dot" style="background:var(--muted)"></span>US-073 Preferences</div>
+      </div>
+      <div class="agent-progress">
+        <div class="ap-label"><span>Progress</span><span class="ap-pct" id="pctD">0%</span></div>
+        <div class="ap-bar"><div class="ap-fill" id="fillD" style="background:linear-gradient(90deg,var(--green),#6ee7b7)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- stats -->
+  <div class="stats-strip">
+    <div class="sstat"><div class="sstat-v" style="color:var(--orange)" id="storiesDone">0</div><div class="sstat-l">Stories done</div></div>
+    <div class="sstat"><div class="sstat-v" style="color:var(--blue)">4</div><div class="sstat-l">Agents running</div></div>
+    <div class="sstat"><div class="sstat-v" style="color:var(--green)" id="filesDone">0</div><div class="sstat-l">Files written</div></div>
+    <div class="sstat"><div class="sstat-v" style="color:var(--yellow)">~8 hrs</div><div class="sstat-l">Est. completion</div></div>
+  </div>
+
+  <!-- overnight -->
+  <div class="overnight">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    <span class="overnight-txt"><strong>Overnight sprint:</strong> Assign stories at 6 PM, review implemented PRs at 9 AM. No developer blocked.</span>
+  </div>
+</div>
+
+<script>
+const agents = ['A','B','C','D'];
+const storyIds = {A:['A1','A2','A3'],B:['B1','B2','B3'],C:['C1','C2','C3'],D:['D1','D2','D3']};
+// stagger start times (ms)
+const starts = {A:400, B:900, C:1400, D:700};
+const speeds = {A:38, B:42, C:35, D:40}; // ms per 1%
+let doneTotal = 0, filesTotal = 0;
+
+function animateAgent(id) {
+  const card = document.getElementById('agent'+id);
+  const status = document.getElementById('status'+id);
+  const fill = document.getElementById('fill'+id);
+  const pct = document.getElementById('pct'+id);
+  const pulse = document.getElementById('pulse'+id);
+  const stories = storyIds[id];
+  let progress = 0;
+  let storyIdx = 0;
+
+  status.textContent = 'Running';
+  status.className = 'agent-status st-run';
+  card.classList.add('active');
+  pulse.style.animation = 'pulseRing 1.2s ease-in-out infinite';
+
+  // activate first story
+  document.getElementById(stories[0]).classList.add('active');
+
+  const interval = setInterval(() => {
+    progress++;
+    fill.style.width = progress + '%';
+    pct.textContent = progress + '%';
+
+    // story milestones
+    if(progress === 33 && stories[1]) {
+      document.getElementById(stories[0]).classList.remove('active');
+      document.getElementById(stories[0]).classList.add('done');
+      document.getElementById(stories[0]).innerHTML = '<span class="sq-dot" style="background:var(--green)"></span>✓ ' + document.getElementById(stories[0]).textContent.replace('✓ ','');
+      document.getElementById(stories[1]).classList.add('active');
+      doneTotal++; filesTotal += 3;
+      document.getElementById('storiesDone').textContent = doneTotal;
+      document.getElementById('filesDone').textContent = filesTotal;
+      document.getElementById('doneCount').textContent = doneTotal;
+    }
+    if(progress === 66 && stories[2]) {
+      document.getElementById(stories[1]).classList.remove('active');
+      document.getElementById(stories[1]).classList.add('done');
+      document.getElementById(stories[1]).innerHTML = '<span class="sq-dot" style="background:var(--green)"></span>✓ ' + document.getElementById(stories[1]).textContent.replace('✓ ','');
+      document.getElementById(stories[2]).classList.add('active');
+      doneTotal++; filesTotal += 4;
+      document.getElementById('storiesDone').textContent = doneTotal;
+      document.getElementById('filesDone').textContent = filesTotal;
+      document.getElementById('doneCount').textContent = doneTotal;
+    }
+    if(progress >= 100) {
+      clearInterval(interval);
+      if(stories[2]) {
+        document.getElementById(stories[2]).classList.remove('active');
+        document.getElementById(stories[2]).classList.add('done');
+        document.getElementById(stories[2]).innerHTML = '<span class="sq-dot" style="background:var(--green)"></span>✓ ' + document.getElementById(stories[2]).textContent.replace('✓ ','');
+      }
+      doneTotal++; filesTotal += 3;
+      document.getElementById('storiesDone').textContent = doneTotal;
+      document.getElementById('filesDone').textContent = filesTotal;
+      document.getElementById('doneCount').textContent = doneTotal;
+      status.textContent = 'Done';
+      status.className = 'agent-status st-done';
+      card.classList.remove('active');
+      card.classList.add('done');
+      pulse.style.animation = 'none';
+      pulse.style.background = 'var(--green)';
+    }
+  }, speeds[id]);
+}
+
+function resetAll() {
+  doneTotal = 0; filesTotal = 0;
+  document.getElementById('storiesDone').textContent = 0;
+  document.getElementById('filesDone').textContent = 0;
+  document.getElementById('doneCount').textContent = 0;
+  const origText = {
+    A1:'US-041 Login flow', A2:'US-042 JWT refresh', A3:'US-043 Logout',
+    B1:'US-051 Stripe webhook', B2:'US-052 Invoice gen', B3:'US-053 Refunds',
+    C1:'US-061 Email notify', C2:'US-062 Push alerts', C3:'US-063 SMS fallback',
+    D1:'US-071 User profile', D2:'US-072 Avatar upload', D3:'US-073 Preferences'
+  };
+  const dotColors = {A:'var(--orange)',B:'var(--blue)',C:'var(--purple)',D:'var(--green)'};
+  agents.forEach(id => {
+    const card = document.getElementById('agent'+id);
+    const status = document.getElementById('status'+id);
+    const fill = document.getElementById('fill'+id);
+    const pct = document.getElementById('pct'+id);
+    const pulse = document.getElementById('pulse'+id);
+    status.textContent = 'Idle'; status.className = 'agent-status st-idle';
+    card.className = 'agent-card'; fill.style.width = '0%'; pct.textContent = '0%';
+    pulse.style.animation = 'none';
+    storyIds[id].forEach((sid, i) => {
+      const el = document.getElementById(sid);
+      el.className = 'sq-item';
+      el.innerHTML = `<span class="sq-dot" style="background:${i===0?dotColors[id]:'var(--muted)'}"></span>${origText[sid]}`;
+    });
+  });
+}
+
+function runCycle() {
+  resetAll();
+  setTimeout(() => agents.forEach(id => setTimeout(() => animateAgent(id), starts[id])), 300);
+}
+
+runCycle();
+setInterval(runCycle, 14000);
+</script>
+</body>
+</html>

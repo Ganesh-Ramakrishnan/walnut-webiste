@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Defect 4 — Close the Loop</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+
+.screen{width:720px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 30% at 50% 0%,rgba(249,115,22,0.07),transparent 65%);pointer-events:none;z-index:0}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3);position:relative;z-index:2}
+.dots{display:flex;gap:5px}.dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);margin-left:6px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.b-blue{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+.pulse-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pd .9s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+
+.body{padding:14px;position:relative;z-index:1;display:flex;flex-direction:column;gap:10px}
+
+/* merge banner */
+.merge-banner{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:9px;background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.2);opacity:0;transition:opacity .4s}
+.merge-banner.show{opacity:1}
+.mb-icon{width:24px;height:24px;border-radius:6px;background:rgba(52,211,153,.12);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mb-icon svg{width:13px;height:13px;color:var(--green)}
+.mb-text{font-size:11px;font-weight:700;color:#e5e7eb}
+.mb-sub{font-size:9.5px;color:var(--muted)}
+.mb-time{margin-left:auto;font-size:9px;color:var(--green);font-weight:600}
+
+/* 3-col grid */
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+
+/* card template */
+.update-card{background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .4s}
+.update-card.updating{border-color:rgba(249,115,22,.4);box-shadow:0 0 0 2px rgba(249,115,22,.08)}
+.update-card.done{border-color:rgba(52,211,153,.3)}
+.uc-header{display:flex;align-items:center;gap:7px;padding:8px 10px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.3)}
+.uc-title{font-size:9.5px;font-weight:700;color:#e5e7eb}
+.uc-spinner{width:10px;height:10px;border:1.5px solid transparent;border-top-color:var(--orange);border-radius:50%;animation:spin .6s linear infinite;opacity:0;transition:opacity .3s;margin-left:auto;flex-shrink:0}
+.uc-spinner.show{opacity:1}
+.uc-check{width:13px;height:13px;border-radius:3px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.28);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;margin-left:auto;flex-shrink:0}
+.uc-check.show{opacity:1}
+.uc-check svg{width:8px;height:8px;color:var(--green)}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.uc-body{padding:9px 10px;display:flex;flex-direction:column;gap:5px}
+.uc-field{display:flex;align-items:center;justify-content:space-between;gap:4px}
+.uf-key{font-size:9px;color:var(--muted)}
+.uf-val{font-size:9px;font-weight:700;font-family:'JetBrains Mono',monospace}
+
+/* status pill that flips */
+.status-pill{display:inline-block;border-radius:4px;padding:1px 6px;font-size:9px;font-weight:700;transition:all .4s}
+.sp-fail{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+.sp-open{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.sp-pass{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:var(--green)}
+.sp-fixed{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:var(--green)}
+.sp-closed{background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);color:var(--green)}
+
+/* QA no-chase notice */
+.qa-notice{display:flex;align-items:center;gap:9px;padding:9px 13px;background:rgba(96,165,250,.04);border:1px solid rgba(96,165,250,.15);border-radius:9px;opacity:0;transition:opacity .5s;transform:translateY(4px)}
+.qa-notice.show{opacity:1;transform:translateY(0)}
+.qa-icon{width:22px;height:22px;border-radius:5px;background:rgba(96,165,250,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qa-icon svg{width:11px;height:11px;color:var(--blue)}
+.qa-text{font-size:10.5px;font-weight:600;color:#bfdbfe}
+.qa-sub{font-size:9.5px;color:var(--muted)}
+
+/* timeline of events */
+.events{display:flex;flex-direction:column;gap:5px}
+.ev-item{display:flex;align-items:flex-start;gap:8px;opacity:0;transition:opacity .35s,transform .35s;transform:translateX(-6px)}
+.ev-item.show{opacity:1;transform:translateX(0)}
+.ev-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0}
+.ev-time{font-size:9px;color:var(--muted);width:36px;flex-shrink:0;margin-top:2px;font-family:'JetBrains Mono',monospace}
+.ev-text{font-size:10px;color:#9ca3af;line-height:1.45}
+.ev-text strong{color:#e5e7eb}
+
+/* bottom */
+.bot-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:2}
+.bs-item{padding:9px 13px;border-right:1px solid var(--border)}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:7.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div class="dots"><div class="dot" style="background:#ef4444;opacity:.7"></div><div class="dot" style="background:#fbbf24;opacity:.7"></div><div class="dot" style="background:#34d399;opacity:.7"></div></div>
+      <span class="tb-title">DEF-217 · Closing the Loop</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="badge b-orange" id="topBadge"><div class="pulse-dot"></div>PR merged…</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- Merge banner -->
+    <div class="merge-banner" id="mergeBanner">
+      <div class="mb-icon"><svg viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M2 10.5V2.5m0 8a2 2 0 100-4 2 2 0 000 4zm9-6a2 2 0 100-4 2 2 0 000 4zm0-2v2c0 2.2-1.8 4-4 4H2"/></svg></div>
+      <div>
+        <div class="mb-text">PR #85 merged → main</div>
+        <div class="mb-sub">fix/def-217 · b7d2e45 · 2 files changed</div>
+      </div>
+      <div class="mb-time">just now</div>
+    </div>
+
+    <!-- 3-col cards -->
+    <div class="grid">
+      <!-- Test case card -->
+      <div class="update-card" id="card-test">
+        <div class="uc-header">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="#60a5fa" stroke-width="1.6"><rect x=".5" y=".5" width="10" height="10" rx="2"/><path d="M3 5.5l1.5 1.5L8 3.5"/></svg>
+          <span class="uc-title">Test Case</span>
+          <div class="uc-spinner" id="sp-test"></div>
+          <div class="uc-check" id="chk-test"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div>
+        </div>
+        <div class="uc-body">
+          <div class="uf-key" style="margin-bottom:1px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--blue)">TC-0241</div>
+          <div class="uc-field"><span class="uf-key">Before</span><span class="status-pill sp-fail" id="tc-before">Fail</span></div>
+          <div class="uc-field"><span class="uf-key">After</span><span class="status-pill sp-pass" id="tc-after" style="opacity:.15">Pass</span></div>
+          <div class="uc-field"><span class="uf-key">Updated by</span><span class="uf-val" style="color:var(--muted)">agent</span></div>
+        </div>
+      </div>
+
+      <!-- Defect card -->
+      <div class="update-card" id="card-defect">
+        <div class="uc-header">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="#f97316" stroke-width="1.6"><circle cx="5.5" cy="5.5" r="4.5"/><path d="M5.5 3v2.5l1.5 1.5"/></svg>
+          <span class="uc-title">Workboard Item</span>
+          <div class="uc-spinner" id="sp-defect"></div>
+          <div class="uc-check" id="chk-defect"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div>
+        </div>
+        <div class="uc-body">
+          <div class="uf-key" style="margin-bottom:1px;font-size:9px;font-family:'JetBrains Mono',monospace;color:var(--orange)">DEF-217</div>
+          <div class="uc-field"><span class="uf-key">Status</span><span class="status-pill sp-open" id="def-status">Open</span></div>
+          <div class="uc-field"><span class="uf-key">PR</span><span class="uf-val" style="color:var(--blue)">#85 linked</span></div>
+          <div class="uc-field"><span class="uf-key">Resolved by</span><span class="uf-val" style="color:var(--muted)">agent</span></div>
+        </div>
+      </div>
+
+      <!-- Story card -->
+      <div class="update-card" id="card-story">
+        <div class="uc-header">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="#a78bfa" stroke-width="1.6"><path d="M1 2h9M1 5h7M1 8h5"/></svg>
+          <span class="uc-title">User Story</span>
+          <div class="uc-spinner" id="sp-story"></div>
+          <div class="uc-check" id="chk-story"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div>
+        </div>
+        <div class="uc-body">
+          <div class="uf-key" style="margin-bottom:1px;font-size:9px;font-family:'JetBrains Mono',monospace;color:#a78bfa">US-041</div>
+          <div class="uc-field"><span class="uf-key">Defects</span><span class="uf-val" style="color:var(--muted)">1 open → <span id="defects-val" style="color:var(--green);transition:color .4s">0</span></span></div>
+          <div class="uc-field"><span class="uf-key">Coverage</span><span class="uf-val" id="coverage" style="color:var(--muted)">95%</span></div>
+          <div class="uc-field"><span class="uf-key">QA chased</span><span class="uf-val" style="color:var(--green)">Nobody</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event log -->
+    <div class="events">
+      <div class="ev-item" id="ev1"><div class="ev-dot" style="background:var(--green)"></div><div class="ev-time">00:00</div><div class="ev-text"><strong>PR #85 merged</strong> — fix/def-217 → main</div></div>
+      <div class="ev-item" id="ev2"><div class="ev-dot" style="background:var(--blue)"></div><div class="ev-time">00:01</div><div class="ev-text"><strong>Test TC-0241</strong> auto-updated to <span style="color:var(--green)">Pass</span></div></div>
+      <div class="ev-item" id="ev3"><div class="ev-dot" style="background:var(--orange)"></div><div class="ev-time">00:01</div><div class="ev-text"><strong>DEF-217</strong> status set to <span style="color:var(--green)">Fixed</span> — no manual update needed</div></div>
+      <div class="ev-item" id="ev4"><div class="ev-dot" style="background:var(--purple)"></div><div class="ev-time">00:02</div><div class="ev-text"><strong>US-041</strong> open defect count updated → <span style="color:var(--green)">0</span></div></div>
+    </div>
+
+    <!-- QA notice -->
+    <div class="qa-notice" id="qaNotice">
+      <div class="qa-icon"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="6" cy="4" r="1.5"/><path d="M3 10c0-1.7 1.3-3 3-3s3 1.3 3 3"/></svg></div>
+      <div>
+        <div class="qa-text">QA sees fix status — no developer chasing needed</div>
+        <div class="qa-sub">DEF-217 tracked from log to close entirely within WalnutAI</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Defect</div><div class="bs-val" style="color:var(--green)" id="defectStatus">Open</div></div>
+    <div class="bs-item"><div class="bs-label">Test case</div><div class="bs-val" style="color:var(--green)" id="testStatus">Fail</div></div>
+    <div class="bs-item"><div class="bs-label">QA chased</div><div class="bs-val" style="color:var(--green)">0</div></div>
+    <div class="bs-item"><div class="bs-label">Auto-updated</div><div class="bs-val" style="color:var(--orange)" id="autoCount">0 / 3</div></div>
+  </div>
+</div>
+
+<script>
+function resetAll(){
+  document.getElementById('mergeBanner').className='merge-banner';
+  // cards
+  ['test','defect','story'].forEach(id=>{
+    document.getElementById(`card-${id}`).className='update-card';
+    document.getElementById(`sp-${id}`).className='uc-spinner';
+    document.getElementById(`chk-${id}`).className='uc-check';
+  });
+  document.getElementById('tc-before').className='status-pill sp-fail';
+  document.getElementById('tc-after').style.opacity='.15';
+  document.getElementById('def-status').className='status-pill sp-open';
+  document.getElementById('def-status').textContent='Open';
+  document.getElementById('defects-val').textContent='1';
+  document.getElementById('defects-val').style.color='var(--red)';
+  document.getElementById('coverage').textContent='95%';
+  // events
+  ['ev1','ev2','ev3','ev4'].forEach(id=>document.getElementById(id).className='ev-item');
+  document.getElementById('qaNotice').className='qa-notice';
+  // badge
+  document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>PR merged…';
+  document.getElementById('topBadge').className='badge b-orange';
+  // bottom
+  document.getElementById('defectStatus').textContent='Open';
+  document.getElementById('defectStatus').style.color='var(--orange)';
+  document.getElementById('testStatus').textContent='Fail';
+  document.getElementById('testStatus').style.color='var(--red)';
+  document.getElementById('autoCount').textContent='0 / 3';
+}
+
+function runCycle(){
+  resetAll();
+  let d=400;
+
+  // merge banner
+  setTimeout(()=>document.getElementById('mergeBanner').className='merge-banner show',d); d+=600;
+
+  // ev1
+  setTimeout(()=>document.getElementById('ev1').className='ev-item show',d); d+=400;
+
+  // update test case
+  setTimeout(()=>{
+    document.getElementById('card-test').className='update-card updating';
+    document.getElementById('sp-test').className='uc-spinner show';
+  },d); d+=900;
+  setTimeout(()=>{
+    document.getElementById('card-test').className='update-card done';
+    document.getElementById('sp-test').className='uc-spinner';
+    document.getElementById('chk-test').className='uc-check show';
+    document.getElementById('tc-after').style.opacity='1';
+    document.getElementById('ev2').className='ev-item show';
+    document.getElementById('testStatus').textContent='Pass';
+    document.getElementById('testStatus').style.color='var(--green)';
+    document.getElementById('autoCount').textContent='1 / 3';
+  },d); d+=500;
+
+  // update defect
+  setTimeout(()=>{
+    document.getElementById('card-defect').className='update-card updating';
+    document.getElementById('sp-defect').className='uc-spinner show';
+  },d); d+=900;
+  setTimeout(()=>{
+    document.getElementById('card-defect').className='update-card done';
+    document.getElementById('sp-defect').className='uc-spinner';
+    document.getElementById('chk-defect').className='uc-check show';
+    document.getElementById('def-status').className='status-pill sp-fixed';
+    document.getElementById('def-status').textContent='Fixed';
+    document.getElementById('ev3').className='ev-item show';
+    document.getElementById('defectStatus').textContent='Fixed';
+    document.getElementById('defectStatus').style.color='var(--green)';
+    document.getElementById('autoCount').textContent='2 / 3';
+  },d); d+=500;
+
+  // update story
+  setTimeout(()=>{
+    document.getElementById('card-story').className='update-card updating';
+    document.getElementById('sp-story').className='uc-spinner show';
+  },d); d+=900;
+  setTimeout(()=>{
+    document.getElementById('card-story').className='update-card done';
+    document.getElementById('sp-story').className='uc-spinner';
+    document.getElementById('chk-story').className='uc-check show';
+    document.getElementById('defects-val').textContent='0';
+    document.getElementById('defects-val').style.color='var(--green)';
+    document.getElementById('coverage').textContent='100%';
+    document.getElementById('ev4').className='ev-item show';
+    document.getElementById('autoCount').textContent='3 / 3';
+  },d); d+=500;
+
+  // qa notice + done
+  setTimeout(()=>{
+    document.getElementById('qaNotice').className='qa-notice show';
+    document.getElementById('topBadge').innerHTML='<div class="pulse-dot" style="background:var(--green)"></div>Loop closed';
+    document.getElementById('topBadge').className='badge b-green';
+  },d);
+}
+
+runCycle();
+setInterval(runCycle,12000);
+</script>
+</body>
+</html>

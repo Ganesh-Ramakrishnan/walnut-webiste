@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GIF 4 — End-to-End Implementation</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--card2:#0d1e36;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+
+.screen{width:700px;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 60% 30% at 50% 0%,rgba(249,115,22,0.05) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.015);position:relative;z-index:1}
+.tb-left{display:flex;align-items:center;gap:7px}
+.tb-dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.phase-pill{font-size:9.5px;font-weight:700;padding:3px 11px;border-radius:4px}
+.ph-impl{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.3);color:var(--orange)}
+.ph-test{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.3);color:var(--blue)}
+.ph-done{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.28);color:var(--green)}
+
+/* phase steps strip */
+.phase-steps{display:flex;align-items:center;padding:10px 18px;gap:0;border-bottom:1px solid var(--border);position:relative;z-index:1}
+.ps-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
+.ps-item::after{content:'';position:absolute;top:9px;left:50%;width:100%;height:1.5px;background:var(--border);z-index:0}
+.ps-item:last-child::after{display:none}
+.ps-dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);background:var(--card2);display:flex;align-items:center;justify-content:center;position:relative;z-index:1;transition:all .4s}
+.ps-dot svg{width:8px;height:8px}
+.ps-dot.active{border-color:var(--orange);background:rgba(249,115,22,0.15)}
+.ps-dot.done{border-color:var(--green);background:rgba(52,211,153,0.12)}
+.ps-label{font-size:8.5px;font-weight:600;color:var(--muted);transition:color .3s;text-align:center}
+.ps-item.active .ps-label{color:var(--orange)}
+.ps-item.done .ps-label{color:var(--green)}
+
+/* body split */
+.body{display:grid;grid-template-columns:200px 1fr;border-bottom:1px solid var(--border);position:relative;z-index:1;min-height:220px}
+
+/* file tree */
+.tree-col{border-right:1px solid var(--border);padding:12px 0;overflow:hidden}
+.col-lbl{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:0 12px 8px}
+
+.frow{display:flex;align-items:center;gap:6px;padding:4px 12px;transition:all .3s;border-left:2px solid transparent}
+.frow-icon svg{width:10px;height:10px;flex-shrink:0}
+.frow-name{flex:1;font-size:10.5px;font-weight:500;color:#6b7280;font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.frow-badge{font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;white-space:nowrap;flex-shrink:0}
+.fb-new{background:rgba(52,211,153,0.1);border:1px solid rgba(52,211,153,0.25);color:var(--green)}
+.fb-mod{background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.25);color:var(--orange)}
+.fb-test{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.25);color:var(--blue)}
+.frow.creating{border-left-color:var(--green);background:rgba(52,211,153,0.05)}
+.frow.modding{border-left-color:var(--orange);background:rgba(249,115,22,0.05)}
+.frow.testing{border-left-color:var(--blue);background:rgba(96,165,250,0.05)}
+
+/* right: diff/activity panel */
+.right-col{display:flex;flex-direction:column}
+
+/* diff view */
+.diff-view{flex:1;background:rgba(0,0,0,0.2);font-family:'JetBrains Mono',monospace;font-size:10.5px;line-height:1.7;padding:12px 14px;overflow:hidden;min-height:130px;position:relative}
+.diff-hdr{font-size:9.5px;font-weight:700;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.diff-line{display:flex;gap:8px;min-height:17px;opacity:0;transition:opacity .3s}
+.diff-line.show{opacity:1}
+.dl-sign{width:12px;flex-shrink:0;text-align:center}
+.dl-plus{color:var(--green)}
+.dl-minus{color:var(--red)}
+.dl-code{flex:1}
+.c-green{color:rgba(52,211,153,0.8)}
+.c-orange{color:rgba(249,115,22,0.8)}
+.c-blue{color:rgba(96,165,250,0.8)}
+.c-purple{color:rgba(167,139,250,0.8)}
+.c-muted{color:#4b5563}
+
+/* test runner */
+.test-panel{border-top:1px solid var(--border);padding:10px 14px;background:rgba(0,0,0,0.15)}
+.test-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.test-title{font-size:9.5px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px}
+.test-title svg{width:10px;height:10px}
+.test-result{font-size:9.5px;font-weight:700}
+.test-cases{display:flex;flex-direction:column;gap:3px}
+.tc{display:flex;align-items:center;gap:6px;font-size:10px;opacity:0;transition:opacity .3s}
+.tc.show{opacity:1}
+.tc-icon{width:13px;height:13px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tc-icon svg{width:7px;height:7px}
+.tc-icon.pass{background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.3)}
+.tc-icon.run{background:rgba(249,115,22,0.12);border:1px solid rgba(249,115,22,0.3)}
+.tc-name{color:#9ca3af}
+
+/* commit bar */
+.commit-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:rgba(52,211,153,0.04);border-top:1px solid rgba(52,211,153,0.12);opacity:0;transition:opacity .5s;position:relative;z-index:1}
+.commit-bar.show{opacity:1}
+.cb-icon{width:26px;height:26px;border-radius:7px;background:rgba(52,211,153,0.12);border:1px solid rgba(52,211,153,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cb-icon svg{width:13px;height:13px;color:var(--green)}
+.cb-text{flex:1;font-size:10.5px;color:#9ca3af}
+.cb-text strong{color:#fff}
+.cb-hash{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:600;color:rgba(96,165,250,0.7);background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.18);padding:2px 7px;border-radius:4px}
+
+/* bottom stats */
+.bot-stats{display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:1}
+.bst{padding:10px 14px;border-right:1px solid var(--border)}
+.bst:last-child{border-right:none}
+.bst-v{font-size:16px;font-weight:800;line-height:1}
+.bst-l{font-size:8.5px;font-weight:600;color:var(--muted);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-dot" style="background:#ef4444;opacity:.7"></div>
+      <div class="tb-dot" style="background:#fbbf24;opacity:.7"></div>
+      <div class="tb-dot" style="background:#34d399;opacity:.7"></div>
+      <span class="tb-title">Cloud Agent — End-to-End</span>
+    </div>
+    <span class="phase-pill ph-impl" id="phasePill">Implementing</span>
+  </div>
+
+  <!-- phase steps -->
+  <div class="phase-steps">
+    <div class="ps-item" id="st0"><div class="ps-dot" id="sd0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="ps-label">Map repo</span></div>
+    <div class="ps-item" id="st1"><div class="ps-dot" id="sd1"></div><span class="ps-label">Create files</span></div>
+    <div class="ps-item" id="st2"><div class="ps-dot" id="sd2"></div><span class="ps-label">Edit files</span></div>
+    <div class="ps-item" id="st3"><div class="ps-dot" id="sd3"></div><span class="ps-label">Run tests</span></div>
+    <div class="ps-item" id="st4"><div class="ps-dot" id="sd4"></div><span class="ps-label">Commit</span></div>
+    <div class="ps-item" id="st5"><div class="ps-dot" id="sd5"></div><span class="ps-label">Open PR</span></div>
+  </div>
+
+  <div class="body">
+    <!-- file tree -->
+    <div class="tree-col">
+      <div class="col-lbl">Files</div>
+      <div class="frow" id="fr0"><div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="frow-name">loginController.ts</span><span class="frow-badge fb-new" style="display:none" id="b0">NEW</span></div>
+      <div class="frow" id="fr1"><div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="frow-name">login.test.ts</span><span class="frow-badge fb-test" style="display:none" id="b1">TEST</span></div>
+      <div class="frow" id="fr2"><div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="frow-name">authRoutes.ts</span><span class="frow-badge fb-mod" style="display:none" id="b2">MOD</span></div>
+      <div class="frow" id="fr3"><div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="frow-name">authService.ts</span><span class="frow-badge fb-mod" style="display:none" id="b3">MOD</span></div>
+      <div class="frow" id="fr4"><div class="frow-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><span class="frow-name">index.ts</span><span class="frow-badge fb-mod" style="display:none" id="b4">MOD</span></div>
+    </div>
+
+    <!-- right panel -->
+    <div class="right-col">
+      <div class="diff-view">
+        <div class="diff-hdr" id="diffHdr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span id="diffFile">loginController.ts — creating</span>
+        </div>
+        <div class="diff-line" id="d0"><span class="dl-sign dl-plus">+</span><span class="dl-code c-purple">import</span><span class="dl-code c-muted"> { bcrypt, jwt } from './libs'</span></div>
+        <div class="diff-line" id="d1"><span class="dl-sign dl-plus">+</span><span class="dl-code c-purple">import</span><span class="dl-code c-muted"> { UserRepo } from '../models'</span></div>
+        <div class="diff-line" id="d2"><span class="dl-sign dl-plus">+</span><span class="dl-code c-muted"> </span></div>
+        <div class="diff-line" id="d3"><span class="dl-sign dl-plus">+</span><span class="dl-code c-blue">export async function</span><span class="dl-code c-orange"> login</span><span class="dl-code c-muted">(email, pwd) {</span></div>
+        <div class="diff-line" id="d4"><span class="dl-sign dl-plus">+</span><span class="dl-code c-muted">  const user = await UserRepo.</span><span class="dl-code c-orange">findByEmail</span><span class="dl-code c-muted">(email)</span></div>
+        <div class="diff-line" id="d5"><span class="dl-sign dl-plus">+</span><span class="dl-code c-purple">  if</span><span class="dl-code c-muted"> (!user) </span><span class="dl-code c-purple">throw new</span><span class="dl-code c-orange"> Error</span><span class="dl-code c-muted">('USER_NOT_FOUND')</span></div>
+        <div class="diff-line" id="d6"><span class="dl-sign dl-plus">+</span><span class="dl-code c-muted">  const match = await bcrypt.</span><span class="dl-code c-orange">compare</span><span class="dl-code c-muted">(pwd, user.hash)</span></div>
+        <div class="diff-line" id="d7"><span class="dl-sign dl-plus">+</span><span class="dl-code c-muted">  const token = jwt.</span><span class="dl-code c-orange">sign</span><span class="dl-code c-muted">({ id: user.id }, SECRET, { expiresIn: '7d' })</span></div>
+        <div class="diff-line" id="d8"><span class="dl-sign dl-plus">+</span><span class="dl-code c-purple">  return</span><span class="dl-code c-muted"> { token, userId: user.id }</span></div>
+        <div class="diff-line" id="d9"><span class="dl-sign dl-plus">+</span><span class="dl-code c-muted">}</span></div>
+      </div>
+
+      <div class="test-panel">
+        <div class="test-hdr">
+          <div class="test-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Test Runner
+          </div>
+          <span class="test-result" id="testResult" style="color:var(--muted)">waiting…</span>
+        </div>
+        <div class="test-cases">
+          <div class="tc" id="tc0"><div class="tc-icon pass"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tc-name">login() returns token on valid credentials</span></div>
+          <div class="tc" id="tc1"><div class="tc-icon pass"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tc-name">throws USER_NOT_FOUND for unknown email</span></div>
+          <div class="tc" id="tc2"><div class="tc-icon pass"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tc-name">blocks after 5 failed attempts</span></div>
+          <div class="tc" id="tc3"><div class="tc-icon pass"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div><span class="tc-name">JWT expires in 7 days</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- commit bar -->
+  <div class="commit-bar" id="commitBar">
+    <div class="cb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg></div>
+    <div class="cb-text"><strong>feat(auth): implement login with rate limiting (US-041)</strong> — 5 files changed, 0 tests failing</div>
+    <span class="cb-hash">a3f9c12</span>
+  </div>
+
+  <!-- stats -->
+  <div class="bot-stats">
+    <div class="bst"><div class="bst-v" style="color:var(--green)" id="sv0">0</div><div class="bst-l">Files created</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--orange)" id="sv1">0</div><div class="bst-l">Files modified</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--blue)" id="sv2">0</div><div class="bst-l">Tests passing</div></div>
+    <div class="bst"><div class="bst-v" style="color:var(--yellow)" id="sv3">0</div><div class="bst-l">Lines written</div></div>
+  </div>
+</div>
+
+<script>
+function stepDot(idx, state) {
+  const dot = document.getElementById('sd'+idx);
+  const item = document.getElementById('st'+idx);
+  if(!dot||!item) return;
+  if(state==='active') { dot.className='ps-dot active'; item.className='ps-item active'; }
+  if(state==='done')   { dot.className='ps-dot done'; dot.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>'; item.className='ps-item done'; }
+}
+function showDiff(idx) { const el=document.getElementById('d'+idx); if(el) el.classList.add('show'); }
+function showFile(idx, type) {
+  const row=document.getElementById('fr'+idx);
+  const badge=document.getElementById('b'+idx);
+  if(row){row.className='frow '+(type==='new'?'creating':type==='mod'?'modding':'testing');}
+  if(badge) badge.style.display='';
+}
+function showTC(idx) { const el=document.getElementById('tc'+idx); if(el) el.classList.add('show'); }
+
+const seq = [
+  // phase 1: create file
+  {t:300,  fn:()=>{stepDot(0,'done'); stepDot(1,'active'); showFile(0,'new'); document.getElementById('phasePill').textContent='Creating files'; document.getElementById('phasePill').className='phase-pill ph-impl';}},
+  {t:600,  fn:()=>showDiff(0)},
+  {t:900,  fn:()=>showDiff(1)},
+  {t:1200, fn:()=>showDiff(2)},
+  {t:1500, fn:()=>showDiff(3)},
+  {t:1800, fn:()=>{showDiff(4); document.getElementById('sv3').textContent=22;}},
+  {t:2100, fn:()=>showDiff(5)},
+  {t:2400, fn:()=>{showDiff(6); document.getElementById('sv3').textContent=38;}},
+  {t:2700, fn:()=>showDiff(7)},
+  {t:3000, fn:()=>{showDiff(8);showDiff(9); document.getElementById('sv0').textContent=1; document.getElementById('sv3').textContent=48;}},
+  // phase 2: modify files
+  {t:3400, fn:()=>{stepDot(1,'done'); stepDot(2,'active'); showFile(1,'test'); showFile(2,'mod'); showFile(3,'mod'); showFile(4,'mod'); document.getElementById('sv0').textContent=2; document.getElementById('sv1').textContent=3; document.getElementById('sv3').textContent=112; document.getElementById('diffFile').textContent='authRoutes.ts — modifying'; document.getElementById('phasePill').textContent='Modifying files'; }},
+  // phase 3: tests
+  {t:4200, fn:()=>{stepDot(2,'done'); stepDot(3,'active'); document.getElementById('phasePill').textContent='Running tests'; document.getElementById('phasePill').className='phase-pill ph-test'; document.getElementById('diffFile').textContent='Test runner — auth/*.test.ts'; document.getElementById('testResult').textContent='running…'; document.getElementById('testResult').style.color='var(--orange)';}},
+  {t:4800, fn:()=>showTC(0)},
+  {t:5300, fn:()=>showTC(1)},
+  {t:5800, fn:()=>showTC(2)},
+  {t:6200, fn:()=>{showTC(3); document.getElementById('sv2').textContent=14; document.getElementById('testResult').textContent='14 passed ✓'; document.getElementById('testResult').style.color='var(--green)';}},
+  // phase 4: commit
+  {t:6800, fn:()=>{stepDot(3,'done'); stepDot(4,'active'); document.getElementById('phasePill').textContent='Committing'; document.getElementById('phasePill').className='phase-pill ph-impl';}},
+  {t:7400, fn:()=>{document.getElementById('commitBar').classList.add('show'); stepDot(4,'done'); stepDot(5,'done'); document.getElementById('phasePill').textContent='Complete ✓'; document.getElementById('phasePill').className='phase-pill ph-done';}},
+];
+
+let timers=[];
+function runAnimation() {
+  timers.forEach(clearTimeout); timers=[];
+  // reset
+  for(let i=0;i<6;i++){const dot=document.getElementById('sd'+i);const item=document.getElementById('st'+i);if(dot){dot.className='ps-dot';dot.innerHTML='';} if(item) item.className='ps-item';}
+  stepDot(0,'done'); // map repo already done
+  for(let i=0;i<10;i++){const el=document.getElementById('d'+i);if(el)el.classList.remove('show');}
+  for(let i=0;i<4;i++){const el=document.getElementById('tc'+i);if(el)el.classList.remove('show');}
+  for(let i=0;i<5;i++){
+    const row=document.getElementById('fr'+i);const badge=document.getElementById('b'+i);
+    if(row) row.className='frow'; if(badge) badge.style.display='none';
+  }
+  document.getElementById('commitBar').classList.remove('show');
+  document.getElementById('phasePill').textContent='Implementing';
+  document.getElementById('phasePill').className='phase-pill ph-impl';
+  document.getElementById('diffFile').textContent='loginController.ts — creating';
+  document.getElementById('testResult').textContent='waiting…';
+  document.getElementById('testResult').style.color='var(--muted)';
+  ['sv0','sv1','sv2','sv3'].forEach(id=>document.getElementById(id).textContent='0');
+
+  seq.forEach(s=>{ timers.push(setTimeout(s.fn, s.t)); });
+}
+
+runAnimation();
+setInterval(runAnimation, 11000);
+</script>
+</body>
+</html>

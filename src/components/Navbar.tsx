@@ -12,18 +12,36 @@ const products = [
   { name: "WalnutAI for Jira/Azure", href: "/features/jira-azure-import" },
 ];
 
+const resources = [
+  [
+    { name: "Changelog", href: "/changelog" },
+    { name: "Docs", href: "https://docs.walnutai.ai", external: true },
+    { name: "Help", href: "/contact" },
+    { name: "Integrations", href: "/integrations" },
+  ],
+  [
+    { name: "Blog", href: "/blog" },
+    { name: "Community", href: "https://discord.com/invite/Tcw88yu6q", external: true },
+    { name: "Contact Us", href: "/contact" },
+    { name: "Success Stories", href: "/blog" },
+  ],
+];
+const resourcesFlat = resources.flat();
+
 const navLinks = [
   { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Blog", href: "/blog" },
 ];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
   const productsRef = useRef<HTMLDivElement>(null);
+  const resourcesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -50,6 +68,18 @@ export default function Navbar() {
     document.addEventListener("mousedown", handleClick);
     return () => document.removeEventListener("mousedown", handleClick);
   }, [productsOpen]);
+
+  // Close resources dropdown on outside click
+  useEffect(() => {
+    if (!resourcesOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (resourcesRef.current && !resourcesRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [resourcesOpen]);
 
   return (
     <nav
@@ -106,31 +136,25 @@ export default function Navbar() {
               </button>
               {productsOpen && (
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[280px] rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
+                  className="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[280px] rounded-2xl shadow-2xl overflow-hidden"
                   style={{
-                    background: "rgba(15,15,20,0.95)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
+                    background: "#111827",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    padding: "12px 8px",
+                    boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
                   }}
                 >
-                  <div className="py-2">
-                    {products.map((product) => (
-                      <Link
-                        key={product.name}
-                        href={product.href}
-                        onClick={() => setProductsOpen(false)}
-                        className="block px-5 py-3 hover:bg-white/5 transition-colors"
-                        style={{
-                          fontFamily: '"Plus Jakarta Sans", var(--font-sans), sans-serif',
-                          fontSize: 15,
-                          fontWeight: 600,
-                          color: "#fff",
-                        }}
-                      >
-                        {product.name}
-                      </Link>
-                    ))}
-                  </div>
+                  {products.map((product) => (
+                    <Link
+                      key={product.name}
+                      href={product.href}
+                      onClick={() => setProductsOpen(false)}
+                      className="block px-4 py-2.5 rounded-lg hover:bg-white/[0.06] transition-colors"
+                      style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb" }}
+                    >
+                      {product.name}
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -140,9 +164,79 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-            <Link href="/contact" className="nav-cta">
-              Contact Us
-            </Link>
+
+            {/* Resources dropdown */}
+            <div ref={resourcesRef} className="relative">
+              <button
+                onClick={() => setResourcesOpen(!resourcesOpen)}
+                className="flex items-center gap-1 bg-transparent border-none cursor-pointer"
+                aria-expanded={resourcesOpen}
+                aria-haspopup="true"
+                style={{
+                  fontFamily: '"Plus Jakarta Sans", var(--font-sans), sans-serif',
+                  fontSize: 15,
+                  fontWeight: 600,
+                  lineHeight: "37px",
+                  color: "#fff",
+                  whiteSpace: "nowrap",
+                  padding: 0,
+                }}
+              >
+                Resources
+                <ChevronDown
+                  size={14}
+                  className={`transition-transform duration-200 ${resourcesOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {resourcesOpen && (
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 top-full mt-3 rounded-2xl shadow-2xl overflow-hidden"
+                  style={{
+                    background: "#111827",
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    width: 360,
+                    padding: "20px 24px",
+                    boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
+                  }}
+                >
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-2">
+                    {resources.map((col, ci) => (
+                      <div key={ci} className="space-y-1">
+                        {col.map((item) =>
+                          item.external ? (
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={() => setResourcesOpen(false)}
+                              className="block py-2 px-2 rounded-lg hover:bg-white/[0.06] transition-colors"
+                              style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb", textDecoration: "none" }}
+                            >
+                              {item.name}
+                            </a>
+                          ) : (
+                            <Link
+                              key={item.name}
+                              href={item.href}
+                              onClick={() => setResourcesOpen(false)}
+                              className="block py-2 px-2 rounded-lg hover:bg-white/[0.06] transition-colors"
+                              style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb" }}
+                            >
+                              {item.name}
+                            </Link>
+                          )
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <a href="https://app.walnutai.ai" target="_blank" rel="noopener noreferrer" className="nav-cta">
+              Sign up
+            </a>
           </div>
         </div>
 
@@ -196,18 +290,66 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block py-3 text-sm text-gray-300 hover:text-white transition-colors border-b border-white/5 last:border-0"
+              className="block py-3 text-sm text-gray-300 hover:text-white transition-colors border-b border-white/5"
             >
               {link.name}
             </Link>
           ))}
-          <Link
-            href="/contact"
+          {/* Mobile Resources */}
+          <div className="border-b border-white/5">
+            <button
+              onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
+              className="w-full flex items-center justify-between py-3 text-sm text-gray-300 hover:text-white transition-colors"
+            >
+              Resources
+              <ChevronDown
+                size={16}
+                className={`transition-transform duration-200 ${mobileResourcesOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            {mobileResourcesOpen && (
+              <div className="pb-2">
+                {resourcesFlat.map((item) =>
+                  item.external ? (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setMobileResourcesOpen(false);
+                      }}
+                      className="block py-2.5 pl-4 text-sm text-neutral-400 hover:text-orange transition-colors"
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      onClick={() => {
+                        setMobileOpen(false);
+                        setMobileResourcesOpen(false);
+                      }}
+                      className="block py-2.5 pl-4 text-sm text-neutral-400 hover:text-orange transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+          <a
+            href="https://app.walnutai.ai"
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={() => setMobileOpen(false)}
             className="block mt-4 px-5 py-2.5 text-sm font-medium text-white gradient-orange rounded-full text-center"
           >
-            Contact Us
-          </Link>
+            Sign up
+          </a>
         </div>
       )}
     </nav>

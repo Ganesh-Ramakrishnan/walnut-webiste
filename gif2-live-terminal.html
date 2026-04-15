@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>GIF 2 — Live Terminal</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--card2:#070e1c;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px}
+
+.screen{width:680px;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(ellipse 60% 30% at 50% 0%,rgba(249,115,22,0.06) 0%,transparent 70%);pointer-events:none;z-index:0}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.25);position:relative;z-index:1}
+.tb-left{display:flex;align-items:center;gap:8px}
+.tb-dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);margin-left:4px}
+.live-badge{display:flex;align-items:center;gap:5px;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.22);border-radius:5px;padding:2px 9px;font-size:9.5px;font-weight:700;color:var(--green)}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 1s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* story chip */
+.story-chip{background:rgba(249,115,22,0.09);border:1px solid rgba(249,115,22,0.22);border-radius:5px;padding:2px 9px;font-size:9.5px;font-weight:700;color:var(--orange)}
+
+/* terminal body */
+.term-body{background:var(--card2);padding:16px 18px;height:280px;overflow:hidden;position:relative;z-index:1;font-family:'JetBrains Mono',monospace;font-size:11.5px;line-height:1.8}
+
+.t-line{display:flex;align-items:flex-start;gap:8px;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;min-height:20px}
+.t-line.show{opacity:1;transform:translateY(0)}
+
+.t-prefix{flex-shrink:0;font-size:10px;font-weight:600}
+.p-tool  {color:var(--orange)}
+.p-read  {color:var(--blue)}
+.p-write {color:var(--green)}
+.p-run   {color:var(--yellow)}
+.p-think {color:var(--purple)}
+.p-info  {color:var(--muted)}
+
+.t-text{flex:1;word-break:break-all}
+.c-orange{color:var(--orange)}
+.c-blue  {color:var(--blue)}
+.c-green {color:var(--green)}
+.c-yellow{color:var(--yellow)}
+.c-purple{color:var(--purple)}
+.c-muted {color:var(--muted)}
+.c-white {color:#e5e7eb}
+
+/* cursor */
+.cursor{display:inline-block;width:7px;height:13px;background:var(--orange);margin-left:2px;vertical-align:middle;animation:cursorBlink .8s step-end infinite}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* completion card */
+.completion{position:absolute;bottom:0;left:0;right:0;background:rgba(7,14,28,0.97);border-top:1px solid rgba(52,211,153,0.25);padding:14px 18px;transform:translateY(100%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);z-index:2}
+.completion.show{transform:translateY(0)}
+.cc-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cc-title svg{width:13px;height:13px}
+.cc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cc-item{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:7px;padding:8px 10px}
+.cc-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:800;line-height:1;margin-bottom:2px}
+.cc-lbl{font-family:'Plus Jakarta Sans',sans-serif;font-size:8.5px;font-weight:600;color:var(--muted)}
+
+/* bottom strip */
+.bot-strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--border);position:relative;z-index:1}
+.bs-item{padding:10px 16px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:1px}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:8.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted)}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-dot" style="background:#ef4444;opacity:.7"></div>
+      <div class="tb-dot" style="background:#fbbf24;opacity:.7"></div>
+      <div class="tb-dot" style="background:#34d399;opacity:.7"></div>
+      <span class="tb-title">Agent Terminal</span>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="story-chip">US-041 · Login flow</span>
+      <div class="live-badge"><div class="live-dot"></div>WebSocket Live</div>
+    </div>
+  </div>
+
+  <div class="term-body" id="termBody">
+    <div class="t-line" id="l0"><span class="t-prefix p-info">›</span><span class="t-text c-muted">Initialising agent for US-041 — User login flow</span></div>
+    <div class="t-line" id="l1"><span class="t-prefix p-tool">[tool]</span><span class="t-text"><span class="c-orange">read_file</span> <span class="c-blue">src/auth/authService.ts</span></span></div>
+    <div class="t-line" id="l2"><span class="t-prefix p-think">[think]</span><span class="t-text c-purple">Detected bcrypt pattern — will match existing hash strategy</span></div>
+    <div class="t-line" id="l3"><span class="t-prefix p-tool">[tool]</span><span class="t-text"><span class="c-orange">read_file</span> <span class="c-blue">src/middleware/rateLimiter.ts</span></span></div>
+    <div class="t-line" id="l4"><span class="t-prefix p-think">[think]</span><span class="t-text c-purple">Rate limiter uses in-memory Map — will reuse for login attempts</span></div>
+    <div class="t-line" id="l5"><span class="t-prefix p-tool">[tool]</span><span class="t-text"><span class="c-orange">read_file</span> <span class="c-blue">src/models/User.ts</span></span></div>
+    <div class="t-line" id="l6"><span class="t-prefix p-write">[tool]</span><span class="t-text"><span class="c-green">write_file</span> <span class="c-white">src/auth/loginController.ts</span> <span class="c-muted">— creating</span></span></div>
+    <div class="t-line" id="l7"><span class="t-prefix p-write">[tool]</span><span class="t-text"><span class="c-green">edit_file</span> <span class="c-white">src/routes/authRoutes.ts</span> <span class="c-muted">— adding POST /login</span></span></div>
+    <div class="t-line" id="l8"><span class="t-prefix p-run">[tool]</span><span class="t-text"><span class="c-yellow">run_tests</span> <span class="c-muted">auth/*.test.ts</span></span></div>
+    <div class="t-line" id="l9"><span class="t-prefix p-info">›</span><span class="t-text c-green">✓ 14 tests passed · 0 failed · 0 skipped</span></div>
+    <div class="t-line" id="l10"><span class="t-prefix p-write">[tool]</span><span class="t-text"><span class="c-green">write_file</span> <span class="c-white">src/auth/__tests__/login.test.ts</span> <span class="c-muted">— 8 new tests</span></span></div>
+    <div class="t-line" id="l11"><span class="t-prefix p-run">[tool]</span><span class="t-text"><span class="c-yellow">git_commit</span> <span class="c-muted">"feat(auth): implement login with rate limiting (US-041)"</span></span></div>
+    <div class="t-line" id="l12"><span class="t-prefix p-info">›</span><span class="t-text c-green">✓ Implementation complete · opening PR</span></div>
+    <div id="cursorLine" class="t-line show"><span class="t-prefix p-info" style="opacity:0">›</span><span class="cursor"></span></div>
+    <div class="completion" id="completion">
+      <div class="cc-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Completion Summary — US-041</div>
+      <div class="cc-grid">
+        <div class="cc-item"><div class="cc-val" style="color:var(--green)">3</div><div class="cc-lbl">Files changed</div></div>
+        <div class="cc-item"><div class="cc-val" style="color:var(--orange)">PR #84</div><div class="cc-lbl">Draft PR opened</div></div>
+        <div class="cc-item"><div class="cc-val" style="color:var(--blue)">4m 12s</div><div class="cc-lbl">Elapsed time</div></div>
+        <div class="cc-item"><div class="cc-val" style="color:var(--yellow)">2.1k</div><div class="cc-lbl">Tokens used</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Current task</div><div class="bs-val" style="color:var(--orange)" id="curTask">Reading files…</div></div>
+    <div class="bs-item"><div class="bs-label">Tool calls</div><div class="bs-val" style="color:var(--blue)" id="toolCount">0</div></div>
+    <div class="bs-item"><div class="bs-label">Story</div><div class="bs-val" style="color:var(--muted)">US-041 · 1 of 12</div></div>
+  </div>
+</div>
+
+<script>
+const delays = [0, 600, 1200, 1800, 2400, 3000, 3700, 4400, 5100, 5700, 6300, 7000, 7600];
+const tasks  = ['Initialising…','Reading files…','Analysing…','Reading files…','Analysing…','Reading files…','Writing code…','Modifying routes…','Running tests…','Tests passed ✓','Writing tests…','Committing…','Done ✓'];
+const tools  = [0, 1, 1, 2, 2, 3, 4, 5, 6, 6, 7, 8, 8];
+let lineCount = 0;
+
+function runAnimation() {
+  // hide all
+  for(let i=0;i<13;i++) {
+    const el=document.getElementById('l'+i);
+    if(el){el.classList.remove('show');}
+  }
+  document.getElementById('completion').classList.remove('show');
+  document.getElementById('toolCount').textContent='0';
+  document.getElementById('curTask').textContent='Initialising…';
+
+  delays.forEach((d,i) => {
+    setTimeout(() => {
+      const el = document.getElementById('l'+i);
+      if(el) el.classList.add('show');
+      document.getElementById('curTask').textContent = tasks[i];
+      document.getElementById('toolCount').textContent = tools[i];
+    }, d);
+  });
+
+  // show completion after last line
+  setTimeout(() => {
+    document.getElementById('completion').classList.add('show');
+  }, 8400);
+}
+
+runAnimation();
+setInterval(runAnimation, 12000);
+</script>
+</body>
+</html>

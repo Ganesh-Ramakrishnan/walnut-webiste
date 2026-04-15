@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Defect 1 — Workboard as Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#060b18;--card:#0a1628;--orange:#f97316;--border:rgba(255,255,255,0.07);--muted:#6b7280;--green:#34d399;--red:#ef4444;--blue:#60a5fa;--yellow:#fbbf24;--purple:#a78bfa}
+body{background:var(--bg);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+
+.screen{width:720px;background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative}
+.screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 30% at 50% 0%,rgba(249,115,22,0.07),transparent 65%);pointer-events:none;z-index:0}
+
+/* topbar */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.3);position:relative;z-index:2}
+.dots{display:flex;gap:5px}.dot{width:7px;height:7px;border-radius:50%}
+.tb-title{font-size:10px;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--muted);margin-left:6px}
+.badge{display:inline-flex;align-items:center;gap:4px;border-radius:5px;padding:2px 8px;font-size:9.5px;font-weight:700}
+.b-orange{background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.25);color:var(--orange)}
+.b-green{background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.22);color:var(--green)}
+.b-red{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.22);color:var(--red)}
+.b-blue{background:rgba(96,165,250,.09);border:1px solid rgba(96,165,250,.22);color:var(--blue)}
+.pulse-dot{width:5px;height:5px;border-radius:50%;background:currentColor;animation:pd .9s ease-in-out infinite}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.3}}
+
+.body{padding:16px;position:relative;z-index:1;display:flex;gap:14px}
+
+/* LEFT — defect card */
+.defect-card{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px}
+.defect-header{padding:10px 12px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px}
+.defect-id{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;color:var(--orange);margin-bottom:3px}
+.defect-title{font-size:12px;font-weight:700;color:#e5e7eb;line-height:1.4}
+.defect-meta{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap}
+
+.field-block{border-radius:8px;overflow:hidden;border:1px solid var(--border);transition:border-color .3s}
+.field-block.reading{border-color:rgba(249,115,22,.45);box-shadow:0 0 0 2px rgba(249,115,22,.1)}
+.field-block.done{border-color:rgba(52,211,153,.35)}
+.field-label{display:flex;align-items:center;justify-content:space-between;padding:5px 10px;background:rgba(0,0,0,.35);border-bottom:1px solid var(--border)}
+.fl-text{font-size:8.5px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--muted)}
+.fl-text.reading{color:var(--orange)}
+.fl-text.done{color:var(--green)}
+.fl-check{width:13px;height:13px;border-radius:3px;background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s}
+.fl-check.show{opacity:1}
+.fl-check svg{width:8px;height:8px;color:var(--green)}
+.field-content{padding:7px 10px;background:rgba(0,0,0,.15)}
+
+/* scan bar overlay */
+.scan-bar{height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);width:0%;transition:none;margin-bottom:-2px}
+.scan-bar.scanning{animation:scan .8s ease-in-out forwards}
+@keyframes scan{0%{width:0%;opacity:1}100%{width:100%;opacity:0}}
+
+/* field content styles */
+.repro-step{display:flex;align-items:flex-start;gap:7px;margin-bottom:4px}
+.rs-num{width:14px;height:14px;border-radius:3px;background:rgba(249,115,22,.12);border:1px solid rgba(249,115,22,.2);display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:var(--orange);flex-shrink:0}
+.rs-text{font-size:10px;color:#9ca3af;line-height:1.45}
+.exp-act-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.ea-box{border-radius:6px;padding:6px 8px}
+.ea-expected{background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.15)}
+.ea-actual{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15)}
+.ea-label{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+.ea-label.exp{color:var(--green)}.ea-label.act{color:var(--red)}
+.ea-text{font-size:10px;color:#9ca3af;line-height:1.4}
+
+/* screenshot thumb */
+.ss-thumb{border-radius:6px;overflow:hidden;background:rgba(0,0,0,.5);border:1px solid var(--border);padding:8px;display:flex;align-items:center;gap:10px}
+.ss-preview{width:60px;height:40px;border-radius:4px;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;overflow:hidden}
+.ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:100%;height:100%;padding:4px}
+.ss-cell{border-radius:1px;background:rgba(255,255,255,.06)}
+.ss-cell.red{background:rgba(239,68,68,.25)}
+.ss-info{flex:1;min-width:0}
+.ss-name{font-family:'JetBrains Mono',monospace;font-size:9px;color:#9ca3af;margin-bottom:2px}
+.ss-note{font-size:9.5px;color:#6b7280}
+
+/* linked story */
+.story-chip{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(96,165,250,.05);border-radius:6px}
+.sc-id{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--blue)}
+.sc-title{font-size:10px;color:#9ca3af}
+.sc-arrow{margin-left:auto;color:var(--muted);font-size:10px}
+
+/* RIGHT — agent status panel */
+.agent-panel{width:180px;flex-shrink:0;display:flex;flex-direction:column;gap:8px}
+.agent-header{padding:9px 12px;background:rgba(0,0,0,.3);border:1px solid var(--border);border-radius:10px;text-align:center}
+.agent-icon{width:32px;height:32px;border-radius:50%;background:rgba(249,115,22,.12);border:1.5px solid rgba(249,115,22,.3);display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+.agent-icon svg{width:16px;height:16px;color:var(--orange)}
+.agent-name{font-size:10.5px;font-weight:700;color:#e5e7eb;margin-bottom:2px}
+.agent-status{font-size:9px;color:var(--orange);font-weight:600}
+
+.progress-list{display:flex;flex-direction:column;gap:5px}
+.pl-item{display:flex;align-items:center;gap:7px;padding:6px 10px;background:rgba(0,0,0,.25);border:1px solid var(--border);border-radius:7px;transition:border-color .3s,background .3s}
+.pl-item.active{border-color:rgba(249,115,22,.35);background:rgba(249,115,22,.05)}
+.pl-item.done{border-color:rgba(52,211,153,.25);background:rgba(52,211,153,.03)}
+.pl-icon{width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid var(--border)}
+.pl-icon.active{background:rgba(249,115,22,.15);border-color:rgba(249,115,22,.4)}
+.pl-icon.done{background:rgba(52,211,153,.12);border-color:rgba(52,211,153,.3)}
+.pl-icon svg{width:9px;height:9px}
+.pl-icon.active svg{color:var(--orange)}
+.pl-icon.done svg{color:var(--green)}
+.pl-text{font-size:9.5px;font-weight:600;color:var(--muted)}
+.pl-text.active{color:#e5e7eb}
+.pl-text.done{color:#6b7280}
+
+.agent-summary{padding:8px 10px;background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:8px;opacity:0;transition:opacity .5s}
+.agent-summary.show{opacity:1}
+.as-label{font-size:8px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--green);margin-bottom:5px}
+.as-stat{display:flex;justify-content:space-between;margin-bottom:3px}
+.as-key{font-size:9px;color:var(--muted)}
+.as-val{font-size:9px;font-weight:700;color:#e5e7eb}
+
+/* bottom */
+.bot-strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);position:relative;z-index:2}
+.bs-item{padding:9px 13px;border-right:1px solid var(--border)}
+.bs-item:last-child{border-right:none}
+.bs-label{font-size:7.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.bs-val{font-size:11px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:6px">
+      <div class="dots"><div class="dot" style="background:#ef4444;opacity:.7"></div><div class="dot" style="background:#fbbf24;opacity:.7"></div><div class="dot" style="background:#34d399;opacity:.7"></div></div>
+      <span class="tb-title">WalnutAI Workboard · Defect Reader</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span class="badge b-orange" id="topBadge"><div class="pulse-dot"></div>Reading brief…</span>
+    </div>
+  </div>
+
+  <div class="body">
+    <!-- LEFT: defect card -->
+    <div class="defect-card">
+      <div class="defect-header">
+        <div class="defect-id">DEF-217 · Critical · Regression</div>
+        <div class="defect-title">Login rate-limiter not resetting after successful auth</div>
+        <div class="defect-meta">
+          <span class="badge b-red">Failing</span>
+          <span class="badge b-blue">Sprint 14</span>
+          <span class="badge" style="background:rgba(167,139,250,.08);border:1px solid rgba(167,139,250,.22);color:#a78bfa">Auth module</span>
+        </div>
+      </div>
+
+      <!-- Field 1: Failing test -->
+      <div class="field-block" id="f1">
+        <div class="scan-bar" id="sb1"></div>
+        <div class="field-label"><span class="fl-text" id="fl1">Failing test case</span><div class="fl-check" id="chk1"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div></div>
+        <div class="field-content">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#f87171;">✗ auth › login › should reset attempt counter on success</div>
+          <div style="font-size:9.5px;color:var(--muted);margin-top:3px">Expected <span style="color:#e5e7eb">clearAttempts(ip)</span> to be called — received 0 calls</div>
+        </div>
+      </div>
+
+      <!-- Field 2: Repro steps -->
+      <div class="field-block" id="f2">
+        <div class="scan-bar" id="sb2"></div>
+        <div class="field-label"><span class="fl-text" id="fl2">Reproduction steps</span><div class="fl-check" id="chk2"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div></div>
+        <div class="field-content">
+          <div class="repro-step"><div class="rs-num">1</div><div class="rs-text">Log in with invalid credentials 4 times (≤ lockout threshold)</div></div>
+          <div class="repro-step"><div class="rs-num">2</div><div class="rs-text">Log in successfully with correct password</div></div>
+          <div class="repro-step"><div class="rs-num">3</div><div class="rs-text">Attempt login with wrong password once more</div></div>
+        </div>
+      </div>
+
+      <!-- Field 3: Expected vs Actual -->
+      <div class="field-block" id="f3">
+        <div class="scan-bar" id="sb3"></div>
+        <div class="field-label"><span class="fl-text" id="fl3">Expected vs Actual</span><div class="fl-check" id="chk3"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div></div>
+        <div class="field-content">
+          <div class="exp-act-grid">
+            <div class="ea-box ea-expected"><div class="ea-label exp">Expected</div><div class="ea-text">Attempt counter resets; user can log in normally after success</div></div>
+            <div class="ea-box ea-actual"><div class="ea-label act">Actual</div><div class="ea-text">Counter persists; user gets locked out on 5th total attempt</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Field 4: Screenshot -->
+      <div class="field-block" id="f4">
+        <div class="scan-bar" id="sb4"></div>
+        <div class="field-label"><span class="fl-text" id="fl4">Failure screenshot</span><div class="fl-check" id="chk4"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div></div>
+        <div class="field-content">
+          <div class="ss-thumb">
+            <div class="ss-preview">
+              <div class="ss-grid"><div class="ss-cell"></div><div class="ss-cell"></div><div class="ss-cell red"></div><div class="ss-cell"></div></div>
+            </div>
+            <div class="ss-info">
+              <div class="ss-name">test-run-1429.png</div>
+              <div class="ss-note">Red assertion block · line 47 highlighted</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Field 5: Linked story -->
+      <div class="field-block" id="f5">
+        <div class="scan-bar" id="sb5"></div>
+        <div class="field-label"><span class="fl-text" id="fl5">Linked user story</span><div class="fl-check" id="chk5"><svg viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 3 6 7 2"/></svg></div></div>
+        <div class="field-content">
+          <div class="story-chip">
+            <span class="sc-id">US-041</span>
+            <span class="sc-title">Login with rate limiting &amp; lockout</span>
+            <span class="sc-arrow">→</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: agent panel -->
+    <div class="agent-panel">
+      <div class="agent-header">
+        <div class="agent-icon">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="5" r="2.5"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M8 11v3M6.5 12.5l1.5-1.5 1.5 1.5" stroke-width="1.4"/></svg>
+        </div>
+        <div class="agent-name">Walnut Agent</div>
+        <div class="agent-status" id="agentStatus">Reading workboard…</div>
+      </div>
+
+      <div class="progress-list">
+        <div class="pl-item" id="pi1">
+          <div class="pl-icon" id="pi1-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="1" width="8" height="8" rx="1.5"/><path d="M3 5h4M3 3h4M3 7h2"/></svg></div>
+          <span class="pl-text" id="pi1-text">Failing test</span>
+        </div>
+        <div class="pl-item" id="pi2">
+          <div class="pl-icon" id="pi2-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 2h8M1 5h6M1 8h4"/></svg></div>
+          <span class="pl-text" id="pi2-text">Repro steps</span>
+        </div>
+        <div class="pl-item" id="pi3">
+          <div class="pl-icon" id="pi3-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 1v4l3 2"/><circle cx="5" cy="5" r="4"/></svg></div>
+          <span class="pl-text" id="pi3-text">Expected/Actual</span>
+        </div>
+        <div class="pl-item" id="pi4">
+          <div class="pl-icon" id="pi4-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="2" width="8" height="6" rx="1"/><path d="M3 4h4M3 6h2"/></svg></div>
+          <span class="pl-text" id="pi4-text">Screenshot</span>
+        </div>
+        <div class="pl-item" id="pi5">
+          <div class="pl-icon" id="pi5-icon"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 5c0-1.7 1.3-3 3-3s3 1.3 3 3"/><path d="M5 8V5M3.5 6.5L5 5l1.5 1.5"/></svg></div>
+          <span class="pl-text" id="pi5-text">Linked story</span>
+        </div>
+      </div>
+
+      <div class="agent-summary" id="agentSummary">
+        <div class="as-label">Context loaded</div>
+        <div class="as-stat"><span class="as-key">Fields read</span><span class="as-val" style="color:var(--green)">5 / 5</span></div>
+        <div class="as-stat"><span class="as-key">Story linked</span><span class="as-val" style="color:var(--blue)">US-041</span></div>
+        <div class="as-stat"><span class="as-key">Re-entry needed</span><span class="as-val" style="color:var(--green)">None</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bot-strip">
+    <div class="bs-item"><div class="bs-label">Defect</div><div class="bs-val" style="color:var(--orange);font-size:10px;font-family:'JetBrains Mono',monospace">DEF-217</div></div>
+    <div class="bs-item"><div class="bs-label">Fields</div><div class="bs-val" style="color:var(--green)" id="fieldsCount">0 / 5</div></div>
+    <div class="bs-item"><div class="bs-label">Re-entry</div><div class="bs-val" style="color:var(--green)">None</div></div>
+    <div class="bs-item"><div class="bs-label">Status</div><div class="bs-val" style="color:var(--orange)" id="botStatus">Reading</div></div>
+  </div>
+</div>
+
+<script>
+const FIELDS = [
+  {fb:'f1',sb:'sb1',fl:'fl1',chk:'chk1',pi:'pi1',pit:'pi1-text',pii:'pi1-icon'},
+  {fb:'f2',sb:'sb2',fl:'fl2',chk:'chk2',pi:'pi2',pit:'pi2-text',pii:'pi2-icon'},
+  {fb:'f3',sb:'sb3',fl:'fl3',chk:'chk3',pi:'pi3',pit:'pi3-text',pii:'pi3-icon'},
+  {fb:'f4',sb:'sb4',fl:'fl4',chk:'chk4',pi:'pi4',pit:'pi4-text',pii:'pi4-icon'},
+  {fb:'f5',sb:'sb5',fl:'fl5',chk:'chk5',pi:'pi5',pit:'pi5-text',pii:'pi5-icon'},
+];
+
+function resetAll(){
+  FIELDS.forEach(f=>{
+    document.getElementById(f.fb).className='field-block';
+    const fl=document.getElementById(f.fl);fl.className='fl-text';
+    document.getElementById(f.chk).className='fl-check';
+    const pi=document.getElementById(f.pi);pi.className='pl-item';
+    const pit=document.getElementById(f.pit);pit.className='pl-text';
+    const pii=document.getElementById(f.pii);pii.className='pl-icon';
+  });
+  document.getElementById('agentSummary').className='agent-summary';
+  document.getElementById('agentStatus').textContent='Reading workboard…';
+  document.getElementById('topBadge').innerHTML='<div class="pulse-dot"></div>Reading brief…';
+  document.getElementById('fieldsCount').textContent='0 / 5';
+  document.getElementById('botStatus').textContent='Reading';
+}
+
+function activateField(i){
+  const f=FIELDS[i];
+  document.getElementById(f.fb).className='field-block reading';
+  document.getElementById(f.fl).className='fl-text reading';
+  const pi=document.getElementById(f.pi);pi.className='pl-item active';
+  const pit=document.getElementById(f.pit);pit.className='pl-text active';
+  const pii=document.getElementById(f.pii);pii.className='pl-icon active';
+  document.getElementById(`sb${i+1}`).className='scan-bar scanning';
+  setTimeout(()=>{document.getElementById(`sb${i+1}`).className='scan-bar';},900);
+}
+
+function doneField(i){
+  const f=FIELDS[i];
+  document.getElementById(f.fb).className='field-block done';
+  document.getElementById(f.fl).className='fl-text done';
+  document.getElementById(f.chk).className='fl-check show';
+  const pi=document.getElementById(f.pi);pi.className='pl-item done';
+  const pit=document.getElementById(f.pit);pit.className='pl-text done';
+  const pii=document.getElementById(f.pii);pii.className='pl-icon done';
+  document.getElementById('fieldsCount').textContent=`${i+1} / 5`;
+}
+
+function runCycle(){
+  resetAll();
+  const statuses=['Reading failing test…','Parsing repro steps…','Comparing expected/actual…','Analysing screenshot…','Linking user story…'];
+  let delay=400;
+  FIELDS.forEach((_, i)=>{
+    setTimeout(()=>{activateField(i); document.getElementById('agentStatus').textContent=statuses[i];}, delay);
+    delay+=1100;
+    setTimeout(()=>doneField(i), delay-200);
+  });
+  // final state
+  setTimeout(()=>{
+    document.getElementById('agentStatus').textContent='Brief complete ✓';
+    document.getElementById('topBadge').innerHTML='<div class="pulse-dot" style="background:var(--green)"></div>Brief loaded';
+    document.getElementById('topBadge').style.background='rgba(52,211,153,.09)';
+    document.getElementById('topBadge').style.borderColor='rgba(52,211,153,.22)';
+    document.getElementById('topBadge').style.color='var(--green)';
+    document.getElementById('agentSummary').className='agent-summary show';
+    document.getElementById('botStatus').textContent='Ready';
+    document.getElementById('botStatus').style.color='var(--green)';
+  }, delay+300);
+}
+
+runCycle();
+setInterval(runCycle, 9000);
+</script>
+</body>
+</html>
