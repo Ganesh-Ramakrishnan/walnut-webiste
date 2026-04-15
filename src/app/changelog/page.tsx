@@ -23,57 +23,69 @@ export const metadata: Metadata = {
     url: `${siteUrl}/changelog`,
     siteName: "WalnutAI",
     type: "website",
-    images: [{ url: "https://walnutai.dev/og/changelog.png", width: 1200, height: 630, alt: "WalnutAI Changelog — Product Updates & Release Notes" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Changelog - Product Updates & Release Notes",
     description:
       "Stay up to date with WalnutAI product updates, new features, and release notes.",
-    site: "@WalnutAI",
-    images: ["https://walnutai.dev/og/changelog.png"],
   },
-  alternates: {
-    canonical: `${siteUrl}/changelog`,
-  },
+  alternates: { canonical: `${siteUrl}/changelog` },
 };
 
 interface ReleaseEntry {
+  version: string;
   date: string;
   title: string;
+  description?: string;
   tags: string[];
   items: string[];
+  highlights?: string[];
 }
 
 const releases: ReleaseEntry[] = [
   {
-    date: "March 2026",
+    version: "2.0",
+    date: "Mar 15, 2026",
     title: "Platform Launch",
+    description: "The official public launch of WalnutAI — a complete AI-powered ecosystem for software delivery, from requirements to production.",
     tags: ["Major Release", "Platform"],
-    items: [
-      "Official public launch of the WalnutAI platform",
+    highlights: [
       "End-to-end SDLC automation from requirements to deployment",
       "AI-powered gap analysis engine for coverage insights",
       "Interactive dashboard with real-time project metrics",
+    ],
+    items: [
       "Role-based access control with organization management",
       "Public API with comprehensive documentation",
+      "Multi-project workspace support",
+      "Custom webhook integrations",
+      "Onboarding wizard for new teams",
     ],
   },
   {
-    date: "February 2026",
+    version: "1.8",
+    date: "Feb 20, 2026",
     title: "Testing & Execution Engine",
+    description: "A major upgrade to our testing infrastructure — multi-framework support, visual regression, and parallel execution.",
     tags: ["Feature", "Testing"],
-    items: [
+    highlights: [
       "Automated test case generation from requirements and code",
       "Multi-framework test execution (Selenium, Cypress, Playwright)",
+    ],
+    items: [
       "Visual regression testing with AI-based diff detection",
       "Test coverage mapping and gap identification",
       "Parallel test execution for faster feedback cycles",
+      "Test result history and trend analytics",
+      "Exportable test execution reports (PDF, CSV)",
     ],
   },
   {
-    date: "January 2026",
+    version: "1.5",
+    date: "Jan 15, 2026",
     title: "Enterprise Features",
+    description: "Enterprise-grade security, compliance, and access controls for regulated industries.",
     tags: ["Enterprise", "Security"],
     items: [
       "SOC 2 Type II aligned security controls",
@@ -81,11 +93,14 @@ const releases: ReleaseEntry[] = [
       "Audit logging for all user and system actions",
       "Custom role and permission management",
       "Data residency options for regulated industries",
+      "IP allowlisting and session management",
     ],
   },
   {
-    date: "December 2025",
+    version: "1.2",
+    date: "Dec 10, 2025",
     title: "Integrations Expansion",
+    description: "Connect your entire toolchain — from source control to cloud infrastructure.",
     tags: ["Integrations", "DevOps"],
     items: [
       "Native Jira integration for bi-directional sync",
@@ -93,6 +108,7 @@ const releases: ReleaseEntry[] = [
       "Docker and Kubernetes deployment pipeline support",
       "AWS, Azure, and GCP cloud provider connectors",
       "Slack and Microsoft Teams notification channels",
+      "Figma integration for design-to-test automation",
     ],
   },
 ];
@@ -112,202 +128,80 @@ export default function ChangelogPage() {
   return (
     <>
       <Navbar />
-      <main id="main-content" style={{ paddingTop: 80 }}>
+      <main id="main-content" className="cl-page">
         {/* Hero */}
-        <section
-          style={{
-            background: "#0a0a0a",
-            padding: "80px 24px 40px",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <p
-              style={{
-                color: "#F17F0D",
-                fontWeight: 600,
-                fontSize: 14,
-                textTransform: "uppercase",
-                letterSpacing: 1.5,
-                marginBottom: 16,
-              }}
-            >
-              Changelog
-            </p>
-            <h1
-              style={{
-                color: "#fff",
-                fontSize: "clamp(32px, 5vw, 48px)",
-                fontWeight: 800,
-                lineHeight: 1.15,
-                marginBottom: 20,
-              }}
-            >
+        <section className="cl-hero">
+          <div className="cl-hero-inner">
+            <p className="cl-hero-label">Changelog</p>
+            <h1 className="cl-hero-title">
               Product Updates &{" "}
               <span style={{ color: "#F17F0D" }}>Release Notes</span>
             </h1>
-            <p
-              style={{
-                color: "#9ca3af",
-                fontSize: 17,
-                lineHeight: 1.7,
-              }}
-            >
+            <p className="cl-hero-sub">
               Follow along as we build the AI ecosystem for software delivery.
               New features, improvements, and platform updates.
             </p>
           </div>
         </section>
 
-        {/* Timeline */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 100px" }}>
-          <div
-            style={{
-              maxWidth: 760,
-              margin: "0 auto",
-              position: "relative",
-            }}
-          >
-            {/* Vertical line */}
-            <div
-              style={{
-                position: "absolute",
-                left: 18,
-                top: 0,
-                bottom: 0,
-                width: 2,
-                background:
-                  "linear-gradient(to bottom, #F17F0D, #262626 70%, transparent)",
-              }}
-            />
+        {/* Entries */}
+        <section className="cl-entries">
+          {releases.map((release, idx) => (
+            <article key={release.version} className={`cl-entry ${idx === 0 ? "cl-entry--latest" : ""}`}>
+              {/* Left: date + version (sticky on desktop) */}
+              <div className="cl-entry-side">
+                <span className="cl-version">{release.version}</span>
+                <time className="cl-date">{release.date}</time>
+              </div>
 
-            {releases.map((release, idx) => (
-              <div
-                key={release.date}
-                style={{
-                  position: "relative",
-                  paddingLeft: 56,
-                  marginBottom: idx < releases.length - 1 ? 56 : 0,
-                }}
-              >
-                {/* Dot */}
-                <div
-                  style={{
-                    position: "absolute",
-                    left: 10,
-                    top: 6,
-                    width: 18,
-                    height: 18,
-                    borderRadius: "50%",
-                    background: idx === 0 ? "#F17F0D" : "#262626",
-                    border:
-                      idx === 0
-                        ? "3px solid rgba(241,127,13,0.3)"
-                        : "3px solid #333",
-                  }}
-                />
+              {/* Right: content */}
+              <div className="cl-entry-content">
+                {/* Tags */}
+                <div className="cl-tags">
+                  {release.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="cl-tag"
+                      style={{
+                        color: tagColors[tag] || "#F17F0D",
+                        background: `${tagColors[tag] || "#F17F0D"}14`,
+                        borderColor: `${tagColors[tag] || "#F17F0D"}30`,
+                      }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
 
-                {/* Date */}
-                <p
-                  style={{
-                    color: "#6b7280",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    textTransform: "uppercase",
-                    letterSpacing: 1,
-                    marginBottom: 8,
-                  }}
-                >
-                  {release.date}
-                </p>
+                {/* Title */}
+                <h2 className="cl-title">{release.title}</h2>
 
-                {/* Card */}
-                <div
-                  style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
-                    borderRadius: 14,
-                    padding: "28px 24px",
-                  }}
-                >
-                  <h3
-                    style={{
-                      color: "#fff",
-                      fontSize: 20,
-                      fontWeight: 700,
-                      marginBottom: 12,
-                    }}
-                  >
-                    {release.title}
-                  </h3>
+                {/* Description */}
+                {release.description && (
+                  <p className="cl-desc">{release.description}</p>
+                )}
 
-                  {/* Tags */}
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: 8,
-                      marginBottom: 18,
-                    }}
-                  >
-                    {release.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          display: "inline-block",
-                          fontSize: 11,
-                          fontWeight: 700,
-                          color: tagColors[tag] || "#F17F0D",
-                          background: `${tagColors[tag] || "#F17F0D"}18`,
-                          border: `1px solid ${tagColors[tag] || "#F17F0D"}33`,
-                          borderRadius: 6,
-                          padding: "3px 10px",
-                          textTransform: "uppercase",
-                          letterSpacing: 0.5,
-                        }}
-                      >
-                        {tag}
-                      </span>
+                {/* Highlights */}
+                {release.highlights && release.highlights.length > 0 && (
+                  <div className="cl-highlights">
+                    {release.highlights.map((h) => (
+                      <div key={h} className="cl-highlight">
+                        <span className="cl-highlight-icon">&#10024;</span>
+                        {h}
+                      </div>
                     ))}
                   </div>
+                )}
 
-                  {/* Items */}
-                  <ul
-                    style={{
-                      listStyle: "none",
-                      padding: 0,
-                      margin: 0,
-                    }}
-                  >
-                    {release.items.map((item) => (
-                      <li
-                        key={item}
-                        style={{
-                          color: "#9ca3af",
-                          fontSize: 14,
-                          lineHeight: 1.7,
-                          paddingLeft: 18,
-                          position: "relative",
-                          marginBottom: 6,
-                        }}
-                      >
-                        <span
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            color: "#F17F0D",
-                          }}
-                        >
-                          -
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {/* Items */}
+                <ul className="cl-items">
+                  {release.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
               </div>
-            ))}
-          </div>
+            </article>
+          ))}
         </section>
       </main>
       <Footer />
