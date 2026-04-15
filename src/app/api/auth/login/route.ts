@@ -5,6 +5,8 @@ import { signToken, getTokenCookieOptions, TOKEN_NAME } from "@/lib/auth";
 import { checkRateLimit, resetRateLimit } from "@/lib/rateLimit";
 import User from "@/models/User";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     // Rate limiting by IP

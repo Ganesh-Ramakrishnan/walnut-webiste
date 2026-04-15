@@ -4,6 +4,7 @@ import { isAuthenticated } from "@/lib/auth";
 import { sanitizeBlogContent, sanitizeText } from "@/lib/sanitize";
 import Blog from "@/models/Blog";
 
+export const dynamic = "force-dynamic";
 
 interface RouteParams {
   params: Promise<{ id: string }>;

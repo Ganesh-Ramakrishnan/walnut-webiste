@@ -4,6 +4,7 @@ import { isAuthenticated } from "@/lib/auth";
 import { sanitizeBlogContent, sanitizeText } from "@/lib/sanitize";
 import Blog from "@/models/Blog";
 
+export const dynamic = "force-dynamic";
 
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_TITLE = 200;
