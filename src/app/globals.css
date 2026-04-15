@@ -2522,131 +2522,164 @@ html.lenis body {
 
 /* ── Blog sidebar layout (Lovable-style) ── */
 .blog-layout {
-  display: flex;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 60px 24px 80px;
-  gap: 48px;
+  display: flex !important;
+  max-width: 1280px !important;
+  margin: 0 auto !important;
+  padding: 60px 24px 80px !important;
+  gap: 48px !important;
 }
 
 /* ── Sidebar ── */
 .blog-sidebar {
-  position: sticky;
-  top: 100px;
-  align-self: flex-start;
-  width: 220px;
-  flex-shrink: 0;
+  position: sticky !important;
+  top: 100px !important;
+  align-self: flex-start !important;
+  width: 220px !important;
+  flex-shrink: 0 !important;
 }
 
 .blog-sidebar-title {
-  color: #fff;
-  font-size: 36px;
-  font-weight: 800;
-  margin: 0 0 10px;
-  letter-spacing: -0.02em;
+  color: #fff !important;
+  font-size: 36px !important;
+  font-weight: 800 !important;
+  margin: 0 0 10px !important;
+  letter-spacing: -0.02em !important;
 }
 
 .blog-sidebar-sub {
-  color: #6b7280;
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
+  color: #6b7280 !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
 }
 
 .blog-sidebar-divider {
-  width: 40px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.1);
-  margin: 24px 0;
+  width: 40px !important;
+  height: 2px !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  margin: 24px 0 !important;
 }
 
 .blog-sidebar-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 2px !important;
 }
 
 .blog-sidebar-link {
-  display: block;
-  background: none;
-  border: none;
-  text-align: left;
-  padding: 10px 12px;
-  border-radius: 8px;
-  color: #9ca3af;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  display: block !important;
+  background: none !important;
+  border: none !important;
+  text-align: left !important;
+  padding: 10px 12px !important;
+  border-radius: 8px !important;
+  color: #9ca3af !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: color 0.2s, background 0.2s !important;
 }
 
 .blog-sidebar-link:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.04);
+  color: #fff !important;
+  background: rgba(255, 255, 255, 0.04) !important;
 }
 
 .blog-sidebar-active {
   color: #fff !important;
-  font-weight: 700;
+  font-weight: 700 !important;
 }
 
 .blog-sidebar-group {
-  margin-top: 6px;
+  margin-top: 6px !important;
 }
 
 .blog-sidebar-heading {
-  display: block;
-  padding: 10px 12px 4px;
-  color: #fff;
-  font-size: 15px;
-  font-weight: 700;
+  display: block !important;
+  padding: 10px 12px 4px !important;
+  color: #fff !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
 }
 
 .blog-sidebar-indent {
-  padding-left: 28px;
+  padding-left: 28px !important;
 }
 
 /* ── Mobile category pills (hidden on desktop) ── */
 .blog-mobile-filters {
-  display: none;
+  display: none !important;
 }
 
 /* ── Main content ── */
 .blog-main {
-  flex: 1;
-  min-width: 0;
+  flex: 1 !important;
+  min-width: 0 !important;
 }
 
 /* ── Blog grid ── */
 .blog-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  display: grid !important;
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 24px !important;
 }
 
 /* ── Category filter pills (used in mobile) ── */
 .blog-filter-pill {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 8px 18px;
-  color: #9ca3af;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
+  padding: 8px 18px !important;
+  color: #9ca3af !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+  white-space: nowrap !important;
 }
 
 .blog-filter-pill:hover {
-  color: #fff;
-  border-color: rgba(241, 127, 13, 0.3);
+  color: #fff !important;
+  border-color: rgba(241, 127, 13, 0.3) !important;
 }
 
 .blog-filter-active {
   background: rgba(241, 127, 13, 0.12) !important;
   border-color: #F17F0D !important;
   color: #F17F0D !important;
+}
+
+/* Blog search bar */
+.blog-search-wrapper {
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  background: #141414 !important;
+  border: 1px solid #2a2a2a !important;
+  border-radius: 10px !important;
+  padding: 0 14px !important;
+  margin-bottom: 28px !important;
+  transition: border-color 0.2s ease !important;
+}
+.blog-search-wrapper:focus-within {
+  border-color: #F17F0D !important;
+}
+.blog-search-icon {
+  color: #6b7280 !important;
+  flex-shrink: 0 !important;
+}
+.blog-search-input {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  color: #d1d5db !important;
+  font-size: 14px !important;
+  padding: 12px 12px !important;
+  font-family: inherit !important;
+}
+.blog-search-input::placeholder {
+  color: #4b5563 !important;
 }
 
 /* Blog card */
@@ -3037,24 +3070,24 @@ html.lenis body {
 
 @media (max-width: 900px) {
   .blog-sidebar {
-    display: none;
+    display: none !important;
   }
   .blog-mobile-filters {
-    display: block;
-    width: 100%;
-    margin-bottom: 28px;
-    overflow-x: auto;
+    display: block !important;
+    width: 100% !important;
+    margin-bottom: 28px !important;
+    overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
   }
   .blog-mobile-filters-scroll {
-    display: flex;
-    gap: 8px;
-    padding-bottom: 4px;
+    display: flex !important;
+    gap: 8px !important;
+    padding-bottom: 4px !important;
   }
   .blog-layout {
-    flex-direction: column;
-    gap: 0;
-    padding: 40px 24px 60px;
+    flex-direction: column !important;
+    gap: 0 !important;
+    padding: 40px 24px 60px !important;
   }
 }
 

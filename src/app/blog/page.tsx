@@ -31,6 +31,7 @@ const ALL_CATEGORIES = SIDEBAR_ITEMS.flatMap((item) =>
 export default function BlogListingPage() {
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
   const [activeCategory, setActiveCategory] = useState("Latest");
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -45,10 +46,16 @@ export default function BlogListingPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filteredPosts =
-    activeCategory === "Latest"
-      ? allPosts
-      : allPosts.filter((post) => post.category === activeCategory);
+  const filteredPosts = allPosts.filter((post) => {
+    const matchesCategory = activeCategory === "Latest" || post.category === activeCategory;
+    const q = searchQuery.toLowerCase();
+    const matchesSearch = q
+      ? post.title.toLowerCase().includes(q) ||
+        post.excerpt.toLowerCase().includes(q) ||
+        post.tags.some((tag) => tag.toLowerCase().includes(q))
+      : true;
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
@@ -109,6 +116,20 @@ export default function BlogListingPage() {
 
         {/* ── Blog cards ── */}
         <main className="blog-main">
+          <div className="blog-search-wrapper">
+            <svg className="blog-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="11" cy="11" r="8" />
+              <line x1="21" y1="21" x2="16.65" y2="16.65" />
+            </svg>
+            <input
+              type="text"
+              className="blog-search-input"
+              placeholder="Search posts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+
           {loading ? (
             <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
               Loading posts...
