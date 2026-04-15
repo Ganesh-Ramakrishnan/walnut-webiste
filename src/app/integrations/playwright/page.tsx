@@ -93,8 +93,8 @@ export default function PlaywrightIntegrationPage() {
           }}
         >
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <span style={{ fontSize: 48, display: "block", marginBottom: 16 }}>
-              {"\uD83C\uDFAD"}
+            <span style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#2EAD33"/><path d="M6.8 16.2V7.8h3.7c.8 0 1.4.2 1.9.7.5.4.7 1 .7 1.8 0 .5-.1.9-.3 1.2-.2.4-.5.6-.9.8v.1c.5.1.9.4 1.2.8.3.4.4.9.4 1.5 0 .9-.3 1.5-.8 2-.5.5-1.2.7-2.1.7H6.8zm1.8-5h1.7c.5 0 .8-.1 1.1-.3.2-.2.4-.6.4-1s-.1-.8-.4-1c-.2-.2-.6-.3-1-.3H8.6v2.6zm0 1.3v3h1.9c.5 0 .8-.1 1.1-.4.3-.3.4-.6.4-1.1 0-.5-.1-.9-.4-1.1-.3-.3-.6-.4-1.1-.4H8.6zm6 3.7V7.8h1.7v6.8h3.3v1.6h-5z" fill="#fff"/></svg>
             </span>
             <h1
               style={{

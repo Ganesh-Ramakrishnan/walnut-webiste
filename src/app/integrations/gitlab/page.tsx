@@ -93,8 +93,8 @@ export default function GitLabIntegrationPage() {
           }}
         >
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <span style={{ fontSize: 48, display: "block", marginBottom: 16 }}>
-              {"\uD83E\uDD8A"}
+            <span style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><path d="M23.955 13.587l-1.342-4.135-2.664-8.189a.455.455 0 00-.867 0L16.418 9.45H7.582L4.918 1.263a.455.455 0 00-.867 0L1.387 9.452.045 13.587a.924.924 0 00.331 1.023L12 23.054l11.624-8.443a.92.92 0 00.331-1.024" fill="#E24329"/><path d="M12 23.054L16.418 9.45H7.582L12 23.054z" fill="#FC6D26"/><path d="M12 23.054L7.582 9.45H1.387L12 23.054z" fill="#FCA326"/><path d="M1.387 9.45L.045 13.587a.924.924 0 00.331 1.023L12 23.054 1.387 9.45z" fill="#E24329"/><path d="M12 23.054l4.418-13.604h5.195L12 23.054z" fill="#FCA326"/><path d="M22.613 9.45l1.342 4.137a.924.924 0 01-.331 1.023L12 23.054l10.613-13.604z" fill="#E24329"/></svg>
             </span>
             <h1
               style={{

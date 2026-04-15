@@ -4,6 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter, useParams } from "next/navigation";
 import DeleteModal from "@/components/DeleteModal";
 
+const BLOG_CATEGORIES = [
+  "Announcements",
+  "Integrations",
+  "Success Stories",
+  "Dev Playbook",
+  "QA Playbook",
+  "Management Playbook",
+  "Behind the Scenes",
+];
+
 export default function EditBlogPost() {
   const router = useRouter();
   const params = useParams();
@@ -137,7 +147,7 @@ export default function EditBlogPost() {
 
             <div className="d-row">
               <div className="d-field"><label htmlFor="author">Author</label><input id="author" type="text" value={form.author} onChange={(e) => updateField("author", e.target.value)} /></div>
-              <div className="d-field"><label htmlFor="category">Category *</label><input id="category" type="text" value={form.category} onChange={(e) => updateField("category", e.target.value)} required /></div>
+              <div className="d-field"><label htmlFor="category">Category *</label><select id="category" value={form.category} onChange={(e) => updateField("category", e.target.value)} required><option value="">Select a category</option>{BLOG_CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}</select></div>
             </div>
 
             <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} /></div>

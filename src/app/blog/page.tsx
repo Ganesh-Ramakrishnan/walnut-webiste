@@ -6,11 +6,31 @@ import BlogCard from "@/components/BlogCard";
 import Footer from "@/components/Footer";
 import type { BlogPost } from "@/data/blogPosts";
 
+type SidebarItem =
+  | { type: "link"; name: string }
+  | { type: "heading"; name: string; children: string[] };
+
+const SIDEBAR_ITEMS: SidebarItem[] = [
+  { type: "link", name: "Latest" },
+  { type: "link", name: "Announcements" },
+  { type: "link", name: "Integrations" },
+  { type: "link", name: "Success Stories" },
+  {
+    type: "heading",
+    name: "Playbooks",
+    children: ["Dev Playbook", "QA Playbook", "Management Playbook"],
+  },
+  { type: "link", name: "Behind the Scenes" },
+];
+
+/* Flat list for mobile pills */
+const ALL_CATEGORIES = SIDEBAR_ITEMS.flatMap((item) =>
+  item.type === "heading" ? item.children : [item.name]
+);
+
 export default function BlogListingPage() {
   const [allPosts, setAllPosts] = useState<BlogPost[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategory, setActiveCategory] = useState("Latest");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,48 +39,63 @@ export default function BlogListingPage() {
       .then((data) => {
         if (Array.isArray(data)) {
           setAllPosts(data);
-          setCategories([...new Set(data.map((p: BlogPost) => p.category))]);
         }
       })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
-  const filteredPosts = allPosts.filter((post) => {
-    const matchesCategory = activeCategory ? post.category === activeCategory : true;
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = q
-      ? post.title.toLowerCase().includes(q) ||
-        post.excerpt.toLowerCase().includes(q) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(q))
-      : true;
-    return matchesCategory && matchesSearch;
-  });
+  const filteredPosts =
+    activeCategory === "Latest"
+      ? allPosts
+      : allPosts.filter((post) => post.category === activeCategory);
 
   return (
     <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
       <Navbar />
 
-      <div className="blog-container">
-        <div className="blog-heading">
-          <h1 className="blog-page-title">
-            Our <span className="text-orange">Blog</span>
-          </h1>
-          <p className="blog-page-subtitle">
-            Insights, updates, and best practices for modern software delivery.
+      <div className="blog-layout">
+        {/* ── Left sidebar ── */}
+        <aside className="blog-sidebar">
+          <h1 className="blog-sidebar-title">Blog</h1>
+          <p className="blog-sidebar-sub">
+            Compiled notes from the WalnutAI team
           </p>
-        </div>
 
-        {/* Filters row: pills left, search right */}
-        <div className="blog-toolbar">
-          <div className="blog-filters">
-            <button
-              className={`blog-filter-pill ${activeCategory === null ? "blog-filter-active" : ""}`}
-              onClick={() => setActiveCategory(null)}
-            >
-              All
-            </button>
-            {categories.map((cat) => (
+          <div className="blog-sidebar-divider" />
+
+          <nav className="blog-sidebar-nav">
+            {SIDEBAR_ITEMS.map((item) =>
+              item.type === "link" ? (
+                <button
+                  key={item.name}
+                  className={`blog-sidebar-link ${activeCategory === item.name ? "blog-sidebar-active" : ""}`}
+                  onClick={() => setActiveCategory(item.name)}
+                >
+                  {item.name}
+                </button>
+              ) : (
+                <div key={item.name} className="blog-sidebar-group">
+                  <span className="blog-sidebar-heading">{item.name}</span>
+                  {item.children.map((child) => (
+                    <button
+                      key={child}
+                      className={`blog-sidebar-link blog-sidebar-indent ${activeCategory === child ? "blog-sidebar-active" : ""}`}
+                      onClick={() => setActiveCategory(child)}
+                    >
+                      {child}
+                    </button>
+                  ))}
+                </div>
+              )
+            )}
+          </nav>
+        </aside>
+
+        {/* ── Mobile category bar (visible < 900px) ── */}
+        <div className="blog-mobile-filters">
+          <div className="blog-mobile-filters-scroll">
+            {ALL_CATEGORIES.map((cat) => (
               <button
                 key={cat}
                 className={`blog-filter-pill ${activeCategory === cat ? "blog-filter-active" : ""}`}
@@ -70,43 +105,26 @@ export default function BlogListingPage() {
               </button>
             ))}
           </div>
-
-          <div className="blog-search-wrapper">
-            <svg className="blog-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="11" cy="11" r="8" />
-              <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-            <input
-              type="text"
-              className="blog-search-input"
-              placeholder="Search..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
         </div>
 
-        {/* Blog grid */}
-        {loading ? (
-          <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
-            Loading posts...
-          </p>
-        ) : (
-          <div className="blog-grid">
-            {filteredPosts.map((post, index) => (
-              <BlogCard
-                key={post.slug}
-                post={post}
-              />
-            ))}
-          </div>
-        )}
-
-        {!loading && filteredPosts.length === 0 && (
-          <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
-            No posts found. Try a different search or category.
-          </p>
-        )}
+        {/* ── Blog cards ── */}
+        <main className="blog-main">
+          {loading ? (
+            <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
+              Loading posts...
+            </p>
+          ) : filteredPosts.length === 0 ? (
+            <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
+              No posts found in this category.
+            </p>
+          ) : (
+            <div className="blog-grid">
+              {filteredPosts.map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          )}
+        </main>
       </div>
 
       <Footer />

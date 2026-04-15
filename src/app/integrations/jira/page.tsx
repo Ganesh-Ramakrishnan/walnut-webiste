@@ -98,8 +98,8 @@ export default function JiraIntegrationPage() {
           }}
         >
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <span style={{ fontSize: 48, display: "block", marginBottom: 16 }}>
-              {"\uD83D\uDCCB"}
+            <span style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none"><path d="M11.571 11.513H0a5.218 5.218 0 005.232 5.215h2.13v2.057A5.215 5.215 0 0012.575 24V12.518a1.005 1.005 0 00-1.005-1.005z" fill="#2684FF"/><path d="M6.19 6.323h11.571a5.218 5.218 0 00-5.232-5.218h-2.13V-.952A5.218 5.218 0 005.185 4.26v11.489a1.005 1.005 0 001.005 1.005V6.323z" fill="#2684FF" opacity=".65"/><path d="M17.38 1.105H5.81a5.218 5.218 0 005.232 5.218h2.13v2.057a5.218 5.218 0 005.213-5.212V2.11a1.005 1.005 0 00-1.005-1.005z" fill="#2684FF" opacity=".4"/></svg>
             </span>
             <h1
               style={{
