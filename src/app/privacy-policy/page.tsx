@@ -4,14 +4,14 @@ import Link from "next/link";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db" }}>
+    <div style={{ background: "var(--bg-page)", minHeight: "100vh", color: "var(--text-secondary)" }}>
       {/* Header */}
-      <div style={{ borderBottom: "1px solid #1e1e1e", padding: "20px 0" }}>
+      <div style={{ borderBottom: "1px solid var(--border-input)", padding: "20px 0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/">
             <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" style={{ height: 32 }} />
           </Link>
-          <Link href="/" style={{ color: "#9ca3af", fontSize: 14, textDecoration: "none" }}>
+          <Link href="/" style={{ color: "var(--text-muted)", fontSize: 14, textDecoration: "none" }}>
             &larr; Back to Home
           </Link>
         </div>
@@ -19,8 +19,8 @@ export default function PrivacyPolicyPage() {
 
       {/* Content */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px 80px" }}>
-        <h1 style={{ color: "#fff", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Privacy Policy</h1>
-        <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 40 }}>Last updated: March 2025</p>
+        <h1 style={{ color: "var(--text-primary)", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Privacy Policy</h1>
+        <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 40 }}>Last updated: March 2025</p>
 
         <div className="legal-content">
           <p>
@@ -34,7 +34,7 @@ export default function PrivacyPolicyPage() {
           <p>
             This Privacy Policy sets out what data we collect and how and why we use it, when you access the Services. You are advised to read the Privacy Policy carefully before accessing any Services. To access any Services, you are required to accept the terms of this Privacy Policy. By accepting this Privacy Policy, you signify that you have read, understood and agree to be bound by the same. We reserve the right to update or modify this Privacy Policy at any time without prior notice and such changes may be effective immediately. To this end, we request you to go through the Policy every time you access or use the Services.
           </p>
-          <p style={{ fontWeight: 600, color: "#fff" }}>
+          <p style={{ fontWeight: 600, color: "var(--text-primary)" }}>
             BY ACCEPTING THE TERMS OF THE PRIVACY POLICY, YOU EXPRESSLY CONSENT TO WALNUTAI&apos;S COLLECTION, RETENTION, ANALYSIS, USE AND DISCLOSURE OF YOUR PERSONAL DATA IN ACCORDANCE THEREOF.
           </p>
 

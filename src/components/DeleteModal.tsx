@@ -40,8 +40,8 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "#141414",
-          border: "1px solid #262626",
+          background: "var(--bg-elevated)",
+          border: "1px solid var(--border-elevated)",
           borderRadius: 16,
           padding: 32,
           maxWidth: 420,
@@ -73,14 +73,14 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
         </div>
 
         {/* Title */}
-        <h3 style={{ color: "#fff", fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>
+        <h3 style={{ color: "var(--text-primary)", fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>
           Delete Blog Post
         </h3>
 
         {/* Message */}
-        <p style={{ color: "#9ca3af", fontSize: 14, lineHeight: 1.6, margin: "0 0 24px" }}>
+        <p style={{ color: "var(--text-muted)", fontSize: 14, lineHeight: 1.6, margin: "0 0 24px" }}>
           Are you sure you want to delete{" "}
-          <strong style={{ color: "#d1d5db" }}>&quot;{title}&quot;</strong>?
+          <strong style={{ color: "var(--text-secondary)" }}>&quot;{title}&quot;</strong>?
           <br />
           This action cannot be undone.
         </p>
@@ -95,9 +95,9 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
               fontSize: 14,
               fontWeight: 600,
               borderRadius: 8,
-              border: "1px solid #262626",
+              border: "1px solid var(--border-elevated)",
               background: "transparent",
-              color: "#9ca3af",
+              color: "var(--text-muted)",
               cursor: deleting ? "not-allowed" : "pointer",
               minWidth: 100,
             }}

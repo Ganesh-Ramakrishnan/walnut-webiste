@@ -112,7 +112,7 @@ export default function VSCodeExtensionPage() {
       <Navbar />
       <main
         className="min-h-screen text-white"
-        style={{ paddingTop: 80, background: "linear-gradient(160deg, #1a0e05 0%, #0a1628 25%, #060b18 55%, #0a1628 100%)" }}
+        style={{ paddingTop: 80, background: "var(--bg-body-gradient)" }}
       >
         {/* Back Button */}
         <div className="mx-auto max-w-7xl px-6 pt-10">
@@ -146,7 +146,7 @@ export default function VSCodeExtensionPage() {
         {/* Stats Section */}
         <section
           className="relative overflow-hidden border-y border-white/[0.06]"
-          style={{ background: "linear-gradient(180deg, #060b18 0%, #0f1a3d 50%, #060b18 100%)" }}
+          style={{ background: "var(--bg-body-gradient)" }}
         >
           <div className="max-w-7xl mx-auto px-6 py-20 sm:py-24">
             <p className="text-center text-sm font-semibold uppercase tracking-widest mb-16" style={{ color: "#F17F0D" }}>
@@ -196,7 +196,7 @@ export default function VSCodeExtensionPage() {
               return (
                 <div
                   key={i}
-                  className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl bg-[#0a1628]/75 p-8 sm:p-10"
+                  className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl bg-bg-surface p-8 sm:p-10"
                 >
                   <div className={isEven ? "" : "lg:order-2"}>
                     <div className="flex items-center gap-3 mb-4">
@@ -226,7 +226,7 @@ export default function VSCodeExtensionPage() {
         <section
           className="relative overflow-hidden"
           style={{
-            background: "#0a1628",
+            background: "var(--card-bg)",
             borderTop: "1px solid rgba(255,255,255,0.08)",
             borderBottom: "1px solid rgba(255,255,255,0.08)",
           }}

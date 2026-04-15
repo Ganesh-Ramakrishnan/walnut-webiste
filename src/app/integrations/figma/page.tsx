@@ -87,7 +87,7 @@ export default function FigmaIntegrationPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -98,7 +98,7 @@ export default function FigmaIntegrationPage() {
             </span>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 44,
                 fontWeight: 800,
                 marginBottom: 16,
@@ -124,11 +124,11 @@ export default function FigmaIntegrationPage() {
         </section>
 
         {/* Overview */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 20,
@@ -169,11 +169,11 @@ export default function FigmaIntegrationPage() {
         </section>
 
         {/* Setup Steps */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -188,7 +188,7 @@ export default function FigmaIntegrationPage() {
                   style={{
                     display: "flex",
                     gap: 20,
-                    background: "#111",
+                    background: "var(--bg-surface)",
                     border: "1px solid #222",
                     borderRadius: 12,
                     padding: "24px",
@@ -208,7 +208,7 @@ export default function FigmaIntegrationPage() {
                   <div>
                     <h3
                       style={{
-                        color: "#fff",
+                        color: "var(--text-primary)",
                         fontSize: 18,
                         fontWeight: 700,
                         marginBottom: 8,
@@ -234,11 +234,11 @@ export default function FigmaIntegrationPage() {
         </section>
 
         {/* Capabilities */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -251,7 +251,7 @@ export default function FigmaIntegrationPage() {
                 <div
                   key={cap.title}
                   style={{
-                    background: "#111",
+                    background: "var(--bg-surface)",
                     border: "1px solid #222",
                     borderRadius: 12,
                     padding: "24px",
@@ -286,7 +286,7 @@ export default function FigmaIntegrationPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "40px 24px 100px",
             textAlign: "center",
           }}
@@ -294,7 +294,7 @@ export default function FigmaIntegrationPage() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 16,

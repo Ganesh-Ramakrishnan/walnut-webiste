@@ -39,7 +39,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="ft-brand">
             <Link href="/" className="ft-logo-link">
-              <Image src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" width={150} height={38} loading="lazy" />
+              <Image src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img theme-logo" width={150} height={38} loading="lazy" />
             </Link>
             <p className="ft-brand-desc">
               From intent to release. Built fast. Miss Nothing.

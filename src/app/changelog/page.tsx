@@ -116,7 +116,7 @@ export default function ChangelogPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 40px",
             textAlign: "center",
           }}
@@ -136,7 +136,7 @@ export default function ChangelogPage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(32px, 5vw, 48px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
@@ -148,7 +148,7 @@ export default function ChangelogPage() {
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 17,
                 lineHeight: 1.7,
               }}
@@ -160,7 +160,7 @@ export default function ChangelogPage() {
         </section>
 
         {/* Timeline */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 100px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 100px" }}>
           <div
             style={{
               maxWidth: 760,
@@ -210,7 +210,7 @@ export default function ChangelogPage() {
                 {/* Date */}
                 <p
                   style={{
-                    color: "#6b7280",
+                    color: "var(--text-dim)",
                     fontSize: 13,
                     fontWeight: 600,
                     textTransform: "uppercase",
@@ -224,15 +224,15 @@ export default function ChangelogPage() {
                 {/* Card */}
                 <div
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-elevated)",
                     borderRadius: 14,
                     padding: "28px 24px",
                   }}
                 >
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 20,
                       fontWeight: 700,
                       marginBottom: 12,
@@ -283,7 +283,7 @@ export default function ChangelogPage() {
                       <li
                         key={item}
                         style={{
-                          color: "#9ca3af",
+                          color: "var(--text-muted)",
                           fontSize: 14,
                           lineHeight: 1.7,
                           paddingLeft: 18,

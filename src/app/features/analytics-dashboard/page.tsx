@@ -210,7 +210,7 @@ export default function AnalyticsDashboardPage() {
 
         {/* Feature Demo */}
         <section className="mx-auto max-w-5xl px-6 pb-12">
-          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "var(--bg-surface-alt)", border: "1px solid var(--border-primary)", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <img
               src="/assets/gif/Delivery Dashboard.gif"
               alt="Analytics Dashboard demo"

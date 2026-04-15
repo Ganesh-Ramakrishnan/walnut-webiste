@@ -92,7 +92,7 @@ export default function GitHubIntegrationPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -103,7 +103,7 @@ export default function GitHubIntegrationPage() {
             </span>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 44,
                 fontWeight: 800,
                 marginBottom: 16,
@@ -129,11 +129,11 @@ export default function GitHubIntegrationPage() {
         </section>
 
         {/* Overview */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 20,
@@ -173,11 +173,11 @@ export default function GitHubIntegrationPage() {
         </section>
 
         {/* Setup Steps */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -192,7 +192,7 @@ export default function GitHubIntegrationPage() {
                   style={{
                     display: "flex",
                     gap: 20,
-                    background: "#111",
+                    background: "var(--bg-surface)",
                     border: "1px solid #222",
                     borderRadius: 12,
                     padding: "24px",
@@ -212,7 +212,7 @@ export default function GitHubIntegrationPage() {
                   <div>
                     <h3
                       style={{
-                        color: "#fff",
+                        color: "var(--text-primary)",
                         fontSize: 18,
                         fontWeight: 700,
                         marginBottom: 8,
@@ -238,11 +238,11 @@ export default function GitHubIntegrationPage() {
         </section>
 
         {/* Capabilities */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -255,7 +255,7 @@ export default function GitHubIntegrationPage() {
                 <div
                   key={cap.title}
                   style={{
-                    background: "#111",
+                    background: "var(--bg-surface)",
                     border: "1px solid #222",
                     borderRadius: 12,
                     padding: "24px",
@@ -290,7 +290,7 @@ export default function GitHubIntegrationPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "40px 24px 100px",
             textAlign: "center",
           }}
@@ -298,7 +298,7 @@ export default function GitHubIntegrationPage() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 16,

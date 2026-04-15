@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, Sun, Moon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "@/components/ThemeProvider";
 
 const products = [
   { name: "WalnutAI Intelligence Hub", href: "/features/intelligence-hub" },
@@ -23,6 +24,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const productsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-black/80 backdrop-blur-xl border-b border-white/5"
+          ? "backdrop-blur-xl nav-scrolled"
           : "bg-transparent"
       }`}
     >
@@ -73,7 +75,7 @@ export default function Navbar() {
             alt="WalnutAI"
             width={180}
             height={60}
-            className="w-[130px] sm:w-[180px] h-auto"
+            className="w-[130px] sm:w-[180px] h-auto theme-logo"
             priority
           />
         </Link>
@@ -93,7 +95,7 @@ export default function Navbar() {
                   fontSize: 15,
                   fontWeight: 600,
                   lineHeight: "37px",
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   whiteSpace: "nowrap",
                   padding: 0,
                 }}
@@ -106,12 +108,7 @@ export default function Navbar() {
               </button>
               {productsOpen && (
                 <div
-                  className="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[280px] rounded-2xl border border-white/10 shadow-2xl overflow-hidden"
-                  style={{
-                    background: "rgba(15,15,20,0.95)",
-                    backdropFilter: "blur(16px)",
-                    WebkitBackdropFilter: "blur(16px)",
-                  }}
+                  className="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[280px] rounded-2xl shadow-2xl overflow-hidden nav-dropdown"
                 >
                   <div className="py-2">
                     {products.map((product) => (
@@ -124,7 +121,7 @@ export default function Navbar() {
                           fontFamily: '"Plus Jakarta Sans", var(--font-sans), sans-serif',
                           fontSize: 15,
                           fontWeight: 600,
-                          color: "#fff",
+                          color: "var(--text-primary)",
                         }}
                       >
                         {product.name}
@@ -155,12 +152,21 @@ export default function Navbar() {
           {mobileOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
 
-        <div className="hidden md:block w-[120px]" />
+        {/* Theme toggle + spacer */}
+        <div className="hidden md:flex items-center gap-3 w-[120px] justify-end">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full transition-colors theme-toggle-btn"
+            aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
+            {theme === "dark" ? <Sun size={16} className="text-yellow-400" /> : <Moon size={16} className="text-slate-600" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/5 px-4 sm:px-6 py-4">
+        <div className="md:hidden backdrop-blur-xl px-4 sm:px-6 py-4 nav-mobile-menu">
           {/* Mobile Products */}
           <div className="border-b border-white/5">
             <button
@@ -208,6 +214,13 @@ export default function Navbar() {
           >
             Contact Us
           </Link>
+          <button
+            onClick={toggleTheme}
+            className="mt-3 w-full flex items-center justify-center gap-2 py-2.5 text-sm text-gray-300 hover:text-white transition-colors border border-white/10 rounded-full"
+          >
+            {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </button>
         </div>
       )}
     </nav>

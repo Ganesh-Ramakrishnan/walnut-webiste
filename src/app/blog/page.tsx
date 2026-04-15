@@ -38,7 +38,7 @@ export default function BlogListingPage() {
   });
 
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
+    <div style={{ background: "var(--bg-page)", minHeight: "100vh", color: "var(--text-secondary)", paddingTop: 80 }}>
       <Navbar />
 
       <div className="blog-container">
@@ -88,7 +88,7 @@ export default function BlogListingPage() {
 
         {/* Blog grid */}
         {loading ? (
-          <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
+          <p style={{ textAlign: "center", color: "var(--text-dim)", padding: "60px 0" }}>
             Loading posts...
           </p>
         ) : (
@@ -103,7 +103,7 @@ export default function BlogListingPage() {
         )}
 
         {!loading && filteredPosts.length === 0 && (
-          <p style={{ textAlign: "center", color: "#6b7280", padding: "60px 0" }}>
+          <p style={{ textAlign: "center", color: "var(--text-dim)", padding: "60px 0" }}>
             No posts found. Try a different search or category.
           </p>
         )}

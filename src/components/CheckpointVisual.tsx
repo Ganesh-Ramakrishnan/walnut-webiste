@@ -175,8 +175,8 @@ export default function CheckpointVisual() {
     <div
       className="relative w-full rounded-2xl overflow-hidden flex flex-col justify-center"
       style={{
-        background: "#0a1628",
-        border: "1px solid rgba(255,255,255,0.07)",
+        background: "var(--card-bg)",
+        border: "1px solid var(--border-subtle)",
         padding: "22px 20px 18px",
         minHeight: 360,
       }}

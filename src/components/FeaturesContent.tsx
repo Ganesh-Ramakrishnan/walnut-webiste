@@ -292,7 +292,7 @@ export default function FeaturesContent() {
                     padding: "9px 22px",
                     fontSize: 13,
                     fontWeight: isActive ? 600 : 400,
-                    color: isActive ? "#F17F0D" : "#666",
+                    color: isActive ? "#F17F0D" : "var(--text-dim)",
                     background: "transparent",
                     border: isActive ? "1px solid rgba(241,127,13,0.4)" : "1px solid transparent",
                     borderRadius: 50,
@@ -329,8 +329,8 @@ function FeatureCard({ feature }: { feature: Feature }) {
   const Icon = feature.icon;
 
   const cardStyle: React.CSSProperties = {
-    background: "rgba(10,22,40,0.75)",
-    border: "1px solid rgba(255,255,255,0.07)",
+    background: "var(--bg-surface)",
+    border: "1px solid var(--border-subtle)",
     borderRadius: 16,
     padding: "28px 26px 24px",
     display: "flex",
@@ -348,7 +348,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
     e.currentTarget.style.boxShadow = "0 4px 40px rgba(200,121,65,0.08)";
   };
   const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.borderColor = "rgba(255,255,255,0.07)";
+    e.currentTarget.style.borderColor = "var(--border-subtle)";
     e.currentTarget.style.boxShadow = "none";
   };
 
@@ -373,7 +373,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
         style={{
           fontSize: 11,
           fontWeight: 500,
-          color: "#555",
+          color: "var(--text-dim)",
           letterSpacing: 0.3,
           marginBottom: 14,
           display: "block",
@@ -401,7 +401,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
         </div>
         <h3
           style={{
-            color: "#fff",
+            color: "var(--text-primary)",
             fontSize: 18,
             fontWeight: 700,
             lineHeight: 1.3,
@@ -415,7 +415,7 @@ function FeatureCard({ feature }: { feature: Feature }) {
       {/* Description */}
       <p
         style={{
-          color: "#8a8f98",
+          color: "var(--text-muted)",
           fontSize: 14.5,
           lineHeight: 1.75,
           flex: 1,

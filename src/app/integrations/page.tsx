@@ -119,7 +119,7 @@ export default function IntegrationsPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 40px",
             textAlign: "center",
           }}
@@ -127,7 +127,7 @@ export default function IntegrationsPage() {
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 44,
                 fontWeight: 800,
                 marginBottom: 16,
@@ -156,7 +156,7 @@ export default function IntegrationsPage() {
         {/* Integration Grid by Category */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "40px 24px 100px",
           }}
         >
@@ -188,7 +188,7 @@ export default function IntegrationsPage() {
                       href={item.href}
                       style={{
                         display: "block",
-                        background: "#111111",
+                        background: "var(--bg-surface)",
                         border: "1px solid #222",
                         borderRadius: 12,
                         padding: "28px 24px",
@@ -201,7 +201,7 @@ export default function IntegrationsPage() {
                       </span>
                       <h3
                         style={{
-                          color: "#fff",
+                          color: "var(--text-primary)",
                           fontSize: 20,
                           fontWeight: 700,
                           marginBottom: 8,

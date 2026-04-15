@@ -90,7 +90,7 @@ export default function FAQSection() {
                   border: "none",
                   cursor: "pointer",
                   textAlign: "left",
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   fontSize: 16,
                   fontWeight: 500,
                   fontFamily: "inherit",
@@ -127,7 +127,7 @@ export default function FAQSection() {
                 <p
                   style={{
                     padding: "0 24px 18px",
-                    color: "#9ca3af",
+                    color: "var(--text-muted)",
                     fontSize: 14,
                     lineHeight: 1.7,
                     margin: 0,

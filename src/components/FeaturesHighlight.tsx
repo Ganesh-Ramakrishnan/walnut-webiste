@@ -74,15 +74,15 @@ export default function FeaturesHighlight() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold" style={{ marginBottom: 16 }}>
             AI Software Development{" "}<span className="text-orange">Platform Features</span>
           </h2>
-          <p style={{ color: "#9ca3af", fontSize: 15, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
+          <p style={{ color: "var(--text-muted)", fontSize: 15, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
             AI-powered requirements, code generation, and automated test case generation across your software delivery lifecycle.
           </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll animation="fadeUp">
-          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", border: "1px solid #1a1a1a", borderRadius: 20, overflow: "hidden", minHeight: 420 }} className="features-highlight-grid">
+          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", border: "1px solid var(--border-primary)", borderRadius: 20, overflow: "hidden", minHeight: 420 }} className="features-highlight-grid">
             {/* Left nav */}
-            <div style={{ background: "#0d0d0d", borderRight: "1px solid #1a1a1a", overflowY: "auto" }}>
+            <div style={{ background: "var(--bg-surface-alt)", borderRight: "1px solid var(--border-primary)", overflowY: "auto" }}>
               {features.map((item, i) => (
                 <button
                   key={item.href}
@@ -90,9 +90,9 @@ export default function FeaturesHighlight() {
                   style={{
                     width: "100%",
                     padding: "18px 20px",
-                    background: active === i ? "#111" : "transparent",
+                    background: active === i ? "var(--bg-surface)" : "transparent",
                     border: "none",
-                    borderBottom: "1px solid #141414",
+                    borderBottom: "1px solid var(--bg-elevated)",
                     borderLeft: active === i ? "3px solid #F17F0D" : "3px solid transparent",
                     cursor: "pointer",
                     textAlign: "left",
@@ -100,21 +100,21 @@ export default function FeaturesHighlight() {
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: active === i ? "#F17F0D" : "#333", fontFamily: "monospace" }}>{item.num}</span>
-                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "#fff" : "#555", transition: "color 0.2s" }}>{item.title}</span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: active === i ? "#F17F0D" : "var(--text-placeholder)", fontFamily: "monospace" }}>{item.num}</span>
+                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "var(--text-primary)" : "var(--text-dim)", transition: "color 0.2s" }}>{item.title}</span>
                   </div>
                 </button>
               ))}
             </div>
 
             {/* Right content */}
-            <div style={{ padding: "44px 40px", background: "#0a0a0a", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ padding: "44px 40px", background: "var(--bg-page)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 20 }}>
                 <span style={{ fontSize: 52, fontWeight: 900, color: "#F17F0D", lineHeight: 1 }}>{f.stat}</span>
-                <span style={{ fontSize: 13, color: "#555" }}>{f.statLabel}</span>
+                <span style={{ fontSize: 13, color: "var(--text-dim)" }}>{f.statLabel}</span>
               </div>
-              <h3 style={{ color: "#fff", fontSize: 26, fontWeight: 800, marginBottom: 14 }}>{f.title}</h3>
-              <p style={{ color: "#888", fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>{f.desc}</p>
+              <h3 style={{ color: "var(--text-primary)", fontSize: 26, fontWeight: 800, marginBottom: 14 }}>{f.title}</h3>
+              <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>{f.desc}</p>
               <Link href={f.href} style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#F17F0D", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
                 Explore feature
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>

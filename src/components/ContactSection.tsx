@@ -53,7 +53,7 @@ export default function ContactSection() {
             {/* Left info panel */}
             <div className="ct-info-panel">
               <div>
-                <p style={{ color: "#d1d5db", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
+                <p style={{ color: "var(--text-secondary)", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
                   Start free. Upgrade when WalnutAI starts saving you real release risk.
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -61,7 +61,7 @@ export default function ContactSection() {
                     <rect x="2" y="4" width="20" height="16" rx="2" />
                     <path d="M22 4L12 13 2 4" />
                   </svg>
-                  <span style={{ color: "#d1d5db", fontSize: 14 }}>contact@walnutai.ai</span>
+                  <span style={{ color: "var(--text-secondary)", fontSize: 14 }}>contact@walnutai.ai</span>
                 </div>
               </div>
 
@@ -127,8 +127,8 @@ export default function ContactSection() {
                       </svg>
                     </div>
                   </div>
-                  <p style={{ color: "#fff", fontSize: 22, fontWeight: 700, margin: 0 }}>Message Sent!</p>
-                  <p style={{ color: "#9ca3af", fontSize: 14, margin: 0, maxWidth: 320, lineHeight: 1.6 }}>Our Team will get in touch with you shortly!</p>
+                  <p style={{ color: "var(--text-primary)", fontSize: 22, fontWeight: 700, margin: 0 }}>Message Sent!</p>
+                  <p style={{ color: "var(--text-muted)", fontSize: 14, margin: 0, maxWidth: 320, lineHeight: 1.6 }}>Our Team will get in touch with you shortly!</p>
                 </div>
               ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>

@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 const plusJakarta = Plus_Jakarta_Sans({
   variable: "--font-geist-sans",
@@ -121,8 +122,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        {/* Prevent flash of wrong theme */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var t=localStorage.getItem('walnut-theme')||'dark';document.documentElement.setAttribute('data-theme',t)})()` }} />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-M3E3R8NDZK"
           strategy="afterInteractive"
@@ -196,8 +199,10 @@ export default function RootLayout({
         />
       </head>
       <body className={`${plusJakarta.variable} antialiased`}>
-        <SmoothScroll />
-        {children}
+        <ThemeProvider>
+          <SmoothScroll />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

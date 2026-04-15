@@ -101,7 +101,7 @@ export default function CompareGitHubCopilotPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -110,7 +110,7 @@ export default function CompareGitHubCopilotPage() {
             <Link
               href="/compare"
               style={{
-                color: "#6b7280",
+                color: "var(--text-dim)",
                 fontSize: 14,
                 textDecoration: "none",
                 display: "inline-block",
@@ -133,7 +133,7 @@ export default function CompareGitHubCopilotPage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(30px, 5vw, 48px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
@@ -145,7 +145,7 @@ export default function CompareGitHubCopilotPage() {
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 17,
                 lineHeight: 1.7,
                 maxWidth: 640,
@@ -160,7 +160,7 @@ export default function CompareGitHubCopilotPage() {
         </section>
 
         {/* Overview */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "40px 24px" }}>
           <div
             style={{
               maxWidth: 900,
@@ -172,7 +172,7 @@ export default function CompareGitHubCopilotPage() {
           >
             <div
               style={{
-                background: "#141414",
+                background: "var(--bg-elevated)",
                 border: "1px solid #F17F0D",
                 borderRadius: 14,
                 padding: "32px 24px",
@@ -188,7 +188,7 @@ export default function CompareGitHubCopilotPage() {
               >
                 WalnutAI
               </h3>
-              <p style={{ color: "#9ca3af", fontSize: 15, lineHeight: 1.65 }}>
+              <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.65 }}>
                 AI ecosystem covering the full SDLC: requirements engineering,
                 code generation, automated testing, gap analysis, deployment
                 automation, and project-level traceability.
@@ -196,15 +196,15 @@ export default function CompareGitHubCopilotPage() {
             </div>
             <div
               style={{
-                background: "#141414",
-                border: "1px solid #262626",
+                background: "var(--bg-elevated)",
+                border: "1px solid var(--border-elevated)",
                 borderRadius: 14,
                 padding: "32px 24px",
               }}
             >
               <h3
                 style={{
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   fontSize: 20,
                   fontWeight: 700,
                   marginBottom: 12,
@@ -212,7 +212,7 @@ export default function CompareGitHubCopilotPage() {
               >
                 {competitor}
               </h3>
-              <p style={{ color: "#9ca3af", fontSize: 15, lineHeight: 1.65 }}>
+              <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.65 }}>
                 AI-powered code completion tool that provides inline suggestions
                 and chat-based coding assistance inside supported IDEs. Focused
                 on the code-writing phase only.
@@ -222,11 +222,11 @@ export default function CompareGitHubCopilotPage() {
         </section>
 
         {/* Feature Comparison Table */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 900, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 textAlign: "center",
@@ -239,7 +239,7 @@ export default function CompareGitHubCopilotPage() {
               style={{
                 overflowX: "auto",
                 borderRadius: 14,
-                border: "1px solid #262626",
+                border: "1px solid var(--border-elevated)",
               }}
             >
               <table
@@ -250,15 +250,15 @@ export default function CompareGitHubCopilotPage() {
                 }}
               >
                 <thead>
-                  <tr style={{ background: "#1a1a1a" }}>
+                  <tr style={{ background: "var(--bg-raised)" }}>
                     <th
                       style={{
                         textAlign: "left",
                         padding: "14px 20px",
-                        color: "#9ca3af",
+                        color: "var(--text-muted)",
                         fontSize: 13,
                         fontWeight: 600,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-elevated)",
                       }}
                     >
                       Feature
@@ -270,7 +270,7 @@ export default function CompareGitHubCopilotPage() {
                         color: "#F17F0D",
                         fontSize: 13,
                         fontWeight: 700,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-elevated)",
                       }}
                     >
                       WalnutAI
@@ -279,10 +279,10 @@ export default function CompareGitHubCopilotPage() {
                       style={{
                         textAlign: "center",
                         padding: "14px 20px",
-                        color: "#9ca3af",
+                        color: "var(--text-muted)",
                         fontSize: 13,
                         fontWeight: 600,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-elevated)",
                       }}
                     >
                       {competitor}
@@ -294,15 +294,15 @@ export default function CompareGitHubCopilotPage() {
                     <tr
                       key={feature}
                       style={{
-                        background: i % 2 === 0 ? "#141414" : "#111111",
+                        background: i % 2 === 0 ? "var(--bg-elevated)" : "var(--bg-surface)",
                       }}
                     >
                       <td
                         style={{
                           padding: "12px 20px",
-                          color: "#d1d5db",
+                          color: "var(--text-secondary)",
                           fontSize: 14,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-input)",
                         }}
                       >
                         {feature}
@@ -312,7 +312,7 @@ export default function CompareGitHubCopilotPage() {
                           textAlign: "center",
                           padding: "12px 20px",
                           fontSize: 18,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-input)",
                           color: walnut ? "#22c55e" : "#ef4444",
                         }}
                       >
@@ -323,7 +323,7 @@ export default function CompareGitHubCopilotPage() {
                           textAlign: "center",
                           padding: "12px 20px",
                           fontSize: 18,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-input)",
                           color: comp ? "#22c55e" : "#ef4444",
                         }}
                       >
@@ -338,11 +338,11 @@ export default function CompareGitHubCopilotPage() {
         </section>
 
         {/* Key Differences */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 900, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 textAlign: "center",
@@ -356,15 +356,15 @@ export default function CompareGitHubCopilotPage() {
                 <div
                   key={diff.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-elevated)",
                     borderRadius: 14,
                     padding: "28px 24px",
                   }}
                 >
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 16,
@@ -394,7 +394,7 @@ export default function CompareGitHubCopilotPage() {
                       </p>
                       <p
                         style={{
-                          color: "#9ca3af",
+                          color: "var(--text-muted)",
                           fontSize: 14,
                           lineHeight: 1.65,
                         }}
@@ -405,7 +405,7 @@ export default function CompareGitHubCopilotPage() {
                     <div>
                       <p
                         style={{
-                          color: "#6b7280",
+                          color: "var(--text-dim)",
                           fontSize: 12,
                           fontWeight: 700,
                           marginBottom: 6,
@@ -416,7 +416,7 @@ export default function CompareGitHubCopilotPage() {
                       </p>
                       <p
                         style={{
-                          color: "#9ca3af",
+                          color: "var(--text-muted)",
                           fontSize: 14,
                           lineHeight: 1.65,
                         }}
@@ -432,13 +432,13 @@ export default function CompareGitHubCopilotPage() {
         </section>
 
         {/* Why WalnutAI */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "60px 24px" }}>
           <div
             style={{
               maxWidth: 800,
               margin: "0 auto",
-              background: "#141414",
-              border: "1px solid #262626",
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-elevated)",
               borderRadius: 16,
               padding: "44px 36px",
               borderTop: "3px solid #F17F0D",
@@ -446,7 +446,7 @@ export default function CompareGitHubCopilotPage() {
           >
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 26,
                 fontWeight: 700,
                 marginBottom: 20,
@@ -475,7 +475,7 @@ export default function CompareGitHubCopilotPage() {
                 <li
                   key={item}
                   style={{
-                    color: "#9ca3af",
+                    color: "var(--text-muted)",
                     fontSize: 15,
                     lineHeight: 1.65,
                     paddingLeft: 22,
@@ -502,14 +502,14 @@ export default function CompareGitHubCopilotPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "60px 24px 100px",
             textAlign: "center",
           }}
         >
           <h2
             style={{
-              color: "#fff",
+              color: "var(--text-primary)",
               fontSize: 28,
               fontWeight: 700,
               marginBottom: 16,
@@ -519,7 +519,7 @@ export default function CompareGitHubCopilotPage() {
           </h2>
           <p
             style={{
-              color: "#9ca3af",
+              color: "var(--text-muted)",
               fontSize: 16,
               lineHeight: 1.7,
               marginBottom: 32,

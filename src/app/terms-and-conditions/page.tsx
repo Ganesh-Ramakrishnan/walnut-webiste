@@ -4,14 +4,14 @@ import Link from "next/link";
 
 export default function TermsAndConditionsPage() {
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db" }}>
+    <div style={{ background: "var(--bg-page)", minHeight: "100vh", color: "var(--text-secondary)" }}>
       {/* Header */}
-      <div style={{ borderBottom: "1px solid #1e1e1e", padding: "20px 0" }}>
+      <div style={{ borderBottom: "1px solid var(--border-input)", padding: "20px 0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/">
             <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" style={{ height: 32 }} />
           </Link>
-          <Link href="/" style={{ color: "#9ca3af", fontSize: 14, textDecoration: "none" }}>
+          <Link href="/" style={{ color: "var(--text-muted)", fontSize: 14, textDecoration: "none" }}>
             &larr; Back to Home
           </Link>
         </div>
@@ -19,8 +19,8 @@ export default function TermsAndConditionsPage() {
 
       {/* Content */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px 80px" }}>
-        <h1 style={{ color: "#fff", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Terms Of Use</h1>
-        <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 40 }}>Last updated: March 2025</p>
+        <h1 style={{ color: "var(--text-primary)", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Terms Of Use</h1>
+        <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 40 }}>Last updated: March 2025</p>
 
         <div className="legal-content">
           <p>
@@ -217,7 +217,7 @@ export default function TermsAndConditionsPage() {
           </ul>
 
           <h3>Disclaimer</h3>
-          <p style={{ fontWeight: 600, color: "#fff" }}>
+          <p style={{ fontWeight: 600, color: "var(--text-primary)" }}>
             AI-GENERATED OUTPUT IS PRODUCED BY ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING, WHICH MAY INCLUDE TECHNOLOGY FROM THIRD-PARTY PROVIDERS. WE DO NOT GUARANTEE THE ACCURACY, COMPLETENESS, OR RELIABILITY OF ANY OUTPUT, NOR DO WE GUARANTEE THAT OUTPUT WILL NOT VIOLATE ANY THIRD-PARTY RIGHTS OR LAW. WE ARE NOT LIABLE FOR ANY USE OF AI PRODUCTS OR THEIR OUTPUT.
           </p>
           <p>Due to the nature of AI:</p>
@@ -244,10 +244,10 @@ export default function TermsAndConditionsPage() {
           </p>
 
           <h2>Limitation of Liability</h2>
-          <p style={{ fontWeight: 600, color: "#fff" }}>
+          <p style={{ fontWeight: 600, color: "var(--text-primary)" }}>
             ACCESS TO THESE SERVICES, INCLUDING FEATURES OF THE PRODUCT ARE AVAILABLE TO USE AS A MATTER OF CONVENIENCE. THE COMPANY EXPRESSLY DISCLAIMS ANY CLAIM OR LIABILITY ARISING OUT OF THE CONTENT. YOU AGREE AND ACKNOWLEDGE THAT YOU SHALL BE SOLELY RESPONSIBLE FOR YOUR CONDUCT.
           </p>
-          <p style={{ fontWeight: 600, color: "#fff" }}>
+          <p style={{ fontWeight: 600, color: "var(--text-primary)" }}>
             IN NO EVENT SHALL THE COMPANY BE LIABLE FOR ANY DIRECT, INDIRECT, PUNITIVE, INCIDENTAL, SPECIAL OR CONSEQUENTIAL DAMAGES OR FOR ANY DAMAGES WHATSOEVER INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF USE, DATA OR PROFITS, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE ACCESS, USE OR PERFORMANCE OF THE SERVICES, WHETHER BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY OR OTHERWISE, EVEN IF THE COMPANY HAD BEEN ADVISED OF THE POSSIBILITY OF DAMAGES.
           </p>
           <p>

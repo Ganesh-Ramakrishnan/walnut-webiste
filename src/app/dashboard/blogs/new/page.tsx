@@ -73,7 +73,7 @@ export default function NewBlogPost() {
             {form.category && <span className="d-badge">{form.category}</span>}
             <h1 className="d-preview-title">{form.title || "Untitled"}</h1>
             <p className="d-muted">{form.author} &middot; {new Date().toLocaleDateString()}</p>
-            {form.excerpt && <p style={{ color: "#9ca3af", lineHeight: 1.6, marginTop: 8 }}>{form.excerpt}</p>}
+            {form.excerpt && <p style={{ color: "var(--text-muted)", lineHeight: 1.6, marginTop: 8 }}>{form.excerpt}</p>}
           </div>
           <div className="d-preview-body" dangerouslySetInnerHTML={{ __html: form.content || "<p>No content yet.</p>" }} />
         </div>

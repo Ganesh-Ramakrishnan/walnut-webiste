@@ -4,14 +4,14 @@ import Link from "next/link";
 
 export default function SecurityPage() {
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db" }}>
+    <div style={{ background: "var(--bg-page)", minHeight: "100vh", color: "var(--text-secondary)" }}>
       {/* Header */}
-      <div style={{ borderBottom: "1px solid #1e1e1e", padding: "20px 0" }}>
+      <div style={{ borderBottom: "1px solid var(--border-input)", padding: "20px 0" }}>
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <Link href="/">
             <img src="/assets/logo/Walnut-White.png" alt="WalnutAI" style={{ height: 32 }} />
           </Link>
-          <Link href="/" style={{ color: "#9ca3af", fontSize: 14, textDecoration: "none" }}>
+          <Link href="/" style={{ color: "var(--text-muted)", fontSize: 14, textDecoration: "none" }}>
             &larr; Back to Home
           </Link>
         </div>
@@ -19,9 +19,9 @@ export default function SecurityPage() {
 
       {/* Content */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "60px 24px 80px" }}>
-        <h1 style={{ color: "#fff", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Security Policy</h1>
-        <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 8 }}>Your data security is our top priority</p>
-        <p style={{ color: "#6b7280", fontSize: 14, marginBottom: 40 }}>
+        <h1 style={{ color: "var(--text-primary)", fontSize: 36, fontWeight: 700, marginBottom: 8 }}>Security Policy</h1>
+        <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 8 }}>Your data security is our top priority</p>
+        <p style={{ color: "var(--text-dim)", fontSize: 14, marginBottom: 40 }}>
           Effective Date: March 2026 &nbsp;|&nbsp; Last Updated: March 24, 2026 &nbsp;|&nbsp; Version: 1.0
         </p>
 
@@ -262,10 +262,10 @@ export default function SecurityPage() {
             <li>Partnership with customers in maintaining security</li>
           </ul>
 
-          <p style={{ marginTop: 40, color: "#6b7280", fontSize: 13 }}>
+          <p style={{ marginTop: 40, color: "var(--text-dim)", fontSize: 13 }}>
             Document Classification: Public &nbsp;|&nbsp; Version: 1.0 &nbsp;|&nbsp; Last Updated: March 24, 2026 &nbsp;|&nbsp; Next Scheduled Review: September 2026
           </p>
-          <p style={{ color: "#6b7280", fontSize: 13 }}>
+          <p style={{ color: "var(--text-dim)", fontSize: 13 }}>
             &copy; 2025 WalnutAI. All rights reserved. This document represents WalnutAI&apos;s security practices as of the effective date.
           </p>
         </div>

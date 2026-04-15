@@ -91,7 +91,7 @@ export default function ComparePage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 40px",
             textAlign: "center",
           }}
@@ -111,7 +111,7 @@ export default function ComparePage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(32px, 5vw, 52px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
@@ -123,7 +123,7 @@ export default function ComparePage() {
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 18,
                 lineHeight: 1.7,
                 maxWidth: 620,
@@ -131,7 +131,7 @@ export default function ComparePage() {
               }}
             >
               Most AI tools help with one phase of development. WalnutAI covers
-              the <strong style={{ color: "#d1d5db" }}>entire SDLC</strong> --
+              the <strong style={{ color: "var(--text-secondary)" }}>entire SDLC</strong> --
               from requirements to production -- with zero blind spots.
             </p>
           </div>
@@ -140,7 +140,7 @@ export default function ComparePage() {
         {/* Comparison Cards */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "40px 24px 100px",
           }}
         >
@@ -166,8 +166,8 @@ export default function ComparePage() {
                 <div
                   className="compare-card"
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-elevated)",
                     borderRadius: 16,
                     padding: "36px 28px",
                     transition: "border-color 0.25s, transform 0.25s",
@@ -190,7 +190,7 @@ export default function ComparePage() {
                   </p>
                   <h2
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 22,
                       fontWeight: 700,
                       marginBottom: 12,
@@ -200,7 +200,7 @@ export default function ComparePage() {
                   </h2>
                   <p
                     style={{
-                      color: "#9ca3af",
+                      color: "var(--text-muted)",
                       fontSize: 15,
                       lineHeight: 1.65,
                       flex: 1,

@@ -71,19 +71,19 @@ export default function FeaturesPage() {
       <Navbar />
       <main
         id="main-content"
-        style={{ paddingTop: 80, background: "linear-gradient(160deg, #1a0e05 0%, #0a1628 25%, #060b18 55%, #0a1628 100%)" }}
+        style={{ paddingTop: 80, background: "var(--bg-body-gradient)" }}
       >
         {/* Hero */}
         <section className="relative px-6 pt-24 pb-12 text-center overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="relative z-10 max-w-5xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-white mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold mb-6 leading-tight" style={{ color: "var(--text-primary)" }}>
               WalnutAI &mdash;{" "}
               <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
                 From Requirements to Code to Tests, Automatically
               </span>
             </h1>
-            <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
+            <p style={{ color: "var(--text-muted)" }} className="text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
               Most teams manage requirements in one tool, build in another, and test in a third. WalnutAI connects all three. Upload a document and get structured requirements. Assign a story to an AI agent and get a pull request. Run gap analysis and see exactly what isn&apos;t implemented or tested. From idea to shipped feature &mdash; WalnutAI runs the loop.
             </p>
           </div>
@@ -95,7 +95,7 @@ export default function FeaturesPage() {
         {/* CTA */}
         <section className="px-6 pb-24">
           <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-            <h2 style={{ color: "#fff", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
+            <h2 style={{ color: "var(--text-primary)", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
               Ready to ship with confidence?
             </h2>
             <p style={{ color: "#888", fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>

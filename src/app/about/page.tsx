@@ -124,7 +124,7 @@ export default function AboutPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -144,7 +144,7 @@ export default function AboutPage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(32px, 5vw, 52px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
@@ -157,7 +157,7 @@ export default function AboutPage() {
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 18,
                 lineHeight: 1.7,
                 maxWidth: 640,
@@ -174,7 +174,7 @@ export default function AboutPage() {
         {/* Mission */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "60px 24px",
           }}
         >
@@ -182,8 +182,8 @@ export default function AboutPage() {
             style={{
               maxWidth: 900,
               margin: "0 auto",
-              background: "#141414",
-              border: "1px solid #262626",
+              background: "var(--bg-elevated)",
+              border: "1px solid var(--border-elevated)",
               borderRadius: 16,
               padding: "48px 40px",
               textAlign: "center",
@@ -191,7 +191,7 @@ export default function AboutPage() {
           >
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 16,
@@ -201,7 +201,7 @@ export default function AboutPage() {
             </h2>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 17,
                 lineHeight: 1.75,
                 maxWidth: 680,
@@ -210,7 +210,7 @@ export default function AboutPage() {
             >
               Software teams spend too much time on repetitive tasks and still
               ship with gaps. Our mission is to{" "}
-              <strong style={{ color: "#d1d5db" }}>
+              <strong style={{ color: "var(--text-secondary)" }}>
                 eliminate blind spots across the SDLC
               </strong>{" "}
               by connecting requirements, code, testing, and deployment into a
@@ -221,11 +221,11 @@ export default function AboutPage() {
         </section>
 
         {/* What We Do */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 1100, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 32,
                 fontWeight: 700,
                 textAlign: "center",
@@ -245,8 +245,8 @@ export default function AboutPage() {
                 <div
                   key={cap.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-elevated)",
                     borderRadius: 14,
                     padding: "32px 24px",
                   }}
@@ -256,7 +256,7 @@ export default function AboutPage() {
                   </div>
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 10,
@@ -266,7 +266,7 @@ export default function AboutPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#9ca3af",
+                      color: "var(--text-muted)",
                       fontSize: 15,
                       lineHeight: 1.65,
                     }}
@@ -280,11 +280,11 @@ export default function AboutPage() {
         </section>
 
         {/* Why WalnutAI */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--bg-page)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 1000, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 32,
                 fontWeight: 700,
                 textAlign: "center",
@@ -304,8 +304,8 @@ export default function AboutPage() {
                 <div
                   key={d.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--bg-elevated)",
+                    border: "1px solid var(--border-elevated)",
                     borderRadius: 14,
                     padding: "32px 24px",
                     borderTop: "3px solid #F17F0D",
@@ -324,7 +324,7 @@ export default function AboutPage() {
                   </span>
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 10,
@@ -334,7 +334,7 @@ export default function AboutPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#9ca3af",
+                      color: "var(--text-muted)",
                       fontSize: 15,
                       lineHeight: 1.65,
                     }}
@@ -350,7 +350,7 @@ export default function AboutPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--bg-page)",
             padding: "60px 24px 100px",
             textAlign: "center",
           }}
@@ -358,7 +358,7 @@ export default function AboutPage() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 30,
                 fontWeight: 700,
                 marginBottom: 16,
@@ -368,7 +368,7 @@ export default function AboutPage() {
             </h2>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-muted)",
                 fontSize: 16,
                 lineHeight: 1.7,
                 marginBottom: 32,
