@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Integrations - Your Tools. Your Workflow. Now Supercharged by AI.",
   description:
-    "WalnutAI plugs directly into GitHub, Jira, Figma, Playwright, Docker, Kubernetes, AWS, and GitLab. No new workflows. No learning curves. Just AI-powered gap analysis, test generation, and traceability.",
+    "WalnutAI plugs directly into GitHub, GitLab, Bitbucket, Jira, Azure DevOps, and Figma. No new workflows. No learning curves. Just AI-powered gap analysis, test generation, and traceability.",
   openGraph: {
     title: "Integrations - Your Tools. Your Workflow. Now Supercharged by AI.",
     description: "WalnutAI plugs directly into the tools your engineering, QA, and product teams already use.",
@@ -86,6 +86,18 @@ const icons: Record<string, React.ReactNode> = {
       <path d="M22 4v16l-6 2-8.5-2.9V22l-4-5.2 14.8 1.6V5.4L22 4zM6 7.2l-4 1.4v8l4 1.6V7.2zm2-2.4L18 2v3.6L8 8.4V4.8z" fill="#0078D7" />
     </svg>
   ),
+  Bitbucket: (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+      <path d="M.778 1.213a.768.768 0 00-.768.892l3.263 19.81c.084.5.515.868 1.022.873H19.65a.772.772 0 00.77-.646l3.27-20.03a.768.768 0 00-.768-.891zM14.52 15.53H9.522L8.17 8.466h7.561z" fill="#2684FF" />
+      <path d="M22.03 8.466h-6.291L14.52 15.53H9.522l-5.16 6.13c.165.143.376.222.594.225H19.65a.772.772 0 00.77-.645z" fill="url(#bb-grad)" />
+      <defs>
+        <linearGradient id="bb-grad" x1="24" y1="10.7" x2="12.1" y2="19.95" gradientUnits="userSpaceOnUse">
+          <stop offset=".18" stopColor="#0052CC" />
+          <stop offset="1" stopColor="#2684FF" />
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
   Selenium: (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
       <circle cx="12" cy="12" r="10" fill="#43B02A" />
@@ -96,8 +108,8 @@ const icons: Record<string, React.ReactNode> = {
 
 const categories = [
   {
-    title: "Source Control & CI/CD",
-    desc: "Seamlessly connect your version control and continuous integration tools.",
+    title: "Source Control",
+    desc: "Seamlessly connect your version control tools.",
     items: [
       {
         name: "GitHub",
@@ -110,8 +122,8 @@ const categories = [
         href: "/integrations/gitlab",
       },
       {
-        name: "Azure DevOps",
-        desc: "Integrate with Azure Repos and Pipelines for enterprise-grade test automation.",
+        name: "Bitbucket",
+        desc: "Connect Bitbucket repositories and pull requests for AI-powered code review and test generation.",
         href: "/integrations/github",
       },
     ],
@@ -126,56 +138,20 @@ const categories = [
         href: "/integrations/jira",
       },
       {
-        name: "Slack",
-        desc: "Get real-time test results, alerts, and AI insights delivered to your team channels.",
+        name: "Azure DevOps",
+        desc: "Sync work items, boards, and sprints with Azure Boards for end-to-end traceability.",
         href: "/integrations/jira",
       },
     ],
   },
   {
-    title: "Infrastructure & Cloud",
-    desc: "Run and scale your test workloads across cloud and container platforms.",
-    items: [
-      {
-        name: "Docker",
-        desc: "Containerized test execution in isolated, reproducible environments. Zero flakiness.",
-        href: "/integrations/docker",
-      },
-      {
-        name: "Kubernetes",
-        desc: "Orchestrate parallel test workloads across K8s clusters. Scale testing with your product.",
-        href: "/integrations/kubernetes",
-      },
-      {
-        name: "AWS",
-        desc: "S3, Lambda, EC2, CloudWatch — native cloud test execution with full observability.",
-        href: "/integrations/aws",
-      },
-    ],
-  },
-  {
-    title: "Design & Testing",
-    desc: "Bridge the gap between design, development, and quality assurance.",
+    title: "Design",
+    desc: "Bridge the gap between design and development.",
     items: [
       {
         name: "Figma",
         desc: "Turn design files into requirements and test cases automatically. Catch UI gaps pre-dev.",
         href: "/integrations/figma",
-      },
-      {
-        name: "Playwright",
-        desc: "Import or generate browser automation scripts. Cross-browser testing with AI maintenance.",
-        href: "/integrations/playwright",
-      },
-      {
-        name: "Selenium",
-        desc: "Leverage existing Selenium suites with AI-powered maintenance and self-healing locators.",
-        href: "/integrations/playwright",
-      },
-      {
-        name: "VS Code",
-        desc: "Run AI test generation and gap analysis directly from your editor with our extension.",
-        href: "/integrations/playwright",
       },
     ],
   },
@@ -204,19 +180,6 @@ export default function IntegrationsPage() {
                 Request a demo
               </Link>
             </div>
-          </div>
-        </section>
-
-        {/* Trusted logos */}
-        <section className="intg-logos">
-          <p className="intg-logos-label">Trusted by teams who ship fast</p>
-          <div className="intg-logos-strip">
-            {Object.entries(icons).slice(0, 6).map(([name, icon]) => (
-              <div key={name} className="intg-logo-item">
-                {icon}
-                <span>{name}</span>
-              </div>
-            ))}
           </div>
         </section>
 
