@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useRef } from "react";
-import { Search, ChevronDown, ChevronRight, List } from "lucide-react";
+import { Search, ChevronDown, ChevronRight } from "lucide-react";
 
 export type EntryTag = "NEW" | "IMPROVED" | "FIXED" | "SECURITY";
 
@@ -134,10 +134,6 @@ export default function ChangelogClient({ data }: Props) {
       .filter((y) => y.months.length > 0);
   }, [data, search]);
 
-  // For "on this page" — show entries in the same month as the active one
-  const activeMonth = useMemo(() => {
-    return data.flatMap((y) => y.months).find((m) => m.id === activeMonthId);
-  }, [activeMonthId, data]);
 
   return (
     <div className="cl2-shell">
@@ -195,7 +191,7 @@ export default function ChangelogClient({ data }: Props) {
                                       className={`cl2-week-btn ${isActive ? "is-active" : ""}`}
                                       onClick={() => scrollTo(entry.id)}
                                     >
-                                      {entry.shortLabel}
+                                      {entry.version || entry.shortLabel}
                                     </button>
                                   </li>
                                 );
@@ -228,9 +224,9 @@ export default function ChangelogClient({ data }: Props) {
               }}
               className="cl2-week"
             >
-              <p className="cl2-week-month">{entry.monthLabel}</p>
+              <p className="cl2-week-month">{entry.dateLabel}</p>
               <div className="cl2-entry-head">
-                <h2 className="cl2-week-title">{entry.title}</h2>
+                <h2 className="cl2-week-title">{entry.version || entry.title}</h2>
                 <span
                   className="cl2-entry-tag"
                   style={{ background: tag.bg, color: tag.color, border: `1px solid ${tag.border}` }}
@@ -249,35 +245,6 @@ export default function ChangelogClient({ data }: Props) {
         })}
       </main>
 
-      {/* Right "On this page" */}
-      <aside className="cl2-toc" aria-label="On this page">
-        <p className="cl2-toc-label">
-          <List size={13} aria-hidden /> On this page
-        </p>
-        <ul className="cl2-toc-list">
-          {activeMonth?.entries.map((entry) => {
-            const hasMeta = !!(entry.version || entry.releaseName);
-            return (
-              <li key={entry.id}>
-                <button
-                  type="button"
-                  className={`cl2-toc-link ${activeEntryId === entry.id ? "is-active" : ""}`}
-                  onClick={() => scrollTo(entry.id)}
-                >
-                  {hasMeta ? (
-                    <span className="cl2-toc-meta">
-                      {entry.version && <span className="cl2-toc-version">{entry.version}</span>}
-                      {entry.releaseName && <span className="cl2-toc-name">{entry.releaseName}</span>}
-                    </span>
-                  ) : (
-                    entry.shortLabel
-                  )}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
     </div>
   );
 }

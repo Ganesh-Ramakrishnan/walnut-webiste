@@ -3275,9 +3275,9 @@ html.lenis body {
 
 .cl2-shell {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr) 220px;
+  grid-template-columns: 260px minmax(0, 1fr);
   gap: 0;
-  max-width: 1400px;
+  max-width: 1100px;
   margin: 0 auto;
   align-items: start;
 }
@@ -3593,80 +3593,6 @@ html.lenis body {
   font-weight: 600;
 }
 
-/* ── Right "On this page" ─────────────────────────────── */
-.cl2-toc {
-  position: sticky;
-  top: 80px;
-  align-self: start;
-  padding: 40px 24px 48px;
-}
-.cl2-toc-label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #9ca3af;
-  margin: 0 0 14px;
-  text-transform: none;
-}
-.cl2-toc-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-}
-.cl2-toc-link {
-  width: 100%;
-  background: transparent;
-  border: 0;
-  color: #9ca3af;
-  font-size: 13px;
-  font-weight: 400;
-  padding: 5px 12px;
-  cursor: pointer;
-  font-family: inherit;
-  text-align: left;
-  margin-left: -1px;
-  border-left: 1px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
-}
-.cl2-toc-link:hover { color: #e6e9ef; }
-.cl2-toc-link.is-active {
-  color: #F17F0D;
-  border-left-color: #F17F0D;
-  font-weight: 600;
-}
-.cl2-toc-meta {
-  display: block;
-  line-height: 1.35;
-}
-.cl2-toc-version {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: #F17F0D;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-.cl2-toc-link.is-active .cl2-toc-version {
-  color: #ff9633;
-}
-.cl2-toc-name {
-  display: block;
-  font-size: 13px;
-  color: inherit;
-  font-weight: 500;
-}
-.cl2-toc-link {
-  padding-top: 7px;
-  padding-bottom: 7px;
-}
-
 /* ── Hero (lighter, above the shell) ─────────────────── */
 .cl2-hero {
   max-width: 1400px;
@@ -3706,7 +3632,6 @@ html.lenis body {
 /* ── Responsive ──────────────────────────────────────── */
 @media (max-width: 1100px) {
   .cl2-shell { grid-template-columns: 240px minmax(0, 1fr); }
-  .cl2-toc { display: none; }
   .cl2-main { padding: 32px 32px 100px; }
 }
 
