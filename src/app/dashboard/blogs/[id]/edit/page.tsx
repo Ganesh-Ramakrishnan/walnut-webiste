@@ -34,6 +34,7 @@ export default function EditBlogPost() {
   const [preview, setPreview] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [customCategory, setCustomCategory] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -44,6 +45,7 @@ export default function EditBlogPost() {
       .then((post) => {
         setForm({ title: post.title, slug: post.slug, excerpt: post.excerpt, content: post.content, author: post.author, image: post.image || "", category: post.category, tags: Array.isArray(post.tags) ? post.tags.join(", ") : post.tags, date: post.date });
         if (post.faqs && Array.isArray(post.faqs)) setFaqs(post.faqs);
+        if (post.category && !BLOG_CATEGORIES.includes(post.category)) setCustomCategory(true);
       })
       .catch(() => setNotFound(true))
       .finally(() => setLoading(false));
@@ -147,7 +149,7 @@ export default function EditBlogPost() {
 
             <div className="d-row">
               <div className="d-field"><label htmlFor="author">Author</label><input id="author" type="text" value={form.author} onChange={(e) => updateField("author", e.target.value)} /></div>
-              <div className="d-field"><label htmlFor="category">Category *</label><select id="category" value={form.category} onChange={(e) => updateField("category", e.target.value)} required><option value="">Select a category</option>{BLOG_CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}</select></div>
+              <div className="d-field"><label htmlFor="category">Category *</label>{customCategory ? (<div style={{ display: "flex", gap: 8 }}><input id="category" type="text" value={form.category} onChange={(e) => updateField("category", e.target.value)} placeholder="Type your custom category" required style={{ flex: 1 }} /><button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => { setCustomCategory(false); updateField("category", ""); }}>Back</button></div>) : (<select id="category" value={BLOG_CATEGORIES.includes(form.category) ? form.category : ""} onChange={(e) => { if (e.target.value === "__custom__") { setCustomCategory(true); updateField("category", ""); } else { updateField("category", e.target.value); }}} required><option value="">Select a category</option>{BLOG_CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}<option value="__custom__">+ Custom category</option></select>)}</div>
             </div>
 
             <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} /></div>
