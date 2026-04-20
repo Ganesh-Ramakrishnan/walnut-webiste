@@ -21,9 +21,9 @@ const resources = [
   ],
   [
     { name: "Blog", href: "/blog" },
+    { name: "Reports", href: "/resources/reports" },
     { name: "Community", href: "https://discord.com/invite/Tcw88yu6q", external: true },
     { name: "Contact Us", href: "/contact" },
-    { name: "Success Stories", href: "/blog" },
   ],
 ];
 const resourcesFlat = resources.flat();
