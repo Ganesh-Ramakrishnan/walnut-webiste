@@ -52,19 +52,6 @@ function ReportsPage() {
           <div className="rpt-hero-inner">
             <p className="rpt-hero-label">Resources</p>
             <h1 className="rpt-hero-title">WalnutAI Reports</h1>
-            <div className="rpt-tabs">
-              {categories.map((cat) => {
-                const count = reports.filter((r) => r.category === cat).length;
-                return (
-                  <span
-                    key={cat}
-                    className={`rpt-tab ${count > 0 ? "rpt-tab--active" : ""}`}
-                  >
-                    {cat}
-                  </span>
-                );
-              })}
-            </div>
           </div>
         </section>
 
