@@ -23,7 +23,7 @@ const ALLOWED_IMAGE_PREFIXES = ["data:image/", "/assets/", "http://", "https://"
 export async function GET() {
   try {
     await connectDB();
-    const blogs = await Blog.find({}).sort({ date: -1 }).lean();
+    const blogs = await Blog.find({}, { content: 0, faqs: 0 }).sort({ date: -1 }).lean();
     return NextResponse.json(blogs);
   } catch (error) {
     console.error("GET /api/blogs error:", error);

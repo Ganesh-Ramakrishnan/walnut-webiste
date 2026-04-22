@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import RichTextEditor from "@/components/editor/RichTextEditor";
+import dynamic from "next/dynamic";
+
+const RichTextEditor = dynamic(() => import("@/components/editor/RichTextEditor"), {
+  loading: () => <div style={{ minHeight: 350, display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", background: "#080808", border: "1px solid #1a1a1a", borderRadius: 10 }}>Loading editor...</div>,
+  ssr: false,
+});
 
 export type ChangelogTag = "NEW" | "IMPROVED" | "FIXED" | "SECURITY";
 

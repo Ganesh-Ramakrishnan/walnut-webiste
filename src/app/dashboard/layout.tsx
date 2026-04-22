@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const navItems = [
   {
@@ -40,29 +40,9 @@ const navItems = [
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [authed, setAuthed] = useState<boolean | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const isLoginPage = pathname === "/dashboard/login";
-
-  useEffect(() => {
-    if (isLoginPage) {
-      setAuthed(true);
-      return;
-    }
-
-    fetch("/api/auth/check")
-      .then((res) => {
-        if (res.ok) {
-          setAuthed(true);
-        } else {
-          router.push("/dashboard/login");
-        }
-      })
-      .catch(() => {
-        router.push("/dashboard/login");
-      });
-  }, [isLoginPage, router]);
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -70,14 +50,6 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   if (isLoginPage) return <>{children}</>;
-
-  if (authed === null) {
-    return (
-      <div className="d-loading">
-        <div className="d-loading-spinner" />
-      </div>
-    );
-  }
 
   return (
     <div className="d-shell">

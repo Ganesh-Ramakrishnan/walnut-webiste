@@ -6,7 +6,7 @@ import { blogPosts, type BlogPost } from "@/data/blogPosts";
 export async function getAllPostsFromDB(): Promise<BlogPost[]> {
   try {
     await connectDB();
-    const dbPosts = await Blog.find({ published: true }).sort({ date: -1 }).lean();
+    const dbPosts = await Blog.find({ published: true }, { content: 0, faqs: 0 }).sort({ date: -1 }).lean();
 
     if (dbPosts.length > 0) {
       return dbPosts.map((p) => ({
