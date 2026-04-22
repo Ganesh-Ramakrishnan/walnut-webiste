@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 
 const BLOG_CATEGORIES = [
   "Announcements",
@@ -121,7 +122,7 @@ export default function NewBlogPost() {
 
             <div className="d-field"><label htmlFor="excerpt">Excerpt *</label><textarea id="excerpt" value={form.excerpt} onChange={(e) => updateField("excerpt", e.target.value)} placeholder="A brief summary of the post..." rows={3} required /></div>
 
-            <div className="d-field"><label htmlFor="content">Content (HTML) *</label><textarea id="content" value={form.content} onChange={(e) => updateField("content", e.target.value)} placeholder="<h2>Your heading</h2><p>Your content here...</p>" required style={{ height: 400, minHeight: 200, maxHeight: 600, overflowY: "scroll", resize: "vertical" }} /></div>
+            <div className="d-field"><label>Content *</label><RichTextEditor content={form.content} onChange={(html) => updateField("content", html)} placeholder="Start writing your blog post..." /></div>
 
             <div className="d-row">
               <div className="d-field"><label htmlFor="author">Author</label><input id="author" type="text" value={form.author} onChange={(e) => updateField("author", e.target.value)} /></div>

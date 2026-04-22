@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import RichTextEditor from "@/components/editor/RichTextEditor";
 
 export type ChangelogTag = "NEW" | "IMPROVED" | "FIXED" | "SECURITY";
 
@@ -34,7 +35,6 @@ export default function ChangelogForm({ mode, initial, originalDate }: Props) {
   const router = useRouter();
   const [form, setForm] = useState<ChangelogFormValue>(initial);
   const [saving, setSaving] = useState(false);
-  const [preview, setPreview] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -155,43 +155,12 @@ export default function ChangelogForm({ mode, initial, originalDate }: Props) {
       </div>
 
       <div className="d-field">
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <label htmlFor="content">Content (HTML) *</label>
-          <button
-            type="button"
-            className="d-btn d-btn--sm d-btn--ghost"
-            onClick={() => setPreview((p) => !p)}
-          >
-            {preview ? "Edit HTML" : "Preview"}
-          </button>
-        </div>
-        {preview ? (
-          <div
-            className="cl2-content-preview"
-            style={{
-              minHeight: 200,
-              padding: 18,
-              background: "rgba(255,255,255,0.02)",
-              border: "1px solid rgba(255,255,255,0.06)",
-              borderRadius: 8,
-              color: "#e6e9ef",
-            }}
-            dangerouslySetInnerHTML={{ __html: form.content || "<p>(no content)</p>" }}
-          />
-        ) : (
-          <textarea
-            id="content"
-            value={form.content}
-            onChange={(e) => setForm((p) => ({ ...p, content: e.target.value }))}
-            placeholder='<h3>Platform 2.0 launch</h3><p>End-to-end SDLC automation from requirements to deployment is now generally available.</p>'
-            rows={14}
-            required
-            style={{ fontFamily: "var(--font-mono, monospace)", fontSize: 13, lineHeight: 1.55 }}
-          />
-        )}
-        <p className="d-muted" style={{ fontSize: 12, marginTop: 6 }}>
-          Allowed tags: headings, paragraphs, lists, links, images, code blocks, tables, blockquotes, formatting.
-        </p>
+        <label>Content *</label>
+        <RichTextEditor
+          content={form.content}
+          onChange={(html) => setForm((p) => ({ ...p, content: html }))}
+          placeholder="Describe what changed in this release..."
+        />
       </div>
 
       <div className="d-field">

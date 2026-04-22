@@ -16,7 +16,6 @@ const resources = [
   [
     { name: "Changelog", href: "/changelog" },
     { name: "Docs", href: "https://docs.walnutai.ai", external: true },
-    { name: "Help", href: "/contact" },
     { name: "Integrations", href: "/integrations" },
   ],
   [
