@@ -22,8 +22,9 @@ const BLOG_CATEGORIES = [
 export default function NewBlogPost() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", author: "WalnutAI Team", image: "", category: "", tags: "" });
+  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", author: "WalnutAI Team", authorTitle: "", authorLinkedin: "", image: "", category: "", tags: "", seoTitle: "", metaDescription: "" });
   const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
+  const [relatedLinks, setRelatedLinks] = useState<{ label: string; href: string }[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [preview, setPreview] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -59,7 +60,7 @@ export default function NewBlogPost() {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetch("/api/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean), faqs: faqs.filter((f) => f.question && f.answer), date: new Date().toISOString().split("T")[0] }) });
+      const res = await fetch("/api/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean), faqs: faqs.filter((f) => f.question && f.answer), relatedLinks: relatedLinks.filter((l) => l.label && l.href), date: new Date().toISOString().split("T")[0] }) });
       if (res.ok) router.push("/dashboard/blogs");
       else { const data = await res.json(); alert(data.error || "Failed to create post"); }
     } catch { alert("Failed to create post"); }
@@ -127,14 +128,43 @@ export default function NewBlogPost() {
 
             <div className="d-field"><label htmlFor="excerpt">Excerpt *</label><textarea id="excerpt" value={form.excerpt} onChange={(e) => updateField("excerpt", e.target.value)} placeholder="A brief summary of the post..." rows={3} required /></div>
 
-            <div className="d-field"><label>Content *</label><RichTextEditor content={form.content} onChange={(html) => updateField("content", html)} placeholder="Start writing your blog post..." /></div>
+            <div className="d-field"><label>Content *</label><RichTextEditor content={form.content} onChange={(html) => updateField("content", html)} placeholder="Type / to insert a block or paste a link to embed content" /></div>
 
             <div className="d-row">
-              <div className="d-field"><label htmlFor="author">Author</label><input id="author" type="text" value={form.author} onChange={(e) => updateField("author", e.target.value)} /></div>
+              <div className="d-field"><label htmlFor="seoTitle">SEO Title Tag</label><input id="seoTitle" type="text" value={form.seoTitle} onChange={(e) => updateField("seoTitle", e.target.value)} placeholder="Custom title for search engines (defaults to post title)" maxLength={70} /><p className="d-muted" style={{ fontSize: 11, marginTop: 4 }}>{form.seoTitle.length}/70 chars</p></div>
+              <div className="d-field"><label htmlFor="metaDescription">Meta Description</label><textarea id="metaDescription" value={form.metaDescription} onChange={(e) => updateField("metaDescription", e.target.value)} placeholder="Brief description for search results (defaults to excerpt)" rows={2} maxLength={160} /><p className="d-muted" style={{ fontSize: 11, marginTop: 4 }}>{form.metaDescription.length}/160 chars</p></div>
+            </div>
+
+            <div className="d-row">
+              <div className="d-field"><label htmlFor="author">Author *</label><input id="author" type="text" value={form.author} onChange={(e) => updateField("author", e.target.value)} required /></div>
               <div className="d-field"><label htmlFor="category">Category *</label>{customCategory ? (<div style={{ display: "flex", gap: 8 }}><input id="category" type="text" value={form.category} onChange={(e) => updateField("category", e.target.value)} placeholder="Type your custom category" required style={{ flex: 1 }} /><button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => { setCustomCategory(false); updateField("category", ""); }}>Back</button></div>) : (<select id="category" value={BLOG_CATEGORIES.includes(form.category) ? form.category : ""} onChange={(e) => { if (e.target.value === "__custom__") { setCustomCategory(true); updateField("category", ""); } else { updateField("category", e.target.value); }}} required><option value="">Select a category</option>{BLOG_CATEGORIES.map((cat) => (<option key={cat} value={cat}>{cat}</option>))}<option value="__custom__">+ Custom category</option></select>)}</div>
             </div>
 
+            <div className="d-row">
+              <div className="d-field"><label htmlFor="authorTitle">Author Title</label><input id="authorTitle" type="text" value={form.authorTitle} onChange={(e) => updateField("authorTitle", e.target.value)} placeholder="e.g. Lead Engineer at WalnutAI" /></div>
+              <div className="d-field"><label htmlFor="authorLinkedin">Author LinkedIn URL</label><input id="authorLinkedin" type="text" value={form.authorLinkedin} onChange={(e) => updateField("authorLinkedin", e.target.value)} placeholder="https://linkedin.com/in/..." /></div>
+            </div>
+
             <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} placeholder="AI, Testing, Automation" /></div>
+
+            {/* Internal links */}
+            <div className="d-field">
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <label>Internal Links (shown at bottom of article)</label>
+                <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => setRelatedLinks([...relatedLinks, { label: "", href: "" }])}>+ Add Link</button>
+              </div>
+              {relatedLinks.length === 0 && <p className="d-muted" style={{ fontSize: 12 }}>No internal links added.</p>}
+              {relatedLinks.map((link, i) => (
+                <div key={i} className="d-faq-item">
+                  <div className="d-faq-item-head">
+                    <span className="d-muted" style={{ fontSize: 11, fontWeight: 700 }}>Link {i + 1}</span>
+                    <button type="button" className="d-btn d-btn--sm d-btn--danger" onClick={() => setRelatedLinks(relatedLinks.filter((_, idx) => idx !== i))}>Remove</button>
+                  </div>
+                  <input type="text" value={link.label} onChange={(e) => { const u = [...relatedLinks]; u[i] = { ...u[i], label: e.target.value }; setRelatedLinks(u); }} placeholder="Link text (e.g. How AI Testing Works)" />
+                  <input type="text" value={link.href} onChange={(e) => { const u = [...relatedLinks]; u[i] = { ...u[i], href: e.target.value }; setRelatedLinks(u); }} placeholder="URL (e.g. /blog/ai-testing-guide)" />
+                </div>
+              ))}
+            </div>
 
             {/* FAQs */}
             <div className="d-field">

@@ -19,15 +19,18 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     return { title: "Post Not Found" };
   }
 
+  const seoT = post.seoTitle || post.title;
+  const seoD = post.metaDescription || post.excerpt;
+
   return {
-    title: post.title,
-    description: post.excerpt,
+    title: seoT,
+    description: seoD,
     keywords: post.tags,
     authors: [{ name: post.author }],
     openGraph: {
       type: "article",
-      title: post.title,
-      description: post.excerpt,
+      title: seoT,
+      description: seoD,
       url: `${siteUrl}/blog/${post.slug}`,
       siteName: "WalnutAI",
       images: [
@@ -44,8 +47,8 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
+      title: seoT,
+      description: seoD,
       images: [post.image],
     },
     alternates: {
@@ -83,6 +86,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               author: {
                 "@type": "Person",
                 name: post.author,
+                ...(post.authorTitle ? { jobTitle: post.authorTitle } : {}),
+                ...(post.authorLinkedin ? { url: post.authorLinkedin, sameAs: [post.authorLinkedin] } : {}),
               },
               publisher: {
                 "@type": "Organization",

@@ -5,6 +5,11 @@ export interface IFAQ {
   answer: string;
 }
 
+export interface IRelatedLink {
+  label: string;
+  href: string;
+}
+
 export interface IBlog extends Document {
   title: string;
   slug: string;
@@ -12,10 +17,15 @@ export interface IBlog extends Document {
   content: string;
   date: string;
   author: string;
+  authorTitle: string;
+  authorLinkedin: string;
   image: string;
   category: string;
   tags: string[];
   faqs: IFAQ[];
+  seoTitle: string;
+  metaDescription: string;
+  relatedLinks: IRelatedLink[];
   published: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -29,6 +39,14 @@ const FAQSchema = new Schema<IFAQ>(
   { _id: false }
 );
 
+const RelatedLinkSchema = new Schema<IRelatedLink>(
+  {
+    label: { type: String, required: true },
+    href: { type: String, required: true },
+  },
+  { _id: false }
+);
+
 const BlogSchema = new Schema<IBlog>(
   {
     title: { type: String, required: true },
@@ -37,10 +55,15 @@ const BlogSchema = new Schema<IBlog>(
     content: { type: String, required: true },
     date: { type: String, required: true },
     author: { type: String, default: "WalnutAI Team" },
+    authorTitle: { type: String, default: "" },
+    authorLinkedin: { type: String, default: "" },
     image: { type: String, default: "" },
     category: { type: String, required: true },
     tags: { type: [String], default: [] },
     faqs: { type: [FAQSchema], default: [] },
+    seoTitle: { type: String, default: "" },
+    metaDescription: { type: String, default: "" },
+    relatedLinks: { type: [RelatedLinkSchema], default: [] },
     published: { type: Boolean, default: true },
   },
   { timestamps: true }

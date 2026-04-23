@@ -11,6 +11,9 @@ export default function BlogList() {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [deleteSlug, setDeleteSlug] = useState<string | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [showCatManager, setShowCatManager] = useState(false);
+  const [renamingCat, setRenamingCat] = useState<string | null>(null);
+  const [renameValue, setRenameValue] = useState("");
 
   useEffect(() => {
     fetch("/api/blogs")
@@ -27,6 +30,39 @@ export default function BlogList() {
     return matchesSearch && matchesCategory;
   });
   const deletePost = posts.find((p) => p.slug === deleteSlug);
+
+  const refreshPosts = () => {
+    fetch("/api/blogs").then((r) => r.json()).then((d) => { if (Array.isArray(d)) setPosts(d); });
+  };
+
+  const handleRenameCategory = async (oldName: string) => {
+    if (!renameValue.trim() || renameValue.trim() === oldName) { setRenamingCat(null); return; }
+    try {
+      const res = await fetch("/api/blogs/categories", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ oldName, newName: renameValue.trim() }),
+      });
+      const data = await res.json();
+      if (res.ok) { alert(data.message); refreshPosts(); }
+      else alert(data.error || "Failed to rename");
+    } catch { alert("Failed to rename category"); }
+    setRenamingCat(null);
+  };
+
+  const handleDeleteCategory = async (name: string) => {
+    if (!confirm(`Delete category "${name}"? All posts in it will be moved to "Uncategorized".`)) return;
+    try {
+      const res = await fetch("/api/blogs/categories", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name }),
+      });
+      const data = await res.json();
+      if (res.ok) { alert(data.message); refreshPosts(); setCategoryFilter(""); }
+      else alert(data.error || "Failed to delete");
+    } catch { alert("Failed to delete category"); }
+  };
 
   const handleDelete = async () => {
     if (!deleteSlug) return;
@@ -62,7 +98,49 @@ export default function BlogList() {
           <option value="">All Categories</option>
           {categories.map((c) => <option key={c} value={c}>{c}</option>)}
         </select>
+        <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => setShowCatManager(!showCatManager)}>
+          {showCatManager ? "Close" : "Manage Categories"}
+        </button>
       </div>
+
+      {showCatManager && (
+        <div className="d-card" style={{ padding: 16, marginBottom: 16 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+            <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 700, margin: 0 }}>Categories</h3>
+          </div>
+          {categories.length === 0 ? (
+            <p className="d-muted" style={{ fontSize: 13 }}>No categories yet.</p>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {categories.map((cat) => (
+                <div key={cat} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", background: "rgba(255,255,255,0.02)", borderRadius: 8, border: "1px solid rgba(255,255,255,0.06)" }}>
+                  {renamingCat === cat ? (
+                    <>
+                      <input
+                        type="text"
+                        value={renameValue}
+                        onChange={(e) => setRenameValue(e.target.value)}
+                        onKeyDown={(e) => { if (e.key === "Enter") handleRenameCategory(cat); if (e.key === "Escape") setRenamingCat(null); }}
+                        autoFocus
+                        style={{ flex: 1, background: "#080808", border: "1px solid #1e1e1e", borderRadius: 6, color: "#e6e9ef", padding: "4px 8px", fontSize: 13, fontFamily: "inherit", outline: "none" }}
+                      />
+                      <button type="button" className="d-btn d-btn--sm" onClick={() => handleRenameCategory(cat)}>Save</button>
+                      <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => setRenamingCat(null)}>Cancel</button>
+                    </>
+                  ) : (
+                    <>
+                      <span style={{ flex: 1, color: "#e6e9ef", fontSize: 13 }}>{cat}</span>
+                      <span className="d-muted" style={{ fontSize: 11 }}>{posts.filter((p) => p.category === cat).length} posts</span>
+                      <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => { setRenamingCat(cat); setRenameValue(cat); }}>Rename</button>
+                      <button type="button" className="d-btn d-btn--sm d-btn--danger" onClick={() => handleDeleteCategory(cat)}>Delete</button>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Table */}
       <div className="d-card" style={{ padding: 0 }}>

@@ -10,10 +10,15 @@ export interface BlogPost {
   content: string;
   date: string;
   author: string;
+  authorTitle?: string;
+  authorLinkedin?: string;
   image: string;
   category: string;
   tags: string[];
   faqs?: FAQ[];
+  seoTitle?: string;
+  metaDescription?: string;
+  relatedLinks?: { label: string; href: string }[];
 }
 
 export const blogPosts: BlogPost[] = [

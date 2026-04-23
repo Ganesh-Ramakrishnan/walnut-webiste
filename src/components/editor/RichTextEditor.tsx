@@ -11,6 +11,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
+import TextAlign from "@tiptap/extension-text-align";
+import { TextStyle } from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
+import Highlight from "@tiptap/extension-highlight";
+import FontFamily from "@tiptap/extension-font-family";
 import { common, createLowlight } from "lowlight";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { SlashCommands } from "./slash-commands";
@@ -29,7 +34,7 @@ interface Props {
 export default function RichTextEditor({
   content,
   onChange,
-  placeholder = "Start writing, or type / for commands...",
+  placeholder = "Type / to insert a block or paste a link to embed content",
 }: Props) {
   const [linkUrl, setLinkUrl] = useState("");
   const [showLinkInput, setShowLinkInput] = useState(false);
@@ -39,17 +44,13 @@ export default function RichTextEditor({
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        codeBlock: false,
-      }),
+      StarterKit.configure({ codeBlock: false }),
       Underline,
       Link.configure({
         openOnClick: false,
         HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" },
       }),
-      Image.configure({
-        allowBase64: true,
-      }),
+      Image.configure({ allowBase64: true }),
       Table.configure({ resizable: false }),
       TableRow,
       TableCell,
@@ -59,9 +60,12 @@ export default function RichTextEditor({
       Typography,
       TaskList,
       TaskItem.configure({ nested: true }),
-      SlashCommands.configure({
-        suggestion: suggestionConfig,
-      }),
+      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
+      FontFamily,
+      SlashCommands.configure({ suggestion: suggestionConfig }),
     ],
     content: initialHtml,
     onUpdate: ({ editor: e }) => {
@@ -70,7 +74,6 @@ export default function RichTextEditor({
     immediatelyRender: false,
   });
 
-  // Sync content from parent on external load (edit mode)
   useEffect(() => {
     if (!editor || !content || content === initialHtml) return;
     if (editor.isEmpty) {
@@ -82,12 +85,12 @@ export default function RichTextEditor({
     fileInputRef.current?.click();
   }, []);
 
-  // Listen for slash command image upload event
   useEffect(() => {
     const handler = () => triggerImageUpload();
     document.addEventListener("slash-image-upload", handler);
     return () => document.removeEventListener("slash-image-upload", handler);
   }, [triggerImageUpload]);
+
 
   const onFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,12 +118,7 @@ export default function RichTextEditor({
   const confirmLink = useCallback(() => {
     if (!editor) return;
     if (linkUrl.trim()) {
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({ href: linkUrl.trim() })
-        .run();
+      editor.chain().focus().extendMarkRange("link").setLink({ href: linkUrl.trim() }).run();
     } else {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
     }
@@ -147,7 +145,6 @@ export default function RichTextEditor({
     <div className="re-shell">
       <Toolbar editor={editor} onImageUpload={triggerImageUpload} onAddLink={addLink} />
 
-      {/* Link input popover */}
       {showLinkInput && (
         <div className="re-link-popover">
           <input
@@ -162,13 +159,9 @@ export default function RichTextEditor({
             placeholder="Paste URL and press Enter"
             className="re-link-input"
           />
-          <button type="button" onClick={confirmLink} className="re-link-btn">
-            ✓
-          </button>
+          <button type="button" onClick={confirmLink} className="re-link-btn">✓</button>
           {editor.isActive("link") && (
-            <button type="button" onClick={removeLink} className="re-link-btn re-link-btn--danger">
-              ✕
-            </button>
+            <button type="button" onClick={removeLink} className="re-link-btn re-link-btn--danger">✕</button>
           )}
         </div>
       )}
@@ -178,14 +171,7 @@ export default function RichTextEditor({
         <EditorContent editor={editor} />
       </div>
 
-      {/* Hidden file input for images */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={onFileChange}
-        style={{ display: "none" }}
-      />
+      <input ref={fileInputRef} type="file" accept="image/*" onChange={onFileChange} style={{ display: "none" }} />
     </div>
   );
 }

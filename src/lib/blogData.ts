@@ -13,13 +13,18 @@ export async function getAllPostsFromDB(): Promise<BlogPost[]> {
         slug: p.slug,
         title: p.title,
         excerpt: p.excerpt,
-        content: p.content,
+        content: p.content || "",
         date: p.date,
         author: p.author,
+        authorTitle: p.authorTitle || "",
+        authorLinkedin: p.authorLinkedin || "",
         image: p.image,
         category: p.category,
         tags: p.tags,
         faqs: p.faqs || [],
+        seoTitle: p.seoTitle || "",
+        metaDescription: p.metaDescription || "",
+        relatedLinks: p.relatedLinks || [],
       }));
     }
   } catch (error) {
@@ -46,10 +51,15 @@ export async function getPostBySlugFromDB(slug: string): Promise<BlogPost | unde
         content: post.content,
         date: post.date,
         author: post.author,
+        authorTitle: post.authorTitle || "",
+        authorLinkedin: post.authorLinkedin || "",
         image: post.image,
         category: post.category,
         tags: post.tags,
         faqs: post.faqs || [],
+        seoTitle: post.seoTitle || "",
+        metaDescription: post.metaDescription || "",
+        relatedLinks: post.relatedLinks || [],
       };
     }
   } catch (error) {
