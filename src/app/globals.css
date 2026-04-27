@@ -2749,6 +2749,7 @@ html.lenis body {
   font-weight: 700 !important;
   line-height: 1.4 !important;
   margin-bottom: 8px !important;
+  text-align: center !important;
 }
 
 .blog-card-excerpt {
