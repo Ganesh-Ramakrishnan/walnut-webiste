@@ -170,7 +170,10 @@ export default function EditBlogPost() {
               <div className="d-field"><label htmlFor="authorLinkedin">Author LinkedIn URL</label><input id="authorLinkedin" type="text" value={form.authorLinkedin} onChange={(e) => updateField("authorLinkedin", e.target.value)} placeholder="https://linkedin.com/in/..." /></div>
             </div>
 
-            <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} /></div>
+            <div className="d-row">
+              <div className="d-field"><label htmlFor="date">Publish Date *</label><input id="date" type="date" value={form.date} onChange={(e) => updateField("date", e.target.value)} required /></div>
+              <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} /></div>
+            </div>
 
             {/* Internal links */}
             <div className="d-field">

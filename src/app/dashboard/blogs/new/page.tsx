@@ -22,7 +22,7 @@ const BLOG_CATEGORIES = [
 export default function NewBlogPost() {
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", author: "WalnutAI Team", authorTitle: "", authorLinkedin: "", image: "", category: "", tags: "", seoTitle: "", metaDescription: "" });
+  const [form, setForm] = useState({ title: "", slug: "", excerpt: "", content: "", author: "WalnutAI Team", authorTitle: "", authorLinkedin: "", image: "", category: "", tags: "", seoTitle: "", metaDescription: "", date: new Date().toISOString().split("T")[0] });
   const [faqs, setFaqs] = useState<{ question: string; answer: string }[]>([]);
   const [relatedLinks, setRelatedLinks] = useState<{ label: string; href: string }[]>([]);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
@@ -60,7 +60,7 @@ export default function NewBlogPost() {
     e.preventDefault();
     setSaving(true);
     try {
-      const res = await fetch("/api/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean), faqs: faqs.filter((f) => f.question && f.answer), relatedLinks: relatedLinks.filter((l) => l.label && l.href), date: new Date().toISOString().split("T")[0] }) });
+      const res = await fetch("/api/blogs", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...form, tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean), faqs: faqs.filter((f) => f.question && f.answer), relatedLinks: relatedLinks.filter((l) => l.label && l.href), date: form.date || new Date().toISOString().split("T")[0] }) });
       if (res.ok) router.push("/dashboard/blogs");
       else { const data = await res.json(); alert(data.error || "Failed to create post"); }
     } catch { alert("Failed to create post"); }
@@ -145,7 +145,10 @@ export default function NewBlogPost() {
               <div className="d-field"><label htmlFor="authorLinkedin">Author LinkedIn URL</label><input id="authorLinkedin" type="text" value={form.authorLinkedin} onChange={(e) => updateField("authorLinkedin", e.target.value)} placeholder="https://linkedin.com/in/..." /></div>
             </div>
 
-            <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} placeholder="AI, Testing, Automation" /></div>
+            <div className="d-row">
+              <div className="d-field"><label htmlFor="date">Publish Date *</label><input id="date" type="date" value={form.date} onChange={(e) => updateField("date", e.target.value)} required /></div>
+              <div className="d-field"><label htmlFor="tags">Tags (comma separated)</label><input id="tags" type="text" value={form.tags} onChange={(e) => updateField("tags", e.target.value)} placeholder="AI, Testing, Automation" /></div>
+            </div>
 
             {/* Internal links */}
             <div className="d-field">
