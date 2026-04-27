@@ -19,6 +19,8 @@ import { FontSize } from "@tiptap/extension-text-style/font-size";
 import Highlight from "@tiptap/extension-highlight";
 import FontFamily from "@tiptap/extension-font-family";
 import { common, createLowlight } from "lowlight";
+import { marked } from "marked";
+import { DOMParser as ProseMirrorDOMParser } from "@tiptap/pm/model";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { SlashCommands } from "./slash-commands";
 import { suggestionConfig } from "./suggestion";
@@ -82,6 +84,42 @@ export default function RichTextEditor({
       onChange(e.getHTML());
     },
     immediatelyRender: false,
+    editorProps: {
+      handlePaste: (view, event) => {
+        const text = event.clipboardData?.getData("text/plain");
+        const html = event.clipboardData?.getData("text/html");
+        // If the clipboard already carries rich HTML (Google Docs, Word, web
+        // pages), let ProseMirror's normal pipeline handle it — it preserves
+        // <h1>..<h6>, <blockquote>, <strong>, lists, etc.
+        if (html && html.trim()) return false;
+        if (!text) return false;
+        // Detect common markdown signals — headings, blockquotes, lists,
+        // bold, code fences, links. If any are present, parse via `marked`
+        // and insert the resulting HTML so structure survives the paste.
+        const looksLikeMarkdown =
+          /(^|\n)#{1,6}\s/.test(text) ||
+          /(^|\n)>\s/.test(text) ||
+          /(^|\n)[-*+]\s/.test(text) ||
+          /(^|\n)\d+\.\s/.test(text) ||
+          /\*\*[^*]+\*\*/.test(text) ||
+          /(^|\n)```/.test(text) ||
+          /\[[^\]]+\]\([^)]+\)/.test(text);
+        if (!looksLikeMarkdown) return false;
+        try {
+          const parsed = marked.parse(text, { async: false }) as string;
+          const { state } = view;
+          const { tr, schema } = state;
+          const node = ProseMirrorDOMParser.fromSchema(schema).parse(
+            new window.DOMParser().parseFromString(parsed, "text/html").body
+          );
+          tr.replaceSelectionWith(node, false);
+          view.dispatch(tr);
+          return true;
+        } catch {
+          return false;
+        }
+      },
+    },
   });
 
   useEffect(() => {

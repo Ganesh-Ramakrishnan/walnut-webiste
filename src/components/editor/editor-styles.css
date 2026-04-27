@@ -437,43 +437,65 @@
   margin: 10px 0;
 }
 
-/* Tables — defaults driven by data-* attributes set on the <table> node. */
+/* Tables — defaults match the published blog look: rounded card, styled
+   header, zebra rows. data-* attributes on <table> override per-author. */
 .re-content .tiptap table {
   --tbl-border-color: rgba(255, 255, 255, 0.15);
   --tbl-border-width: 1px;
   --tbl-border-style: solid;
   width: 100%;
-  border-collapse: collapse;
-  margin: 0 0 14px;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 0 0 16px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.015);
 }
 .re-content .tiptap th,
 .re-content .tiptap td {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
+  padding: 10px 14px;
   text-align: left;
   min-width: 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
+.re-content .tiptap tr:last-child th,
+.re-content .tiptap tr:last-child td { border-bottom: none; }
 .re-content .tiptap th {
-  background: rgba(255, 255, 255, 0.04);
+  background: linear-gradient(180deg, rgba(241, 127, 13, 0.07), rgba(255, 255, 255, 0.025));
   color: #fff;
   font-weight: 600;
+  font-size: 12.5px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
 }
+.re-content .tiptap tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.02); }
 
-/* ── Border preset (table-level) ── */
+/* ── Border preset (table-level) ──
+   When the author explicitly picks a preset, override the rounded-card defaults. */
+.re-content .tiptap table[data-border="all"] {
+  border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color);
+}
 .re-content .tiptap table[data-border="all"] th,
 .re-content .tiptap table[data-border="all"] td {
   border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color);
+}
+.re-content .tiptap table[data-border="none"] {
+  border: none;
 }
 .re-content .tiptap table[data-border="none"] th,
 .re-content .tiptap table[data-border="none"] td {
   border: none;
 }
+.re-content .tiptap table[data-border="outside"] {
+  border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color);
+}
 .re-content .tiptap table[data-border="outside"] th,
 .re-content .tiptap table[data-border="outside"] td {
   border: none;
 }
-.re-content .tiptap table[data-border="outside"] {
-  border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color);
+.re-content .tiptap table[data-border="horizontal"] {
+  border: none;
 }
 .re-content .tiptap table[data-border="horizontal"] th,
 .re-content .tiptap table[data-border="horizontal"] td {

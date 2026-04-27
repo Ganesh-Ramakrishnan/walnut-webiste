@@ -2785,9 +2785,9 @@ html.lenis body {
 }
 
 .blog-post-container {
-  max-width: 750px !important;
+  max-width: 1040px !important;
   margin: 0 auto !important;
-  padding: 40px 24px 80px !important;
+  padding: 40px 32px 80px !important;
 }
 
 .blog-back-link {
@@ -2937,39 +2937,77 @@ html.lenis body {
 .blog-content u { text-decoration: underline !important; }
 .blog-content s { text-decoration: line-through !important; opacity: 0.7 !important; }
 
+/* Default polished look — rounded card, styled header, zebra rows, hover. */
 .blog-content table {
   --tbl-border-color: rgba(255, 255, 255, 0.15);
   --tbl-border-width: 1px;
   --tbl-border-style: solid;
   width: 100% !important;
-  border-collapse: collapse !important;
-  margin: 24px 0 !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  margin: 28px 0 !important;
   font-size: 14px !important;
-}
-.blog-content th,
-.blog-content td {
+  border-radius: 12px !important;
+  overflow: hidden !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
-  padding: 10px 14px !important;
-  text-align: left !important;
-  color: #b0b0b0 !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25) !important;
+  background: rgba(255, 255, 255, 0.015) !important;
 }
-.blog-content th {
-  background: rgba(255, 255, 255, 0.04) !important;
+/* Wrap in horizontal scroll container behaviour for narrow viewports. */
+.blog-content table thead th {
+  background: linear-gradient(180deg, rgba(241, 127, 13, 0.07), rgba(255, 255, 255, 0.025)) !important;
   color: #fff !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  font-size: 12.5px !important;
+  letter-spacing: 0.5px !important;
+  text-transform: uppercase !important;
+  padding: 14px 18px !important;
+  text-align: left !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+.blog-content table tbody td {
+  padding: 13px 18px !important;
+  color: #c8c8c8 !important;
+  text-align: left !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: transparent !important;
+}
+.blog-content table tbody tr:last-child td { border-bottom: none !important; }
+.blog-content table tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.018) !important; }
+.blog-content table tbody tr:hover td { background: rgba(241, 127, 13, 0.05) !important; }
+/* Tables with no <thead> — first row gets the header treatment so the rounded
+   top corners look right. */
+.blog-content table:not(:has(thead)) tr:first-child th,
+.blog-content table:not(:has(thead)) tr:first-child td {
+  background: linear-gradient(180deg, rgba(241, 127, 13, 0.07), rgba(255, 255, 255, 0.025)) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Border presets — driven by data-* attrs from the editor */
+/* Border presets — driven by data-* attrs from the editor.
+   These OVERRIDE the default look when the author explicitly picks one. */
+.blog-content table[data-border="all"] {
+  border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color) !important;
+}
 .blog-content table[data-border="all"] th,
 .blog-content table[data-border="all"] td {
   border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color) !important;
 }
+.blog-content table[data-border="none"] {
+  border: none !important;
+  box-shadow: none !important;
+}
 .blog-content table[data-border="none"] th,
 .blog-content table[data-border="none"] td { border: none !important; }
-.blog-content table[data-border="outside"] th,
-.blog-content table[data-border="outside"] td { border: none !important; }
 .blog-content table[data-border="outside"] {
   border: var(--tbl-border-width) var(--tbl-border-style) var(--tbl-border-color) !important;
+}
+.blog-content table[data-border="outside"] th,
+.blog-content table[data-border="outside"] td { border: none !important; }
+.blog-content table[data-border="horizontal"] {
+  border: none !important;
+  box-shadow: none !important;
 }
 .blog-content table[data-border="horizontal"] th,
 .blog-content table[data-border="horizontal"] td {
