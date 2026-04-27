@@ -25,6 +25,7 @@ export function sanitizeBlogContent(html: string): string {
       h3: ["style", "class"],
       h4: ["style", "class"],
       p: ["style", "class"],
+      table: ["data-border", "data-border-weight", "data-border-style", "data-border-color", "data-cell-padding"],
       td: ["colspan", "rowspan", "style"],
       th: ["colspan", "rowspan", "style"],
       code: ["class"],
@@ -32,12 +33,12 @@ export function sanitizeBlogContent(html: string): string {
       ul: ["data-type"],
       li: ["data-type", "data-checked"],
       input: ["type", "checked", "disabled"],
-      div: ["data-type", "class"],
+      div: ["data-type", "data-callout-type", "data-toggle-block", "data-open", "data-layout", "class"],
       iframe: ["src", "width", "height", "frameborder", "allowfullscreen"],
     },
     allowedStyles: {
       "*": {
-        "color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(/],
+        "color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(/, /^rgba\(/],
         "background-color": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(/, /^rgba\(/],
         "background": [/^#[0-9a-fA-F]{3,8}$/, /^rgb\(/, /^rgba\(/],
         "text-align": [/^(left|center|right|justify)$/],

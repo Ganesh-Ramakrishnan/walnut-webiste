@@ -11,6 +11,7 @@ import {
   AlignLeft, AlignCenter, AlignRight, AlignJustify,
   Highlighter, Palette,
   Type,
+  Plus, Trash2, Rows3, Columns3,
 } from "lucide-react";
 
 interface Props {
@@ -39,17 +40,51 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
   const [showFontFamily, setShowFontFamily] = useState(false);
   const [showTextColor, setShowTextColor] = useState(false);
   const [showHighlight, setShowHighlight] = useState(false);
+  const [showTableMenu, setShowTableMenu] = useState(false);
+  const [tableSub, setTableSub] = useState<"" | "borders" | "weight" | "style" | "color" | "padding">("");
   const fontSizeRef = useRef<HTMLDivElement>(null);
   const fontFamilyRef = useRef<HTMLDivElement>(null);
   const textColorRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLDivElement>(null);
+  const [popupPos, setPopupPos] = useState<{ top?: number; bottom?: number; left: number }>({ top: 0, left: 0 });
 
   const closeAll = useCallback(() => {
     setShowFontSize(false);
     setShowFontFamily(false);
     setShowTextColor(false);
     setShowHighlight(false);
+    setShowTableMenu(false);
+    setTableSub("");
   }, []);
+
+  const openPopup = useCallback((e: React.MouseEvent, setter: (v: boolean) => void) => {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const maxH = 380;
+    // If not enough space below, anchor the popup's BOTTOM just above the button.
+    // Otherwise anchor its TOP just below the button. This keeps the popup adjacent
+    // to the button regardless of the popup's actual rendered height.
+    const pos =
+      spaceBelow < maxH
+        ? { bottom: window.innerHeight - rect.top + 4, left: rect.left }
+        : { top: rect.bottom + 4, left: rect.left };
+    setPopupPos(pos);
+    closeAll();
+    setter(true);
+  }, [closeAll]);
+
+
+  // Run a table-attribute command and then collapse any CellSelection back to a
+  // text caret. Without this the orange "selected cell" outline lingers and is
+  // easily mistaken for a border that wasn't removed.
+  const runTableCmd = useCallback(
+    (mutate: (chain: ReturnType<typeof editor.chain>) => ReturnType<typeof editor.chain>) => {
+      const pos = editor.state.selection.from;
+      mutate(editor.chain().focus()).setTextSelection(pos).run();
+      setTableSub("");
+    },
+    [editor]
+  );
 
   const btn = (
     active: boolean,
@@ -85,14 +120,14 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
         <button
           type="button"
           className={`re-tb-btn re-tb-dropdown-btn ${showFontFamily ? "is-active" : ""}`}
-          onClick={() => { closeAll(); setShowFontFamily(!showFontFamily); }}
+          onClick={(e) => showFontFamily ? closeAll() : openPopup(e, setShowFontFamily)}
           title="Font family"
         >
           <Type size={14} />
           <span className="re-tb-dropdown-arrow">▾</span>
         </button>
         {showFontFamily && (
-          <div className="re-tb-popup">
+          <div className="re-tb-popup" style={popupPos}>
             {FONT_FAMILIES.map((f) => (
               <button
                 key={f.label}
@@ -117,14 +152,14 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
         <button
           type="button"
           className={`re-tb-btn re-tb-dropdown-btn ${showFontSize ? "is-active" : ""}`}
-          onClick={() => { closeAll(); setShowFontSize(!showFontSize); }}
+          onClick={(e) => showFontSize ? closeAll() : openPopup(e, setShowFontSize)}
           title="Font size"
         >
           <span style={{ fontSize: 11, fontWeight: 700 }}>A</span>
           <span className="re-tb-dropdown-arrow">▾</span>
         </button>
         {showFontSize && (
-          <div className="re-tb-popup">
+          <div className="re-tb-popup" style={popupPos}>
             <button
               type="button"
               className="re-tb-popup-item"
@@ -155,13 +190,13 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
         <button
           type="button"
           className={`re-tb-btn ${showTextColor ? "is-active" : ""}`}
-          onClick={() => { closeAll(); setShowTextColor(!showTextColor); }}
+          onClick={(e) => showTextColor ? closeAll() : openPopup(e, setShowTextColor)}
           title="Text color"
         >
           <Palette size={16} />
         </button>
         {showTextColor && (
-          <div className="re-tb-popup re-tb-color-grid">
+          <div className="re-tb-popup re-tb-color-grid" style={popupPos}>
             <button
               type="button"
               className="re-tb-popup-item"
@@ -188,13 +223,13 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
         <button
           type="button"
           className={`re-tb-btn ${editor.isActive("highlight") ? "is-active" : ""} ${showHighlight ? "is-active" : ""}`}
-          onClick={() => { closeAll(); setShowHighlight(!showHighlight); }}
+          onClick={(e) => showHighlight ? closeAll() : openPopup(e, setShowHighlight)}
           title="Highlight text"
         >
           <Highlighter size={16} />
         </button>
         {showHighlight && (
-          <div className="re-tb-popup re-tb-color-grid">
+          <div className="re-tb-popup re-tb-color-grid" style={popupPos}>
             <button
               type="button"
               className="re-tb-popup-item"
@@ -248,7 +283,174 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
       <div className="re-tb-group">
         {btn(editor.isActive("link"), onAddLink, <Link2 size={16} />, "Link")}
         {btn(false, onImageUpload, <ImageIcon size={16} />, "Image")}
-        {btn(false, () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(), <Table size={16} />, "Table")}
+      </div>
+      <div className="re-tb-sep" />
+
+      {/* Table dropdown */}
+      <div className="re-tb-group" style={{ position: "relative" }}>
+        <button
+          type="button"
+          className={`re-tb-btn re-tb-dropdown-btn ${showTableMenu ? "is-active" : ""}`}
+          onClick={(e) => showTableMenu ? closeAll() : openPopup(e, setShowTableMenu)}
+          title="Table"
+        >
+          <Table size={14} />
+          <span className="re-tb-dropdown-arrow">▾</span>
+        </button>
+        {showTableMenu && (
+          <div className="re-tb-popup re-table-menu" style={popupPos}>
+            {!editor.isActive("table") ? (
+              <>
+                <div className="re-table-menu-label">INSERT</div>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(); setShowTableMenu(false); }}>
+                  <Plus size={14} /> Insert table
+                </button>
+              </>
+            ) : (
+              <>
+                <div className="re-table-menu-label">ROWS</div>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().addRowBefore().run(); setShowTableMenu(false); }}>
+                  <Rows3 size={14} /> Insert row above
+                </button>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().addRowAfter().run(); setShowTableMenu(false); }}>
+                  <Rows3 size={14} /> Insert row below
+                </button>
+                <button type="button" className="re-table-menu-item re-table-menu-item--danger" onClick={() => { editor.chain().focus().deleteRow().run(); setShowTableMenu(false); }}>
+                  <Trash2 size={14} /> Delete row
+                </button>
+
+                <div className="re-table-menu-label">COLUMNS</div>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().addColumnBefore().run(); setShowTableMenu(false); }}>
+                  <Columns3 size={14} /> Insert column left
+                </button>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().addColumnAfter().run(); setShowTableMenu(false); }}>
+                  <Columns3 size={14} /> Insert column right
+                </button>
+                <button type="button" className="re-table-menu-item re-table-menu-item--danger" onClick={() => { editor.chain().focus().deleteColumn().run(); setShowTableMenu(false); }}>
+                  <Trash2 size={14} /> Delete column
+                </button>
+
+                <div className="re-table-menu-label">CELLS</div>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().mergeCells().run(); setShowTableMenu(false); }}>
+                  Merge cells
+                </button>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().splitCell().run(); setShowTableMenu(false); }}>
+                  Split cell
+                </button>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().toggleHeaderRow().run(); setShowTableMenu(false); }}>
+                  Toggle header row
+                </button>
+                <button type="button" className="re-table-menu-item" onClick={() => { editor.chain().focus().toggleHeaderColumn().run(); setShowTableMenu(false); }}>
+                  Toggle header column
+                </button>
+
+                <div className="re-table-menu-label">BORDERS</div>
+                {/* Border presets */}
+                {tableSub !== "borders" ? (
+                  <button type="button" className="re-table-menu-item re-table-menu-expand" onClick={() => setTableSub("borders")}>
+                    Border options <span className="re-table-chevron">›</span>
+                  </button>
+                ) : (
+                  <div className="re-table-sub">
+                    <div className="re-table-border-grid">
+                      <button type="button" title="All borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("all"))}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="16" height="16" /><line x1="10" y1="2" x2="10" y2="18" /><line x1="2" y1="10" x2="18" y2="10" /></svg>
+                      </button>
+                      <button type="button" title="No borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("none"))}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2"><rect x="2" y="2" width="16" height="16" /></svg>
+                      </button>
+                      <button type="button" title="Outside borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("outside"))}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="16" height="16" /></svg>
+                      </button>
+                      <button type="button" title="Horizontal borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("horizontal"))}>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="2" y1="10" x2="18" y2="10" /><line x1="2" y1="18" x2="18" y2="18" /></svg>
+                      </button>
+                    </div>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                  </div>
+                )}
+
+                {/* Weight */}
+                {tableSub !== "weight" ? (
+                  <button type="button" className="re-table-menu-item re-table-menu-expand" onClick={() => setTableSub("weight")}>
+                    Weight <span className="re-table-chevron">›</span>
+                  </button>
+                ) : (
+                  <div className="re-table-sub">
+                    {[{ label: "Thin", val: "thin" as const, px: 1 }, { label: "Medium", val: "medium" as const, px: 2 }, { label: "Thick", val: "thick" as const, px: 3 }].map((w) => (
+                      <button key={w.val} type="button" className="re-table-menu-item" onClick={() => runTableCmd((c) => c.setTableBorderWeight(w.val))}>
+                        <span style={{ display: "inline-block", width: 24, height: w.px, background: "#9ca3af", borderRadius: 1 }} /> {w.label}
+                      </button>
+                    ))}
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                  </div>
+                )}
+
+                {/* Style */}
+                {tableSub !== "style" ? (
+                  <button type="button" className="re-table-menu-item re-table-menu-expand" onClick={() => setTableSub("style")}>
+                    Style <span className="re-table-chevron">›</span>
+                  </button>
+                ) : (
+                  <div className="re-table-sub">
+                    {[{ label: "Solid", val: "solid" as const }, { label: "Dashed", val: "dashed" as const }, { label: "Dotted", val: "dotted" as const }].map((s) => (
+                      <button key={s.val} type="button" className="re-table-menu-item" onClick={() => runTableCmd((c) => c.setTableBorderStyle(s.val))}>
+                        <span style={{ display: "inline-block", width: 24, borderBottom: `2px ${s.val} #9ca3af` }} /> {s.label}
+                      </button>
+                    ))}
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                  </div>
+                )}
+
+                {/* Color */}
+                {tableSub !== "color" ? (
+                  <button type="button" className="re-table-menu-item re-table-menu-expand" onClick={() => setTableSub("color")}>
+                    Color <span className="re-table-chevron">›</span>
+                  </button>
+                ) : (
+                  <div className="re-table-sub">
+                    <div className="re-table-border-grid">
+                      {([
+                        { name: "default" as const, swatch: "rgba(255,255,255,0.15)" },
+                        { name: "orange"  as const, swatch: "#F17F0D" },
+                        { name: "red"     as const, swatch: "#ef4444" },
+                        { name: "amber"   as const, swatch: "#f59e0b" },
+                        { name: "green"   as const, swatch: "#10b981" },
+                        { name: "blue"    as const, swatch: "#3b82f6" },
+                        { name: "purple"  as const, swatch: "#8b5cf6" },
+                        { name: "white"   as const, swatch: "#ffffff" },
+                      ]).map((c) => (
+                        <button key={c.name} type="button" title={c.name} className="re-tb-color-swatch" style={{ background: c.swatch, width: 24, height: 24 }} onClick={() => runTableCmd((ch) => ch.setTableBorderColor(c.name))} />
+                      ))}
+                    </div>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                  </div>
+                )}
+
+                {/* Padding */}
+                {tableSub !== "padding" ? (
+                  <button type="button" className="re-table-menu-item re-table-menu-expand" onClick={() => setTableSub("padding")}>
+                    Padding <span className="re-table-chevron">›</span>
+                  </button>
+                ) : (
+                  <div className="re-table-sub">
+                    {[{ label: "Compact", val: "compact" as const }, { label: "Normal", val: "normal" as const }, { label: "Comfortable", val: "comfortable" as const }, { label: "Spacious", val: "spacious" as const }].map((p) => (
+                      <button key={p.val} type="button" className="re-table-menu-item" onClick={() => runTableCmd((c) => c.setTableCellPadding(p.val))}>
+                        {p.label}
+                      </button>
+                    ))}
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                  </div>
+                )}
+
+                <div className="re-table-menu-label">TABLE</div>
+                <button type="button" className="re-table-menu-item re-table-menu-item--danger" onClick={() => { editor.chain().focus().deleteTable().run(); setShowTableMenu(false); }}>
+                  <Trash2 size={14} /> Delete table
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </div>
       <div className="re-tb-sep" />
 

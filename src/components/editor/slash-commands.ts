@@ -151,6 +151,79 @@ export const slashMenuItems: SlashCommandItem[] = [
         .run();
     },
   },
+  // ── Custom node blocks ──
+  {
+    title: "Info callout",
+    description: "Blue info highlight box",
+    icon: "callout",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setCallout({ type: "info" }).run();
+    },
+  },
+  {
+    title: "Warning callout",
+    description: "Yellow warning box",
+    icon: "callout",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setCallout({ type: "warning" }).run();
+    },
+  },
+  {
+    title: "Error callout",
+    description: "Red error box",
+    icon: "callout",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setCallout({ type: "error" }).run();
+    },
+  },
+  {
+    title: "Success callout",
+    description: "Green success box",
+    icon: "callout",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setCallout({ type: "success" }).run();
+    },
+  },
+  {
+    title: "Tip callout",
+    description: "Orange tip box",
+    icon: "callout",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setCallout({ type: "tip" }).run();
+    },
+  },
+  {
+    title: "Toggle block",
+    description: "Collapsible content section",
+    icon: "grid",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setToggleBlock().run();
+    },
+  },
+  {
+    title: "2 Columns",
+    description: "Side-by-side content layout",
+    icon: "grid",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setColumns({ layout: "2-equal" }).run();
+    },
+  },
+  {
+    title: "3 Columns",
+    description: "Three-column layout",
+    icon: "grid",
+    group: "advanced",
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).setColumns({ layout: "3-equal" }).run();
+    },
+  },
 ];
 
 export const SlashCommands = Extension.create({

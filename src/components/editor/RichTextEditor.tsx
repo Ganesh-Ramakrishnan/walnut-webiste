@@ -5,7 +5,8 @@ import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
-import { Table, TableRow, TableCell, TableHeader } from "@tiptap/extension-table";
+import { TableRow, TableCell, TableHeader } from "@tiptap/extension-table";
+import { StyledTable } from "./extensions/styled-table";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import Placeholder from "@tiptap/extension-placeholder";
 import Typography from "@tiptap/extension-typography";
@@ -14,12 +15,16 @@ import TaskItem from "@tiptap/extension-task-item";
 import TextAlign from "@tiptap/extension-text-align";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
+import { FontSize } from "@tiptap/extension-text-style/font-size";
 import Highlight from "@tiptap/extension-highlight";
 import FontFamily from "@tiptap/extension-font-family";
 import { common, createLowlight } from "lowlight";
 import { useEffect, useRef, useCallback, useState } from "react";
 import { SlashCommands } from "./slash-commands";
 import { suggestionConfig } from "./suggestion";
+import { Callout } from "./extensions/callout";
+import { ToggleBlock } from "./extensions/toggle";
+import { Columns, Column } from "./extensions/columns";
 import Toolbar from "./Toolbar";
 import "./editor-styles.css";
 
@@ -51,7 +56,7 @@ export default function RichTextEditor({
         HTMLAttributes: { rel: "noopener noreferrer", target: "_blank" },
       }),
       Image.configure({ allowBase64: true }),
-      Table.configure({ resizable: false }),
+      StyledTable.configure({ resizable: false }),
       TableRow,
       TableCell,
       TableHeader,
@@ -63,8 +68,13 @@ export default function RichTextEditor({
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TextStyle,
       Color,
+      FontSize,
       Highlight.configure({ multicolor: true }),
       FontFamily,
+      Callout,
+      ToggleBlock,
+      Columns,
+      Column,
       SlashCommands.configure({ suggestion: suggestionConfig }),
     ],
     content: initialHtml,

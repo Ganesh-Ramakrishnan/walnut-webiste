@@ -47,7 +47,7 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
     const { id } = await params;
     const body = await req.json();
 
-    const { title, slug, excerpt, content, author, image, category, tags, faqs, date, published } = body;
+    const { title, slug, excerpt, content, author, authorTitle, authorLinkedin, image, category, tags, faqs, date, published, seoTitle, metaDescription, relatedLinks } = body;
 
     // Validate types
     if (title && typeof title !== "string") return NextResponse.json({ error: "Invalid field types" }, { status: 400 });
@@ -106,10 +106,15 @@ export async function PUT(req: NextRequest, { params }: RouteParams) {
         excerpt: excerpt ? sanitizeText(excerpt) : undefined,
         content: content ? sanitizeBlogContent(content) : undefined,
         author: author ? sanitizeText(author) : undefined,
+        authorTitle: authorTitle !== undefined ? sanitizeText(authorTitle) : undefined,
+        authorLinkedin: authorLinkedin !== undefined ? sanitizeText(authorLinkedin) : undefined,
         image,
         category: category ? sanitizeText(category) : undefined,
         tags: tags ? tags.map((t: string) => sanitizeText(t)) : undefined,
         faqs: faqs ? faqs.map((f: { question: string; answer: string }) => ({ question: sanitizeText(f.question), answer: sanitizeText(f.answer) })) : undefined,
+        seoTitle: seoTitle !== undefined ? sanitizeText(seoTitle) : undefined,
+        metaDescription: metaDescription !== undefined ? sanitizeText(metaDescription) : undefined,
+        relatedLinks: relatedLinks ? relatedLinks.map((l: { label: string; href: string }) => ({ label: sanitizeText(l.label), href: sanitizeText(l.href) })) : undefined,
         date,
         published,
       },

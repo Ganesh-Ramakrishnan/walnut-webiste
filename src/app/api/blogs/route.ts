@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     await connectDB();
     const body = await req.json();
 
-    const { title, slug, excerpt, content, author, image, category, tags, faqs, date, published } = body;
+    const { title, slug, excerpt, content, author, authorTitle, authorLinkedin, image, category, tags, faqs, date, published, seoTitle, metaDescription, relatedLinks } = body;
 
     // Validate required fields
     if (!title || !slug || !excerpt || !content || !category) {
@@ -101,10 +101,15 @@ export async function POST(req: NextRequest) {
       excerpt: sanitizeText(excerpt),
       content: sanitizeBlogContent(content),
       author: sanitizeText(author || "WalnutAI Team"),
+      authorTitle: authorTitle ? sanitizeText(authorTitle) : "",
+      authorLinkedin: authorLinkedin ? sanitizeText(authorLinkedin) : "",
       image: image || DEFAULT_IMAGES[Math.floor(Math.random() * DEFAULT_IMAGES.length)],
       category: sanitizeText(category),
       tags: tags ? tags.map((t: string) => sanitizeText(t)) : [],
       faqs: faqs ? faqs.map((f: { question: string; answer: string }) => ({ question: sanitizeText(f.question), answer: sanitizeText(f.answer) })) : [],
+      seoTitle: seoTitle ? sanitizeText(seoTitle) : "",
+      metaDescription: metaDescription ? sanitizeText(metaDescription) : "",
+      relatedLinks: relatedLinks ? relatedLinks.map((l: { label: string; href: string }) => ({ label: sanitizeText(l.label), href: sanitizeText(l.href) })) : [],
       date: date || new Date().toISOString().split("T")[0],
       published: published !== false,
     });
