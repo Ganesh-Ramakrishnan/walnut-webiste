@@ -13,6 +13,32 @@
 .re-shell:focus-within {
   border-color: #F17F0D;
 }
+
+/* Fullscreen mode — toolbar fullscreen button toggles .is-fullscreen */
+.re-shell.is-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  border-radius: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  background: #060b18;
+}
+.re-shell.is-fullscreen .re-toolbar {
+  border-radius: 0;
+  flex-shrink: 0;
+}
+.re-shell.is-fullscreen .re-content {
+  flex: 1;
+  max-height: none;
+  padding: 32px clamp(24px, 8vw, 120px);
+}
+.re-shell.is-fullscreen .re-content .tiptap {
+  max-width: 900px;
+  margin: 0 auto;
+  min-height: 100%;
+}
 .re-loading {
   min-height: 300px;
   display: flex;

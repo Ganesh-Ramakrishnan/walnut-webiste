@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Editor } from "@tiptap/react";
 import {
   Bold, Italic, Underline, Strikethrough,
@@ -9,15 +9,18 @@ import {
   ImageIcon, Link2, Table,
   Undo, Redo,
   AlignLeft, AlignCenter, AlignRight, AlignJustify,
-  Highlighter, Palette,
+  Highlighter,
   Type,
   Plus, Trash2, Rows3, Columns3,
+  Maximize2, Minimize2,
 } from "lucide-react";
 
 interface Props {
   editor: Editor;
   onImageUpload: () => void;
   onAddLink: () => void;
+  isFullscreen: boolean;
+  onToggleFullscreen: () => void;
 }
 
 const FONT_SIZES = ["12px", "14px", "16px", "18px", "20px", "24px", "28px", "32px", "36px", "48px"];
@@ -35,7 +38,7 @@ const COLORS = [
   "#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4",
 ];
 
-export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
+export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen, onToggleFullscreen }: Props) {
   const [showFontSize, setShowFontSize] = useState(false);
   const [showFontFamily, setShowFontFamily] = useState(false);
   const [showTextColor, setShowTextColor] = useState(false);
@@ -56,6 +59,34 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
     setShowTableMenu(false);
     setTableSub("");
   }, []);
+
+  // Popups use position:fixed so they stay anchored to a viewport coordinate.
+  // If the user scrolls or resizes the page, the trigger button moves but the
+  // popup doesn't — so the two get out of sync. Close any open popup on
+  // scroll / resize so the user opens it fresh from the new button position.
+  const anyOpen =
+    showFontSize ||
+    showFontFamily ||
+    showTextColor ||
+    showHighlight ||
+    showTableMenu;
+  useEffect(() => {
+    if (!anyOpen) return;
+    const onScroll = (e: Event) => {
+      // Scrolls *inside* the popup itself shouldn't close it — only page-level
+      // scrolling (which moves the trigger button away from the popup).
+      const t = e.target;
+      if (t instanceof Element && t.closest(".re-tb-popup")) return;
+      closeAll();
+    };
+    const onResize = () => closeAll();
+    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("scroll", onScroll, true);
+      window.removeEventListener("resize", onResize);
+    };
+  }, [anyOpen, closeAll]);
 
   const openPopup = useCallback((e: React.MouseEvent, setter: (v: boolean) => void) => {
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
@@ -95,6 +126,10 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
   ) => (
     <button
       type="button"
+      // Prevent the button from stealing focus / collapsing the selection.
+      // Without this, onClick fires AFTER the editor's text selection has
+      // collapsed, so commands like setColor have nothing to act on.
+      onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
       disabled={disabled}
       className={`re-tb-btn ${active ? "is-active" : ""}`}
@@ -105,7 +140,15 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
   );
 
   return (
-    <div className="re-toolbar">
+    <div
+      className="re-toolbar"
+      // mousedown bubbles up from every <button> in the toolbar (including
+      // popup items, color swatches, table-menu entries). Preventing the
+      // default action here stops the browser from moving focus to the
+      // clicked button, so the editor's text selection stays intact for the
+      // command we're about to run from onClick.
+      onMouseDown={(e) => e.preventDefault()}
+    >
       {/* Formatting */}
       <div className="re-tb-group">
         {btn(editor.isActive("bold"), () => editor.chain().focus().toggleBold().run(), <Bold size={16} />, "Bold (Ctrl+B)")}
@@ -193,7 +236,18 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
           onClick={(e) => showTextColor ? closeAll() : openPopup(e, setShowTextColor)}
           title="Text color"
         >
-          <Palette size={16} />
+          {/* Custom "A with colored underline" icon — the standard text-color
+              affordance in Word / Google Docs. */}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path
+              d="M3.5 12L7.5 3h1L12.5 12M5 9.5h6"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <rect x="3" y="13.5" width="10" height="1.5" rx="0.5" fill="#F17F0D" />
+          </svg>
         </button>
         {showTextColor && (
           <div className="re-tb-popup re-tb-color-grid" style={popupPos}>
@@ -458,6 +512,16 @@ export default function Toolbar({ editor, onImageUpload, onAddLink }: Props) {
       <div className="re-tb-group">
         {btn(false, () => editor.chain().focus().undo().run(), <Undo size={16} />, "Undo", !editor.can().undo())}
         {btn(false, () => editor.chain().focus().redo().run(), <Redo size={16} />, "Redo", !editor.can().redo())}
+      </div>
+
+      {/* Fullscreen toggle — pushed to the right edge of the toolbar. */}
+      <div className="re-tb-group" style={{ marginLeft: "auto" }}>
+        {btn(
+          isFullscreen,
+          onToggleFullscreen,
+          isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />,
+          isFullscreen ? "Exit fullscreen (Esc)" : "Fullscreen"
+        )}
       </div>
     </div>
   );
