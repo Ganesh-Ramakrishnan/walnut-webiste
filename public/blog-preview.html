@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blog page — preview at 5 / 6 / 7 / 10 / 15 / 50 posts (6 per page)</title>
+<style>
+  :root { font-family: "Plus Jakarta Sans", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #060b18; color: #d1d5db; -webkit-font-smoothing: antialiased; }
+
+  .pv-divider { border-top: 1px dashed rgba(241, 127, 13, 0.25); margin: 80px 0 0; }
+  .pv-section-tag { max-width: 1180px; margin: 0 auto; padding: 32px 24px 8px; display: flex; align-items: baseline; gap: 12px; }
+  .pv-section-tag h2 { color: #fff; margin: 0; font-size: 22px; font-weight: 700; }
+  .pv-section-tag span { color: rgba(255, 255, 255, 0.5); font-size: 13px; }
+  .pv-note { max-width: 1180px; margin: 0 auto; padding: 0 24px 16px; color: rgba(241, 127, 13, 0.85); font-size: 13px; font-style: italic; }
+
+  .blog-hero { max-width: 880px; margin: 0 auto; padding: 64px 24px 40px; text-align: center; }
+  .blog-hero-eyebrow { display: inline-block; color: #F17F0D; font-size: 12px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; margin-bottom: 18px; padding: 5px 14px; background: rgba(241, 127, 13, 0.08); border: 1px solid rgba(241, 127, 13, 0.2); border-radius: 999px; }
+  .blog-hero-title { font-size: clamp(32px, 5vw, 52px); font-weight: 800; color: #fff; line-height: 1.12; letter-spacing: -0.02em; margin: 0 0 16px; }
+  .blog-hero-accent { background: linear-gradient(135deg, #F17F0D, #f9a825); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .blog-hero-sub { color: rgba(255, 255, 255, 0.55); font-size: 16px; line-height: 1.65; max-width: 580px; margin: 0 auto 36px; }
+  .blog-hero-search { max-width: 560px; margin: 0 auto; display: flex; align-items: center; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 14px; padding: 0 14px; }
+  .blog-hero-search > svg { color: rgba(255, 255, 255, 0.35); flex-shrink: 0; }
+  .blog-hero-search span { flex: 1; color: rgba(255, 255, 255, 0.3); font-size: 15px; padding: 14px 12px; }
+
+  .blog-filter-bar { border-top: 1px solid rgba(255, 255, 255, 0.05); border-bottom: 1px solid rgba(255, 255, 255, 0.05); background: rgba(6, 11, 24, 0.85); }
+  .blog-filter-bar-inner { max-width: 1180px; margin: 0 auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .blog-filter-count { color: rgba(255, 255, 255, 0.4); font-size: 13px; }
+  .blog-cat-trigger { display: flex; align-items: center; gap: 10px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 9px 14px; color: #fff; font-size: 14px; font-weight: 600; min-width: 220px; }
+  .blog-cat-trigger-label { color: rgba(255, 255, 255, 0.4); font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .blog-cat-trigger-value { flex: 1; text-align: left; }
+  .blog-cat-trigger-chev { color: rgba(255, 255, 255, 0.4); }
+
+  .blog-main-v2 { max-width: 1180px; margin: 0 auto; padding: 40px 24px 60px; }
+  .blog-featured-wrap { margin-bottom: 32px; }
+  .blog-featured-tag { display: inline-block; background: linear-gradient(135deg, #F17F0D, #f9a825); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 6px; margin-bottom: 14px; }
+  .blog-grid-v2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px; overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+  .card:hover { border-color: rgba(241, 127, 13, 0.3); transform: translateY(-2px); }
+  .card-img { height: 180px; background: linear-gradient(135deg, rgba(241, 127, 13, 0.18), rgba(59, 130, 246, 0.18)), #0a1628; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.18); font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; }
+  .card-body { padding: 20px; }
+  .card-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; font-size: 12px; }
+  .card-cat { background: rgba(241, 127, 13, 0.12); color: #F17F0D; padding: 3px 10px; border-radius: 5px; font-weight: 600; }
+  .card-date { color: rgba(255, 255, 255, 0.4); }
+  .card-title { color: #fff; font-size: 17px; font-weight: 700; line-height: 1.35; margin: 0 0 10px; text-align: center; }
+  .card-excerpt { color: rgba(255, 255, 255, 0.5); font-size: 13px; line-height: 1.55; margin: 0 0 14px; }
+  .card-author { color: rgba(255, 255, 255, 0.4); font-size: 12px; }
+
+  .featured-card { display: grid; grid-template-columns: 1.4fr 1fr; min-height: 320px; background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06); border-radius: 14px; overflow: hidden; }
+  .featured-card .card-img { height: 100%; min-height: 320px; }
+  .featured-card .card-body { padding: 32px; display: flex; flex-direction: column; justify-content: center; }
+  .featured-card .card-title { font-size: 24px; text-align: left; }
+  .featured-card .card-excerpt { font-size: 15px; }
+
+  .pgn { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 48px; padding: 24px 0 8px; }
+  .pgn-arrow { display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.8); font-size: 13px; font-weight: 600; padding: 9px 14px; border-radius: 9px; }
+  .pgn-arrow.disabled { opacity: 0.35; }
+  .pgn-numbers { display: flex; align-items: center; gap: 4px; list-style: none; padding: 0; margin: 0; }
+  .pgn-num { min-width: 36px; height: 36px; border: 1px solid transparent; border-radius: 8px; color: rgba(255, 255, 255, 0.65); font-size: 13px; font-weight: 600; padding: 0 10px; display: inline-flex; align-items: center; justify-content: center; }
+  .pgn-num.is-active { background: linear-gradient(135deg, #F17F0D, #ea580c); color: #fff; box-shadow: 0 4px 14px rgba(241, 127, 13, 0.3); }
+  .pgn-gap { color: rgba(255, 255, 255, 0.3); padding: 0 6px; }
+
+  .pv-toc { position: fixed; top: 16px; right: 16px; background: #0d1422; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 10px; padding: 10px 12px; font-size: 12px; z-index: 100; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+  .pv-toc strong { color: #F17F0D; display: block; margin-bottom: 6px; font-size: 11px; letter-spacing: 1px; }
+  .pv-toc a { display: block; color: rgba(255, 255, 255, 0.7); text-decoration: none; padding: 3px 0; }
+  .pv-toc a:hover { color: #F17F0D; }
+
+  .pv-rule {
+    background: rgba(241, 127, 13, 0.08);
+    border: 1px solid rgba(241, 127, 13, 0.25);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 0 auto 32px;
+    max-width: 1180px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .pv-rule strong { color: #F17F0D; }
+
+  @media (max-width: 980px) {
+    .blog-grid-v2 { grid-template-columns: repeat(2, 1fr); }
+    .featured-card { grid-template-columns: 1fr; min-height: auto; }
+  }
+</style>
+</head>
+<body>
+
+<aside class="pv-toc">
+  <strong>JUMP TO</strong>
+  <a href="#s5">5 posts</a>
+  <a href="#s6">6 posts</a>
+  <a href="#s7p1">7 posts • p1</a>
+  <a href="#s7p2">7 posts • p2</a>
+  <a href="#s10">10 posts</a>
+  <a href="#s15">15 posts • p1</a>
+  <a href="#s50">50 posts • p5</a>
+</aside>
+
+<header class="blog-hero">
+  <span class="blog-hero-eyebrow">WalnutAI Blog</span>
+  <h1 class="blog-hero-title">Notes from the team building <span class="blog-hero-accent">smarter QA.</span></h1>
+  <p class="blog-hero-sub">Playbooks, product updates, and field reports from teams shipping AI-powered testing.</p>
+  <div class="blog-hero-search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <span>Search posts, tags, topics…</span>
+  </div>
+</header>
+
+<div class="pv-rule">
+  <strong>Rule:</strong> 6 posts per page. Page 1 (Latest, no search) shows the featured card + 5 grid cards.
+  Pagination appears at <strong>7+ posts</strong>. Pages 2+ show pure 6-card grids (no featured slot).
+</div>
+
+<!-- 5 posts -->
+<section id="s5">
+  <div class="pv-section-tag"><h2>5 posts</h2><span>= Featured + 4 cards. No pagination.</span></div>
+  <p class="pv-note">Total fits on one page (5 ≤ 6). Pagination is hidden.</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 1–5 of 5</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <section class="blog-featured-wrap">
+      <span class="blog-featured-tag">Featured</span>
+      <div class="featured-card">
+        <div class="card-img">FEATURED IMAGE</div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 6, 2026</span></div>
+          <h3 class="card-title">If Loops Aren't Closed and Gaps Aren't Fixed, Software Degrades Silently</h3>
+          <p class="card-excerpt">The most expensive software failures in history were caused by a hundred small decisions nobody got around to fixing…</p>
+          <span class="card-author">By WalnutAI Team</span>
+        </div>
+      </div>
+    </section>
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">Apr 28</span></div><h3 class="card-title">Post 2</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">Apr 27</span></div><h3 class="card-title">Post 3</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">Apr 25</span></div><h3 class="card-title">Post 4</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">Apr 24</span></div><h3 class="card-title">Post 5</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 6 posts -->
+<section id="s6">
+  <div class="pv-section-tag"><h2>6 posts</h2><span>= Featured + 5 cards. Exactly 1 page. Still no pagination.</span></div>
+  <p class="pv-note">Last grid row has 2 cards (3 + 2 layout). Right at the threshold.</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 1–6 of 6</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <section class="blog-featured-wrap">
+      <span class="blog-featured-tag">Featured</span>
+      <div class="featured-card">
+        <div class="card-img">FEATURED IMAGE</div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 6, 2026</span></div>
+          <h3 class="card-title">Featured stays the most-recent on Latest, page 1</h3>
+          <p class="card-excerpt">When the user picks any other category or searches, this featured slot disappears.</p>
+          <span class="card-author">By WalnutAI Team</span>
+        </div>
+      </div>
+    </section>
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">May 5</span></div><h3 class="card-title">Post 2</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">May 4</span></div><h3 class="card-title">Post 3</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 3</span></div><h3 class="card-title">Post 4</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">QA Playbook</span><span class="card-date">May 2</span></div><h3 class="card-title">Post 5</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">May 1</span></div><h3 class="card-title">Post 6</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 7 posts page 1 -->
+<section id="s7p1">
+  <div class="pv-section-tag"><h2>7 posts — Page 1</h2><span>= Featured + 5 cards. Pagination appears: [1] 2 Next »</span></div>
+  <p class="pv-note">First time pagination shows. Page 1 still looks like the 6-post layout, but a "2" button is now next to "Prev" and "Next".</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 1–6 of 7</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <section class="blog-featured-wrap">
+      <span class="blog-featured-tag">Featured</span>
+      <div class="featured-card">
+        <div class="card-img">FEATURED IMAGE</div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 6, 2026</span></div>
+          <h3 class="card-title">Featured post — page 1 only</h3>
+          <p class="card-excerpt">Page 2 will show only 1 card (the 7th post) in a pure grid, no featured slot.</p>
+          <span class="card-author">By WalnutAI Team</span>
+        </div>
+      </div>
+    </section>
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">May 5</span></div><h3 class="card-title">Post 2</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">May 4</span></div><h3 class="card-title">Post 3</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 3</span></div><h3 class="card-title">Post 4</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">QA Playbook</span><span class="card-date">May 2</span></div><h3 class="card-title">Post 5</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">May 1</span></div><h3 class="card-title">Post 6</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+    <nav class="pgn">
+      <button class="pgn-arrow disabled"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+      <ul class="pgn-numbers"><li><button class="pgn-num is-active">1</button></li><li><button class="pgn-num">2</button></li></ul>
+      <button class="pgn-arrow">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </nav>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 7 posts page 2 -->
+<section id="s7p2">
+  <div class="pv-section-tag"><h2>7 posts — Page 2</h2><span>= No featured. Just 1 card (the 7th post).</span></div>
+  <p class="pv-note">URL: /blog?page=2 — pure grid, single card alone in row 1.</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 7–7 of 7</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Behind the Scenes</span><span class="card-date">Apr 30</span></div><h3 class="card-title">Post 7</h3><p class="card-excerpt">Excerpt for the 7th post that pushed us into pagination territory.</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+    <nav class="pgn">
+      <button class="pgn-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+      <ul class="pgn-numbers"><li><button class="pgn-num">1</button></li><li><button class="pgn-num is-active">2</button></li></ul>
+      <button class="pgn-arrow disabled">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </nav>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 10 posts page 1 -->
+<section id="s10">
+  <div class="pv-section-tag"><h2>10 posts — Page 1</h2><span>= Featured + 5 cards (page 1). Page 2 has 4 more cards. Total: 2 pages.</span></div>
+  <p class="pv-note">Pagination: [1] 2 Next »</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 1–6 of 10</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <section class="blog-featured-wrap">
+      <span class="blog-featured-tag">Featured</span>
+      <div class="featured-card">
+        <div class="card-img">FEATURED IMAGE</div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 6, 2026</span></div>
+          <h3 class="card-title">Featured post on a 10-post listing</h3>
+          <p class="card-excerpt">Same compact look — featured + 5 grid cards on page 1.</p>
+          <span class="card-author">By WalnutAI Team</span>
+        </div>
+      </div>
+    </section>
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">May 5</span></div><h3 class="card-title">Post 2</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">May 4</span></div><h3 class="card-title">Post 3</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 3</span></div><h3 class="card-title">Post 4</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">QA Playbook</span><span class="card-date">May 2</span></div><h3 class="card-title">Post 5</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">May 1</span></div><h3 class="card-title">Post 6</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+    <nav class="pgn">
+      <button class="pgn-arrow disabled"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+      <ul class="pgn-numbers"><li><button class="pgn-num is-active">1</button></li><li><button class="pgn-num">2</button></li></ul>
+      <button class="pgn-arrow">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </nav>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 15 posts page 1 -->
+<section id="s15">
+  <div class="pv-section-tag"><h2>15 posts — Page 1</h2><span>= Featured + 5 cards. 3 pages total.</span></div>
+  <p class="pv-note">Page 2 = 6 cards, Page 3 = 3 cards. Pagination: [1] 2 3 Next »</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 1–6 of 15</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <section class="blog-featured-wrap">
+      <span class="blog-featured-tag">Featured</span>
+      <div class="featured-card">
+        <div class="card-img">FEATURED IMAGE</div>
+        <div class="card-body">
+          <div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 6, 2026</span></div>
+          <h3 class="card-title">Featured post — page 1, Latest, no search</h3>
+          <p class="card-excerpt">On pages 2 and 3, this featured slot disappears and you see a pure 6-card grid.</p>
+          <span class="card-author">By WalnutAI Team</span>
+        </div>
+      </div>
+    </section>
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">May 5</span></div><h3 class="card-title">Post 2</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">May 4</span></div><h3 class="card-title">Post 3</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">May 3</span></div><h3 class="card-title">Post 4</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">QA Playbook</span><span class="card-date">May 2</span></div><h3 class="card-title">Post 5</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">May 1</span></div><h3 class="card-title">Post 6</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+    <nav class="pgn">
+      <button class="pgn-arrow disabled"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+      <ul class="pgn-numbers"><li><button class="pgn-num is-active">1</button></li><li><button class="pgn-num">2</button></li><li><button class="pgn-num">3</button></li></ul>
+      <button class="pgn-arrow">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </nav>
+  </main>
+</section>
+
+<div class="pv-divider"></div>
+
+<!-- 50 posts page 5 with ellipsis -->
+<section id="s50">
+  <div class="pv-section-tag"><h2>50 posts — Page 5 (middle, with ellipsis)</h2><span>= 9 pages total. Pagination uses ellipsis to stay compact.</span></div>
+  <p class="pv-note">Pagination: « Prev 1 … 4 [5] 6 … 9 Next » — first/last always visible, current ± 1 in the middle.</p>
+  <div class="blog-filter-bar"><div class="blog-filter-bar-inner">
+    <button class="blog-cat-trigger"><span class="blog-cat-trigger-label">Category</span><span class="blog-cat-trigger-value">Latest</span><svg class="blog-cat-trigger-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></button>
+    <span class="blog-filter-count">Showing 25–30 of 50</span>
+  </div></div>
+  <main class="blog-main-v2">
+    <div class="blog-grid-v2">
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Integrations</span><span class="card-date">Apr 12</span></div><h3 class="card-title">Post 25</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">QA Playbook</span><span class="card-date">Apr 11</span></div><h3 class="card-title">Post 26</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Dev Playbook</span><span class="card-date">Apr 10</span></div><h3 class="card-title">Post 27</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Announcements</span><span class="card-date">Apr 9</span></div><h3 class="card-title">Post 28</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Behind the Scenes</span><span class="card-date">Apr 8</span></div><h3 class="card-title">Post 29</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+      <article class="card"><div class="card-img">IMAGE</div><div class="card-body"><div class="card-meta"><span class="card-cat">Success Stories</span><span class="card-date">Apr 7</span></div><h3 class="card-title">Post 30</h3><p class="card-excerpt">Excerpt…</p><span class="card-author">By WalnutAI Team</span></div></article>
+    </div>
+    <nav class="pgn">
+      <button class="pgn-arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg> Prev</button>
+      <ul class="pgn-numbers">
+        <li><button class="pgn-num">1</button></li>
+        <li class="pgn-gap">…</li>
+        <li><button class="pgn-num">4</button></li>
+        <li><button class="pgn-num is-active">5</button></li>
+        <li><button class="pgn-num">6</button></li>
+        <li class="pgn-gap">…</li>
+        <li><button class="pgn-num">9</button></li>
+      </ul>
+      <button class="pgn-arrow">Next <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </nav>
+  </main>
+</section>
+
+</body>
+</html>

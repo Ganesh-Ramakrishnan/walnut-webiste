@@ -8,7 +8,7 @@ export default function DashboardHome() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/blogs")
+    fetch("/api/blogs?all=1")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) setPosts(data);

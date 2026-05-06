@@ -19,12 +19,70 @@ const DEFAULT_IMAGES = [
 const MAX_TAGS = 20;
 const ALLOWED_IMAGE_PREFIXES = ["data:image/", "/assets/", "http://", "https://"];
 
-// GET /api/blogs — list all blog posts (public)
-export async function GET() {
+// GET /api/blogs — paginated list of blog posts (public).
+//
+// Query params:
+//   page    1-based page number (default 1)
+//   limit   posts per page (default 12, max 50)
+//   cat     category name to filter by (matches Blog.category exactly).
+//           "Latest" or omitted = no filter.
+//   q       free-text search across title / excerpt / tags.
+//
+// Response:
+//   { posts: BlogLite[], total: number, page: number, limit: number,
+//     totalPages: number }
+//
+// Backwards-compat: when no query params are passed AND `?all=1` is set,
+// returns the legacy un-paginated array. The dashboard listing still uses
+// this. Public /blog page always uses pagination.
+export async function GET(req: NextRequest) {
   try {
     await connectDB();
-    const blogs = await Blog.find({}, { content: 0, faqs: 0 }).sort({ date: -1 }).lean();
-    return NextResponse.json(blogs);
+    const { searchParams } = new URL(req.url);
+
+    if (searchParams.get("all") === "1") {
+      const blogs = await Blog.find({}, { content: 0, faqs: 0 })
+        .sort({ date: -1 })
+        .lean();
+      return NextResponse.json(blogs);
+    }
+
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
+    const limit = Math.min(
+      50,
+      Math.max(1, parseInt(searchParams.get("limit") || "6", 10) || 6)
+    );
+    const cat = (searchParams.get("cat") || "").trim();
+    const q = (searchParams.get("q") || "").trim();
+
+    const filter: Record<string, unknown> = {};
+    if (cat && cat.toLowerCase() !== "latest") {
+      filter.category = cat;
+    }
+    if (q) {
+      // Escape regex special chars before constructing the OR query.
+      const escaped = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const re = new RegExp(escaped, "i");
+      filter.$or = [{ title: re }, { excerpt: re }, { tags: re }];
+    }
+
+    const total = await Blog.countDocuments(filter);
+    const totalPages = Math.max(1, Math.ceil(total / limit));
+    const safePage = Math.min(page, totalPages);
+
+    const posts = await Blog.find(filter, { content: 0, faqs: 0 })
+      .sort({ date: -1 })
+      .skip((safePage - 1) * limit)
+      .limit(limit)
+      .lean();
+
+    return NextResponse.json({
+      posts,
+      total,
+      page: safePage,
+      limit,
+      totalPages,
+    });
   } catch (error) {
     console.error("GET /api/blogs error:", error);
     return NextResponse.json({ error: "Failed to fetch blogs" }, { status: 500 });

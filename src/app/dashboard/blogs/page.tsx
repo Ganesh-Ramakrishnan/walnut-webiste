@@ -16,7 +16,7 @@ export default function BlogList() {
   const [renameValue, setRenameValue] = useState("");
 
   useEffect(() => {
-    fetch("/api/blogs")
+    fetch("/api/blogs?all=1")
       .then((res) => res.json())
       .then((data) => { if (Array.isArray(data)) setPosts(data); })
       .catch(console.error)
@@ -32,7 +32,7 @@ export default function BlogList() {
   const deletePost = posts.find((p) => p.slug === deleteSlug);
 
   const refreshPosts = () => {
-    fetch("/api/blogs").then((r) => r.json()).then((d) => { if (Array.isArray(d)) setPosts(d); });
+    fetch("/api/blogs?all=1").then((r) => r.json()).then((d) => { if (Array.isArray(d)) setPosts(d); });
   };
 
   const handleRenameCategory = async (oldName: string) => {
