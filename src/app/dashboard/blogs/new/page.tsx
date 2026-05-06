@@ -46,12 +46,31 @@ export default function NewBlogPost() {
     });
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => { const b = ev.target?.result as string; setImagePreview(b); setForm((p) => ({ ...p, image: b })); };
-    reader.readAsDataURL(file);
+    // Show a local preview immediately for fast UX, then replace with the
+    // S3 URL once upload completes.
+    const localPreview = URL.createObjectURL(file);
+    setImagePreview(localPreview);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("prefix", "blog");
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        alert(data.error || "Image upload failed");
+        setImagePreview(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        return;
+      }
+      const { url } = await res.json();
+      setImagePreview(url);
+      setForm((p) => ({ ...p, image: url }));
+    } finally {
+      URL.revokeObjectURL(localPreview);
+    }
   };
 
   const removeImage = () => { setImagePreview(null); setForm((p) => ({ ...p, image: "" })); if (fileInputRef.current) fileInputRef.current.value = ""; };

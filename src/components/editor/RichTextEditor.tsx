@@ -486,16 +486,26 @@ export default function RichTextEditor({
 
 
   const onFileChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (!file || !editor) return;
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        const src = ev.target?.result as string;
-        editor.chain().focus().setImage({ src }).run();
-      };
-      reader.readAsDataURL(file);
       e.target.value = "";
+      try {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("prefix", "blog");
+        const res = await fetch("/api/upload", { method: "POST", body: fd });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          alert(data.error || "Image upload failed");
+          return;
+        }
+        const { url } = await res.json();
+        editor.chain().focus().setImage({ src: url }).run();
+      } catch (err) {
+        console.error("Image upload failed", err);
+        alert("Image upload failed");
+      }
     },
     [editor]
   );

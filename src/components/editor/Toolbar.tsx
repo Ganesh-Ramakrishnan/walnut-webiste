@@ -133,7 +133,10 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
       onClick={onClick}
       disabled={disabled}
       className={`re-tb-btn ${active ? "is-active" : ""}`}
-      title={title}
+      // data-tooltip drives the styled custom tooltip (see editor-styles.css).
+      // aria-label keeps screen-reader access intact.
+      data-tooltip={title}
+      aria-label={title}
     >
       {icon}
     </button>
@@ -164,7 +167,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
           type="button"
           className={`re-tb-btn re-tb-dropdown-btn ${showFontFamily ? "is-active" : ""}`}
           onClick={(e) => showFontFamily ? closeAll() : openPopup(e, setShowFontFamily)}
-          title="Font family"
+          data-tooltip="Font family"
         >
           <Type size={14} />
           <span className="re-tb-dropdown-arrow">▾</span>
@@ -196,7 +199,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
           type="button"
           className={`re-tb-btn re-tb-dropdown-btn ${showFontSize ? "is-active" : ""}`}
           onClick={(e) => showFontSize ? closeAll() : openPopup(e, setShowFontSize)}
-          title="Font size"
+          data-tooltip="Font size"
         >
           <span style={{ fontSize: 11, fontWeight: 700 }}>A</span>
           <span className="re-tb-dropdown-arrow">▾</span>
@@ -234,7 +237,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
           type="button"
           className={`re-tb-btn ${showTextColor ? "is-active" : ""}`}
           onClick={(e) => showTextColor ? closeAll() : openPopup(e, setShowTextColor)}
-          title="Text color"
+          data-tooltip="Text color"
         >
           {/* Custom "A with colored underline" icon — the standard text-color
               affordance in Word / Google Docs. */}
@@ -264,7 +267,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                 type="button"
                 className="re-tb-color-swatch"
                 style={{ background: c }}
-                title={c}
+                data-tooltip={c}
                 onClick={() => { editor.chain().focus().setColor(c).run(); setShowTextColor(false); }}
               />
             ))}
@@ -278,7 +281,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
           type="button"
           className={`re-tb-btn ${editor.isActive("highlight") ? "is-active" : ""} ${showHighlight ? "is-active" : ""}`}
           onClick={(e) => showHighlight ? closeAll() : openPopup(e, setShowHighlight)}
-          title="Highlight text"
+          data-tooltip="Highlight text"
         >
           <Highlighter size={16} />
         </button>
@@ -297,7 +300,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                 type="button"
                 className="re-tb-color-swatch"
                 style={{ background: c }}
-                title={c}
+                data-tooltip={c}
                 onClick={() => { editor.chain().focus().toggleHighlight({ color: c }).run(); setShowHighlight(false); }}
               />
             ))}
@@ -346,7 +349,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
           type="button"
           className={`re-tb-btn re-tb-dropdown-btn ${showTableMenu ? "is-active" : ""}`}
           onClick={(e) => showTableMenu ? closeAll() : openPopup(e, setShowTableMenu)}
-          title="Table"
+          data-tooltip="Table"
         >
           <Table size={14} />
           <span className="re-tb-dropdown-arrow">▾</span>
@@ -407,16 +410,16 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                 ) : (
                   <div className="re-table-sub">
                     <div className="re-table-border-grid">
-                      <button type="button" title="All borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("all"))}>
+                      <button type="button" data-tooltip="All borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("all"))}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="2" y="2" width="16" height="16" /><line x1="10" y1="2" x2="10" y2="18" /><line x1="2" y1="10" x2="18" y2="10" /></svg>
                       </button>
-                      <button type="button" title="No borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("none"))}>
+                      <button type="button" data-tooltip="No borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("none"))}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2"><rect x="2" y="2" width="16" height="16" /></svg>
                       </button>
-                      <button type="button" title="Outside borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("outside"))}>
+                      <button type="button" data-tooltip="Outside borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("outside"))}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="2" width="16" height="16" /></svg>
                       </button>
-                      <button type="button" title="Horizontal borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("horizontal"))}>
+                      <button type="button" data-tooltip="Horizontal borders" className="re-table-border-btn" onClick={() => runTableCmd((c) => c.setTableBorder("horizontal"))}>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="2" y1="10" x2="18" y2="10" /><line x1="2" y1="18" x2="18" y2="18" /></svg>
                       </button>
                     </div>
@@ -474,7 +477,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                         { name: "purple"  as const, swatch: "#8b5cf6" },
                         { name: "white"   as const, swatch: "#ffffff" },
                       ]).map((c) => (
-                        <button key={c.name} type="button" title={c.name} className="re-tb-color-swatch" style={{ background: c.swatch, width: 24, height: 24 }} onClick={() => runTableCmd((ch) => ch.setTableBorderColor(c.name))} />
+                        <button key={c.name} type="button" data-tooltip={c.name} className="re-tb-color-swatch" style={{ background: c.swatch, width: 24, height: 24 }} onClick={() => runTableCmd((ch) => ch.setTableBorderColor(c.name))} />
                       ))}
                     </div>
                     <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
