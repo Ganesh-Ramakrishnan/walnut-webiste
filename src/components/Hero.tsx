@@ -47,7 +47,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <p className="hero-anim hero-main-subtitle">
-          Built for <strong style={{ color: "#fff" }}>engineering leaders, QA teams, and developers</strong> who are done duct-taping
+          Built for <strong style={{ color: "var(--text-primary)" }}>engineering leaders, QA teams, and developers</strong> who are done duct-taping
           tools together. WalnutAI eliminates that overhead — with AI that writes code,
           generates test cases, detects gaps, and keeps your entire SDLC connected. From your
           first prompt to your final release.

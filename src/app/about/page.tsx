@@ -46,7 +46,7 @@ const capabilities = [
     description:
       "Transform natural-language intent into structured, traceable requirements with AI-powered gap analysis.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" /><path d="M14 2v6h6" /><path d="M16 13H8" /><path d="M16 17H8" /><path d="M10 9H8" />
       </svg>
     ),
@@ -56,7 +56,7 @@ const capabilities = [
     description:
       "Generate production-ready code directly from requirements, keeping every line traceable and compliant.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
       </svg>
     ),
@@ -66,7 +66,7 @@ const capabilities = [
     description:
       "Create, maintain, and execute comprehensive test suites automatically, covering edge cases humans miss.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M9 2h6l3 7H6L9 2z" /><path d="M12 9v13" /><path d="M8 22h8" /><path d="M6 13h12" />
       </svg>
     ),
@@ -76,7 +76,7 @@ const capabilities = [
     description:
       "Streamline CI/CD pipelines from build to production with intelligent, risk-aware deployment strategies.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
       </svg>
     ),
@@ -86,7 +86,7 @@ const capabilities = [
     description:
       "Identify coverage gaps across requirements, code, and tests with full lifecycle traceability.",
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" /><path d="M8 11h6" /><path d="M11 8v6" />
       </svg>
     ),
@@ -124,7 +124,7 @@ export default function AboutPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -132,7 +132,7 @@ export default function AboutPage() {
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <p
               style={{
-                color: "#F17F0D",
+                color: "var(--accent)",
                 fontWeight: 600,
                 fontSize: 14,
                 textTransform: "uppercase",
@@ -144,7 +144,7 @@ export default function AboutPage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(32px, 5vw, 52px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
@@ -152,12 +152,12 @@ export default function AboutPage() {
               }}
             >
               Building the{" "}
-              <span style={{ color: "#F17F0D" }}>AI Ecosystem</span> for
+              <span style={{ color: "var(--accent)" }}>AI Ecosystem</span> for
               Software Delivery
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-secondary)",
                 fontSize: 18,
                 lineHeight: 1.7,
                 maxWidth: 640,
@@ -174,7 +174,7 @@ export default function AboutPage() {
         {/* Mission */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "60px 24px",
           }}
         >
@@ -182,8 +182,8 @@ export default function AboutPage() {
             style={{
               maxWidth: 900,
               margin: "0 auto",
-              background: "#141414",
-              border: "1px solid #262626",
+              background: "var(--surface-2d)",
+              border: "1px solid var(--border-raised)",
               borderRadius: 16,
               padding: "48px 40px",
               textAlign: "center",
@@ -191,7 +191,7 @@ export default function AboutPage() {
           >
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 16,
@@ -201,7 +201,7 @@ export default function AboutPage() {
             </h2>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-secondary)",
                 fontSize: 17,
                 lineHeight: 1.75,
                 maxWidth: 680,
@@ -210,7 +210,7 @@ export default function AboutPage() {
             >
               Software teams spend too much time on repetitive tasks and still
               ship with gaps. Our mission is to{" "}
-              <strong style={{ color: "#d1d5db" }}>
+              <strong style={{ color: "var(--text-secondary-strong)" }}>
                 eliminate blind spots across the SDLC
               </strong>{" "}
               by connecting requirements, code, testing, and deployment into a
@@ -221,11 +221,11 @@ export default function AboutPage() {
         </section>
 
         {/* What We Do */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 1100, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 32,
                 fontWeight: 700,
                 textAlign: "center",
@@ -245,8 +245,8 @@ export default function AboutPage() {
                 <div
                   key={cap.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--surface-2d)",
+                    border: "1px solid var(--border-raised)",
                     borderRadius: 14,
                     padding: "32px 24px",
                   }}
@@ -256,7 +256,7 @@ export default function AboutPage() {
                   </div>
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 10,
@@ -266,7 +266,7 @@ export default function AboutPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#9ca3af",
+                      color: "var(--text-secondary)",
                       fontSize: 15,
                       lineHeight: 1.65,
                     }}
@@ -280,11 +280,11 @@ export default function AboutPage() {
         </section>
 
         {/* Why WalnutAI */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 1000, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 32,
                 fontWeight: 700,
                 textAlign: "center",
@@ -304,16 +304,16 @@ export default function AboutPage() {
                 <div
                   key={d.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--surface-2d)",
+                    border: "1px solid var(--border-raised)",
                     borderRadius: 14,
                     padding: "32px 24px",
-                    borderTop: "3px solid #F17F0D",
+                    borderTop: "3px solid var(--accent)",
                   }}
                 >
                   <span
                     style={{
-                      color: "#F17F0D",
+                      color: "var(--accent)",
                       fontSize: 13,
                       fontWeight: 700,
                       marginBottom: 10,
@@ -324,7 +324,7 @@ export default function AboutPage() {
                   </span>
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 10,
@@ -334,7 +334,7 @@ export default function AboutPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#9ca3af",
+                      color: "var(--text-secondary)",
                       fontSize: 15,
                       lineHeight: 1.65,
                     }}
@@ -350,7 +350,7 @@ export default function AboutPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "60px 24px 100px",
             textAlign: "center",
           }}
@@ -358,7 +358,7 @@ export default function AboutPage() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 30,
                 fontWeight: 700,
                 marginBottom: 16,
@@ -368,7 +368,7 @@ export default function AboutPage() {
             </h2>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-secondary)",
                 fontSize: 16,
                 lineHeight: 1.7,
                 marginBottom: 32,
@@ -381,8 +381,8 @@ export default function AboutPage() {
               href="/contact"
               style={{
                 display: "inline-block",
-                background: "#F17F0D",
-                color: "#fff",
+                background: "var(--accent)",
+                color: "var(--text-on-accent)",
                 fontWeight: 700,
                 fontSize: 16,
                 padding: "14px 36px",

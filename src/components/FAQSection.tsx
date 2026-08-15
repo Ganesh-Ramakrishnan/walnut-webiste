@@ -70,12 +70,12 @@ export default function FAQSection() {
             <div
               key={i}
               style={{
-                background: "linear-gradient(106deg, #1a1a1a 48.63%, #252525 93.68%)",
-                border: "1px solid #2a2a2a",
+                background: "linear-gradient(106deg, var(--surface-3) 48.63%, #252525 93.68%)",
+                border: "1px solid var(--surface-grey-2)",
                 borderRadius: 12,
                 overflow: "hidden",
                 transition: "border-color 0.3s",
-                borderColor: openIndex === i ? "rgba(241, 127, 13, 0.3)" : "#2a2a2a",
+                borderColor: openIndex === i ? "rgba(241, 127, 13, 0.3)" : "var(--surface-grey-2)",
               }}
             >
               <button
@@ -90,7 +90,7 @@ export default function FAQSection() {
                   border: "none",
                   cursor: "pointer",
                   textAlign: "left",
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   fontSize: 16,
                   fontWeight: 500,
                   fontFamily: "inherit",
@@ -104,7 +104,7 @@ export default function FAQSection() {
                   height="20"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke="#9ca3af"
+                  stroke="var(--text-secondary)"
                   strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -127,7 +127,7 @@ export default function FAQSection() {
                 <p
                   style={{
                     padding: "0 24px 18px",
-                    color: "#9ca3af",
+                    color: "var(--text-secondary)",
                     fontSize: 14,
                     lineHeight: 1.7,
                     margin: 0,

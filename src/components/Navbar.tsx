@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { SIGNUP_URL } from "@/lib/links";
+import Logo from "@/components/Logo";
 
 const products = [
   { name: "WalnutAI Intelligence Hub", href: "/features/intelligence-hub" },
@@ -86,9 +86,9 @@ export default function Navbar() {
     <nav
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
       style={{
-        background: scrolled ? "var(--nav-scrolled-bg, rgba(6,11,24,0.85))" : "transparent",
+        background: scrolled ? "var(--nav-scrolled-bg, var(--surface-overlay))" : "transparent",
         backdropFilter: scrolled ? "blur(16px)" : "none",
-        borderBottom: scrolled ? "1px solid var(--border-primary)" : "none",
+        borderBottom: scrolled ? "1px solid var(--border-default)" : "none",
       }}
     >
       <a
@@ -100,14 +100,7 @@ export default function Navbar() {
       <div className="relative w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="shrink-0 relative z-10" aria-label="WalnutAI Home">
-          <Image
-            src="/assets/logo/Walnut-White.png"
-            alt="WalnutAI"
-            width={180}
-            height={60}
-            className="w-[130px] sm:w-[180px] h-auto"
-            priority
-          />
+          <Logo width={180} height={60} className="w-[130px] sm:w-[180px] h-auto" priority />
         </Link>
 
         {/* Desktop Nav */}
@@ -125,7 +118,7 @@ export default function Navbar() {
                   fontSize: 15,
                   fontWeight: 600,
                   lineHeight: "37px",
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   whiteSpace: "nowrap",
                   padding: 0,
                 }}
@@ -140,10 +133,10 @@ export default function Navbar() {
                 <div
                   className="absolute left-1/2 -translate-x-1/2 top-full mt-3 min-w-[280px] rounded-2xl shadow-2xl overflow-hidden"
                   style={{
-                    background: "#111827",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "var(--surface-panel)",
+                    border: "1px solid var(--border-default)",
                     padding: "12px 8px",
-                    boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
+                    boxShadow: "0 20px 50px var(--shadow-strong)",
                   }}
                 >
                   {products.map((product) => (
@@ -152,7 +145,7 @@ export default function Navbar() {
                       href={product.href}
                       onClick={() => setProductsOpen(false)}
                       className="block px-4 py-2.5 rounded-lg hover:bg-white/[0.06] transition-colors"
-                      style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb" }}
+                      style={{ fontSize: 14, fontWeight: 500, color: "var(--text-bright)" }}
                     >
                       {product.name}
                     </Link>
@@ -179,7 +172,7 @@ export default function Navbar() {
                   fontSize: 15,
                   fontWeight: 600,
                   lineHeight: "37px",
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   whiteSpace: "nowrap",
                   padding: 0,
                 }}
@@ -194,11 +187,11 @@ export default function Navbar() {
                 <div
                   className="absolute left-1/2 -translate-x-1/2 top-full mt-3 rounded-2xl shadow-2xl overflow-hidden"
                   style={{
-                    background: "#111827",
-                    border: "1px solid rgba(255,255,255,0.12)",
+                    background: "var(--surface-panel)",
+                    border: "1px solid var(--border-default)",
                     width: 360,
                     padding: "20px 24px",
-                    boxShadow: "0 20px 50px rgba(0,0,0,0.6)",
+                    boxShadow: "0 20px 50px var(--shadow-strong)",
                   }}
                 >
                   <div className="grid grid-cols-2 gap-x-8 gap-y-2">
@@ -213,7 +206,7 @@ export default function Navbar() {
                               rel="noopener noreferrer"
                               onClick={() => setResourcesOpen(false)}
                               className="block py-2 px-2 rounded-lg hover:bg-white/[0.06] transition-colors"
-                              style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb", textDecoration: "none" }}
+                              style={{ fontSize: 14, fontWeight: 500, color: "var(--text-bright)", textDecoration: "none" }}
                             >
                               {item.name}
                             </a>
@@ -223,7 +216,7 @@ export default function Navbar() {
                               href={item.href}
                               onClick={() => setResourcesOpen(false)}
                               className="block py-2 px-2 rounded-lg hover:bg-white/[0.06] transition-colors"
-                              style={{ fontSize: 14, fontWeight: 500, color: "#e5e7eb" }}
+                              style={{ fontSize: 14, fontWeight: 500, color: "var(--text-bright)" }}
                             >
                               {item.name}
                             </Link>
@@ -236,6 +229,7 @@ export default function Navbar() {
               )}
             </div>
 
+
             <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
               Sign up
             </a>
@@ -244,7 +238,7 @@ export default function Navbar() {
 
         {/* Mobile menu button */}
         <button
-          className="md:hidden text-white p-1 relative z-10"
+          className="md:hidden text-text-primary p-1 relative z-10"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
@@ -261,7 +255,7 @@ export default function Navbar() {
           <div className="border-b border-white/5">
             <button
               onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
-              className="w-full flex items-center justify-between py-3 text-sm text-gray-300 hover:text-white transition-colors"
+              className="w-full flex items-center justify-between py-3 text-sm text-text-secondary-strong hover:text-text-primary transition-colors"
             >
               Products
               <ChevronDown
@@ -279,7 +273,7 @@ export default function Navbar() {
                       setMobileOpen(false);
                       setMobileProductsOpen(false);
                     }}
-                    className="block py-2.5 pl-4 text-sm text-neutral-400 hover:text-orange transition-colors"
+                    className="block py-2.5 pl-4 text-sm text-text-secondary hover:text-orange transition-colors"
                   >
                     {product.name}
                   </Link>
@@ -292,7 +286,7 @@ export default function Navbar() {
               key={link.name}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="block py-3 text-sm text-gray-300 hover:text-white transition-colors border-b border-white/5"
+              className="block py-3 text-sm text-text-secondary-strong hover:text-text-primary transition-colors border-b border-white/5"
             >
               {link.name}
             </Link>
@@ -301,7 +295,7 @@ export default function Navbar() {
           <div className="border-b border-white/5">
             <button
               onClick={() => setMobileResourcesOpen(!mobileResourcesOpen)}
-              className="w-full flex items-center justify-between py-3 text-sm text-gray-300 hover:text-white transition-colors"
+              className="w-full flex items-center justify-between py-3 text-sm text-text-secondary-strong hover:text-text-primary transition-colors"
             >
               Resources
               <ChevronDown
@@ -322,7 +316,7 @@ export default function Navbar() {
                         setMobileOpen(false);
                         setMobileResourcesOpen(false);
                       }}
-                      className="block py-2.5 pl-4 text-sm text-neutral-400 hover:text-orange transition-colors"
+                      className="block py-2.5 pl-4 text-sm text-text-secondary hover:text-orange transition-colors"
                     >
                       {item.name}
                     </a>
@@ -334,7 +328,7 @@ export default function Navbar() {
                         setMobileOpen(false);
                         setMobileResourcesOpen(false);
                       }}
-                      className="block py-2.5 pl-4 text-sm text-neutral-400 hover:text-orange transition-colors"
+                      className="block py-2.5 pl-4 text-sm text-text-secondary hover:text-orange transition-colors"
                     >
                       {item.name}
                     </Link>
@@ -348,7 +342,7 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileOpen(false)}
-            className="block mt-4 px-5 py-2.5 text-sm font-medium text-white gradient-orange rounded-full text-center"
+            className="block mt-4 px-5 py-2.5 text-sm font-medium text-text-primary gradient-orange rounded-full text-center"
           >
             Sign up
           </a>

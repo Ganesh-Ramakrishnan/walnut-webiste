@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(() => import("@/components/editor/RichTextEditor"), {
-  loading: () => <div style={{ minHeight: 350, display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", background: "#080808", border: "1px solid #1a1a1a", borderRadius: 10 }}>Loading editor...</div>,
+  loading: () => <div style={{ minHeight: 350, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-tertiary)", background: "var(--surface-black)", border: "1px solid var(--border-muted)", borderRadius: 10 }}>Loading editor...</div>,
   ssr: false,
 });
 
@@ -30,7 +30,7 @@ interface Props {
 
 const TAG_OPTIONS: ChangelogTag[] = ["NEW", "IMPROVED", "FIXED", "SECURITY"];
 const tagColors: Record<ChangelogTag, string> = {
-  NEW: "#F17F0D",
+  NEW: "var(--accent)",
   IMPROVED: "#60a5fa",
   FIXED: "#34d399",
   SECURITY: "#f87171",

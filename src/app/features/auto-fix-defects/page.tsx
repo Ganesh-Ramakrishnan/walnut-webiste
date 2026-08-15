@@ -113,14 +113,14 @@ export default function AutoFixDefectsPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen text-white"
-        style={{ paddingTop: 80, background: "linear-gradient(160deg, #1a0e05 0%, #0a1628 25%, #060b18 55%, #0a1628 100%)" }}
+        className="min-h-screen text-text-primary"
+        style={{ paddingTop: 80, background: "linear-gradient(160deg, var(--surface-deep) 0%, var(--surface-1) 25%, var(--page-bg-solid) 55%, var(--surface-1) 100%)" }}
       >
         {/* Back Button */}
         <div className="mx-auto max-w-7xl px-6 pt-10">
           <Link
             href="/features"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-400 transition-colors hover:border-orange-500/50 hover:text-orange-500"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-translucent)] px-4 py-2 text-sm text-text-secondary transition-colors hover:border-orange-500/50 hover:text-orange-500"
           >
             <ArrowLeft size={16} />
             All Features
@@ -137,7 +137,7 @@ export default function AutoFixDefectsPage() {
                 Log the Defect. The AI Fixes the Code.
               </span>
             </h1>
-            <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
+            <p className="text-text-secondary text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
               Log a defect in WalnutAI&apos;s workboard and the AI agent reads the
               failure context, finds the broken code, implements the fix, and
               raises a PR &mdash; no copy-pasting into your editor required.
@@ -148,10 +148,10 @@ export default function AutoFixDefectsPage() {
         {/* Stats Section */}
         <section
           className="relative overflow-hidden border-y border-white/[0.06]"
-          style={{ background: "linear-gradient(180deg, #060b18 0%, #0f1a3d 50%, #060b18 100%)" }}
+          style={{ background: "linear-gradient(180deg, var(--page-bg-solid) 0%, var(--surface-navy) 50%, var(--page-bg-solid) 100%)" }}
         >
           <div className="max-w-7xl mx-auto px-6 py-20 sm:py-24">
-            <p className="text-center text-sm font-semibold uppercase tracking-widest mb-16" style={{ color: "#F17F0D" }}>
+            <p className="text-center text-sm font-semibold uppercase tracking-widest mb-16" style={{ color: "var(--accent)" }}>
               Trusted by engineering teams closing defects faster than they open
             </p>
 
@@ -165,13 +165,13 @@ export default function AutoFixDefectsPage() {
                   key={stat.value}
                   className="relative rounded-2xl px-9 py-12 text-center overflow-hidden"
                   style={{
-                    background: "linear-gradient(160deg, rgba(249,115,22,0.07) 0%, rgba(249,115,22,0.02) 50%, rgba(10,10,10,0.95) 100%)",
+                    background: "linear-gradient(160deg, rgba(249,115,22,0.07) 0%, rgba(249,115,22,0.02) 50%, var(--surface-scrim) 100%)",
                     border: "1px solid rgba(249,115,22,0.1)",
                   }}
                 >
                   <div className="absolute top-0 left-6 right-6 h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(249,115,22,0.2), transparent)" }} />
                   <div className="text-3xl sm:text-4xl font-extrabold text-orange-500 mb-3">{stat.value}</div>
-                  <p className="text-neutral-400 text-sm leading-relaxed">{stat.label}</p>
+                  <p className="text-text-secondary text-sm leading-relaxed">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -181,10 +181,10 @@ export default function AutoFixDefectsPage() {
         {/* Value Proposition */}
         <section className="mx-auto max-w-7xl px-6 py-10 sm:py-14">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-5">
+            <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-5">
               Stop re-explaining defects to your code editor that QA already documented
             </h2>
-            <p className="text-neutral-400 text-[15px] leading-[1.8]">
+            <p className="text-text-secondary text-[15px] leading-[1.8]">
               The traditional defect workflow is a relay race with unnecessary handoffs: QA logs a defect with steps, screenshots, expected vs actual results, and a linked test case &mdash; then a developer reads it, switches to their editor, opens an AI assistant, and re-explains the entire thing from scratch. WalnutAI eliminates the relay. The workboard defect already contains everything the AI needs. Assign it to the Cloud Agent and get a fix PR &mdash; no copy-paste, no re-explanation, no context loss.
             </p>
           </div>
@@ -198,7 +198,7 @@ export default function AutoFixDefectsPage() {
               return (
                 <div
                   key={i}
-                  className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl bg-[#0a1628]/75 p-8 sm:p-10"
+                  className="grid lg:grid-cols-2 gap-8 items-center rounded-2xl bg-[var(--surface-1)]/75 p-8 sm:p-10"
                 >
                   <div className={isEven ? "" : "lg:order-2"}>
                     <div className="flex items-center gap-3 mb-4">
@@ -206,10 +206,10 @@ export default function AutoFixDefectsPage() {
                         {String(i + 1).padStart(2, "0")}
                       </span>
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 leading-snug">
+                    <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-3 leading-snug">
                       {s.title}
                     </h3>
-                    <p className="text-neutral-400 text-[15px] leading-relaxed">
+                    <p className="text-text-secondary text-[15px] leading-relaxed">
                       {s.desc}
                     </p>
                   </div>
@@ -241,9 +241,9 @@ export default function AutoFixDefectsPage() {
         <section
           className="relative overflow-hidden"
           style={{
-            background: "#0a1628",
-            borderTop: "1px solid rgba(255,255,255,0.08)",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            background: "var(--surface-1)",
+            borderTop: "1px solid var(--border-default)",
+            borderBottom: "1px solid var(--border-default)",
           }}
         >
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full blur-[120px] pointer-events-none" style={{ background: "rgba(249,115,22,0.2)" }} />
@@ -252,7 +252,7 @@ export default function AutoFixDefectsPage() {
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">
               Ready to ship with confidence?
             </h2>
-            <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
+            <p className="text-text-secondary mb-8 max-w-xl mx-auto">
               See how WalnutAI connects requirements, code, testing, and
               deployment into one intelligent workflow.
             </p>
@@ -267,7 +267,7 @@ export default function AutoFixDefectsPage() {
               </a>
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-orange-500/25 text-neutral-300 font-medium transition-colors hover:border-orange-500/50 hover:text-white"
+                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-orange-500/25 text-text-secondary-strong font-medium transition-colors hover:border-orange-500/50 hover:text-text-primary"
               >
                 View Pricing
               </Link>

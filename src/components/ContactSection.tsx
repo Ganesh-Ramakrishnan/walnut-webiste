@@ -53,15 +53,15 @@ export default function ContactSection() {
             {/* Left info panel */}
             <div className="ct-info-panel">
               <div>
-                <p style={{ color: "#d1d5db", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
+                <p style={{ color: "var(--text-secondary-strong)", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
                   Start free. Upgrade when WalnutAI starts saving you real release risk.
                 </p>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <rect x="2" y="4" width="20" height="16" rx="2" />
                     <path d="M22 4L12 13 2 4" />
                   </svg>
-                  <span style={{ color: "#d1d5db", fontSize: 14 }}>contact@walnutai.ai</span>
+                  <span style={{ color: "var(--text-secondary-strong)", fontSize: 14 }}>contact@walnutai.ai</span>
                 </div>
               </div>
 
@@ -99,24 +99,24 @@ export default function ContactSection() {
                   <div className="ct-success-illust">
                     {/* Envelope */}
                     <svg width="120" height="100" viewBox="0 0 120 100" fill="none" className="ct-env-pop">
-                      <rect x="10" y="25" width="100" height="65" rx="8" fill="#1e293b" stroke="#F17F0D" strokeWidth="2" />
-                      <path d="M10 33 L60 65 L110 33" fill="#0f172a" stroke="#F17F0D" strokeWidth="2" strokeLinejoin="round" />
-                      <path d="M10 90 L50 60" stroke="#F17F0D" strokeWidth="1" opacity="0.3" />
-                      <path d="M110 90 L70 60" stroke="#F17F0D" strokeWidth="1" opacity="0.3" />
+                      <rect x="10" y="25" width="100" height="65" rx="8" fill="#1e293b" stroke="var(--accent)" strokeWidth="2" />
+                      <path d="M10 33 L60 65 L110 33" fill="#0f172a" stroke="var(--accent)" strokeWidth="2" strokeLinejoin="round" />
+                      <path d="M10 90 L50 60" stroke="var(--accent)" strokeWidth="1" opacity="0.3" />
+                      <path d="M110 90 L70 60" stroke="var(--accent)" strokeWidth="1" opacity="0.3" />
                     </svg>
                     {/* Floating mails */}
                     <div className="ct-fm ct-fm1">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 4L12 13 2 4" />
                       </svg>
                     </div>
                     <div className="ct-fm ct-fm2">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.6">
                         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 4L12 13 2 4" />
                       </svg>
                     </div>
                     <div className="ct-fm ct-fm3">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" opacity="0.4">
                         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 4L12 13 2 4" />
                       </svg>
                     </div>
@@ -127,8 +127,8 @@ export default function ContactSection() {
                       </svg>
                     </div>
                   </div>
-                  <p style={{ color: "#fff", fontSize: 22, fontWeight: 700, margin: 0 }}>Message Sent!</p>
-                  <p style={{ color: "#9ca3af", fontSize: 14, margin: 0, maxWidth: 320, lineHeight: 1.6 }}>Our Team will get in touch with you shortly!</p>
+                  <p style={{ color: "var(--text-primary)", fontSize: 22, fontWeight: 700, margin: 0 }}>Message Sent!</p>
+                  <p style={{ color: "var(--text-secondary)", fontSize: 14, margin: 0, maxWidth: 320, lineHeight: 1.6 }}>Our Team will get in touch with you shortly!</p>
                 </div>
               ) : (
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
@@ -170,7 +170,7 @@ export default function ContactSection() {
 
                 {/* Submit */}
                 <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 16, marginTop: "auto" }}>
-                  {status === "error" && <span style={{ color: "#ef4444", fontSize: 14 }}>Something went wrong. Please try again.</span>}
+                  {status === "error" && <span style={{ color: "var(--status-danger)", fontSize: 14 }}>Something went wrong. Please try again.</span>}
                   <button type="submit" className="ct-submit" disabled={status === "sending"}>
                     {status === "sending" ? "Sending..." : "Submit"}
                   </button>

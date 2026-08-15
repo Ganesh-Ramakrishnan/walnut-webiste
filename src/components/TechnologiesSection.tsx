@@ -65,7 +65,7 @@ export default function TechnologiesSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Built with{" "}<span className="text-orange">Modern Technologies</span>
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
+          <p className="text-text-secondary text-sm sm:text-base max-w-2xl mx-auto">
             Real outcomes from teams who stopped guessing and started knowing what&apos;s missing
           </p>
         </AnimateOnScroll>

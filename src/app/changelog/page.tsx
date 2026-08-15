@@ -143,7 +143,7 @@ export default async function ChangelogPage() {
         <section className="cl2-hero">
           <p className="cl2-hero-label">Changelog</p>
           <h1 className="cl2-hero-title">
-            Product Updates & <span style={{ color: "#F17F0D" }}>Release Notes</span>
+            Product Updates & <span style={{ color: "var(--accent)" }}>Release Notes</span>
           </h1>
           <p className="cl2-hero-sub">
             Follow along as we build the AI ecosystem for software delivery — new
@@ -151,7 +151,7 @@ export default async function ChangelogPage() {
           </p>
         </section>
         {data.length === 0 ? (
-          <div style={{ padding: "60px 24px", textAlign: "center", color: "#9ca3af" }}>
+          <div style={{ padding: "60px 24px", textAlign: "center", color: "var(--text-secondary)" }}>
             No changelog entries yet. Check back soon.
           </div>
         ) : (

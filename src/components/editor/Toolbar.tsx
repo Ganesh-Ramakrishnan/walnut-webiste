@@ -33,8 +33,8 @@ const FONT_FAMILIES = [
   { label: "Arial", value: "Arial, sans-serif" },
 ];
 const COLORS = [
-  "#ffffff", "#e6e9ef", "#9ca3af", "#6b7280",
-  "#F17F0D", "#ef4444", "#f59e0b", "#10b981",
+  "#ffffff", "var(--surface-tint)", "var(--text-secondary)", "var(--text-tertiary)",
+  "var(--accent)", "#ef4444", "#f59e0b", "#10b981",
   "#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4",
 ];
 
@@ -249,7 +249,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
               strokeLinecap="round"
               strokeLinejoin="round"
             />
-            <rect x="3" y="13.5" width="10" height="1.5" rx="0.5" fill="#F17F0D" />
+            <rect x="3" y="13.5" width="10" height="1.5" rx="0.5" fill="var(--accent)" />
           </svg>
         </button>
         {showTextColor && (
@@ -423,7 +423,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5"><line x1="2" y1="10" x2="18" y2="10" /><line x1="2" y1="18" x2="18" y2="18" /></svg>
                       </button>
                     </div>
-                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "var(--text-tertiary)" }} onClick={() => setTableSub("")}>← Back</button>
                   </div>
                 )}
 
@@ -436,10 +436,10 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                   <div className="re-table-sub">
                     {[{ label: "Thin", val: "thin" as const, px: 1 }, { label: "Medium", val: "medium" as const, px: 2 }, { label: "Thick", val: "thick" as const, px: 3 }].map((w) => (
                       <button key={w.val} type="button" className="re-table-menu-item" onClick={() => runTableCmd((c) => c.setTableBorderWeight(w.val))}>
-                        <span style={{ display: "inline-block", width: 24, height: w.px, background: "#9ca3af", borderRadius: 1 }} /> {w.label}
+                        <span style={{ display: "inline-block", width: 24, height: w.px, background: "var(--text-secondary)", borderRadius: 1 }} /> {w.label}
                       </button>
                     ))}
-                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "var(--text-tertiary)" }} onClick={() => setTableSub("")}>← Back</button>
                   </div>
                 )}
 
@@ -452,10 +452,10 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                   <div className="re-table-sub">
                     {[{ label: "Solid", val: "solid" as const }, { label: "Dashed", val: "dashed" as const }, { label: "Dotted", val: "dotted" as const }].map((s) => (
                       <button key={s.val} type="button" className="re-table-menu-item" onClick={() => runTableCmd((c) => c.setTableBorderStyle(s.val))}>
-                        <span style={{ display: "inline-block", width: 24, borderBottom: `2px ${s.val} #9ca3af` }} /> {s.label}
+                        <span style={{ display: "inline-block", width: 24, borderBottom: `2px ${s.val} var(--text-secondary)` }} /> {s.label}
                       </button>
                     ))}
-                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "var(--text-tertiary)" }} onClick={() => setTableSub("")}>← Back</button>
                   </div>
                 )}
 
@@ -468,8 +468,8 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                   <div className="re-table-sub">
                     <div className="re-table-border-grid">
                       {([
-                        { name: "default" as const, swatch: "rgba(255,255,255,0.15)" },
-                        { name: "orange"  as const, swatch: "#F17F0D" },
+                        { name: "default" as const, swatch: "var(--border-default)" },
+                        { name: "orange"  as const, swatch: "var(--accent)" },
                         { name: "red"     as const, swatch: "#ef4444" },
                         { name: "amber"   as const, swatch: "#f59e0b" },
                         { name: "green"   as const, swatch: "#10b981" },
@@ -480,7 +480,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                         <button key={c.name} type="button" data-tooltip={c.name} className="re-tb-color-swatch" style={{ background: c.swatch, width: 24, height: 24 }} onClick={() => runTableCmd((ch) => ch.setTableBorderColor(c.name))} />
                       ))}
                     </div>
-                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "var(--text-tertiary)" }} onClick={() => setTableSub("")}>← Back</button>
                   </div>
                 )}
 
@@ -496,7 +496,7 @@ export default function Toolbar({ editor, onImageUpload, onAddLink, isFullscreen
                         {p.label}
                       </button>
                     ))}
-                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "#6b7280" }} onClick={() => setTableSub("")}>← Back</button>
+                    <button type="button" className="re-table-menu-item" style={{ fontSize: 12, color: "var(--text-tertiary)" }} onClick={() => setTableSub("")}>← Back</button>
                   </div>
                 )}
 

@@ -208,14 +208,14 @@ export default function RequirementsGapAnalysisPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen bg-[#0a0a0a] text-white"
+        className="min-h-screen bg-[var(--surface-2b)] text-text-primary"
         style={{ paddingTop: 80 }}
       >
         {/* Breadcrumb */}
         <section className="mx-auto max-w-6xl px-6 pt-10">
           <Link
             href="/features"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-700 bg-neutral-900 px-4 py-1.5 text-sm text-neutral-300 hover:border-orange-500/50 hover:text-orange-500 transition-colors"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border-strong)] bg-[var(--surface-1)] px-4 py-1.5 text-sm text-text-secondary-strong hover:border-orange-500/50 hover:text-orange-500 transition-colors"
           >
             <ArrowLeft size={14} />
             All Features
@@ -241,7 +241,7 @@ export default function RequirementsGapAnalysisPage() {
           </h1>
 
           {/* h2 subtitle */}
-          <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
+          <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-text-secondary-strong leading-relaxed">
             WalnutAI&apos;s AI requirements gap analysis continuously performs
             requirements vs code analysis across your codebase and test suite —
             acting as a shift-left testing tool that detects code coverage
@@ -251,7 +251,7 @@ export default function RequirementsGapAnalysisPage() {
 
         {/* Feature Demo */}
         <section className="mx-auto max-w-5xl px-6 pb-12">
-          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "var(--surface-2c)", border: "1px solid var(--border-muted)", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <img
               src="/assets/gif/Gap analysis.gif"
               alt="Requirements Gap Analysis demo"
@@ -323,12 +323,12 @@ export default function RequirementsGapAnalysisPage() {
             {whoUses.map((item, i) => (
               <div
                 key={i}
-                className="flex items-start gap-4 rounded-2xl border border-neutral-800 bg-[#111111]/80 p-6 hover:border-orange-500/30 transition-colors"
+                className="flex items-start gap-4 rounded-2xl border border-[var(--border-default)] bg-[var(--surface-2)]/80 p-6 hover:border-orange-500/30 transition-colors"
               >
                 <div className="mt-0.5 rounded-lg bg-orange-500/10 p-2 flex-shrink-0">
                   <item.icon className="h-5 w-5 text-orange-500" />
                 </div>
-                <span className="text-neutral-300 leading-relaxed">
+                <span className="text-text-secondary-strong leading-relaxed">
                   {item.label}
                 </span>
               </div>
@@ -358,12 +358,12 @@ export default function RequirementsGapAnalysisPage() {
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-[#111111]/80 border border-neutral-800 p-6 transition-colors hover:border-orange-500/50"
+                className="group rounded-2xl bg-[var(--surface-2)]/80 border border-[var(--border-default)] p-6 transition-colors hover:border-orange-500/50"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}
                 </span>
-                <span className="mt-2 block text-sm text-neutral-500">
+                <span className="mt-2 block text-sm text-text-tertiary">
                   Learn more &rarr;
                 </span>
               </Link>
@@ -373,11 +373,11 @@ export default function RequirementsGapAnalysisPage() {
 
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-6 pb-24">
-          <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-neutral-900 border border-orange-500/20 p-12 text-center">
+          <div className="rounded-2xl bg-gradient-to-br from-orange-500/10 to-[var(--surface-1)] border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Stop shipping blind spots
             </h2>
-            <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
+            <p className="text-text-secondary mb-8 max-w-xl mx-auto">
               Get your first gap report in 5 minutes. See exactly what your test
               suite is missing.
             </p>

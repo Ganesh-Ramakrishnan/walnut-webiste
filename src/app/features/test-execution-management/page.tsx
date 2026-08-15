@@ -143,14 +143,14 @@ export default function TestExecutionManagementPage() {
       />
       <Navbar />
       <main
-        className="min-h-screen bg-[#0a0a0a] text-white"
+        className="min-h-screen bg-[var(--surface-2b)] text-text-primary"
         style={{ paddingTop: 80 }}
       >
         {/* Back Button */}
         <div className="mx-auto max-w-6xl px-6 pt-10">
           <Link
             href="/features"
-            className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/60 px-4 py-2 text-sm text-neutral-400 transition-colors hover:border-orange-500/50 hover:text-orange-500"
+            className="inline-flex items-center gap-2 rounded-full border border-[var(--border-default)] bg-[var(--surface-translucent)] px-4 py-2 text-sm text-text-secondary transition-colors hover:border-orange-500/50 hover:text-orange-500"
           >
             <ArrowLeft size={16} />
             All Features
@@ -172,7 +172,7 @@ export default function TestExecutionManagementPage() {
               Manual Test Execution Software &amp; QA Test Lifecycle Management
             </span>
           </h1>
-          <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-neutral-300 leading-relaxed">
+          <h2 className="mt-8 max-w-3xl border-l-4 border-orange-500 pl-6 text-lg md:text-xl text-text-secondary-strong leading-relaxed">
             Unlike standalone test management tools, WalnutAI connects every
             test result to the requirement it validates — giving you a real-time
             release readiness score that reflects actual coverage, not just
@@ -182,7 +182,7 @@ export default function TestExecutionManagementPage() {
 
         {/* Feature Demo */}
         <section className="mx-auto max-w-5xl px-6 pb-12">
-          <div style={{ background: "#0d0d0d", border: "1px solid #1a1a1a", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <div style={{ background: "var(--surface-2c)", border: "1px solid var(--border-muted)", borderRadius: 16, padding: 24, display: "flex", alignItems: "center", justifyContent: "center" }}>
             <img
               src={"/assets/gif/Test Execution & QA.gif"}
               alt="Test Execution Management demo"
@@ -217,7 +217,7 @@ export default function TestExecutionManagementPage() {
 
         {/* Outcomes */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">Outcomes</h3>
+          <h3 className="text-2xl font-bold text-text-primary mb-8">Outcomes</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {outcomes.map((o, i) => (
               <StatCard key={i} stat={o.stat} description={o.description} />
@@ -227,7 +227,7 @@ export default function TestExecutionManagementPage() {
 
         {/* How It Works */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">How It Works</h3>
+          <h3 className="text-2xl font-bold text-text-primary mb-8">How It Works</h3>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {howItWorks.map((item, i) => (
               <StepCard
@@ -242,7 +242,7 @@ export default function TestExecutionManagementPage() {
 
         {/* Capabilities */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-4">Key Capabilities</h3>
+          <h3 className="text-2xl font-bold text-text-primary mb-4">Key Capabilities</h3>
           <FeatureList items={capabilities} />
         </section>
 
@@ -262,7 +262,7 @@ export default function TestExecutionManagementPage() {
 
         {/* Related Features */}
         <section className="mx-auto max-w-6xl px-6 pb-16">
-          <h3 className="text-2xl font-bold text-white mb-8">
+          <h3 className="text-2xl font-bold text-text-primary mb-8">
             Related Features
           </h3>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -270,12 +270,12 @@ export default function TestExecutionManagementPage() {
               <Link
                 key={f.id}
                 href={`/features/${f.id}`}
-                className="group rounded-2xl bg-[#111111]/80 backdrop-blur-sm border border-neutral-800 p-6 transition-all hover:border-orange-500/50 hover:-translate-y-1 duration-300"
+                className="group rounded-2xl bg-[var(--surface-2)]/80 backdrop-blur-sm border border-[var(--border-default)] p-6 transition-all hover:border-orange-500/50 hover:-translate-y-1 duration-300"
               >
                 <span className="text-lg font-semibold group-hover:text-orange-500 transition-colors">
                   {f.title}
                 </span>
-                <span className="mt-2 block text-sm text-neutral-500">
+                <span className="mt-2 block text-sm text-text-tertiary">
                   Learn more &rarr;
                 </span>
               </Link>
@@ -285,11 +285,11 @@ export default function TestExecutionManagementPage() {
 
         {/* CTA */}
         <section className="mx-auto max-w-6xl px-6 pb-24">
-          <div className="rounded-3xl bg-gradient-to-br from-orange-500/10 to-[#111111] border border-orange-500/20 p-12 text-center">
+          <div className="rounded-3xl bg-gradient-to-br from-orange-500/10 to-[var(--surface-2)] border border-orange-500/20 p-12 text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Ready to unify test execution and requirements?
             </h2>
-            <p className="text-neutral-400 mb-8 max-w-xl mx-auto">
+            <p className="text-text-secondary mb-8 max-w-xl mx-auto">
               See how WalnutAI connects every test result to the requirement it
               validates — with real-time release readiness scoring.
             </p>

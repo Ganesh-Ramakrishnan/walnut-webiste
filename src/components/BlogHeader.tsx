@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 export default function BlogHeader() {
   return (
-    <div style={{ borderBottom: "1px solid #1e1e1e", padding: "20px 0" }}>
+    <div style={{ borderBottom: "1px solid var(--border-inset)", padding: "20px 0" }}>
       <div
         style={{
           maxWidth: 1100,
@@ -16,15 +17,11 @@ export default function BlogHeader() {
         }}
       >
         <Link href="/">
-          <img
-            src="/assets/logo/Walnut-White.png"
-            alt="WalnutAI"
-            style={{ height: 32 }}
-          />
+          <Logo width={150} height={32} className="legal-logo" />
         </Link>
         <Link
           href="/"
-          style={{ color: "#9ca3af", fontSize: 14, textDecoration: "none" }}
+          style={{ color: "var(--text-secondary)", fontSize: 14, textDecoration: "none" }}
         >
           &larr; Back to Home
         </Link>

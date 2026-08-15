@@ -84,11 +84,11 @@ export default function AchievementsSection() {
         <div className="achv-header">
           <h2 className="achv-title">
             What Teams Achieve Using{" "}
-            <span style={{ color: "#F17F0D" }}>WalnutAI</span>
+            <span style={{ color: "var(--accent)" }}>WalnutAI</span>
           </h2>
           <h3
             style={{
-              color: "#d1d5db",
+              color: "var(--text-secondary-strong)",
               fontSize: 20,
               fontWeight: 700,
               marginBottom: 12,
@@ -130,7 +130,7 @@ export default function AchievementsSection() {
                 style={{
                   fontSize: 26,
                   fontWeight: 800,
-                  color: "#F17F0D",
+                  color: "var(--accent)",
                   lineHeight: 1.1,
                   marginBottom: 10,
                 }}

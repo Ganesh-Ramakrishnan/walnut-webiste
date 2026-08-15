@@ -91,7 +91,7 @@ export default function BlogList() {
       {/* Filters */}
       <div className="d-filters">
         <div className="d-search-wrap">
-          <svg className="d-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <svg className="d-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-tertiary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           <input type="text" placeholder="Search posts..." value={search} onChange={(e) => setSearch(e.target.value)} className="d-search" />
         </div>
         <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} className="d-select">
@@ -106,14 +106,14 @@ export default function BlogList() {
       {showCatManager && (
         <div className="d-card" style={{ padding: 16, marginBottom: 16 }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
-            <h3 style={{ color: "#fff", fontSize: 14, fontWeight: 700, margin: 0 }}>Categories</h3>
+            <h3 style={{ color: "var(--text-primary)", fontSize: 14, fontWeight: 700, margin: 0 }}>Categories</h3>
           </div>
           {categories.length === 0 ? (
             <p className="d-muted" style={{ fontSize: 13 }}>No categories yet.</p>
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {categories.map((cat) => (
-                <div key={cat} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", background: "rgba(255,255,255,0.02)", borderRadius: 8, border: "1px solid rgba(255,255,255,0.06)" }}>
+                <div key={cat} style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 10px", background: "var(--border-hairline)", borderRadius: 8, border: "1px solid var(--border-subtle)" }}>
                   {renamingCat === cat ? (
                     <>
                       <input
@@ -122,14 +122,14 @@ export default function BlogList() {
                         onChange={(e) => setRenameValue(e.target.value)}
                         onKeyDown={(e) => { if (e.key === "Enter") handleRenameCategory(cat); if (e.key === "Escape") setRenamingCat(null); }}
                         autoFocus
-                        style={{ flex: 1, background: "#080808", border: "1px solid #1e1e1e", borderRadius: 6, color: "#e6e9ef", padding: "4px 8px", fontSize: 13, fontFamily: "inherit", outline: "none" }}
+                        style={{ flex: 1, background: "var(--surface-black)", border: "1px solid var(--border-inset)", borderRadius: 6, color: "var(--text-onsurface)", padding: "4px 8px", fontSize: 13, fontFamily: "inherit", outline: "none" }}
                       />
                       <button type="button" className="d-btn d-btn--sm" onClick={() => handleRenameCategory(cat)}>Save</button>
                       <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => setRenamingCat(null)}>Cancel</button>
                     </>
                   ) : (
                     <>
-                      <span style={{ flex: 1, color: "#e6e9ef", fontSize: 13 }}>{cat}</span>
+                      <span style={{ flex: 1, color: "var(--text-onsurface)", fontSize: 13 }}>{cat}</span>
                       <span className="d-muted" style={{ fontSize: 11 }}>{posts.filter((p) => p.category === cat).length} posts</span>
                       <button type="button" className="d-btn d-btn--sm d-btn--ghost" onClick={() => { setRenamingCat(cat); setRenameValue(cat); }}>Rename</button>
                       <button type="button" className="d-btn d-btn--sm d-btn--danger" onClick={() => handleDeleteCategory(cat)}>Delete</button>

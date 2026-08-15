@@ -101,7 +101,7 @@ export default function CompareTabninePage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -110,7 +110,7 @@ export default function CompareTabninePage() {
             <Link
               href="/compare"
               style={{
-                color: "#6b7280",
+                color: "var(--text-tertiary)",
                 fontSize: 14,
                 textDecoration: "none",
                 display: "inline-block",
@@ -121,7 +121,7 @@ export default function CompareTabninePage() {
             </Link>
             <p
               style={{
-                color: "#F17F0D",
+                color: "var(--accent)",
                 fontWeight: 600,
                 fontSize: 14,
                 textTransform: "uppercase",
@@ -133,18 +133,18 @@ export default function CompareTabninePage() {
             </p>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: "clamp(30px, 5vw, 48px)",
                 fontWeight: 800,
                 lineHeight: 1.15,
                 marginBottom: 20,
               }}
             >
-              <span style={{ color: "#F17F0D" }}>WalnutAI</span> vs {competitor}
+              <span style={{ color: "var(--accent)" }}>WalnutAI</span> vs {competitor}
             </h1>
             <p
               style={{
-                color: "#9ca3af",
+                color: "var(--text-secondary)",
                 fontSize: 17,
                 lineHeight: 1.7,
                 maxWidth: 640,
@@ -159,7 +159,7 @@ export default function CompareTabninePage() {
         </section>
 
         {/* Overview */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "40px 24px" }}>
           <div
             style={{
               maxWidth: 900,
@@ -171,15 +171,15 @@ export default function CompareTabninePage() {
           >
             <div
               style={{
-                background: "#141414",
-                border: "1px solid #F17F0D",
+                background: "var(--surface-2d)",
+                border: "1px solid var(--accent)",
                 borderRadius: 14,
                 padding: "32px 24px",
               }}
             >
               <h3
                 style={{
-                  color: "#F17F0D",
+                  color: "var(--accent)",
                   fontSize: 20,
                   fontWeight: 700,
                   marginBottom: 12,
@@ -187,7 +187,7 @@ export default function CompareTabninePage() {
               >
                 WalnutAI
               </h3>
-              <p style={{ color: "#9ca3af", fontSize: 15, lineHeight: 1.65 }}>
+              <p style={{ color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.65 }}>
                 AI ecosystem covering the full SDLC: requirements engineering,
                 code generation, automated testing, gap analysis, deployment
                 automation, and project-level traceability.
@@ -195,15 +195,15 @@ export default function CompareTabninePage() {
             </div>
             <div
               style={{
-                background: "#141414",
-                border: "1px solid #262626",
+                background: "var(--surface-2d)",
+                border: "1px solid var(--border-raised)",
                 borderRadius: 14,
                 padding: "32px 24px",
               }}
             >
               <h3
                 style={{
-                  color: "#fff",
+                  color: "var(--text-primary)",
                   fontSize: 20,
                   fontWeight: 700,
                   marginBottom: 12,
@@ -211,7 +211,7 @@ export default function CompareTabninePage() {
               >
                 {competitor}
               </h3>
-              <p style={{ color: "#9ca3af", fontSize: 15, lineHeight: 1.65 }}>
+              <p style={{ color: "var(--text-secondary)", fontSize: 15, lineHeight: 1.65 }}>
                 AI code assistant that provides personalized code completions
                 using private models trained on your team&#39;s codebase. Focused on
                 privacy-first code suggestions.
@@ -221,11 +221,11 @@ export default function CompareTabninePage() {
         </section>
 
         {/* Feature Comparison Table */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 900, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 textAlign: "center",
@@ -238,7 +238,7 @@ export default function CompareTabninePage() {
               style={{
                 overflowX: "auto",
                 borderRadius: 14,
-                border: "1px solid #262626",
+                border: "1px solid var(--border-raised)",
               }}
             >
               <table
@@ -249,15 +249,15 @@ export default function CompareTabninePage() {
                 }}
               >
                 <thead>
-                  <tr style={{ background: "#1a1a1a" }}>
+                  <tr style={{ background: "var(--surface-3)" }}>
                     <th
                       style={{
                         textAlign: "left",
                         padding: "14px 20px",
-                        color: "#9ca3af",
+                        color: "var(--text-secondary)",
                         fontSize: 13,
                         fontWeight: 600,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-raised)",
                       }}
                     >
                       Feature
@@ -266,10 +266,10 @@ export default function CompareTabninePage() {
                       style={{
                         textAlign: "center",
                         padding: "14px 20px",
-                        color: "#F17F0D",
+                        color: "var(--accent)",
                         fontSize: 13,
                         fontWeight: 700,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-raised)",
                       }}
                     >
                       WalnutAI
@@ -278,10 +278,10 @@ export default function CompareTabninePage() {
                       style={{
                         textAlign: "center",
                         padding: "14px 20px",
-                        color: "#9ca3af",
+                        color: "var(--text-secondary)",
                         fontSize: 13,
                         fontWeight: 600,
-                        borderBottom: "1px solid #262626",
+                        borderBottom: "1px solid var(--border-raised)",
                       }}
                     >
                       {competitor}
@@ -293,15 +293,15 @@ export default function CompareTabninePage() {
                     <tr
                       key={feature}
                       style={{
-                        background: i % 2 === 0 ? "#141414" : "#111111",
+                        background: i % 2 === 0 ? "var(--surface-2d)" : "var(--surface-2)",
                       }}
                     >
                       <td
                         style={{
                           padding: "12px 20px",
-                          color: "#d1d5db",
+                          color: "var(--text-secondary-strong)",
                           fontSize: 14,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-inset)",
                         }}
                       >
                         {feature}
@@ -311,7 +311,7 @@ export default function CompareTabninePage() {
                           textAlign: "center",
                           padding: "12px 20px",
                           fontSize: 18,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-inset)",
                           color: walnut ? "#22c55e" : "#ef4444",
                         }}
                       >
@@ -322,7 +322,7 @@ export default function CompareTabninePage() {
                           textAlign: "center",
                           padding: "12px 20px",
                           fontSize: 18,
-                          borderBottom: "1px solid #1e1e1e",
+                          borderBottom: "1px solid var(--border-inset)",
                           color: comp ? "#22c55e" : "#ef4444",
                         }}
                       >
@@ -337,11 +337,11 @@ export default function CompareTabninePage() {
         </section>
 
         {/* Key Differences */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px" }}>
           <div style={{ maxWidth: 900, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 textAlign: "center",
@@ -355,15 +355,15 @@ export default function CompareTabninePage() {
                 <div
                   key={diff.title}
                   style={{
-                    background: "#141414",
-                    border: "1px solid #262626",
+                    background: "var(--surface-2d)",
+                    border: "1px solid var(--border-raised)",
                     borderRadius: 14,
                     padding: "28px 24px",
                   }}
                 >
                   <h3
                     style={{
-                      color: "#fff",
+                      color: "var(--text-primary)",
                       fontSize: 18,
                       fontWeight: 700,
                       marginBottom: 16,
@@ -382,7 +382,7 @@ export default function CompareTabninePage() {
                     <div>
                       <p
                         style={{
-                          color: "#F17F0D",
+                          color: "var(--accent)",
                           fontSize: 12,
                           fontWeight: 700,
                           marginBottom: 6,
@@ -393,7 +393,7 @@ export default function CompareTabninePage() {
                       </p>
                       <p
                         style={{
-                          color: "#9ca3af",
+                          color: "var(--text-secondary)",
                           fontSize: 14,
                           lineHeight: 1.65,
                         }}
@@ -404,7 +404,7 @@ export default function CompareTabninePage() {
                     <div>
                       <p
                         style={{
-                          color: "#6b7280",
+                          color: "var(--text-tertiary)",
                           fontSize: 12,
                           fontWeight: 700,
                           marginBottom: 6,
@@ -415,7 +415,7 @@ export default function CompareTabninePage() {
                       </p>
                       <p
                         style={{
-                          color: "#9ca3af",
+                          color: "var(--text-secondary)",
                           fontSize: 14,
                           lineHeight: 1.65,
                         }}
@@ -431,21 +431,21 @@ export default function CompareTabninePage() {
         </section>
 
         {/* Why WalnutAI */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px" }}>
           <div
             style={{
               maxWidth: 800,
               margin: "0 auto",
-              background: "#141414",
-              border: "1px solid #262626",
+              background: "var(--surface-2d)",
+              border: "1px solid var(--border-raised)",
               borderRadius: 16,
               padding: "44px 36px",
-              borderTop: "3px solid #F17F0D",
+              borderTop: "3px solid var(--accent)",
             }}
           >
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 26,
                 fontWeight: 700,
                 marginBottom: 20,
@@ -474,7 +474,7 @@ export default function CompareTabninePage() {
                 <li
                   key={item}
                   style={{
-                    color: "#9ca3af",
+                    color: "var(--text-secondary)",
                     fontSize: 15,
                     lineHeight: 1.65,
                     paddingLeft: 22,
@@ -485,7 +485,7 @@ export default function CompareTabninePage() {
                     style={{
                       position: "absolute",
                       left: 0,
-                      color: "#F17F0D",
+                      color: "var(--accent)",
                       fontWeight: 700,
                     }}
                   >
@@ -501,14 +501,14 @@ export default function CompareTabninePage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "60px 24px 100px",
             textAlign: "center",
           }}
         >
           <h2
             style={{
-              color: "#fff",
+              color: "var(--text-primary)",
               fontSize: 28,
               fontWeight: 700,
               marginBottom: 16,
@@ -518,7 +518,7 @@ export default function CompareTabninePage() {
           </h2>
           <p
             style={{
-              color: "#9ca3af",
+              color: "var(--text-secondary)",
               fontSize: 16,
               lineHeight: 1.7,
               marginBottom: 32,
@@ -533,8 +533,8 @@ export default function CompareTabninePage() {
             href="/contact"
             style={{
               display: "inline-block",
-              background: "#F17F0D",
-              color: "#fff",
+              background: "var(--accent)",
+              color: "var(--text-on-accent)",
               fontWeight: 700,
               fontSize: 16,
               padding: "14px 36px",

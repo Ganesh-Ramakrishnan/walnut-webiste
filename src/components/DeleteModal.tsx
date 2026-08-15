@@ -40,14 +40,14 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "#141414",
-          border: "1px solid #262626",
+          background: "var(--surface-2d)",
+          border: "1px solid var(--border-raised)",
           borderRadius: 16,
           padding: 32,
           maxWidth: 420,
           width: "100%",
           textAlign: "center",
-          boxShadow: "0 20px 60px rgba(0,0,0,0.5)",
+          boxShadow: "0 20px 60px var(--shadow-strong)",
         }}
       >
         {/* Icon */}
@@ -73,14 +73,14 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
         </div>
 
         {/* Title */}
-        <h3 style={{ color: "#fff", fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>
+        <h3 style={{ color: "var(--text-primary)", fontSize: 18, fontWeight: 700, margin: "0 0 8px" }}>
           Delete Blog Post
         </h3>
 
         {/* Message */}
-        <p style={{ color: "#9ca3af", fontSize: 14, lineHeight: 1.6, margin: "0 0 24px" }}>
+        <p style={{ color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.6, margin: "0 0 24px" }}>
           Are you sure you want to delete{" "}
-          <strong style={{ color: "#d1d5db" }}>&quot;{title}&quot;</strong>?
+          <strong style={{ color: "var(--text-secondary-strong)" }}>&quot;{title}&quot;</strong>?
           <br />
           This action cannot be undone.
         </p>
@@ -95,9 +95,9 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
               fontSize: 14,
               fontWeight: 600,
               borderRadius: 8,
-              border: "1px solid #262626",
+              border: "1px solid var(--border-raised)",
               background: "transparent",
-              color: "#9ca3af",
+              color: "var(--text-secondary)",
               cursor: deleting ? "not-allowed" : "pointer",
               minWidth: 100,
             }}
@@ -114,7 +114,7 @@ export default function DeleteModal({ title, onConfirm, onCancel, deleting }: De
               borderRadius: 8,
               border: "1px solid rgba(239, 68, 68, 0.3)",
               background: "rgba(239, 68, 68, 0.15)",
-              color: "#f87171",
+              color: "var(--status-danger-soft)",
               cursor: deleting ? "not-allowed" : "pointer",
               opacity: deleting ? 0.6 : 1,
               minWidth: 120,

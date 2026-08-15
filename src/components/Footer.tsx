@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+import Logo from "@/components/Logo";
 
 const footerLinks: Record<string, { label: string; href: string }[]> = {
   PRODUCT: [
@@ -39,7 +39,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="ft-brand">
             <Link href="/" className="ft-logo-link">
-              <Image src="/assets/logo/Walnut-White.png" alt="WalnutAI" className="ft-logo-img" width={150} height={38} loading="lazy" />
+              <Logo width={150} height={38} className="ft-logo-img" />
             </Link>
             <p className="ft-brand-desc">
               From intent to release. Built fast. Miss Nothing.

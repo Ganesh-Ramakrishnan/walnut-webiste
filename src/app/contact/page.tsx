@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 const contactMethods = [
   {
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 4L12 13 2 4" />
       </svg>
     ),
@@ -64,7 +64,7 @@ const contactMethods = [
   },
   {
     icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
       </svg>
     ),
@@ -80,36 +80,36 @@ export default function ContactPage() {
       <Navbar />
       <main id="main-content" style={{ paddingTop: 80 }}>
         {/* Hero */}
-        <section style={{ background: "#0a0a0a", padding: "80px 24px 40px", textAlign: "center" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "80px 24px 40px", textAlign: "center" }}>
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <p style={{ color: "#F17F0D", fontWeight: 600, fontSize: 14, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 16 }}>
+            <p style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 16 }}>
               Get in Touch
             </p>
-            <h1 style={{ color: "#fff", fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, lineHeight: 1.2, marginBottom: 16 }}>
+            <h1 style={{ color: "var(--text-primary)", fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, lineHeight: 1.2, marginBottom: 16 }}>
               Let&apos;s Build Something{" "}
-              <span style={{ color: "#F17F0D" }}>Together</span>
+              <span style={{ color: "var(--accent)" }}>Together</span>
             </h1>
-            <p style={{ color: "#9ca3af", fontSize: 16, lineHeight: 1.7 }}>
+            <p style={{ color: "var(--text-secondary)", fontSize: 16, lineHeight: 1.7 }}>
               Whether you want a demo, have questions about pricing, or need enterprise support — we&apos;re here to help.
             </p>
           </div>
         </section>
 
         {/* Contact Methods Grid */}
-        <section style={{ background: "#0a0a0a", padding: "0 24px 32px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "0 24px 32px" }}>
           <div style={{ maxWidth: 720, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 }}>
             {contactMethods.map((m) => (
-              <div key={m.title} style={{ background: "#111", border: "1px solid #1a1a1a", borderRadius: 10, padding: "16px 14px", textAlign: "center" }}>
+              <div key={m.title} style={{ background: "var(--surface-2)", border: "1px solid var(--border-muted)", borderRadius: 10, padding: "16px 14px", textAlign: "center" }}>
                 <div style={{ marginBottom: 8, display: "flex", justifyContent: "center" }}>
                   <span style={{ display: "inline-flex", transform: "scale(0.75)" }}>{m.icon}</span>
                 </div>
-                <h3 style={{ color: "#fff", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{m.title}</h3>
+                <h3 style={{ color: "var(--text-primary)", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{m.title}</h3>
                 {m.href ? (
-                  <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ color: "#F17F0D", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
+                  <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
                     {m.detail} &rarr;
                   </a>
                 ) : (
-                  <p style={{ color: "#d1d5db", fontSize: 12, fontWeight: 600, margin: 0 }}>{m.detail}</p>
+                  <p style={{ color: "var(--text-secondary-strong)", fontSize: 12, fontWeight: 600, margin: 0 }}>{m.detail}</p>
                 )}
                 <p style={{ color: "#555", fontSize: 11, marginTop: 4 }}>{m.sub}</p>
               </div>
@@ -121,9 +121,9 @@ export default function ContactPage() {
         <ContactSection />
 
         {/* FAQ */}
-        <section style={{ background: "#0a0a0a", padding: "60px 24px 80px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "60px 24px 80px" }}>
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <h2 style={{ color: "#fff", fontSize: 28, fontWeight: 700, textAlign: "center", marginBottom: 32 }}>
+            <h2 style={{ color: "var(--text-primary)", fontSize: 28, fontWeight: 700, textAlign: "center", marginBottom: 32 }}>
               Frequently Asked Questions
             </h2>
             {[
@@ -133,9 +133,9 @@ export default function ContactPage() {
               { q: "I'm interested in Enterprise. Who do I talk to?", a: "Fill out the form and mention Enterprise in your message. Our solutions team will reach out to discuss your specific requirements, security needs, and pricing." },
               { q: "Where can I find documentation?", a: "Visit docs.walnutai.ai for comprehensive guides, API references, and tutorials to get started with WalnutAI." },
             ].map((faq) => (
-              <div key={faq.q} style={{ borderBottom: "1px solid #1a1a1a", padding: "20px 0" }}>
-                <h3 style={{ color: "#fff", fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{faq.q}</h3>
-                <p style={{ color: "#9ca3af", fontSize: 14, lineHeight: 1.7 }}>{faq.a}</p>
+              <div key={faq.q} style={{ borderBottom: "1px solid var(--border-muted)", padding: "20px 0" }}>
+                <h3 style={{ color: "var(--text-primary)", fontSize: 16, fontWeight: 600, marginBottom: 8 }}>{faq.q}</h3>
+                <p style={{ color: "var(--text-secondary)", fontSize: 14, lineHeight: 1.7 }}>{faq.a}</p>
               </div>
             ))}
           </div>

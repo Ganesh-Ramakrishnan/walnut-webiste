@@ -107,7 +107,7 @@ export default function StepsSection() {
             Find Out What{" "}
             <span className="text-orange">You&apos;re Missing</span>{" "}In 5 Minutes
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
+          <p className="text-text-secondary text-sm sm:text-base max-w-2xl mx-auto">
             Upload one requirements document. Connect one repo. See the gaps.
           </p>
         </AnimateOnScroll>
@@ -137,7 +137,7 @@ export default function StepsSection() {
         <AnimateOnScroll animation="fadeUp" className="mb-8 sm:mb-10">
           <div className="bg-card-bg border border-card-border rounded-xl sm:rounded-2xl px-5 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
             <span className="text-orange font-bold text-sm sm:text-base whitespace-nowrap">Outcome Promise :</span>
-            <p className="text-gray-300 text-xs sm:text-sm leading-relaxed">
+            <p className="text-text-secondary-strong text-xs sm:text-sm leading-relaxed">
               You&apos;ll discover at least 5 things you didn&apos;t know were missing. If not, we&apos;ll personally review your setup for free
             </p>
           </div>

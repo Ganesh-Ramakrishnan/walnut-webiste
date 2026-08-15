@@ -156,7 +156,7 @@ export default function UseCasesSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Use Case &{" "}<span className="text-orange">Scenarios</span>
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base">
+          <p className="text-text-secondary text-sm sm:text-base">
             WalnutAI adapts to your specific development needs
           </p>
         </AnimateOnScroll>

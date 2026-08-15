@@ -72,19 +72,19 @@ export default function FeaturesPage() {
       <Navbar />
       <main
         id="main-content"
-        style={{ paddingTop: 80, background: "linear-gradient(160deg, #1a0e05 0%, #0a1628 25%, #060b18 55%, #0a1628 100%)" }}
+        style={{ paddingTop: 80, background: "linear-gradient(160deg, var(--surface-deep) 0%, var(--surface-1) 25%, var(--page-bg-solid) 55%, var(--surface-1) 100%)" }}
       >
         {/* Hero */}
         <section className="relative px-6 pt-24 pb-12 text-center overflow-hidden">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/10 rounded-full blur-[120px] pointer-events-none" />
           <div className="relative z-10 max-w-5xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-white mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[42px] font-bold text-text-primary mb-6 leading-tight">
               WalnutAI &mdash;{" "}
               <span className="bg-gradient-to-r from-orange-500 to-orange-300 bg-clip-text text-transparent">
                 From Requirements to Code to Tests, Automatically
               </span>
             </h1>
-            <p className="text-neutral-400 text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
+            <p className="text-text-secondary text-base md:text-lg leading-relaxed max-w-4xl mx-auto">
               Most teams manage requirements in one tool, build in another, and test in a third. WalnutAI connects all three. Upload a document and get structured requirements. Assign a story to an AI agent and get a pull request. Run gap analysis and see exactly what isn&apos;t implemented or tested. From idea to shipped feature &mdash; WalnutAI runs the loop.
             </p>
           </div>
@@ -96,7 +96,7 @@ export default function FeaturesPage() {
         {/* CTA */}
         <section className="px-6 pb-24">
           <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }}>
-            <h2 style={{ color: "#fff", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
+            <h2 style={{ color: "var(--text-primary)", fontSize: 30, fontWeight: 700, marginBottom: 16 }}>
               Ready to ship with confidence?
             </h2>
             <p style={{ color: "#888", fontSize: 16, lineHeight: 1.7, marginBottom: 32 }}>
@@ -107,13 +107,13 @@ export default function FeaturesPage() {
                 href={SIGNUP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ display: "inline-block", background: "#F17F0D", color: "#fff", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 50, textDecoration: "none" }}
+                style={{ display: "inline-block", background: "var(--accent)", color: "var(--text-on-accent)", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 50, textDecoration: "none" }}
               >
                 Start Free Trial
               </a>
               <Link
                 href="/pricing"
-                style={{ display: "inline-block", color: "#F17F0D", fontWeight: 600, fontSize: 15, padding: "13px 28px", borderRadius: 50, border: "1px solid rgba(241, 127, 13, 0.3)", textDecoration: "none" }}
+                style={{ display: "inline-block", color: "var(--accent)", fontWeight: 600, fontSize: 15, padding: "13px 28px", borderRadius: 50, border: "1px solid rgba(241, 127, 13, 0.3)", textDecoration: "none" }}
               >
                 View Pricing
               </Link>

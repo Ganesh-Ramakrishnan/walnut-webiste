@@ -81,15 +81,15 @@ export default function FeaturesHighlight() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold" style={{ marginBottom: 16 }}>
             WalnutAI{" "}<span className="text-orange">Features</span>
           </h2>
-          <p style={{ color: "#9ca3af", fontSize: 15, maxWidth: 580, margin: "0 auto", lineHeight: 1.7 }}>
+          <p style={{ color: "var(--text-secondary)", fontSize: 15, maxWidth: 580, margin: "0 auto", lineHeight: 1.7 }}>
             AI-powered requirements, code generation, and automated test case generation across your software delivery lifecycle.
           </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll animation="fadeUp">
-          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", border: "1px solid rgba(255,255,255,0.07)", borderRadius: 20, overflow: "hidden", minHeight: 420 }} className="features-highlight-grid">
+          <div style={{ display: "grid", gridTemplateColumns: "280px 1fr", border: "1px solid var(--border-subtle)", borderRadius: 20, overflow: "hidden", minHeight: 420 }} className="features-highlight-grid">
             {/* Left nav */}
-            <div style={{ background: "rgba(10,22,40,0.6)", borderRight: "1px solid rgba(255,255,255,0.07)", overflowY: "auto" }}>
+            <div style={{ background: "var(--surface-translucent)", borderRight: "1px solid var(--border-subtle)", overflowY: "auto" }}>
               {features.map((item, i) => (
                 <button
                   key={item.href}
@@ -97,32 +97,32 @@ export default function FeaturesHighlight() {
                   style={{
                     width: "100%",
                     padding: "18px 20px",
-                    background: active === i ? "rgba(10,22,40,0.9)" : "transparent",
+                    background: active === i ? "var(--surface-translucent-strong)" : "transparent",
                     border: "none",
-                    borderBottom: "1px solid rgba(255,255,255,0.04)",
-                    borderLeft: active === i ? "3px solid #F17F0D" : "3px solid transparent",
+                    borderBottom: "1px solid var(--border-subtle)",
+                    borderLeft: active === i ? "3px solid var(--accent)" : "3px solid transparent",
                     cursor: "pointer",
                     textAlign: "left",
                     transition: "all 0.2s",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: 10, fontWeight: 800, color: active === i ? "#F17F0D" : "#6b7280", fontFamily: "monospace" }}>{item.num}</span>
-                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "#fff" : "#9ca3af", transition: "color 0.2s" }}>{item.title}</span>
+                    <span style={{ fontSize: 10, fontWeight: 800, color: active === i ? "var(--accent)" : "var(--text-tertiary)", fontFamily: "monospace" }}>{item.num}</span>
+                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "#fff" : "var(--text-secondary)", transition: "color 0.2s" }}>{item.title}</span>
                   </div>
                 </button>
               ))}
             </div>
 
             {/* Right content */}
-            <div style={{ padding: "44px 40px", background: "rgba(6,11,24,0.8)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <div style={{ padding: "44px 40px", background: "var(--surface-overlay)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: 10, marginBottom: 20 }}>
-                <span style={{ fontSize: 48, fontWeight: 900, color: "#F17F0D", lineHeight: 1 }}>{f.stat}</span>
-                <span style={{ fontSize: 13, color: "#9ca3af" }}>{f.statLabel}</span>
+                <span style={{ fontSize: 48, fontWeight: 900, color: "var(--accent)", lineHeight: 1 }}>{f.stat}</span>
+                <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>{f.statLabel}</span>
               </div>
-              <h3 style={{ color: "#fff", fontSize: 24, fontWeight: 800, marginBottom: 14 }}>{f.headline}</h3>
-              <p style={{ color: "#c2c8d1", fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>{f.desc}</p>
-              <Link href={f.href} style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#F17F0D", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+              <h3 style={{ color: "var(--text-primary)", fontSize: 24, fontWeight: 800, marginBottom: 14 }}>{f.headline}</h3>
+              <p style={{ color: "var(--text-body)", fontSize: 15, lineHeight: 1.8, marginBottom: 28 }}>{f.desc}</p>
+              <Link href={f.href} style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "var(--accent)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
                 Explore feature
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="M12 5l7 7-7 7" /></svg>
               </Link>
@@ -132,7 +132,7 @@ export default function FeaturesHighlight() {
 
         <AnimateOnScroll animation="fadeUp">
           <div style={{ textAlign: "center", marginTop: 40 }}>
-            <Link href="/features" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", border: "1px solid rgba(241,127,13,0.25)", borderRadius: 50, color: "#F17F0D", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
+            <Link href="/features" style={{ display: "inline-flex", alignItems: "center", gap: 8, padding: "14px 32px", border: "1px solid rgba(241,127,13,0.25)", borderRadius: 50, color: "var(--accent)", fontSize: 15, fontWeight: 600, textDecoration: "none" }}>
               Explore all features &rarr;
             </Link>
           </div>

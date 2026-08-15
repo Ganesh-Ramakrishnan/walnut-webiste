@@ -35,10 +35,10 @@ interface Props {
 }
 
 const tagStyles: Record<EntryTag, { bg: string; color: string; border: string }> = {
-  NEW: { bg: "rgba(241, 127, 13, 0.12)", color: "#F17F0D", border: "rgba(241, 127, 13, 0.28)" },
-  IMPROVED: { bg: "rgba(59, 130, 246, 0.12)", color: "#60a5fa", border: "rgba(59, 130, 246, 0.28)" },
-  FIXED: { bg: "rgba(16, 185, 129, 0.12)", color: "#34d399", border: "rgba(16, 185, 129, 0.28)" },
-  SECURITY: { bg: "rgba(239, 68, 68, 0.12)", color: "#f87171", border: "rgba(239, 68, 68, 0.28)" },
+  NEW: { bg: "rgba(241, 127, 13, 0.12)", color: "var(--accent)", border: "rgba(241, 127, 13, 0.28)" },
+  IMPROVED: { bg: "rgba(59, 130, 246, 0.12)", color: "var(--status-info-soft)", border: "rgba(59, 130, 246, 0.28)" },
+  FIXED: { bg: "rgba(16, 185, 129, 0.12)", color: "var(--status-success-soft)", border: "rgba(16, 185, 129, 0.28)" },
+  SECURITY: { bg: "rgba(239, 68, 68, 0.12)", color: "var(--status-danger-soft)", border: "rgba(239, 68, 68, 0.28)" },
 };
 
 export default function ChangelogClient({ data }: Props) {

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 const RichTextEditor = dynamic(() => import("@/components/editor/RichTextEditor"), {
-  loading: () => <div style={{ minHeight: 350, display: "flex", alignItems: "center", justifyContent: "center", color: "#6b7280", background: "#080808", border: "1px solid #1a1a1a", borderRadius: 10 }}>Loading editor...</div>,
+  loading: () => <div style={{ minHeight: 350, display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-tertiary)", background: "var(--surface-black)", border: "1px solid var(--border-muted)", borderRadius: 10 }}>Loading editor...</div>,
   ssr: false,
 });
 
@@ -110,7 +110,7 @@ export default function NewBlogPost() {
             {form.category && <span className="d-badge">{form.category}</span>}
             <h1 className="d-preview-title">{form.title || "Untitled"}</h1>
             <p className="d-muted">{form.author} &middot; {new Date().toLocaleDateString()}</p>
-            {form.excerpt && <p style={{ color: "#9ca3af", lineHeight: 1.6, marginTop: 8 }}>{form.excerpt}</p>}
+            {form.excerpt && <p style={{ color: "var(--text-secondary)", lineHeight: 1.6, marginTop: 8 }}>{form.excerpt}</p>}
           </div>
           <div className="d-preview-body" dangerouslySetInnerHTML={{ __html: form.content || "<p>No content yet.</p>" }} />
         </div>
@@ -131,7 +131,7 @@ export default function NewBlogPost() {
                   </div>
                 ) : (
                   <div className="d-img-drop" onClick={() => fileInputRef.current?.click()}>
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4b5563" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                     <p>Click to upload an image</p>
                     <span>SVG, PNG, JPG or WebP (Max 5MB)</span>
                   </div>

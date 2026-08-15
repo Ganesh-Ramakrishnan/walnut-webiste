@@ -24,10 +24,10 @@ export default function FeaturesSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Our{" "}<span className="text-orange">Features</span>
           </h2>
-          <p style={{ color: "#fff", fontSize: 16, fontWeight: 500, marginBottom: 8 }}>
+          <p style={{ color: "var(--text-primary)", fontSize: 16, fontWeight: 500, marginBottom: 8 }}>
             Build exactly what you intended — from requirements to production.
           </p>
-          <p style={{ color: "#9ca3af", fontSize: 14, maxWidth: 600, margin: "0 auto" }}>
+          <p style={{ color: "var(--text-secondary)", fontSize: 14, maxWidth: 600, margin: "0 auto" }}>
             WalnutAI connects documents, design, code, testing, and AI into a single intelligent system,
             eliminating gaps between intent and implementation.
           </p>

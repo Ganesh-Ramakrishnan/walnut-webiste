@@ -119,7 +119,7 @@ export default function PricingSection() {
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Plans That{" "}<span className="text-orange">Pay for Themselves</span>
           </h2>
-          <p className="text-gray-400 text-sm sm:text-base">
+          <p className="text-text-secondary text-sm sm:text-base">
             Start free. Upgrade when WalnutAI starts saving you real release risk.
           </p>
         </AnimateOnScroll>
@@ -158,7 +158,7 @@ export default function PricingSection() {
               {/* Monthly / Annual toggle */}
               {plan.price !== "Custom pricing" && (
                 <div className="pricing-toggle-row">
-                  <span className={`pricing-toggle-label ${!billingCycle[plan.name] ? "text-white" : "text-gray-500"}`}>
+                  <span className={`pricing-toggle-label ${!billingCycle[plan.name] ? "text-text-primary" : "text-text-tertiary"}`}>
                     Monthly
                   </span>
                   <button
@@ -168,7 +168,7 @@ export default function PricingSection() {
                   >
                     <span className="pricing-toggle-knob" />
                   </button>
-                  <span className={`pricing-toggle-label ${billingCycle[plan.name] ? "text-white" : "text-gray-500"}`}>
+                  <span className={`pricing-toggle-label ${billingCycle[plan.name] ? "text-text-primary" : "text-text-tertiary"}`}>
                     Annual
                   </span>
                   {plan.discount && (
@@ -193,8 +193,8 @@ export default function PricingSection() {
                 {plan.features.map((f, i) => (
                   <li key={i}>
                     <svg className="pricing-check" viewBox="0 0 20 20" fill="none">
-                      <circle cx="10" cy="10" r="9" stroke="#F17F0D" strokeWidth="1" />
-                      <path d="M6 10l3 3 5-5" stroke="#F17F0D" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <circle cx="10" cy="10" r="9" stroke="var(--accent)" strokeWidth="1" />
+                      <path d="M6 10l3 3 5-5" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                     {f}
                   </li>

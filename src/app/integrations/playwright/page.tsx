@@ -87,7 +87,7 @@ export default function PlaywrightIntegrationPage() {
         {/* Hero */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "80px 24px 60px",
             textAlign: "center",
           }}
@@ -98,18 +98,18 @@ export default function PlaywrightIntegrationPage() {
             </span>
             <h1
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 44,
                 fontWeight: 800,
                 marginBottom: 16,
                 lineHeight: 1.15,
               }}
             >
-              <span style={{ color: "#F17F0D" }}>Playwright</span> Integration
+              <span style={{ color: "var(--accent)" }}>Playwright</span> Integration
             </h1>
             <p
               style={{
-                color: "#b0b0b0",
+                color: "var(--text-soft)",
                 fontSize: 18,
                 lineHeight: 1.7,
                 maxWidth: 640,
@@ -124,11 +124,11 @@ export default function PlaywrightIntegrationPage() {
         </section>
 
         {/* Overview */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 20,
@@ -136,7 +136,7 @@ export default function PlaywrightIntegrationPage() {
             >
               Overview
             </h2>
-            <div style={{ color: "#b0b0b0", fontSize: 16, lineHeight: 1.8 }}>
+            <div style={{ color: "var(--text-soft)", fontSize: 16, lineHeight: 1.8 }}>
               <p>
                 Playwright is the modern standard for browser automation, and
                 WalnutAI supercharges it with AI-driven test generation,
@@ -169,11 +169,11 @@ export default function PlaywrightIntegrationPage() {
         </section>
 
         {/* Setup Steps */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -188,15 +188,15 @@ export default function PlaywrightIntegrationPage() {
                   style={{
                     display: "flex",
                     gap: 20,
-                    background: "#111",
-                    border: "1px solid #222",
+                    background: "var(--surface-2)",
+                    border: "1px solid var(--border-grey)",
                     borderRadius: 12,
                     padding: "24px",
                   }}
                 >
                   <span
                     style={{
-                      color: "#F17F0D",
+                      color: "var(--accent)",
                       fontSize: 28,
                       fontWeight: 800,
                       lineHeight: 1,
@@ -208,7 +208,7 @@ export default function PlaywrightIntegrationPage() {
                   <div>
                     <h3
                       style={{
-                        color: "#fff",
+                        color: "var(--text-primary)",
                         fontSize: 18,
                         fontWeight: 700,
                         marginBottom: 8,
@@ -218,7 +218,7 @@ export default function PlaywrightIntegrationPage() {
                     </h3>
                     <p
                       style={{
-                        color: "#999",
+                        color: "var(--text-faint)",
                         fontSize: 14,
                         lineHeight: 1.7,
                         margin: 0,
@@ -234,11 +234,11 @@ export default function PlaywrightIntegrationPage() {
         </section>
 
         {/* Capabilities */}
-        <section style={{ background: "#0a0a0a", padding: "40px 24px 60px" }}>
+        <section style={{ background: "var(--surface-2b)", padding: "40px 24px 60px" }}>
           <div style={{ maxWidth: 800, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 32,
@@ -251,15 +251,15 @@ export default function PlaywrightIntegrationPage() {
                 <div
                   key={cap.title}
                   style={{
-                    background: "#111",
-                    border: "1px solid #222",
+                    background: "var(--surface-2)",
+                    border: "1px solid var(--border-grey)",
                     borderRadius: 12,
                     padding: "24px",
                   }}
                 >
                   <h3
                     style={{
-                      color: "#F17F0D",
+                      color: "var(--accent)",
                       fontSize: 17,
                       fontWeight: 700,
                       marginBottom: 8,
@@ -269,7 +269,7 @@ export default function PlaywrightIntegrationPage() {
                   </h3>
                   <p
                     style={{
-                      color: "#999",
+                      color: "var(--text-faint)",
                       fontSize: 14,
                       lineHeight: 1.7,
                       margin: 0,
@@ -286,7 +286,7 @@ export default function PlaywrightIntegrationPage() {
         {/* CTA */}
         <section
           style={{
-            background: "#0a0a0a",
+            background: "var(--surface-2b)",
             padding: "40px 24px 100px",
             textAlign: "center",
           }}
@@ -294,7 +294,7 @@ export default function PlaywrightIntegrationPage() {
           <div style={{ maxWidth: 600, margin: "0 auto" }}>
             <h2
               style={{
-                color: "#fff",
+                color: "var(--text-primary)",
                 fontSize: 28,
                 fontWeight: 700,
                 marginBottom: 16,
@@ -304,7 +304,7 @@ export default function PlaywrightIntegrationPage() {
             </h2>
             <p
               style={{
-                color: "#999",
+                color: "var(--text-faint)",
                 fontSize: 16,
                 marginBottom: 32,
                 lineHeight: 1.7,
@@ -318,8 +318,8 @@ export default function PlaywrightIntegrationPage() {
                 href="/contact"
                 style={{
                   display: "inline-block",
-                  background: "#F17F0D",
-                  color: "#fff",
+                  background: "var(--accent)",
+                  color: "var(--text-on-accent)",
                   padding: "14px 32px",
                   borderRadius: 8,
                   fontWeight: 700,
@@ -334,13 +334,13 @@ export default function PlaywrightIntegrationPage() {
                 style={{
                   display: "inline-block",
                   background: "transparent",
-                  color: "#F17F0D",
+                  color: "var(--accent)",
                   padding: "14px 32px",
                   borderRadius: 8,
                   fontWeight: 700,
                   fontSize: 15,
                   textDecoration: "none",
-                  border: "1px solid #F17F0D",
+                  border: "1px solid var(--accent)",
                 }}
               >
                 All Integrations

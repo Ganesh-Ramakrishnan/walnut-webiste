@@ -70,7 +70,7 @@ export default function BlogPostContent({ post, relatedPosts }: BlogPostContentP
   });
 
   return (
-    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#d1d5db", paddingTop: 80 }}>
+    <div style={{ background: "var(--surface-2b)", minHeight: "100vh", color: "var(--text-secondary-strong)", paddingTop: 80 }}>
       <Navbar />
 
       {/* Hero image */}

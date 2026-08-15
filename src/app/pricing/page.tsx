@@ -209,10 +209,10 @@ const faqJsonLd = {
 function Check() {
   return (
     <svg className="pricing-check" viewBox="0 0 20 20" fill="none">
-      <circle cx="10" cy="10" r="9" stroke="#F17F0D" strokeWidth="1" />
+      <circle cx="10" cy="10" r="9" stroke="var(--accent)" strokeWidth="1" />
       <path
         d="M6 10l3 3 5-5"
-        stroke="#F17F0D"
+        stroke="var(--accent)"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -239,7 +239,7 @@ export default function PricingPage() {
 
       <Navbar />
 
-      <main id="main-content" style={{ paddingTop: 80, background: "#0a0a0a", color: "#ffffff" }}>
+      <main id="main-content" style={{ paddingTop: 80, background: "var(--surface-2b)", color: "var(--text-primary)" }}>
         {/* ============================================================ */}
         {/*  HERO                                                        */}
         {/* ============================================================ */}
@@ -253,9 +253,9 @@ export default function PricingPage() {
             }}
           >
             Plans That{" "}
-            <span style={{ color: "#F17F0D" }}>Pay for Themselves</span>
+            <span style={{ color: "var(--accent)" }}>Pay for Themselves</span>
           </h1>
-          <p style={{ color: "#9ca3af", maxWidth: 560, margin: "0 auto", fontSize: "1.05rem" }}>
+          <p style={{ color: "var(--text-secondary)", maxWidth: 560, margin: "0 auto", fontSize: "1.05rem" }}>
             Start free. Upgrade when WalnutAI starts saving you real release
             risk. Every plan includes a 14-day trial.
           </p>
@@ -275,7 +275,7 @@ export default function PricingPage() {
         >
           <span
             className="pricing-toggle-label"
-            style={{ color: !annual ? "#ffffff" : "#6b7280" }}
+            style={{ color: !annual ? "#ffffff" : "var(--text-tertiary)" }}
           >
             Monthly
           </span>
@@ -288,7 +288,7 @@ export default function PricingPage() {
           </button>
           <span
             className="pricing-toggle-label"
-            style={{ color: annual ? "#ffffff" : "#6b7280" }}
+            style={{ color: annual ? "#ffffff" : "var(--text-tertiary)" }}
           >
             Annual
           </span>
@@ -340,7 +340,7 @@ export default function PricingPage() {
                     <div className="pricing-toggle-row">
                       <span
                         className="pricing-toggle-label"
-                        style={{ color: !annual ? "#ffffff" : "#6b7280" }}
+                        style={{ color: !annual ? "#ffffff" : "var(--text-tertiary)" }}
                       >
                         Monthly
                       </span>
@@ -353,7 +353,7 @@ export default function PricingPage() {
                       </button>
                       <span
                         className="pricing-toggle-label"
-                        style={{ color: annual ? "#ffffff" : "#6b7280" }}
+                        style={{ color: annual ? "#ffffff" : "var(--text-tertiary)" }}
                       >
                         Annual
                       </span>
@@ -378,7 +378,7 @@ export default function PricingPage() {
 
                   {/* Features */}
                   {("includes" in plan && plan.includes) && (
-                    <p style={{ color: "#F17F0D", fontSize: 13, fontWeight: 700, marginBottom: 12 }}>
+                    <p style={{ color: "var(--accent)", fontSize: 13, fontWeight: 700, marginBottom: 12 }}>
                       {plan.includes as string}
                     </p>
                   )}
@@ -407,16 +407,16 @@ export default function PricingPage() {
           </div>
 
           {/* AutoBot Add-on — inside pricing section */}
-          <div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 20, padding: "32px 32px", marginTop: 20, position: "relative", overflow: "hidden" }}>
-            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(to right, #F17F0D, #FF9D42)" }} />
+          <div style={{ background: "var(--surface-2)", border: "1px solid var(--border-inset)", borderRadius: 20, padding: "32px 32px", marginTop: 20, position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "linear-gradient(to right, var(--accent), #FF9D42)" }} />
             <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 32 }}>
               <div style={{ flex: "1 1 320px" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-                  <h3 style={{ color: "#fff", fontSize: 20, fontWeight: 800, margin: 0 }}>AutoBot</h3>
-                  <span style={{ background: "rgba(241, 127, 13, 0.1)", border: "1px solid rgba(241, 127, 13, 0.3)", color: "#F17F0D", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 50 }}>ADD-ON (Custom Pricing)</span>
+                  <h3 style={{ color: "var(--text-primary)", fontSize: 20, fontWeight: 800, margin: 0 }}>AutoBot</h3>
+                  <span style={{ background: "rgba(241, 127, 13, 0.1)", border: "1px solid rgba(241, 127, 13, 0.3)", color: "var(--accent)", fontSize: 11, fontWeight: 700, padding: "3px 10px", borderRadius: 50 }}>ADD-ON (Custom Pricing)</span>
                 </div>
-                <p style={{ color: "#6b7280", fontSize: 12, marginBottom: 12 }}>Available across all licenses</p>
-                <p style={{ color: "#d1d5db", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
+                <p style={{ color: "var(--text-tertiary)", fontSize: 12, marginBottom: 12 }}>Available across all licenses</p>
+                <p style={{ color: "var(--text-secondary-strong)", fontSize: 14, lineHeight: 1.7, margin: 0 }}>
                   AutoBot helps you go from an idea to a fully built application, while keeping everything in sync — requirements, development, and test cases — so nothing gets missed.
                 </p>
               </div>
@@ -431,8 +431,8 @@ export default function PricingPage() {
                     "Reflects any changes across all parts without manual effort",
                   ].map((item) => (
                     <li key={item} style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
-                      <span style={{ color: "#F17F0D", marginTop: 2, flexShrink: 0 }}>&#10003;</span>
-                      <span style={{ color: "#d1d5db", fontSize: 13, lineHeight: 1.6 }}>{item}</span>
+                      <span style={{ color: "var(--accent)", marginTop: 2, flexShrink: 0 }}>&#10003;</span>
+                      <span style={{ color: "var(--text-secondary-strong)", fontSize: 13, lineHeight: 1.6 }}>{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -459,7 +459,7 @@ export default function PricingPage() {
               marginBottom: 40,
             }}
           >
-            Feature <span style={{ color: "#F17F0D" }}>Comparison</span>
+            Feature <span style={{ color: "var(--accent)" }}>Comparison</span>
           </h2>
 
           <div style={{ overflowX: "auto" }}>
@@ -473,14 +473,14 @@ export default function PricingPage() {
               <thead>
                 <tr
                   style={{
-                    borderBottom: "1px solid #1e1e1e",
+                    borderBottom: "1px solid var(--border-inset)",
                   }}
                 >
                   <th
                     style={{
                       textAlign: "left",
                       padding: "12px 16px",
-                      color: "#9ca3af",
+                      color: "var(--text-secondary)",
                       fontWeight: 600,
                       fontSize: 13,
                     }}
@@ -493,7 +493,7 @@ export default function PricingPage() {
                       style={{
                         textAlign: "center",
                         padding: "12px 16px",
-                        color: h === "Team" ? "#F17F0D" : "#ffffff",
+                        color: h === "Team" ? "var(--accent)" : "#ffffff",
                         fontWeight: 700,
                         fontSize: 14,
                       }}
@@ -508,14 +508,14 @@ export default function PricingPage() {
                   <tr
                     key={feature}
                     style={{
-                      borderBottom: "1px solid #141414",
-                      background: idx % 2 === 0 ? "transparent" : "#0d0d0d",
+                      borderBottom: "1px solid var(--border-muted)",
+                      background: idx % 2 === 0 ? "transparent" : "var(--surface-2c)",
                     }}
                   >
                     <td
                       style={{
                         padding: "10px 16px",
-                        color: "#d1d5db",
+                        color: "var(--text-secondary-strong)",
                         fontSize: 13,
                       }}
                     >
@@ -529,10 +529,10 @@ export default function PricingPage() {
                           padding: "10px 16px",
                           color:
                             val === "\u2713"
-                              ? "#F17F0D"
+                              ? "var(--accent)"
                               : val === "\u2014"
-                              ? "#333"
-                              : "#d1d5db",
+                              ? "var(--border-strong)"
+                              : "var(--text-secondary-strong)",
                           fontSize: 13,
                           fontWeight: val === "\u2713" ? 700 : 400,
                         }}
@@ -566,7 +566,7 @@ export default function PricingPage() {
             }}
           >
             Frequently Asked{" "}
-            <span style={{ color: "#F17F0D" }}>Questions</span>
+            <span style={{ color: "var(--accent)" }}>Questions</span>
           </h2>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
@@ -576,8 +576,8 @@ export default function PricingPage() {
                 <div
                   key={i}
                   style={{
-                    background: "#0d0d0d",
-                    border: "1px solid #1e1e1e",
+                    background: "var(--surface-2c)",
+                    border: "1px solid var(--border-inset)",
                     borderRadius: 12,
                     overflow: "hidden",
                   }}
@@ -593,7 +593,7 @@ export default function PricingPage() {
                       padding: "16px 20px",
                       background: "transparent",
                       border: "none",
-                      color: "#ffffff",
+                      color: "var(--text-primary)",
                       fontSize: 15,
                       fontWeight: 600,
                       cursor: "pointer",
@@ -603,7 +603,7 @@ export default function PricingPage() {
                     {faq.q}
                     <span
                       style={{
-                        color: "#F17F0D",
+                        color: "var(--accent)",
                         fontSize: 22,
                         lineHeight: 1,
                         transition: "transform 0.2s",
@@ -619,7 +619,7 @@ export default function PricingPage() {
                     <div
                       style={{
                         padding: "0 20px 16px",
-                        color: "#9ca3af",
+                        color: "var(--text-secondary)",
                         fontSize: 14,
                         lineHeight: 1.7,
                       }}
@@ -652,11 +652,11 @@ export default function PricingPage() {
             }}
           >
             Ready to Ship{" "}
-            <span style={{ color: "#F17F0D" }}>With Confidence?</span>
+            <span style={{ color: "var(--accent)" }}>With Confidence?</span>
           </h2>
           <p
             style={{
-              color: "#9ca3af",
+              color: "var(--text-secondary)",
               maxWidth: 520,
               margin: "0 auto 32px",
               fontSize: "1.05rem",
@@ -670,8 +670,8 @@ export default function PricingPage() {
             rel="noopener noreferrer"
             style={{
               display: "inline-block",
-              background: "#F17F0D",
-              color: "#ffffff",
+              background: "var(--accent)",
+              color: "var(--text-on-accent)",
               fontWeight: 700,
               fontSize: 16,
               padding: "14px 40px",
@@ -680,10 +680,10 @@ export default function PricingPage() {
               transition: "background 0.2s",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#e06f00")
+              ((e.currentTarget as HTMLAnchorElement).style.background = "var(--accent-hover)")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.background = "#F17F0D")
+              ((e.currentTarget as HTMLAnchorElement).style.background = "var(--accent)")
             }
           >
             Get Started Free
