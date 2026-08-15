@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import HackathonBanner from "@/components/HackathonBanner";
 import Hero from "@/components/Hero";
 import StepsSection from "@/components/StepsSection";
 import AchievementsSection from "@/components/AchievementsSection";
@@ -11,6 +12,7 @@ export default function Home() {
     <>
       <Navbar />
       <main id="main-content">
+        <HackathonBanner />
         <Hero />
         <StepsSection />
         <AchievementsSection />

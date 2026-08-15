@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { SIGNUP_URL } from "@/lib/links";
 
 const products = [
   { name: "WalnutAI Intelligence Hub", href: "/features/intelligence-hub" },
@@ -21,6 +22,7 @@ const resources = [
   [
     { name: "Blog", href: "/blog" },
     { name: "Reports", href: "/resources/reports" },
+    { name: "Events", href: "/hackathon" },
     { name: "Community", href: "https://discord.com/invite/Tcw88yu6q", external: true },
     { name: "Contact Us", href: "/contact" },
   ],
@@ -234,7 +236,7 @@ export default function Navbar() {
               )}
             </div>
 
-            <a href="https://app.walnutai.ai" target="_blank" rel="noopener noreferrer" className="nav-cta">
+            <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer" className="nav-cta">
               Sign up
             </a>
           </div>
@@ -342,7 +344,7 @@ export default function Navbar() {
             )}
           </div>
           <a
-            href="https://app.walnutai.ai"
+            href={SIGNUP_URL}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileOpen(false)}

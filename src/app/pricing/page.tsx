@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SIGNUP_URL } from "@/lib/links";
 
 /* ------------------------------------------------------------------ */
 /*  Data                                                               */
@@ -16,6 +17,7 @@ const plans = [
     annual: "$0",
     discount: "",
     cta: "Start Free Trial",
+    ctaHref: SIGNUP_URL,
     highlighted: false,
     outcomes: [
       "Build applications, websites by simply describing your idea (prompt-to-development)",
@@ -45,6 +47,7 @@ const plans = [
     annual: "$15",
     discount: "-10%",
     cta: "Upgrade to Explorer",
+    ctaHref: "/contact",
     highlighted: false,
     outcomes: [
       "Save 15+ hours/sprint",
@@ -71,6 +74,7 @@ const plans = [
     annual: "$60",
     discount: "-10%",
     cta: "Start Team Trial",
+    ctaHref: SIGNUP_URL,
     highlighted: true,
     includes: "Explorer features plus:",
     outcomes: [
@@ -99,6 +103,7 @@ const plans = [
     annual: "",
     discount: "",
     cta: "Talk to Us",
+    ctaHref: "/contact",
     highlighted: false,
     includes: "Team features plus:",
     outcomes: [
@@ -388,7 +393,10 @@ export default function PricingPage() {
 
                   {/* CTA */}
                   <a
-                    href="/contact"
+                    href={plan.ctaHref}
+                    {...(plan.ctaHref === SIGNUP_URL
+                      ? { target: "_blank", rel: "noopener noreferrer" }
+                      : {})}
                     className={`pricing-cta${plan.highlighted ? " pricing-cta-highlighted" : ""}`}
                   >
                     {plan.cta}
@@ -657,7 +665,9 @@ export default function PricingPage() {
             Start your 14-day free trial today. No credit card required.
           </p>
           <a
-            href="/contact"
+            href={SIGNUP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             style={{
               display: "inline-block",
               background: "#F17F0D",

@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { FAQAccordion } from "@/components/FeaturePageUI";
 import Image from "next/image";
 import { ArrowLeft, MessageSquare } from "lucide-react";
+import { SIGNUP_URL } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "External MCP Integration \u2014 Every Tool Your Team Uses, Available Inside WalnutAI\u2019s Code Editor | WalnutAI",
@@ -245,12 +246,14 @@ export default function MCPIntegrationPage() {
               deployment into one intelligent workflow.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link
-                href="/contact"
+              <a
+                href={SIGNUP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-orange-500 text-white font-semibold transition-colors hover:bg-orange-600"
               >
                 Start Free Trial
-              </Link>
+              </a>
               <Link
                 href="/pricing"
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-orange-500/25 text-neutral-300 font-medium transition-colors hover:border-orange-500/50 hover:text-white"

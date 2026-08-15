@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FeaturesContent from "@/components/FeaturesContent";
+import { SIGNUP_URL } from "@/lib/links";
 
 export const metadata: Metadata = {
   title:
@@ -102,12 +103,14 @@ export default function FeaturesPage() {
               See how WalnutAI connects requirements, code, testing, and deployment into one intelligent workflow.
             </p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              <Link
-                href="/contact"
+              <a
+                href={SIGNUP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 style={{ display: "inline-block", background: "#F17F0D", color: "#fff", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 50, textDecoration: "none" }}
               >
                 Start Free Trial
-              </Link>
+              </a>
               <Link
                 href="/pricing"
                 style={{ display: "inline-block", color: "#F17F0D", fontWeight: 600, fontSize: 15, padding: "13px 28px", borderRadius: 50, border: "1px solid rgba(241, 127, 13, 0.3)", textDecoration: "none" }}

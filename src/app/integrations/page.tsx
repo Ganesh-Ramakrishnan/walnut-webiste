@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SIGNUP_URL } from "@/lib/links";
 
 export const metadata: Metadata = {
   title: "Integrations - Your Tools. Your Workflow. Now Supercharged by AI.",
@@ -173,9 +174,14 @@ export default function IntegrationsPage() {
               WalnutAI plugs directly into the tools your engineering, QA, and product teams already use. No setup scripts. No API keys. Just connect and go.
             </p>
             <div className="intg-hero-actions">
-              <Link href="https://app.walnutai.ai" className="intg-hero-cta">
+              <a
+                href={SIGNUP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="intg-hero-cta"
+              >
                 Get started free
-              </Link>
+              </a>
               <Link href="/contact" className="intg-hero-cta-alt">
                 Request a demo
               </Link>
