@@ -40,56 +40,54 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="relative py-16 sm:py-24 overflow-hidden">
-      <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 24px" }}>
+      <div style={{ maxWidth: 980, margin: "0 auto", padding: "0 24px" }}>
         {/* Header */}
         <AnimateOnScroll animation="fadeUp" className="text-center mb-10 sm:mb-14">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4">
             Contact{" "}<span className="text-orange">Us</span>
           </h2>
+          <p className="ct-lede">
+            Tell us what you are shipping and we will come back with a plan — usually the same working day.
+          </p>
         </AnimateOnScroll>
 
         <AnimateOnScroll animation="fadeUp">
           <div className="ct-card">
             {/* Left info panel */}
             <div className="ct-info-panel">
-              <div>
-                <p style={{ color: "var(--text-secondary-strong)", fontSize: 16, lineHeight: 1.6, marginBottom: 28 }}>
+              <div className="ct-info-top">
+                <span className="ct-info-badge">
+                  <span className="ct-info-dot" aria-hidden="true" />
+                  Replies in 24h
+                </span>
+                <h3 className="ct-info-title">Talk to the team building it</h3>
+                <p className="ct-info-lede">
                   Start free. Upgrade when WalnutAI starts saving you real release risk.
                 </p>
-                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="4" width="20" height="16" rx="2" />
-                    <path d="M22 4L12 13 2 4" />
-                  </svg>
-                  <span style={{ color: "var(--text-secondary-strong)", fontSize: 14 }}>contact@walnutai.ai</span>
-                </div>
+
+                <ul className="ct-list">
+                  {["A live walkthrough on your codebase", "Pricing and enterprise options", "No credit card to get started"].map((item) => (
+                    <li key={item} className="ct-list-item">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
 
-              {/* Orange radial glow — bottom left */}
-              <div style={{
-                position: "absolute" as const,
-                bottom: 0,
-                left: 0,
-                width: "65%",
-                height: "35%",
-                borderRadius: "0 0 16px 16px",
-                background: "radial-gradient(at 18% 110%, rgba(241, 127, 13, 0.35) 0%, rgba(241, 127, 13, 0.12) 50%, transparent 75%)",
-                pointerEvents: "none",
-              }} />
-              {/* Dot grid pattern */}
-              <div style={{
-                position: "absolute" as const,
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: "40%",
-                width: "65%",
-                pointerEvents: "none",
-                backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.35) 1px, transparent 1px)",
-                backgroundSize: "20px 20px",
-                backgroundPosition: "10px 10px",
-                borderRadius: "0 0 16px 16px",
-              }} />
+              <a href="mailto:contact@walnutai.ai" className="ct-mail">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="M22 4L12 13 2 4" />
+                </svg>
+                contact@walnutai.ai
+              </a>
+
+              {/* Accent glow + dot grid, purely decorative. */}
+              <span className="ct-info-glow" aria-hidden="true" />
+              <span className="ct-info-dots" aria-hidden="true" />
             </div>
 
             {/* Right form */}
@@ -131,48 +129,55 @@ export default function ContactSection() {
                   <p style={{ color: "var(--text-secondary)", fontSize: 14, margin: 0, maxWidth: 320, lineHeight: 1.6 }}>Our Team will get in touch with you shortly!</p>
                 </div>
               ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" as const, gap: 24, height: "100%" }}>
+              <form onSubmit={handleSubmit} className="ct-form">
                 {/* Name */}
                 <div className="ct-field">
-                  <label htmlFor="contact-name" className="ct-label">Name</label>
-                  <input id="contact-name" type="text" name="name" value={form.name} onChange={handleChange} className="ct-input" required />
+                  <label htmlFor="contact-name" className="ct-label">Name <span className="ct-req">*</span></label>
+                  <input id="contact-name" type="text" name="name" value={form.name} onChange={handleChange} className="ct-input" placeholder="Jane Cooper" required />
                 </div>
 
                 {/* Email + Phone */}
                 <div className="ct-field-row">
-                  <div className="ct-field" style={{ flex: 1 }}>
-                    <label htmlFor="contact-email" className="ct-label">Email</label>
-                    <input id="contact-email" type="email" name="email" value={form.email} onChange={handleChange} className="ct-input" required />
+                  <div className="ct-field">
+                    <label htmlFor="contact-email" className="ct-label">Email <span className="ct-req">*</span></label>
+                    <input id="contact-email" type="email" name="email" value={form.email} onChange={handleChange} className="ct-input" placeholder="jane@company.com" required />
                   </div>
-                  <div className="ct-field" style={{ flex: 1 }}>
+                  <div className="ct-field">
                     <label htmlFor="contact-phone" className="ct-label">Phone No</label>
-                    <input id="contact-phone" type="tel" name="phone" value={form.phone} onChange={handleChange} className="ct-input" />
+                    <input id="contact-phone" type="tel" name="phone" value={form.phone} onChange={handleChange} className="ct-input" placeholder="Optional" />
                   </div>
                 </div>
 
                 {/* Organization + Role */}
                 <div className="ct-field-row">
-                  <div className="ct-field" style={{ flex: 1 }}>
+                  <div className="ct-field">
                     <label htmlFor="contact-organization" className="ct-label">Organization</label>
-                    <input id="contact-organization" type="text" name="organization" value={form.organization} onChange={handleChange} className="ct-input" />
+                    <input id="contact-organization" type="text" name="organization" value={form.organization} onChange={handleChange} className="ct-input" placeholder="Company name" />
                   </div>
-                  <div className="ct-field" style={{ flex: 1 }}>
+                  <div className="ct-field">
                     <label htmlFor="contact-role" className="ct-label">Role</label>
-                    <input id="contact-role" type="text" name="role" value={form.role} onChange={handleChange} className="ct-input" />
+                    <input id="contact-role" type="text" name="role" value={form.role} onChange={handleChange} className="ct-input" placeholder="e.g. QA Lead" />
                   </div>
                 </div>
 
-                {/* Message */}
+                {/* Message — a textarea, so a real message fits. */}
                 <div className="ct-field">
-                  <label htmlFor="contact-message" className="ct-label">Message</label>
-                  <input id="contact-message" type="text" name="message" value={form.message} onChange={handleChange} className="ct-input" required />
+                  <label htmlFor="contact-message" className="ct-label">Message <span className="ct-req">*</span></label>
+                  <textarea id="contact-message" name="message" value={form.message} onChange={handleChange} className="ct-input ct-textarea" rows={4} placeholder="What are you building, and where does release risk hurt today?" required />
                 </div>
 
                 {/* Submit */}
-                <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", gap: 16, marginTop: "auto" }}>
-                  {status === "error" && <span style={{ color: "var(--status-danger)", fontSize: 14 }}>Something went wrong. Please try again.</span>}
+                <div className="ct-actions">
+                  {status === "error"
+                    ? <span className="ct-error">Something went wrong. Please try again.</span>
+                    : <span className="ct-note">We never share your details.</span>}
                   <button type="submit" className="ct-submit" disabled={status === "sending"}>
-                    {status === "sending" ? "Sending..." : "Submit"}
+                    {status === "sending" ? "Sending…" : "Send message"}
+                    {status !== "sending" && (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M5 12h14" /><path d="M13 6l6 6-6 6" />
+                      </svg>
+                    )}
                   </button>
                 </div>
               </form>
