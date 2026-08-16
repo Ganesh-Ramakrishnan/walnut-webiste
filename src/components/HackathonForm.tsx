@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { ArrowRight, Check, LoaderCircle, ChevronDown } from "lucide-react";
+import { DISCORD_URL } from "@/lib/links";
 
-const DISCORD_URL = "https://discord.com/invite/Tcw88yu6q";
 
 const ROLES = [
   { value: "qa-engineer", label: "QA Engineer" },

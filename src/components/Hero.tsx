@@ -3,7 +3,7 @@
 import gsap from "gsap";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
-import { SIGNUP_URL } from "@/lib/links";
+import { DEMO_URL, SIGNUP_URL } from "@/lib/links";
 
 const stats = [
   { value: "96%", label: "Avg Requirement\nCoverage" },
@@ -58,7 +58,7 @@ export default function Hero() {
           <a href={SIGNUP_URL} target="_blank" rel="noopener noreferrer" className="hero-btn-primary">
             Start Free Trial &rarr;
           </a>
-          <a href="#features" className="hero-btn-secondary">
+          <a href={DEMO_URL} target="_blank" rel="noopener noreferrer" className="hero-btn-secondary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginRight: 6 }}>
               <circle cx="12" cy="12" r="10" /><polygon points="10 8 16 12 10 16 10 8" />
             </svg>

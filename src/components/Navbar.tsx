@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { SIGNUP_URL } from "@/lib/links";
+import { DISCORD_URL, SIGNUP_URL } from "@/lib/links";
 import Logo from "@/components/Logo";
 
 const products = [
@@ -23,7 +23,7 @@ const resources = [
     { name: "Blog", href: "/blog" },
     { name: "Reports", href: "/resources/reports" },
     { name: "Events", href: "/hackathon" },
-    { name: "Community", href: "https://discord.com/invite/Tcw88yu6q", external: true },
+    { name: "Community", href: DISCORD_URL, external: true },
     { name: "Contact Us", href: "/contact" },
   ],
 ];
