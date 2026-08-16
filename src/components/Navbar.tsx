@@ -8,7 +8,7 @@ import Logo from "@/components/Logo";
 
 const products = [
   { name: "WalnutAI Intelligence Hub", href: "/features/intelligence-hub" },
-  { name: "Walnut for VS Code", href: "/features/vscode-extension" },
+  { name: "WalnutAI for VS Code", href: "/features/vscode-extension" },
   { name: "WalnutAI Autopilot", href: "/features/cloud-agent" },
   { name: "WalnutAI for Jira/Azure", href: "/features/jira-azure-import" },
 ];

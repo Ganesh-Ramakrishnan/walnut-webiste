@@ -37,7 +37,7 @@ var TEAM_HEADERS = []
   .concat(personHeaders('Member 1'))
   .concat(personHeaders('Member 2'))
   .concat(personHeaders('Member 3'))
-  .concat(['Project Idea', 'Agreed Terms', 'Agreed Showcase', 'Newsletter Opt-in']);
+  .concat(['Project Idea', 'Newsletter Opt-in']);
 
 var MEMBER_HEADERS = [
   'Submitted At',
@@ -76,8 +76,6 @@ function doPost(e) {
       .concat(personCells(members[2]))
       .concat([
         d.projectIdea || '',
-        d.agreeTerms ? 'Yes' : 'No',
-        d.agreeIP ? 'Yes' : 'No',
         d.agreeNewsletter ? 'Yes' : 'No'
       ]);
 

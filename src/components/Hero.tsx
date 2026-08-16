@@ -74,8 +74,14 @@ export default function Hero() {
           <span className="hero-trust-sep">&middot;</span>
           <span className="hero-trust-item">&#10003; GDPR Ready</span>
         </div>
-        <div className="hero-anim hero-trust" style={{ marginTop: 4 }}>
-          <span className="hero-trust-item">&#10003; Works with Jira, GitHub, GitLab &amp; Azure DevOps</span>
+        <div className="hero-anim hero-trust" style={{ marginTop: 10 }}>
+          <span className="hero-bench">
+            <strong className="hero-bench-score">87.8%</strong>
+            <span className="hero-bench-rule" aria-hidden="true" />
+            <span className="hero-bench-label">SWE-BENCHMARKED</span>
+            <span className="hero-bench-dot" aria-hidden="true">&middot;</span>
+            <span className="hero-bench-detail">439 of 500 real GitHub issues resolved</span>
+          </span>
         </div>
 
         {/* Stats */}

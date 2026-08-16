@@ -8,12 +8,15 @@ type LogoProps = {
 };
 
 /**
- * Theme-aware WalnutAI logo.
+ * WalnutAI logo.
  *
- * Both lockups are rendered and CSS shows exactly one, so the correct logo is
- * present in the server-rendered HTML and swaps with the theme without a
- * client round-trip or a hydration mismatch. The hidden one uses display:none,
- * so screen readers only announce the visible lockup.
+ * One asset for both themes. The lockup is white, so the light theme darkens
+ * it in CSS (see .logo-img in globals.css) — that renders it monochrome and
+ * loses the orange mark, but keeps the correct "WalnutAI" wordmark.
+ *
+ * The repo's walnut-logo.svg is an older lockup reading just "Walnut", so it
+ * cannot stand in for the light theme. Replace this with a proper dark-text
+ * lockup when one exists and drop the filter.
  */
 export default function Logo({
   width = 180,
@@ -22,27 +25,13 @@ export default function Logo({
   priority = false,
 }: LogoProps) {
   return (
-    <>
-      <Image
-        src="/assets/logo/Walnut-White.png"
-        alt="WalnutAI"
-        width={width}
-        height={height}
-        className={`logo-img logo-img--dark ${className}`}
-        priority={priority}
-      />
-      {/* Built from public/assets/walnut-logo.svg with the white fills swapped
-          for slate; the orange mark is untouched. `unoptimized` because Next's
-          image optimizer rejects SVG unless dangerouslyAllowSVG is enabled. */}
-      <Image
-        src="/assets/logo/Walnut-Dark.svg"
-        alt="WalnutAI"
-        width={width}
-        height={height}
-        className={`logo-img logo-img--light ${className}`}
-        priority={priority}
-        unoptimized
-      />
-    </>
+    <Image
+      src="/assets/logo/Walnut-White.png"
+      alt="WalnutAI"
+      width={width}
+      height={height}
+      className={`logo-img ${className}`}
+      priority={priority}
+    />
   );
 }

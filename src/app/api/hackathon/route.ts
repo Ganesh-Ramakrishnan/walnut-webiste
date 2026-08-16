@@ -107,10 +107,6 @@ export async function POST(req: NextRequest) {
   if (!projectIdea || projectIdea.length > MAX_IDEA) {
     return NextResponse.json({ error: "A project idea is required" }, { status: 400 });
   }
-  if (body.agreeTerms !== true || body.agreeIP !== true) {
-    return NextResponse.json({ error: "Both agreements must be accepted" }, { status: 400 });
-  }
-
   const leadResult = readPerson(body.lead, "Team lead");
   if (leadResult.error) return NextResponse.json({ error: leadResult.error }, { status: 400 });
   const lead = leadResult.person!;
@@ -155,8 +151,6 @@ export async function POST(req: NextRequest) {
         company,
         teamSize,
         projectIdea,
-        agreeTerms: body.agreeTerms === true,
-        agreeIP: body.agreeIP === true,
         agreeNewsletter: body.agreeNewsletter === true,
         lead,
         members,

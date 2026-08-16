@@ -388,28 +388,12 @@
   }
 }
 
-/* Theme-aware logo: both lockups ship in the markup, CSS reveals one. */
-.logo-img--light {
-  display: none;
-}
-
-:root[data-theme="light"] .logo-img--light {
-  display: block;
-  /* The SVG is tight-cropped to the artwork, so width sets the size with no
-     transparent padding around the mark. Height follows the 2:1 ratio. */
-  width: 120px;
-  height: auto;
-  max-width: 100%;
-}
-
-@media (max-width: 640px) {
-  :root[data-theme="light"] .logo-img--light {
-    width: 100px;
-  }
-}
-
-:root[data-theme="light"] .logo-img--dark {
-  display: none;
+/* The logo asset is a white "WalnutAI" lockup, so the light theme darkens it
+   to stay legible on white. This is monochrome — it loses the orange mark —
+   and should be replaced by a proper dark lockup when one exists. */
+:root[data-theme="light"] .logo-img {
+  filter: brightness(0) saturate(100%) invert(9%) sepia(19%) saturate(2113%)
+    hue-rotate(191deg) brightness(96%) contrast(97%);
 }
 
 .marquee-track { display: flex; gap: 2rem; width: max-content; }
@@ -675,6 +659,66 @@
 
 .hero-trust-item:first-child {
   color: var(--accent);
+}
+
+/* SWE-bench proof point — the one highlighted claim under the hero CTAs. */
+.hero-bench {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 8px 18px;
+  border-radius: 50px;
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-ring);
+}
+
+.hero-bench-score {
+  color: var(--accent);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.hero-bench-rule {
+  width: 1px;
+  height: 14px;
+  background: var(--accent-ring);
+}
+
+.hero-bench-label {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-bench-dot {
+  color: var(--text-tertiary);
+}
+
+.hero-bench-detail {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .hero-bench {
+    gap: 6px;
+    padding: 8px 14px;
+  }
+  .hero-bench-rule,
+  .hero-bench-dot {
+    display: none;
+  }
+  .hero-bench-detail {
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .hero-trust-sep {
@@ -6157,7 +6201,12 @@ select.hk-input option { background: var(--surface-navy-3); color: var(--text-pr
 
 /* Logo artwork is white; invert to dark and rotate hue back so the mark stays orange */
 .hk-light nav img,
-.hk-light .ft-logo-img { filter: invert(1) hue-rotate(180deg); }
+/* invert(1) hue-rotate(180deg) left the white lockup washed-out grey on the
+   hackathon page's light sections. Darken it the same way the light theme does. */
+.hk-light .ft-logo-img {
+  filter: brightness(0) saturate(100%) invert(9%) sepia(19%) saturate(2113%)
+    hue-rotate(191deg) brightness(96%) contrast(97%);
+}
 
 /* Mobile menu */
 .hk-light nav > div > button { color: var(--hkl-heading) !important; }

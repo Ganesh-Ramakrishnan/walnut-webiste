@@ -76,8 +76,6 @@ const initialForm = {
   company: "",
   teamSize: "",
   projectIdea: "",
-  agreeTerms: false,
-  agreeIP: false,
   agreeNewsletter: true,
 };
 
@@ -421,15 +419,7 @@ export default function HackathonForm() {
           </div>
         </Section>
 
-        <Section num="06" title="Agreements">
-          <label className="hk-check">
-            <input type="checkbox" name="agreeTerms" checked={form.agreeTerms} onChange={handleForm} required />
-            <span>I agree to the hackathon terms and code of conduct *</span>
-          </label>
-          <label className="hk-check">
-            <input type="checkbox" name="agreeIP" checked={form.agreeIP} onChange={handleForm} required />
-            <span>I understand WalnutAI may showcase our project for promotional purposes *</span>
-          </label>
+        <Section num="06" title="Stay in the loop">
           <label className="hk-check">
             <input type="checkbox" name="agreeNewsletter" checked={form.agreeNewsletter} onChange={handleForm} />
             <span>Send me updates about WalnutAI events and hackathons</span>
