@@ -134,8 +134,9 @@ export default function StepsSection() {
         </div>
 
         {/* Outcome Promise */}
-        <AnimateOnScroll animation="fadeUp" className="mb-8 sm:mb-10">
-          <div className="bg-card-bg border border-card-border rounded-xl sm:rounded-2xl px-5 sm:px-8 py-4 sm:py-5 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+        <AnimateOnScroll animation="fadeUp" className="mb-8 sm:mb-10 flex justify-center">
+          {/* Shrink-to-fit and centred, rather than a full-width band. */}
+          <div className="bg-card-bg border border-card-border rounded-xl sm:rounded-2xl px-5 sm:px-8 py-4 sm:py-5 inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-3 max-w-full text-center">
             <span className="text-orange font-bold text-sm sm:text-base whitespace-nowrap">Outcome Promise :</span>
             <p className="text-text-secondary-strong text-xs sm:text-sm leading-relaxed">
               You&apos;ll discover at least 5 things you didn&apos;t know were missing. If not, we&apos;ll personally review your setup for free
