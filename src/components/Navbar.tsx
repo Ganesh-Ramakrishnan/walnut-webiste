@@ -100,7 +100,7 @@ export default function Navbar() {
       <div className="relative w-full px-4 sm:px-6 lg:px-10 py-4 sm:py-5 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="shrink-0 relative z-10" aria-label="WalnutAI Home">
-          <Logo width={180} height={60} className="w-[130px] sm:w-[180px] h-auto" priority />
+          <Logo height={30} className="logo-nav" />
         </Link>
 
         {/* Desktop Nav */}

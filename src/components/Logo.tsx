@@ -1,37 +1,28 @@
-import Image from "next/image";
-
 type LogoProps = {
-  width?: number;
+  /** Height of the orange mark in px; the wordmark scales with it. */
   height?: number;
   className?: string;
+  /** Accepted for call-site compatibility; the lockup sizes from height. */
+  width?: number;
   priority?: boolean;
 };
 
 /**
- * WalnutAI logo.
+ * WalnutAI lockup: the orange brain mark beside the wordmark.
  *
- * One asset for both themes. The lockup is white, so the light theme darkens
- * it in CSS (see .logo-img in globals.css) — that renders it monochrome and
- * loses the orange mark, but keeps the correct "WalnutAI" wordmark.
+ * Composed rather than a single image so it is genuinely two-tone in both
+ * themes — the mark stays orange while the wordmark follows --text-primary
+ * (dark on light, white on dark). The previous single-asset approach used a
+ * white PNG darkened by a CSS filter, which forced the mark to go dark too.
  *
- * The repo's walnut-logo.svg is an older lockup reading just "Walnut", so it
- * cannot stand in for the light theme. Replace this with a proper dark-text
- * lockup when one exists and drop the filter.
+ * The wordmark is real text, so screen readers announce it and it stays sharp
+ * at any size; the mark is decorative.
  */
-export default function Logo({
-  width = 180,
-  height = 60,
-  className = "",
-  priority = false,
-}: LogoProps) {
+export default function Logo({ height = 32, className = "" }: LogoProps) {
   return (
-    <Image
-      src="/assets/logo/Walnut-White.png"
-      alt="WalnutAI"
-      width={width}
-      height={height}
-      className={`logo-img ${className}`}
-      priority={priority}
-    />
+    <span className={`logo-lockup ${className}`} style={{ ["--logo-h" as string]: `${height}px` }}>
+      <img src="/assets/logo/walnut-mark.svg" alt="" aria-hidden="true" className="logo-mark" />
+      <span className="logo-wordmark">WalnutAI</span>
+    </span>
   );
 }

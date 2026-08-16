@@ -388,12 +388,30 @@
   }
 }
 
-/* The logo asset is a white "WalnutAI" lockup, so the light theme darkens it
-   to stay legible on white. This is monochrome — it loses the orange mark —
-   and should be replaced by a proper dark lockup when one exists. */
-:root[data-theme="light"] .logo-img {
-  filter: brightness(0) saturate(100%) invert(9%) sepia(19%) saturate(2113%)
-    hue-rotate(191deg) brightness(96%) contrast(97%);
+/* WalnutAI lockup. The mark keeps its orange in both themes; only the
+   wordmark follows the theme, so no colour filter is involved. */
+.logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+  font-size: var(--logo-h, 32px);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.logo-mark {
+  height: 1em;
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+}
+
+.logo-wordmark {
+  font-family: "Plus Jakarta Sans", var(--font-sans), sans-serif;
+  font-size: 0.82em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
 }
 
 .marquee-track { display: flex; gap: 2rem; width: max-content; }
@@ -2696,8 +2714,7 @@ html.lenis body {
 }
 
 .ft-logo-img {
-  height: 38px !important;
-  width: auto !important;
+  height: auto !important;
 }
 
 .ft-brand-desc {
@@ -6201,12 +6218,8 @@ select.hk-input option { background: var(--surface-navy-3); color: var(--text-pr
 
 /* Logo artwork is white; invert to dark and rotate hue back so the mark stays orange */
 .hk-light nav img,
-/* invert(1) hue-rotate(180deg) left the white lockup washed-out grey on the
-   hackathon page's light sections. Darken it the same way the light theme does. */
-.hk-light .ft-logo-img {
-  filter: brightness(0) saturate(100%) invert(9%) sepia(19%) saturate(2113%)
-    hue-rotate(191deg) brightness(96%) contrast(97%);
-}
+/* The lockup is two-tone by construction now, so the hackathon page needs no
+   logo filter — its wordmark already follows the theme. */
 
 /* Mobile menu */
 .hk-light nav > div > button { color: var(--hkl-heading) !important; }

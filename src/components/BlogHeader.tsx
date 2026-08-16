@@ -17,7 +17,7 @@ export default function BlogHeader() {
         }}
       >
         <Link href="/">
-          <Logo width={150} height={32} className="legal-logo" />
+          <Logo height={26} />
         </Link>
         <Link
           href="/"
