@@ -92,40 +92,50 @@ export default function ContactPage() {
       <Navbar />
       <main id="main-content" style={{ paddingTop: 80 }}>
         {/* Hero */}
-        <section style={{ background: "var(--surface-2b)", padding: "80px 24px 40px", textAlign: "center" }}>
-          <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <p style={{ color: "var(--accent)", fontWeight: 600, fontSize: 14, textTransform: "uppercase", letterSpacing: 1.5, marginBottom: 16 }}>
+        <section className="cm-hero">
+          <span className="cm-blob cm-blob--left" aria-hidden="true" />
+          <span className="cm-blob cm-blob--right" aria-hidden="true" />
+          <div className="cm-hero-inner">
+            <span className="cm-eyebrow">
+              <span className="cm-eyebrow-dot" aria-hidden="true" />
               Get in Touch
-            </p>
-            <h1 style={{ color: "var(--text-primary)", fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 800, lineHeight: 1.2, marginBottom: 16 }}>
-              Let&apos;s Build Something{" "}
-              <span style={{ color: "var(--accent)" }}>Together</span>
+            </span>
+            <h1 className="cm-title-xl">
+              Let&apos;s Build Something <span className="cm-accent">Together</span>
             </h1>
-            <p style={{ color: "var(--text-secondary)", fontSize: 16, lineHeight: 1.7 }}>
+            <p className="cm-lede">
               Whether you want a demo, have questions about pricing, or need enterprise support — we&apos;re here to help.
             </p>
           </div>
         </section>
 
         {/* Contact Methods Grid */}
-        <section style={{ background: "var(--surface-2b)", padding: "0 24px 32px" }}>
-          <div style={{ maxWidth: 720, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 12 }}>
-            {contactMethods.map((m) => (
-              <div key={m.title} style={{ background: "var(--surface-2)", border: "1px solid var(--border-muted)", borderRadius: 10, padding: "16px 14px", textAlign: "center" }}>
-                <div style={{ marginBottom: 8, display: "flex", justifyContent: "center" }}>
-                  <span style={{ display: "inline-flex", transform: "scale(0.75)" }}>{m.icon}</span>
-                </div>
-                <h3 style={{ color: "var(--text-primary)", fontSize: 13, fontWeight: 700, marginBottom: 4 }}>{m.title}</h3>
-                {m.href ? (
-                  <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ color: "var(--accent)", fontSize: 12, fontWeight: 600, textDecoration: "none" }}>
-                    {m.detail} &rarr;
-                  </a>
-                ) : (
-                  <p style={{ color: "var(--text-secondary-strong)", fontSize: 12, fontWeight: 600, margin: 0 }}>{m.detail}</p>
-                )}
-                <p style={{ color: "var(--text-tertiary)", fontSize: 11, marginTop: 4 }}>{m.sub}</p>
-              </div>
-            ))}
+        <section className="cm-section">
+          {/* Sized so all five channels sit on one row; auto-fit still wraps
+              them on narrow screens. */}
+          <div className="cm-grid">
+            {contactMethods.map((m) => {
+              const inner = (
+                <>
+                  <span className="cm-icon">{m.icon}</span>
+                  <h3 className="cm-card-title">{m.title}</h3>
+                  <span className={`cm-detail${m.href ? "" : " cm-detail--plain"}`}>
+                    {m.detail}
+                    {m.href && <span className="cm-arrow" aria-hidden="true">&rarr;</span>}
+                  </span>
+                  <p className="cm-sub">{m.sub}</p>
+                </>
+              );
+
+              // The whole card is the target when there is somewhere to go.
+              return m.href ? (
+                <a key={m.title} href={m.href} target="_blank" rel="noopener noreferrer" className="cm-card">
+                  {inner}
+                </a>
+              ) : (
+                <div key={m.title} className="cm-card">{inner}</div>
+              );
+            })}
           </div>
         </section>
 
