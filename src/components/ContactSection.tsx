@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import AnimateOnScroll from "./AnimateOnScroll";
+import { CONTACT_EMAIL, MAILTO_URL, MAPS_URL, OFFICE_ADDRESS } from "@/lib/links";
 
 export default function ContactSection() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", organization: "", role: "", message: "" });
@@ -77,13 +78,21 @@ export default function ContactSection() {
                 </ul>
               </div>
 
-              <a href="mailto:contact@walnutai.ai" className="ct-mail">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <rect x="2" y="4" width="20" height="16" rx="2" />
-                  <path d="M22 4L12 13 2 4" />
-                </svg>
-                contact@walnutai.ai
-              </a>
+              <div className="ct-contacts">
+                <a href={MAILTO_URL} className="ct-mail">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="2" y="4" width="20" height="16" rx="2" />
+                    <path d="M22 4L12 13 2 4" />
+                  </svg>
+                  {CONTACT_EMAIL}
+                </a>
+                <a href={MAPS_URL} target="_blank" rel="noopener noreferrer" className="ct-mail ct-address">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" />
+                  </svg>
+                  {OFFICE_ADDRESS}
+                </a>
+              </div>
 
               {/* Accent glow + dot grid, purely decorative. */}
               <span className="ct-info-glow" aria-hidden="true" />

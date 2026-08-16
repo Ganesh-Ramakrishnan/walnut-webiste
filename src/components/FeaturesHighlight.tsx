@@ -108,7 +108,7 @@ export default function FeaturesHighlight() {
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
                     <span style={{ fontSize: 10, fontWeight: 800, color: active === i ? "var(--accent)" : "var(--text-tertiary)", fontFamily: "monospace" }}>{item.num}</span>
-                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "#fff" : "var(--text-secondary)", transition: "color 0.2s" }}>{item.title}</span>
+                    <span style={{ fontSize: 13, fontWeight: active === i ? 700 : 500, color: active === i ? "var(--text-primary)" : "var(--text-secondary)", transition: "color 0.2s" }}>{item.title}</span>
                   </div>
                 </button>
               ))}

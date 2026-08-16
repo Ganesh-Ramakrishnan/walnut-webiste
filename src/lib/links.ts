@@ -21,3 +21,12 @@ export const CAREERS_URL = `${LINKEDIN_URL}jobs/`;
 
 /** Product demo video. */
 export const DEMO_URL = YOUTUBE_URL;
+
+/** Registered office — the same address the legal pages carry. */
+export const OFFICE_ADDRESS =
+  "Ground Floor, BCIT, Bhartiya City, RK Hegde Nagar, Bengaluru, Karnataka 560064";
+export const MAPS_URL = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(OFFICE_ADDRESS)}`;
+
+/** Public inbox. */
+export const CONTACT_EMAIL = "contact@walnutai.ai";
+export const MAILTO_URL = `mailto:${CONTACT_EMAIL}`;

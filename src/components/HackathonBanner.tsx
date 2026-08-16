@@ -16,9 +16,7 @@ export default function HackathonBanner() {
           Hackathon
         </span>
         <span className="hkb-text">
-          <strong>WalnutAI Hackathon</strong>
-          <span className="hkb-sep" aria-hidden="true">·</span>
-          26–27 September 2026
+          <strong>26–27 September 2026</strong>
           <span className="hkb-sep hkb-sep--hide" aria-hidden="true">·</span>
           <span className="hkb-prize">₹1 Lakh+ prize pool</span>
         </span>
